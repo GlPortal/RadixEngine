@@ -4,7 +4,7 @@
 [![Report a bug](https://img.shields.io/badge/bugs-report_now_→-brightgreen.svg)](https://bugs.glportal.de)
 
 # RadixEngine
-RadixEngine is a modern free and open shader based 3d game engine with realistic physic simulation.
+RadixEngine is a modern free and open 3d game engine with realistic physic simulation.
 It runs on all modern operating systems including GNU/Linux, Mac and Windows.
 You can find the website at http://glportal.de .
 
