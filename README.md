@@ -3,8 +3,8 @@
 [![Join Chat](https://img.shields.io/badge/irc-join_chat_→-brightgreen.svg)](http://webchat.freenode.net/?channels=%23%23glportal&uio=d4)
 [![Report a bug](https://img.shields.io/badge/bugs-report_now_→-brightgreen.svg)](https://bugs.glportal.de)
 
-# GlPortal
-GlPortal is a modern free and open shader based 3d game and game engine with realistic physic simulation.
+# RadixEngine
+RadixEngine is a modern free and open shader based 3d game engine with realistic physic simulation.
 It runs on all modern operating systems including GNU/Linux, Mac and Windows.
 You can find the website at http://glportal.de .
 
@@ -12,8 +12,6 @@ Chat with us at *irc.freenode.org* in the channel [*##glportal*](https://webchat
 
 <img src="http://glportal.de/glportal.gif">
 
-## History 
-GlPortal is based on a project by Simon Larsen in 2012.
 ## Team
 Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec, Jason Pulkkinen
 [More Info](CONTRIBUTORS.md)
