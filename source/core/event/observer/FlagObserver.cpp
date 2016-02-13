@@ -1,4 +1,5 @@
-#include "FlagObserver.hpp"
+#include <radix/core/event/observer/FlagObserver.hpp>
+
 #include <iostream>
 
 namespace glPortal {

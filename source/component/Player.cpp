@@ -1,4 +1,4 @@
-#include "Player.hpp"
+#include <radix/component/Player.hpp>
 
 namespace glPortal {
 

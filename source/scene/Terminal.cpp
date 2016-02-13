@@ -1,4 +1,4 @@
-#include "Terminal.hpp"
+#include <radix/scene/Terminal.hpp>
 
 namespace glPortal {
 

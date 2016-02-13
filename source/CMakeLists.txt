@@ -11,7 +11,6 @@ add_executable(${EXE_NAME}
   material/MaterialLoader.cpp
   model/MeshLoader.cpp
   scene/Scene.cpp
-  scene/SceneHelper.cpp
   scene/Screen.cpp
   scene/Terminal.cpp
   shader/Shader.cpp

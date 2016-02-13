@@ -1,10 +1,10 @@
 #ifndef COMPONENT_TRANSFORM_HPP
 #define COMPONENT_TRANSFORM_HPP
 
-#include "Component.hpp"
-#include <engine/core/math/Vector3f.hpp>
-#include <engine/core/math/Quaternion.hpp>
-#include <engine/core/math/Matrix4f.hpp>
+#include <radix/component/Component.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Quaternion.hpp>
+#include <radix/core/math/Matrix4f.hpp>
 
 namespace glPortal {
 

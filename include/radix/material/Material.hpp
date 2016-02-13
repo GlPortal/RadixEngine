@@ -3,7 +3,8 @@
 
 #include <string>
 #include <vector>
-#include <assets/texture/Texture.hpp>
+
+#include <radix/texture/Texture.hpp>
 
 namespace glPortal {
 

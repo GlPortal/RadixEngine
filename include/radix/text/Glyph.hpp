@@ -1,7 +1,7 @@
 #ifndef GLYPH_HPP
 #define GLYPH_HPP
 
-#include <assets/model/Mesh.hpp>
+#include <radix/model/Mesh.hpp>
 
 namespace glPortal {
 

@@ -1,4 +1,4 @@
-#include "Shader.hpp"
+#include <radix/shader/Shader.hpp>
 
 namespace glPortal {
 

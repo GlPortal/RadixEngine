@@ -1,5 +1,5 @@
-#include "SoundSource.hpp"
-#include <engine/SoundManager.hpp>
+#include <radix/component/SoundSource.hpp>
+#include <radix/SoundManager.hpp>
 
 namespace glPortal {
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-#include <assets/material/Material.hpp>
+#include <radix/material/Material.hpp>
 
 namespace glPortal {
 

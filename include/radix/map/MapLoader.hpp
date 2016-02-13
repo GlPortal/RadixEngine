@@ -2,6 +2,7 @@
 #define MAPLOADER_HPP
 
 #include <string>
+
 #include <tinyxml2.h>
 
 namespace glPortal {

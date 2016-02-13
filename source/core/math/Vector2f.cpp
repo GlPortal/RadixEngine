@@ -9,7 +9,8 @@
 ** Author: Nim
 ** -------------------------------------------------------------------------*/
 
-#include "Vector2f.hpp"
+#include <radix/core/math/Vector2f.hpp>
+
 #include <cmath>
 #include <sstream>
 

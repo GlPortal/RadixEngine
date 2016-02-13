@@ -7,7 +7,7 @@
 
 #include <epoxy/gl.h>
 
-#include <assets/shader/Shader.hpp>
+#include <radix/shader/Shader.hpp>
 
 namespace glPortal {
 

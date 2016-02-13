@@ -1,11 +1,12 @@
-#include "ShaderLoader.hpp"
+#include <radix/shader/ShaderLoader.hpp>
 
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <memory>
-#include <engine/env/Environment.hpp>
-#include <engine/env/System.hpp>
+
+#include <radix/env/Environment.hpp>
+#include <radix/env/System.hpp>
 
 namespace {
   const int LOG_SIZE = 1024;

@@ -1,7 +1,7 @@
 #ifndef CONSOLE_HPP
 #define CONSOLE_HPP
 
-#include <engine/core/diag/Logger.hpp>
+#include <radix/core/diag/Logger.hpp>
 
 namespace glPortal {
 

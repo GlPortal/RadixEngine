@@ -1,10 +1,11 @@
-#include "Vector4f.hpp"
+#include <radix/core/math/Vector4f.hpp>
 
 #include <bullet/LinearMath/btQuaternion.h>
 #include <bullet/LinearMath/btVector3.h>
-#include <engine/core/math/Vector2f.hpp>
-#include <engine/core/math/Vector3f.hpp>
-#include <engine/core/math/Matrix4f.hpp>
+
+#include <radix/core/math/Vector2f.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Matrix4f.hpp>
 
 namespace glPortal {
 

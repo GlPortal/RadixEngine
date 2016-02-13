@@ -1,15 +1,17 @@
 #ifndef COMPONENT_RIGIDBODY_HPP
 #define COMPONENT_RIGIDBODY_HPP
 
-#include "Component.hpp"
 #include <memory>
+
 #include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
 #include <bullet/BulletDynamics/Dynamics/btRigidBody.h>
 #include <bullet/LinearMath/btDefaultMotionState.h>
-#include <engine/Entity.hpp>
-#include <engine/EntityManager.hpp>
-#include <assets/scene/Scene.hpp>
-#include "Transform.hpp"
+
+#include <radix/component/Component.hpp>
+#include <radix/component/Transform.hpp>
+#include <radix/scene/Scene.hpp>
+#include <radix/Entity.hpp>
+#include <radix/EntityManager.hpp>
 
 namespace glPortal {
 

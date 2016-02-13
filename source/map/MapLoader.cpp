@@ -1,29 +1,28 @@
-#include "MapLoader.hpp"
+#include <radix/map/MapLoader.hpp>
 
 #include <iostream>
 #include <cstdio>
 #include <stdexcept>
 #include <vector>
 
-#include <assets/map/XmlHelper.hpp>
-#include <engine/env/Environment.hpp>
-#include <engine/core/math/Vector3f.hpp>
+#include <radix/map/XmlHelper.hpp>
+#include <radix/env/Environment.hpp>
+#include <radix/core/math/Vector3f.hpp>
 
-#include <engine/component/Transform.hpp>
-#include <engine/component/MeshDrawable.hpp>
-#include <engine/component/Trigger.hpp>
-#include <engine/component/SoundSource.hpp>
-#include <engine/component/LightSource.hpp>
-#include <engine/component/RigidBody.hpp>
-#include <engine/component/Player.hpp>
+#include <radix/component/Transform.hpp>
+#include <radix/component/MeshDrawable.hpp>
+#include <radix/component/Trigger.hpp>
+#include <radix/component/SoundSource.hpp>
+#include <radix/component/LightSource.hpp>
+#include <radix/component/RigidBody.hpp>
+#include <radix/component/Player.hpp>
 
-#include <assets/scene/Scene.hpp>
-#include <assets/model/Mesh.hpp>
-#include <assets/texture/Texture.hpp>
-
-#include <assets/model/MeshLoader.hpp>
-#include <assets/texture/TextureLoader.hpp>
-#include <assets/material/MaterialLoader.hpp>
+#include <radix/scene/Scene.hpp>
+#include <radix/model/Mesh.hpp>
+#include <radix/texture/Texture.hpp>
+#include <radix/model/MeshLoader.hpp>
+#include <radix/texture/TextureLoader.hpp>
+#include <radix/material/MaterialLoader.hpp>
 
 using namespace std;
 using namespace tinyxml2;

@@ -9,9 +9,11 @@
 ** Author: Nim
 ** -------------------------------------------------------------------------*/
 
-#include "Vector3f.hpp"
+#include <radix/core/math/Vector3f.hpp>
+
 #include <cmath>
 #include <sstream>
+
 #include <bullet/LinearMath/btVector3.h>
 
 namespace glPortal {

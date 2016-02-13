@@ -1,10 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <engine/core/math/Math.hpp>
-#include <engine/core/math/Matrix4f.hpp>
-#include <engine/core/math/Vector3f.hpp>
-#include <engine/core/math/Quaternion.hpp>
+#include <radix/core/math/Math.hpp>
+#include <radix/core/math/Matrix4f.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Quaternion.hpp>
 
 namespace glPortal {
 

@@ -1,4 +1,4 @@
-#include "Screen.hpp"
+#include <radix/scene/Screen.hpp>
 
 namespace glPortal {
 

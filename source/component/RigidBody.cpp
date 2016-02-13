@@ -1,4 +1,4 @@
-#include "RigidBody.hpp"
+#include <radix/component/RigidBody.hpp>
 
 namespace glPortal {
 

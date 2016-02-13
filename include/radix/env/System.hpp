@@ -5,7 +5,7 @@
 #include <memory>
 #include <random>
 
-#include <engine/core/diag/LogInput.hpp>
+#include <radix/core/diag/LogInput.hpp>
 
 namespace glPortal {
 

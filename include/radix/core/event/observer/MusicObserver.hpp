@@ -1,10 +1,11 @@
 #ifndef MUSIC_OBSERVER_HPP
 #define MUSIC_OBSERVER_HPP
 
-#include <engine/core/event/Observer.hpp>
 #include <random>
-#include <engine/SoundManager.hpp>
-#include <engine/env/Environment.hpp>
+
+#include <radix/core/event/Observer.hpp>
+#include <radix/SoundManager.hpp>
+#include <radix/env/Environment.hpp>
 
 namespace glPortal {
 

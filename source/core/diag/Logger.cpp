@@ -1,4 +1,4 @@
-#include "Logger.hpp"
+#include <radix/core/diag/Logger.hpp>
 
 namespace glPortal {
 

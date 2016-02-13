@@ -9,16 +9,16 @@
 ** Author: Nim
 ** -------------------------------------------------------------------------*/
 
-#include "Matrix4f.hpp"
+#include <radix/core/math/Matrix4f.hpp>
 
 #include <cmath>
 #include <cstring>
 #include <sstream>
 
-#include "Matrix3f.hpp"
-#include "Vector3f.hpp"
-#include "Quaternion.hpp"
-#include "Math.hpp"
+#include <radix/core/math/Matrix3f.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Quaternion.hpp>
+#include <radix/core/math/Math.hpp>
 
 namespace glPortal {
 

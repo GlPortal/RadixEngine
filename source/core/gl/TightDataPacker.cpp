@@ -1,4 +1,4 @@
-#include "TightDataPacker.hpp"
+#include <radix/core/gl/TightDataPacker.hpp>
 
 namespace glPortal {
 

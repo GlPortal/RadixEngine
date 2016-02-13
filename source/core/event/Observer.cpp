@@ -1,5 +1,6 @@
-#include "Observer.hpp"
-#include <engine/env/Environment.hpp>
+#include <radix/core/event/Observer.hpp>
+
+#include <radix/env/Environment.hpp>
 
 namespace glPortal {
 

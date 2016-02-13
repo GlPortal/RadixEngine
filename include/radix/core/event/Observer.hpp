@@ -1,8 +1,10 @@
 #ifndef OBSERVER_HPP
 #define OBSERVER_HPP
+
 #include <functional>
 #include <vector>
-#include "Dispatcher.hpp"
+
+#include <radix/core/event/Dispatcher.hpp>
 
 namespace glPortal {
 

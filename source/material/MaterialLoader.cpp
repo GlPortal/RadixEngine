@@ -1,9 +1,12 @@
-#include "MaterialLoader.hpp"
-#include <assets/texture/TextureLoader.hpp>
-#include <engine/env/Environment.hpp>
-#include <engine/env/System.hpp>
-#include <tinyxml2.h>
+#include <radix/material/MaterialLoader.hpp>
+
 #include <cstdio>
+
+#include <tinyxml2.h>
+
+#include <radix/texture/TextureLoader.hpp>
+#include <radix/env/Environment.hpp>
+#include <radix/env/System.hpp>
 
 using namespace tinyxml2;
 

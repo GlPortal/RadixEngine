@@ -1,11 +1,11 @@
-#include "Scene.hpp"
+#include <radix/scene/Scene.hpp>
 
-#include <engine/component/Transform.hpp>
-#include <engine/component/Health.hpp>
-#include <engine/component/SoundSource.hpp>
-#include <engine/component/SoundListener.hpp>
-#include <engine/component/RigidBody.hpp>
-#include <engine/component/Player.hpp>
+#include <radix/component/Transform.hpp>
+#include <radix/component/Health.hpp>
+#include <radix/component/SoundSource.hpp>
+#include <radix/component/SoundListener.hpp>
+#include <radix/component/RigidBody.hpp>
+#include <radix/component/Player.hpp>
 
 namespace glPortal {
 

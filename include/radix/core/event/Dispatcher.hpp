@@ -1,10 +1,12 @@
 #ifndef DISPATCHER_HPP
 #define DISPATCHER_HPP
+
 #include <functional>
 #include <list>
 #include <map>
 #include <utility>
-#include "Event.hpp"
+
+#include <radix/core/event/Event.hpp>
 
 namespace glPortal {
 

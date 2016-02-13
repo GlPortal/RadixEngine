@@ -1,4 +1,4 @@
-#include "StdoutLogger.hpp"
+#include <radix/core/diag/StdoutLogger.hpp>
 
 #include <iostream>
 

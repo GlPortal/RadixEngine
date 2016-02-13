@@ -1,8 +1,8 @@
 #ifndef COMPONENT_HEALTH_HPP
 #define COMPONENT_HEALTH_HPP
 
-#include "Component.hpp"
-#include <engine/core/math/Vector3f.hpp>
+#include <radix/component/Component.hpp>
+#include <radix/core/math/Vector3f.hpp>
 
 namespace glPortal {
 

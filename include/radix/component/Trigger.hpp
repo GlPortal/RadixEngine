@@ -1,8 +1,8 @@
 #ifndef COMPONENT_TRIGGER_HPP
 #define COMPONENT_TRIGGER_HPP
 
-#include "Component.hpp"
-#include <engine/core/math/Vector3f.hpp>
+#include <radix/component/Component.hpp>
+#include <radix/core/math/Vector3f.hpp>
 
 namespace glPortal {
 

@@ -7,14 +7,12 @@
 #include <bullet/btBulletDynamicsCommon.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 
-#include <assets/material/Material.hpp>
-#include <engine/Camera.hpp>
-#include <engine/EntityManager.hpp>
-#include <engine/physics/CollisionDispatcher.hpp>
-
-#include "Portal.hpp"
-#include "Screen.hpp"
-#include "Terminal.hpp"
+#include <radix/material/Material.hpp>
+#include <radix/Camera.hpp>
+#include <radix/EntityManager.hpp>
+#include <radix/physics/CollisionDispatcher.hpp>
+#include <radix/scene/Screen.hpp>
+#include <radix/scene/Terminal.hpp>
 
 namespace glPortal {
 
@@ -43,7 +41,7 @@ public:
   Camera camera;
   std::map<int, Material> materials;
   EntityManager entities;
-  std::vector<EntityPair> portalPairs;
+  std::map<std::string, std::vector<EntityPair>> entityPairs;
   std::unique_ptr<Screen> screen;
   std::unique_ptr<Terminal> terminal;
   Entity *player;

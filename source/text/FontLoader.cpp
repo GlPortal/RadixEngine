@@ -1,4 +1,4 @@
-#include "FontLoader.hpp"
+#include <radix/text/FontLoader.hpp>
 
 #include <fstream>
 #include <sstream>
@@ -6,10 +6,9 @@
 #include <cstdio>
 #include <string>
 
-#include <assets/model/MeshLoader.hpp>
-#include <assets/texture/TextureLoader.hpp>
-
-#include <engine/env/Environment.hpp>
+#include <radix/model/MeshLoader.hpp>
+#include <radix/texture/TextureLoader.hpp>
+#include <radix/env/Environment.hpp>
 
 namespace glPortal {
 

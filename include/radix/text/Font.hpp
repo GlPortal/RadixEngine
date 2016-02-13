@@ -3,7 +3,8 @@
 
 #include <map>
 #include <string>
-#include <assets/text/Glyph.hpp>
+
+#include <radix/text/Glyph.hpp>
 
 namespace glPortal {
 

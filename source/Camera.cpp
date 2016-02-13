@@ -1,8 +1,8 @@
-#include "Camera.hpp"
+#include <radix/Camera.hpp>
 
 #include <cmath>
-#include "core/math/Quaternion.hpp"
-#include "../Window.hpp"
+
+#include <radix/core/math/Quaternion.hpp>
 
 namespace glPortal {
 

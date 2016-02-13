@@ -1,11 +1,12 @@
-#include "TextureLoader.hpp"
+#include <radix/texture/TextureLoader.hpp>
 
-#include <utility>
 #include <cstdio>
+#include <utility>
+
 #include <epoxy/gl.h>
 
-#include <engine/env/Environment.hpp>
-#include <engine/stb_image.c>
+#include <radix/env/Environment.hpp>
+#include "../stb_image.h"
 
 namespace glPortal {
 

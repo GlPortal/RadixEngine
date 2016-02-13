@@ -1,9 +1,9 @@
 #ifndef MESH_HPP
 #define MESH_HPP
 
-#include "engine/core/math/Vector3f.hpp"
-
 #include <vector>
+
+#include <radix/core/math/Vector3f.hpp>
 
 namespace glPortal {
 

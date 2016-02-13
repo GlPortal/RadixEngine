@@ -1,9 +1,9 @@
-#include "XmlHelper.hpp"
+#include <radix/map/XmlHelper.hpp>
 
 #include <stdexcept>
 #include <vector>
 
-#include <engine/core/math/Math.hpp>
+#include <radix/core/math/Math.hpp>
 
 using namespace std;
 using namespace tinyxml2;

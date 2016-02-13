@@ -1,4 +1,4 @@
-#include "VBO.hpp"
+#include <radix/core/gl/VBO.hpp>
 
 namespace glPortal {
 

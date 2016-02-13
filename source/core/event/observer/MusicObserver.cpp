@@ -1,4 +1,4 @@
-#include "MusicObserver.hpp"
+#include <radix/core/event/observer/MusicObserver.hpp>
 
 namespace glPortal {
 

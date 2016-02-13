@@ -7,7 +7,7 @@
 
 #include <SDL2/SDL_mixer.h>
 
-#include <engine/Entity.hpp>
+#include <radix/Entity.hpp>
 
 namespace glPortal {
 

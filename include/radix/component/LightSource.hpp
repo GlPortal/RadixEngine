@@ -1,8 +1,8 @@
 #ifndef COMPONENT_LIGHTSOURCE_HPP
 #define COMPONENT_LIGHTSOURCE_HPP
 
-#include "Component.hpp"
-#include "../core/math/Vector3f.hpp"
+#include <radix/component/Component.hpp>
+#include <radix/core/math/Vector3f.hpp>
 
 namespace glPortal {
 

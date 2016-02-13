@@ -1,5 +1,6 @@
 #ifndef TIGHT_DATA_PACKER_HPP
 #define TIGHT_DATA_PACKER_HPP
+
 #include <cstdint>
 #include <cstring>
 #include <vector>

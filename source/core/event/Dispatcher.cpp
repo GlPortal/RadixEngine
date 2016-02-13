@@ -1,4 +1,4 @@
-#include "Dispatcher.hpp"
+#include <radix/core/event/Dispatcher.hpp>
 
 namespace glPortal {
 

@@ -1,7 +1,7 @@
-#include "Transform.hpp"
-#include <engine/Entity.hpp>
-#include <engine/component/Player.hpp>
-#include <engine/component/RigidBody.hpp>
+#include <radix/component/Transform.hpp>
+#include <radix/Entity.hpp>
+#include <radix/component/Player.hpp>
+#include <radix/component/RigidBody.hpp>
 
 namespace glPortal {
 

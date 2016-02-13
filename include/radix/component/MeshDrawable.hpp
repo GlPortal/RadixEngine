@@ -1,10 +1,10 @@
 #ifndef COMPONENT_MESHDRAWABLE_HPP
 #define COMPONENT_MESHDRAWABLE_HPP
 
-#include "Component.hpp"
-#include <engine/core/math/Vector3f.hpp>
-#include <assets/model/Mesh.hpp>
-#include <assets/material/Material.hpp>
+#include <radix/component/Component.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/model/Mesh.hpp>
+#include <radix/material/Material.hpp>
 
 namespace glPortal {
 

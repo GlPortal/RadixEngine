@@ -2,7 +2,8 @@
 #define TERMINAL_HPP
 
 #include <string>
-#include <engine/core/math/Vector4f.hpp>
+
+#include <radix/core/math/Vector4f.hpp>
 
 namespace glPortal {
 

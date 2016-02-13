@@ -2,7 +2,8 @@
 #define LOGINPUT_HPP
 
 #include <string>
-#include "Logger.hpp"
+
+#include <radix/core/diag/Logger.hpp>
 
 namespace glPortal {
 

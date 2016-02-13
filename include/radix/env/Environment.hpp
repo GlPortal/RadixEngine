@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include <engine/core/event/Dispatcher.hpp>
-#include <engine/env/Config.hpp>
+#include <radix/core/event/Dispatcher.hpp>
+#include <radix/env/Config.hpp>
 
 namespace glPortal {
 

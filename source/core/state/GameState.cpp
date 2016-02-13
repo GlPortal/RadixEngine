@@ -1,8 +1,9 @@
-#include "GameState.hpp"
+#include <radix/core/gl/GameState.hpp>
+
 #include "../../../Input.hpp"
-#include <engine/env/Environment.hpp>
-#include <engine/core/math/Vector4f.hpp>
-#include <engine/component/Player.hpp>
+#include <radix/env/Environment.hpp>
+#include <radix/core/math/Vector4f.hpp>
+#include <radix/component/Player.hpp>
 
 namespace glPortal {
 

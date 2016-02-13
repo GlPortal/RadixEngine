@@ -1,5 +1,5 @@
-#include "Health.hpp"
-#include <engine/core/math/Math.hpp>
+#include <radix/component/Health.hpp>
+#include <radix/core/math/Math.hpp>
 
 namespace glPortal {
 

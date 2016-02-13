@@ -1,16 +1,18 @@
 #ifndef COMPONENT_PLAYER_HPP
 #define COMPONENT_PLAYER_HPP
 
-#include "Component.hpp"
 #include <memory>
+
 #include <bullet/btBulletDynamicsCommon.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <bullet/BulletDynamics/Character/btKinematicCharacterController.h>
-#include <engine/Entity.hpp>
-#include <engine/EntityManager.hpp>
-#include <engine/physics/KinematicCharacterController.hpp>
-#include <assets/scene/Scene.hpp>
-#include "Transform.hpp"
+
+#include <radix/component/Component.hpp>
+#include <radix/component/Transform.hpp>
+#include <radix/Entity.hpp>
+#include <radix/EntityManager.hpp>
+#include <radix/physics/KinematicCharacterController.hpp>
+#include <radix/scene/Scene.hpp>
 
 namespace glPortal {
 

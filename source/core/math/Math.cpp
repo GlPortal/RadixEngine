@@ -1,8 +1,10 @@
-#include "Math.hpp"
-#include <engine/core/math/Matrix4f.hpp>
-#include <engine/core/math/Vector3f.hpp>
-#include <engine/core/math/Quaternion.hpp>
+#include <radix/core/math/Math.hpp>
+
 #include <cmath>
+
+#include <radix/core/math/Matrix4f.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Quaternion.hpp>
 
 namespace glPortal {
 Vector3f Math::toDirection(const Quaternion &orientation) {

@@ -2,7 +2,8 @@
 #define ENTITY_MANAGER_HPP
 
 #include <list>
-#include "Entity.hpp"
+
+#include <radix/Entity.hpp>
 
 namespace glPortal {
 

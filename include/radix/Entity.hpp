@@ -5,8 +5,8 @@
 #include <memory>
 #include <type_traits>
 
-#include <engine/component/Component.hpp>
-#include <engine/env/System.hpp>
+#include <radix/component/Component.hpp>
+#include <radix/env/System.hpp>
 
 namespace glPortal {
 

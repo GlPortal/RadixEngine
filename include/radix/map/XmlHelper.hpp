@@ -5,8 +5,8 @@
 
 #include <tinyxml2.h>
 
-#include <engine/core/math/Vector3f.hpp>
-#include <engine/Entity.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/Entity.hpp>
 
 namespace glPortal {
 
