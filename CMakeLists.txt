@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 2.8)
-set(EXE_NAME glportal)
+set(EXE_NAME RadixEngine)
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Build type")
 endif()
 
-project(${EXE_NAME})
+project(${EXE_NAME} CXX)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-#### PLATFORM-SPECFIFIX FIXES ####
+#### PLATFORM-SPECIFIC FIXES ####
 
 if(DEFINED WIN32)
   add_definitions("-D_USE_MATH_DEFINES")
@@ -70,6 +70,9 @@ endif ()
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 add_subdirectory(source)
+
+add_library(${EXE_NAME} ${RADIX_SOURCES})
+target_link_libraries(${EXE_NAME} ${PORTAL_LIBRARIES})
 
 #### UNIT TESTING ####
 

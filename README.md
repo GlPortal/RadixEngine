@@ -1,22 +1,15 @@
-<a href="https://jenkins.glportal.de/job/GlPortal/"><img src="https://jenkins.glportal.de/buildStatus/icon?job=GlPortal"></a>
-[![Join the chat at https://gitter.im/GlPortal/glPortal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GlPortal/glPortal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Join Chat](https://img.shields.io/badge/irc-join_chat_→-brightgreen.svg)](http://webchat.freenode.net/?channels=%23%23glportal&uio=d4)
-[![Report a bug](https://img.shields.io/badge/bugs-report_now_→-brightgreen.svg)](https://bugs.glportal.de)
-
-# RadixEngine
-RadixEngine is a modern free and open 3d game engine with realistic physic simulation.
+# Radix Engine
+Radix is a modern, free and open-source 3D game engine with an Entity Component System and physics simulation.
 It runs on all modern operating systems including GNU/Linux, Mac and Windows.
 You can find the website at http://glportal.de .
-
-Chat with us at *irc.freenode.org* in the channel [*##glportal*](https://webchat.freenode.net/).
-
-<img src="http://glportal.de/glportal.gif">
 
 ## Team
 Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec, Jason Pulkkinen
 [More Info](CONTRIBUTORS.md)
+
 ## Compile the source
 For instructions on how to compile the game please read [this](COMPILE.md).
+
 ## Join the team
 Chat with us at irc.freenode.org in the channel [##glportal](http://webchat.freenode.net/?channels=%23%23glportal&uio=d4)
 for questions and discussions about the development of the game.
