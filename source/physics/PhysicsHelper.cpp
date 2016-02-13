@@ -1,8 +1,9 @@
-#include "PhysicsHelper.hpp"
+#include <radix/physics/PhysicsHelper.hpp>
+
 #include <cmath>
+
 #include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
 #include <bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h>
-#include <Portal.hpp>
 
 namespace glPortal {
 
@@ -26,19 +27,5 @@ bool PhysicsHelper::pointInVolume(const btVector3 &p, const btCollisionObject &o
   }
   return false;
 }
-
-#if 0
-PhysicsHelper::ContactResultHolder cb;
-btDefaultMotionState ms;
-ms.setWorldTransform(btTransform(btQuaternion(), p));
-btSphereShape sh(0);
-btRigidBody::btRigidBodyConstructionInfo ci(0, &ms, &sh, btVector3(0, 0, 0));
-btRigidBody rb(ci);
-
-physics.world->contactPairTest(OBJ, &rb, cb);
-if (cb.collides) {
-  return true;
-}
-#endif
 
 } /* namespace glPortal */

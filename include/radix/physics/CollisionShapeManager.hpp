@@ -1,8 +1,8 @@
 #ifndef COLLISION_SHAPE_MANAGER_HPP
 #define COLLISION_SHAPE_MANAGER_HPP
 
-#include <engine/core/math/Vector3f.hpp>
-#include <engine/Entity.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/Entity.hpp>
 
 namespace glPortal {
 

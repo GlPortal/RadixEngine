@@ -1,9 +1,9 @@
-#include "System.hpp"
+#include <radix/env/System.hpp>
 
 #include <SDL2/SDL_platform.h>
 
-#include <engine/core/diag/AnsiConsoleLogger.hpp>
-#include <engine/core/diag/StdoutLogger.hpp>
+#include <radix/core/diag/AnsiConsoleLogger.hpp>
+#include <radix/core/diag/StdoutLogger.hpp>
 
 namespace glPortal {
 

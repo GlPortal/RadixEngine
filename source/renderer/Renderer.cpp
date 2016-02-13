@@ -1,51 +1,48 @@
-#include "Renderer.hpp"
+#include <radix/renderer/Renderer.hpp>
 
+#include <algorithm>
 #include <cstdio>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include <epoxy/gl.h>
 
-#include <assets/model/MeshLoader.hpp>
-#include <assets/texture/TextureLoader.hpp>
-#include <assets/text/FontLoader.hpp>
-#include <assets/shader/ShaderLoader.hpp>
-
-#include <assets/scene/Scene.hpp>
-#include <assets/model/Mesh.hpp>
-#include <assets/texture/Texture.hpp>
-#include <assets/text/Font.hpp>
-#include <assets/text/Glyph.hpp>
-#include <assets/material/MaterialLoader.hpp>
-
-#include <engine/Camera.hpp>
-#include <engine/Viewport.hpp>
-
-#include <Window.hpp>
-#include <Portal.hpp>
-
-#include <engine/core/math/Math.hpp>
-#include <engine/core/math/Matrix3f.hpp>
-#include <engine/core/math/Vector2f.hpp>
-#include <engine/core/math/Vector3f.hpp>
-#include <engine/core/math/Vector4f.hpp>
-
-#include <engine/component/Transform.hpp>
-#include <engine/component/MeshDrawable.hpp>
-#include <engine/component/LightSource.hpp>
-#include <engine/env/Environment.hpp>
-#include <Game.hpp>
-
 #include <SDL2/SDL_timer.h>
-#include <algorithm>
-#include "UiRenderer.hpp"
-#include "TerminalRenderer.hpp"
+
+#include <radix/model/MeshLoader.hpp>
+#include <radix/texture/TextureLoader.hpp>
+#include <radix/text/FontLoader.hpp>
+#include <radix/shader/ShaderLoader.hpp>
+
+#include <radix/scene/Scene.hpp>
+#include <radix/model/Mesh.hpp>
+#include <radix/texture/Texture.hpp>
+#include <radix/text/Font.hpp>
+#include <radix/text/Glyph.hpp>
+#include <radix/material/MaterialLoader.hpp>
+
+#include <radix/Camera.hpp>
+#include <radix/Viewport.hpp>
+
+#include <radix/core/math/Math.hpp>
+#include <radix/core/math/Matrix3f.hpp>
+#include <radix/core/math/Vector2f.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Vector4f.hpp>
+
+#include <radix/component/Transform.hpp>
+#include <radix/component/MeshDrawable.hpp>
+#include <radix/component/LightSource.hpp>
+#include <radix/env/Environment.hpp>
+
+#include <radix/renderer/UiRenderer.hpp>
+#include <radix/renderer/TerminalRenderer.hpp>
 
 namespace glPortal {
 
-  Renderer::Renderer() : font(nullptr), vpWidth(0), vpHeight(0),
-                         scene(nullptr), viewport(nullptr),
-                         portalDepth(2), fontColor(1, 1, 1, 1){
+Renderer::Renderer() : font(nullptr), vpWidth(0), vpHeight(0),
+                        scene(nullptr), viewport(nullptr),
+                        portalDepth(2), fontColor(1, 1, 1, 1){
 }
 
 void Renderer::setViewport(Viewport *vp) {

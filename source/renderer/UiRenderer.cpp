@@ -1,14 +1,15 @@
-#include "UiRenderer.hpp"
-#include "Renderer.hpp"
-#include <assets/model/MeshLoader.hpp>
-#include <assets/texture/TextureLoader.hpp>
-#include <assets/text/FontLoader.hpp>
-#include <assets/shader/ShaderLoader.hpp>
-#include <assets/material/MaterialLoader.hpp>
+#include <radix/renderer/UiRenderer.hpp>
 
 #include <cstdio>
 #include <vector>
 #include <string>
+
+#include <radix/renderer/Renderer.hpp>
+#include <radix/model/MeshLoader.hpp>
+#include <radix/texture/TextureLoader.hpp>
+#include <radix/text/FontLoader.hpp>
+#include <radix/shader/ShaderLoader.hpp>
+#include <radix/material/MaterialLoader.hpp>
 
 namespace glPortal {
 

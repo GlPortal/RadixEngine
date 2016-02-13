@@ -1,7 +1,8 @@
-#include "PhysicsDebugDraw.hpp"
-#include <assets/shader/ShaderLoader.hpp>
-#include <assets/texture/TextureLoader.hpp>
-#include <engine/env/System.hpp>
+#include <radix/physics/PhysicsDebugDraw.hpp>
+
+#include <radix/shader/ShaderLoader.hpp>
+#include <radix/texture/TextureLoader.hpp>
+#include <radix/env/System.hpp>
 
 namespace glPortal {
 

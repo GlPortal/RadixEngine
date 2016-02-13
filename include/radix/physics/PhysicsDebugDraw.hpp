@@ -3,10 +3,13 @@
 
 #include <memory>
 #include <vector>
+
 #include <epoxy/gl.h>
+
 #include <bullet/LinearMath/btIDebugDraw.h>
-#include <engine/core/gl/VBO.hpp>
-#include <engine/Camera.hpp>
+
+#include <radix/core/gl/VBO.hpp>
+#include <radix/Camera.hpp>
 
 namespace glPortal {
 

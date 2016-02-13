@@ -1,5 +1,4 @@
-#include "ArgumentsParser.hpp"
-#include "Environment.hpp"
+#include <radix/env/ArgumentsParser.hpp>
 
 #include <cstdlib>
 #include <stdexcept>
@@ -7,8 +6,9 @@
 #include <getopt.h>
 #include <iostream>
 
-#include <engine/core/file/Path.hpp>
-#include "engine/env/Config.hpp"
+#include <radix/core/file/Path.hpp>
+#include <radix/env/Config.hpp>
+#include <radix/env/Environment.hpp>
 
 namespace glPortal {
 std::string ArgumentsParser::mapName = "";

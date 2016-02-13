@@ -1,6 +1,6 @@
-#include "EntityManager.hpp"
+#include <radix/EntityManager.hpp>
 
-#include <assets/scene/Scene.hpp>
+#include <radix/scene/Scene.hpp>
 
 namespace glPortal {
 

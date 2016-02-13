@@ -1,4 +1,4 @@
-#include "GWENRenderer.hpp"
+#include <radix/renderer/GWENRenderer.hpp>
 
 #include <cmath>
 #include <fstream>
@@ -11,13 +11,13 @@
 #include <Gwen/Texture.h>
 #include <Gwen/WindowProvider.h>
 
-#include <engine/stb_image.h>
-#include <engine/core/gl/VBO.hpp>
-#include <engine/core/math/Matrix4f.hpp>
-#include <engine/env/System.hpp>
-#include <engine/env/Environment.hpp>
-#include <assets/shader/ShaderLoader.hpp>
-#include <assets/texture/TextureLoader.hpp>
+#include "../stb_image.h"
+#include <radix/core/gl/VBO.hpp>
+#include <radix/core/math/Matrix4f.hpp>
+#include <radix/env/System.hpp>
+#include <radix/env/Environment.hpp>
+#include <radix/shader/ShaderLoader.hpp>
+#include <radix/texture/TextureLoader.hpp>
 
 namespace glPortal {
 

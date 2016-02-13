@@ -3,13 +3,12 @@
 
 #include <string>
 
-#include <assets/scene/Scene.hpp>
-#include <assets/shader/Shader.hpp>
-#include <assets/text/Font.hpp>
-
-#include <engine/core/math/Matrix4f.hpp>
-#include <engine/core/math/Vector4f.hpp>
-#include <engine/renderer/UiRenderer.hpp>
+#include <radix/scene/Scene.hpp>
+#include <radix/shader/Shader.hpp>
+#include <radix/text/Font.hpp>
+#include <radix/core/math/Matrix4f.hpp>
+#include <radix/core/math/Vector4f.hpp>
+#include <radix/renderer/UiRenderer.hpp>
 
 namespace glPortal {
 class Camera;

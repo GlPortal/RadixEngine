@@ -1,6 +1,6 @@
-#include "CollisionDispatcher.hpp"
+#include <radix/physics/CollisionDispatcher.hpp>
 
-#include <engine/env/System.hpp>
+#include <radix/env/System.hpp>
 
 namespace glPortal {
 

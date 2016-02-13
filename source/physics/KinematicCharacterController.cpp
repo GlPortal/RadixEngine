@@ -22,6 +22,7 @@ what we need.
 
 */
 #include <stdio.h>
+
 #include <bullet/LinearMath/btIDebugDraw.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <bullet/BulletCollision/CollisionShapes/btMultiSphereShape.h>
@@ -29,8 +30,9 @@ what we need.
 #include <bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
 #include <bullet/LinearMath/btDefaultMotionState.h>
-#include "KinematicCharacterController.hpp"
-#include "Uncollider.hpp"
+
+#include <radix/physics/KinematicCharacterController.hpp>
+#include <radix/physics/Uncollider.hpp>
 
 namespace glPortal {
 

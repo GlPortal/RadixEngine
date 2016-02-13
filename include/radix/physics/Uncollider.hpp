@@ -2,7 +2,8 @@
 #define UNCOLLIDER_HPP
 
 #include <bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h>
-#include <assets/scene/Scene.hpp>
+
+#include <radix/scene/Scene.hpp>
 
 namespace glPortal {
 
@@ -11,7 +12,7 @@ private:
   Scene &scene;
 
 public:
-  static std::vector<Entity*> portals;
+  static std::list<btCollisionObject*> volumes;
   static bool isPointInUncollideVolume(const btVector3 &p);
 
   Uncollider(Scene&);

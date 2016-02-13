@@ -2,11 +2,12 @@
 #define TERMINAL_RENDERER_HPP
 
 #include <string>
-#include <engine/renderer/Renderer.hpp>
-#include <assets/shader/Shader.hpp>
-#include <Game.hpp>
+
+#include <radix/renderer/Renderer.hpp>
+#include <radix/shader/Shader.hpp>
 
 namespace glPortal {
+
 class Renderer;
 class Viewport;
 class Entity;

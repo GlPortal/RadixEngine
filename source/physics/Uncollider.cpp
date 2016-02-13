@@ -1,24 +1,22 @@
-#include "Uncollider.hpp"
+#include <radix/physics/Uncollider.hpp>
+
 #include <cmath>
-#include <Portal.hpp>
-#include "PhysicsHelper.hpp"
+
+#include <radix/physics/PhysicsHelper.hpp>
 
 namespace glPortal {
 
-std::vector<Entity*> Uncollider::portals;
+std::list<btCollisionObject*> Uncollider::volumes;
 
 Uncollider::Uncollider(Scene &scene) :
   scene(scene) {
 }
 
 bool Uncollider::isPointInUncollideVolume(const btVector3 &p) {
-  if (portals.size() > 0) {
-    for (Entity *pEnt : portals) {
-      Portal &pComp = pEnt->getComponent<Portal>();
-      if (pComp.open and pComp.uncollider) {
-        if (PhysicsHelper::pointInVolume(p, pComp.uncollider.get())) {
-          return true;
-        }
+  if (volumes.size() > 0) {
+    for (btCollisionObject *volume : volumes) {
+      if (PhysicsHelper::pointInVolume(p, volume)) {
+        return true;
       }
     }
   }
@@ -26,13 +24,11 @@ bool Uncollider::isPointInUncollideVolume(const btVector3 &p) {
 }
 
 void Uncollider::beforePhysicsStep() {
-  for (Entity *pEnt : Uncollider::portals) {
-    Portal &pComp = pEnt->getComponent<Portal>();
-    if (pComp.open and pComp.uncollider) {
-      btVector3 ext = ((btBoxShape*)(pComp.uncolliderShape.get()))
-        ->getHalfExtentsWithoutMargin();
+  if (volumes.size() > 0) {
+    for (btCollisionObject *volume : volumes) {
+      btVector3 ext = ((btBoxShape*)volume)->getHalfExtentsWithoutMargin();
       scene.physics.world->getDebugDrawer()->drawBox(-ext, ext,
-        pComp.uncollider->getWorldTransform(), btVector3(1, .5, 0));
+        volume->getWorldTransform(), btVector3(1, .5, 0));
     }
   }
 }
