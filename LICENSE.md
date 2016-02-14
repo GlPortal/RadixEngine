@@ -1,7 +1,9 @@
-Copyright (c) 2015 GlPortal Team: Julian Thijssen, Henry Hirsch
-Original Software (c) 2012 Simon Jonas Larsen
-Contributors: ElementW, xantares, faust, fraang
-Please drop me a message if you are missing on this list.
+# License
+
+    Copyright (c) 2016 GlPortal Team: Julian Thijssen, Henry Hirsch, ElementW
+    Original Software (c) 2012 Simon Jonas Larsen
+    Contributors: xantares, faust, fraang
+    Please drop me a message if you are missing on this list.
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
