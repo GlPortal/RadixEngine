@@ -1,6 +1,7 @@
 #ifndef PHYSICS_SYSTEM_HPP
 #define PHYSICS_SYSTEM_HPP
-#include <assets/scene/Scene.hpp>
+
+#include <radix/scene/Scene.hpp>
 
 namespace glPortal {
 

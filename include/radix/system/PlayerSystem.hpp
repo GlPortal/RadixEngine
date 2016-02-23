@@ -1,8 +1,9 @@
 #ifndef PLAYER_SYSTEM_HPP
 #define PLAYER_SYSTEM_HPP
+
 #include <random>
 
-#include <assets/scene/Scene.hpp>
+#include <radix/scene/Scene.hpp>
 
 namespace glPortal {
 

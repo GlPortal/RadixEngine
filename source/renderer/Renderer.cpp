@@ -40,9 +40,13 @@
 
 namespace glPortal {
 
-Renderer::Renderer() : font(nullptr), vpWidth(0), vpHeight(0),
-                        scene(nullptr), viewport(nullptr),
-                        portalDepth(2), fontColor(1, 1, 1, 1){
+Renderer::Renderer() :
+  viewport(nullptr),
+  vpWidth(0), vpHeight(0),
+  scene(nullptr),
+  fontColor(1, 1, 1, 1),
+  font(nullptr),
+  portalDepth(2) {
 }
 
 void Renderer::setViewport(Viewport *vp) {
@@ -162,6 +166,7 @@ void Renderer::render(double dtime, const Camera &cam) {
     glUniform1i(numLightsLoc, numLights);
   }
 
+#if 0 /// @todo reintroduce portals
   /* Portals, pass 1 */
   for (EntityPair &p : scene->portalPairs) {
     Entity &pEnt1 = *p.first,
@@ -194,9 +199,11 @@ void Renderer::render(double dtime, const Camera &cam) {
       glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
   }
+#endif
 
   renderScene(camera);
 
+#if 0 /// @todo reintroduce portals
   /* Portals, pass 2 */
   glDepthMask(GL_FALSE);
   for (EntityPair &p : scene->portalPairs) {
@@ -227,6 +234,7 @@ void Renderer::render(double dtime, const Camera &cam) {
     renderPortalOverlay(camera, pEnt2);
   }
   glDepthMask(GL_TRUE);
+#endif
 
   //Draw GUI
   glClear(GL_DEPTH_BUFFER_BIT);
@@ -270,158 +278,6 @@ void Renderer::renderPlayer(const Camera &cam) {
   const Material &mat = MaterialLoader::fromTexture("HumanToken.png");
 
   renderMesh(cam, ShaderLoader::getShader("diffuse.frag"), mtx, dummy, mat);
-}
-
-void Renderer::renderPortalStencil(const Camera &cam, const Entity &portal) {
-  glClear(GL_STENCIL_BUFFER_BIT);
-
-  // Disable writing to the color and depth buffer
-  glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-  glDepthMask(GL_FALSE);
-
-  // Set the stencil function to always fail
-  glStencilFunc(GL_NEVER, 1, 0xFF);
-  // Replace all stencil pixel where we draw with 1
-  glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
-
-  const Portal &p = portal.getComponent<Portal>();
-  Matrix4f mtx;
-  portal.getComponent<Transform>().applyModelMtx(mtx);
-  mtx.scale(p.getScaleMult());
-
-  renderMesh(cam, ShaderLoader::getShader("unshaded.frag"), mtx, p.stencilMesh);
-
-  // Enable writing to the color and depth buffer again
-  glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-  glDepthMask(GL_TRUE);
-}
-
-void Renderer::renderPortal(const Camera &cam, const Entity &portal, const Entity &otherPortal) {
-  if (portal.getComponent<Portal>().open and otherPortal.getComponent<Portal>().open) {
-    Transform &pt = portal.getComponent<Transform>();
-    Transform &opt = otherPortal.getComponent<Transform>();
-    Vector3f displacement = pt.getPosition() - opt.getPosition();
-    int recursionLevel = Environment::getConfig().getRecursionLevel();
-    Camera portalCam;
-
-    Vector3f portalPosition = pt.getPosition();
-    Quaternion portalOrientation = pt.getOrientation();
-    Vector3f portalScale = pt.getScale();
-    Vector3f portalDir = portal.getComponent<Portal>().getDirection();
-    Vector3f otherPortalDir = otherPortal.getComponent<Portal>().getDirection();
-    float dotProduct = dot(portalDir, otherPortalDir);
-
-    if (abs(dotProduct) < 0.0001) {
-      // The two portals' direction are perpendicular to each other
-      Quaternion RotDifference = conjugate(pt.getOrientation() * conjugate(opt.getOrientation()));
-      displacement = toMatrix3f(RotDifference.toMatrix()).transform(displacement);
-
-      // recursionLevel is set to 1, because we can't see past 1 level
-      // when the portals are perpendicular to each other
-      recursionLevel = 1;
-
-      pt.setOrientation(opt.getOrientation());
-    } else if (dotProduct == 1.0f) {
-      // The two portals are facing the same direction
-      recursionLevel = 0;
-    }
-
-    // Render portal from the deepest recursion level up for recursionLevel > 0
-    pt.setPosition(pt.getPosition() + displacement * (float)recursionLevel);
-    for (int i = 0; i < recursionLevel; i++) {
-      glEnable(GL_STENCIL_TEST);
-      glClear(GL_STENCIL_BUFFER_BIT);
-      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-      glDepthMask(GL_FALSE);
-
-      renderPortalStencil(cam, portal);
-
-      glStencilFunc(GL_EQUAL, 1, 0xFF);
-      glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-
-      setCameraInPortal(cam, portalCam, portal, otherPortal);
-      renderPlayer(portalCam);
-      renderScene(portalCam);
-
-      // Restore portal to its original position, then render the overlay,
-      // so that the overlay will show up correctly
-      Vector3f tmpPosition = pt.getPosition();
-      pt.setPosition(portalPosition);
-      renderPortalOverlay(portalCam, portal);
-      pt.setPosition(tmpPosition);
-
-      // Move the displaced portal one level back
-      pt.setPosition(pt.getPosition() - displacement);
-      // The next line only matters if the portals are perpendicular to each other
-      // In all other cases, the displaced portal's orientation doesn't change
-      pt.setOrientation(portalOrientation);
-      setCameraInPortal(cam, portalCam, portal, otherPortal);
-      glDisable(GL_STENCIL_TEST);
-
-      // Draw a "depth lid" over the portal scene that was just rendered so that the content in the
-      // portal now have the same depth value as the surface the portal is drawn on
-      Shader &unshaded = ShaderLoader::getShader("unshaded.frag");
-      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-      glDepthMask(GL_TRUE);
-      glClear(GL_DEPTH_BUFFER_BIT);
-      const Mesh &portalStencil = MeshLoader::getMesh("PortalStencil.obj");
-      Matrix4f mtx;
-      // Use portal's original transform so that the depth values are consistent
-      // with the surrounding scene
-      mtx.translate(portalPosition);
-      mtx.rotate(portalOrientation);
-      mtx.scale(portalScale);
-      mtx.scale(portal.getComponent<Portal>().getScaleMult());
-      renderMesh(portalCam, unshaded, mtx, portalStencil);
-      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    }
-
-    // Render portal at the default level
-    glEnable(GL_STENCIL_TEST);
-
-    renderPortalStencil(cam, portal);
-
-    // Set the stencil function so we only render on the stencil
-    glStencilFunc(GL_EQUAL, 1, 0xFF);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-
-    // Draw the whole scene onto the stencil containing the player and recursive portal overlays
-    setCameraInPortal(cam, portalCam, portal, otherPortal);
-    renderPlayer(portalCam);
-    renderScene(portalCam);
-    renderPortalOverlay(portalCam, portal);
-    glDisable(GL_STENCIL_TEST);
-  }
-}
-
-void Renderer::renderPortalOverlay(const Camera &cam, const Entity &portal) {
-  const Portal &p = portal.getComponent<Portal>();
-  if (p.open) {
-    Matrix4f mtx;
-    portal.getComponent<Transform>().getModelMtx(mtx);
-    mtx.scale(p.getScaleMult());
-
-    renderMesh(cam, ShaderLoader::getShader("unshaded.frag"), mtx, p.overlayMesh, p.overlayTex);
-  }
-}
-
-void Renderer::renderPortalNoise(const Camera &cam, const Entity &portal, float fade) {
-  Matrix4f mtx;
-  portal.getComponent<Transform>().getModelMtx(mtx);
-
-  const Portal &p = portal.getComponent<Portal>();
-  mtx.scale(p.getScaleMult());
-
-  Shader &simplexTime = ShaderLoader::getShader("simplexTime.frag");
-  glUseProgram(simplexTime.handle);
-  int timeLoc = simplexTime.uni("time");
-  int colorLoc = simplexTime.uni("color");
-  int noiseAlphaLoc = simplexTime.uni("noiseAlpha");
-  glUniform1f(timeLoc, scene->world->getTime());
-  glUniform3f(colorLoc, p.color.x, p.color.y, p.color.z);
-  glUniform1f(noiseAlphaLoc, fade);
-
-  renderMesh(cam, simplexTime, mtx, p.overlayMesh, p.maskTex);
 }
 
 void Renderer::renderText(const Camera &cam, const std::string &text, Vector3f vector) {

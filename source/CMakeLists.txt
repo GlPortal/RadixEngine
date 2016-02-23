@@ -47,6 +47,7 @@ set(RADIX_SOURCES
   ${D}/env/Config.cpp
   ${D}/env/Environment.cpp
   ${D}/env/System.cpp
+  ${D}/input/Input.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/KinematicCharacterController.cpp
   ${D}/physics/PhysicsDebugDraw.cpp
@@ -59,6 +60,5 @@ set(RADIX_SOURCES
   ${D}/SoundManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
-  ${D}/system/PortalSystem.cpp
   PARENT_SCOPE
 )

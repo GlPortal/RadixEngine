@@ -72,36 +72,6 @@ public:
    */
   void renderPlayer(const Camera &cam);
 
-  /**
-   * Renders the portal into the stencil buffer
-   * @param cam    The camera from which we look at the portal
-   * @param portal The entity that has the portal component
-   */
-  void renderPortalStencil(const Camera &cam, const Entity &portal);
-
-  /**
-   * Renders a full portal and its content
-   * @param cam         The camera from which we look at the camera
-   * @param portal      The portal to render
-   * @param otherPortal The other portal necessary for placing the camera correctly
-   */
-  void renderPortal(const Camera &cam, const Entity &portal, const Entity &otherPortal);
-
-  /**
-   * Render the glowing circle around the portal
-   * @param cam    The camera from which we look at the portal
-   * @param portal The portal on which to draw the overlay
-   */
-  void renderPortalOverlay(const Camera &cam, const Entity &portal);
-
-  /**
-   * Renders the simplex noise in the portal if only one portal is active
-   * @param cam    The camera from which we look at the portal
-   * @param portal The portal in which to draw the noise
-   * @param fade   The fade factor with which to multiply the noise
-   */
-  void renderPortalNoise(const Camera &cam, const Entity &portal, float fade);
-
 
   /**
    * Renders a string to the screen using signed-distance field text rendering.

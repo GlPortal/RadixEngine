@@ -1,10 +1,10 @@
-#include "PhysicsSystem.hpp"
-#include <engine/component/MeshDrawable.hpp>
-#include <engine/component/Transform.hpp>
-#include <engine/component/RigidBody.hpp>
-#include <assets/material/MaterialLoader.hpp>
-#include <engine/physics/Uncollider.hpp>
-#include <assets/model/MeshLoader.hpp>
+#include <radix/system/PhysicsSystem.hpp>
+#include <radix/component/MeshDrawable.hpp>
+#include <radix/component/Transform.hpp>
+#include <radix/component/RigidBody.hpp>
+#include <radix/material/MaterialLoader.hpp>
+#include <radix/physics/Uncollider.hpp>
+#include <radix/model/MeshLoader.hpp>
 
 namespace glPortal {
 

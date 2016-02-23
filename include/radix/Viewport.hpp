@@ -3,8 +3,7 @@
 
 namespace glPortal {
 
-class Viewport {
-public:
+struct Viewport {
   virtual void getSize(int *w, int *h) const = 0;
 };
 

@@ -10,6 +10,7 @@
 #include <radix/text/FontLoader.hpp>
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/material/MaterialLoader.hpp>
+#include <radix/input/Input.hpp>
 
 namespace glPortal {
 

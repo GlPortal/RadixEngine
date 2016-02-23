@@ -1,15 +1,13 @@
 #ifndef UIRENDERER_HPP
 #define UIRENDERER_HPP
 
-#include <string>
-
 #include <radix/renderer/Renderer.hpp>
 #include <radix/shader/Shader.hpp>
+#include <radix/Viewport.hpp>
 
 namespace glPortal {
 
 class Renderer;
-class Viewport;
 class Entity;
 class Portal;
 class Scene;

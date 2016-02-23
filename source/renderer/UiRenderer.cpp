@@ -39,10 +39,12 @@ void UiRenderer::render(Renderer &renderer) {
   renderer.renderText(camera, "GlPortal", Vector3f(25, vpHeight - 75, -20));
 
   // FPS counter
+  /// @todo reimplement
+  /*
   renderer.setFont("Pacaya", 0.5f);
   renderer.renderText(camera,
                       std::string("FPS: ") + std::to_string(Game::fps.getFps()),
-                      Vector3f(10, vpHeight - 25, -20));
+                      Vector3f(10, vpHeight - 25, -20));*/
   if (renderer.getScene()->screen->enabled){
     renderScreen(renderer);
   }

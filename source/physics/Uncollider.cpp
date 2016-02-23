@@ -1,12 +1,15 @@
 #include <radix/physics/Uncollider.hpp>
 
 #include <cmath>
+#include <utility>
 
 #include <radix/physics/PhysicsHelper.hpp>
 
 namespace glPortal {
 
 std::list<btCollisionObject*> Uncollider::volumes;
+std::unordered_set<std::pair<btCollisionObject*, btCollisionObject*>>
+  Uncollider::collisonPairExclusions;
 
 Uncollider::Uncollider(Scene &scene) :
   scene(scene) {
@@ -31,6 +34,36 @@ void Uncollider::beforePhysicsStep() {
         volume->getWorldTransform(), btVector3(1, .5, 0));
     }
   }
+}
+
+void Uncollider::addCollisonPairExclusion(btCollisionObject *a, btCollisionObject *b) {
+  collisonPairExclusions.emplace(a, b);
+  collisonPairExclusions.emplace(b, a);
+}
+
+void Uncollider::removeCollisonPairExclusion(btCollisionObject *a, btCollisionObject *b) {
+  collisonPairExclusions.erase(collisonPairExclusions.find(std::make_pair(a, b)));
+  collisonPairExclusions.erase(collisonPairExclusions.find(std::make_pair(a, b)));
+}
+
+bool Uncollider::needBroadphaseCollision(btBroadphaseProxy *proxy0,btBroadphaseProxy *proxy1)
+  const {
+  bool collides = (proxy0->m_collisionFilterGroup & proxy1->m_collisionFilterMask) != 0;
+  collides = collides && (proxy1->m_collisionFilterGroup & proxy0->m_collisionFilterMask);
+
+  btCollisionObject *colObj0 = (btCollisionObject*)proxy0->m_clientObject;
+  btCollisionObject *colObj1 = (btCollisionObject*)proxy1->m_clientObject;
+  auto it1 = collisonPairExclusions.find(std::make_pair(colObj0, colObj1));
+  if (it1 != collisonPairExclusions.end()) {
+    return false;
+  }
+
+  auto it2 = collisonPairExclusions.find(std::make_pair(colObj1, colObj0));
+  if (it2 != collisonPairExclusions.end()) {
+    return false;
+  }
+
+  return collides;
 }
 
 void Uncollider::nearCallback(btBroadphasePair &collisionPair,

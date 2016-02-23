@@ -1,15 +1,15 @@
-#include "PlayerSystem.hpp"
+#include <radix/system/PlayerSystem.hpp>
 
 #include <SDL2/SDL_mouse.h>
 #include <SDL2/SDL_keyboard.h>
 
-#include <engine/core/math/Math.hpp>
-#include <engine/env/Environment.hpp>
-#include <Input.hpp>
-#include <engine/component/Health.hpp>
-#include <engine/component/SoundSource.hpp>
-#include <engine/component/RigidBody.hpp>
-#include <engine/component/Player.hpp>
+#include <radix/core/math/Math.hpp>
+#include <radix/env/Environment.hpp>
+#include <radix/component/Health.hpp>
+#include <radix/component/SoundSource.hpp>
+#include <radix/component/RigidBody.hpp>
+#include <radix/component/Player.hpp>
+#include <radix/input/Input.hpp>
 
 namespace glPortal {
 
