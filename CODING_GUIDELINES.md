@@ -23,19 +23,22 @@ As of the 2012-01-16 C++11 Working Draft, this is specified in 17.6.4.3.2/1 `[gl
 
 *(Yet, many developers keep using this bad practice)*
 
-As a side note for MSVC developers: ```#pragma once``` isn't an include guard and can't replace nor even supplement it. 
-Except for Windows-specific source files, any file containing it will be rejected.
+As a side note for MSVC developers: ```#pragma once``` isn't an include guard and can't replace it. It can supplement
+it but be aware that it has no effect on *sensible* compilers (which have an include guard optimization, effectively
+nullifying the need for those pragmas), i.e. **not** MSVC.
+Except for Windows-specific source files, any file only containing it will be rejected.
+
 ### Indentation, whitespace and line length
 - An indentation level = two spaces. Tabs aren't considered a consistent identation method.
-- Empty lines are not to be idented, i.e. /really/ empty.
+- Empty lines are not to be indented, i.e. *really* empty.
 - There may not be more than 2 consecutive empty lines.
-- Namespace blocks does not indent, nor are switch case labels.
+- Namespace blocks does not indent, nor are `switch`'s `case` labels.
 - When additional identation would make the code more legible (e.g. chained variable declarations), 
 more spaces can be added if their count is low; else, just increase the identation level by one.
 - Trailing whitespace isn't allowed.
 - Maximum line length is 100 UTF-8 codepoints. In layman terms, 100 characters.
     ```cpp
-namespace glPortal {
+namespace radix {
 
 void func() {
   int i = 0;
@@ -71,10 +74,9 @@ Type var1, *var2, &var3 = thing;
 Type* getPtr(Type *namedParm);
 Type& getRef(UnnamedParm*);
 
-// The following is inherently stupid:
+// The following is inherently stupid legibility-wise:
 Type *idiotGetPtr(Type *namedParm);
 // because it doesn't return Type, it returns Type* !
-// Moreover the function name has nothing to do with that pointer mark on it.
     ```
 ### Blocks of code
 - *Always* open a new block of code after a control structure

@@ -72,7 +72,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 add_subdirectory(source)
 
 add_library(${EXE_NAME} ${RADIX_SOURCES})
-target_link_libraries(${EXE_NAME} ${PORTAL_LIBRARIES})
+target_link_libraries(${EXE_NAME} ${RADIX_LIBRARIES})
 
 #### UNIT TESTING ####
 
