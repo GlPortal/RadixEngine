@@ -15,15 +15,15 @@ You will need very recent versions of all the dependencies. So please upgrade yo
 - epoxy
 - sdl2
 - sdl2-mixer
-- bullet (v 2.82+)
+- bullet *>=2.82+*
 - tinyxml2
 - libgl
-- cmake *(make)*
+- cmake *>=2.8 (make)*
 - make *(make)*
 - gcc *(make)*
 - pkg-config *(make)*
 - git *(download source code)*
-- libunittest++ *(optional)*
+- libunittest++ *(optional, for tests)*
 
 ## Installing dependencies
 Remember, you have to be root, so you might want to prefix `sudo`.
@@ -31,7 +31,7 @@ Remember, you have to be root, so you might want to prefix `sudo`.
 ### Windows
 [Install msys2](http://msys2.github.io/), then launch the *Mingw-w64 Win64 shell* from the start menu. In it, type:
 ```bash
-pacman -S mingw-w64-x86_64-cmake mingw-w64-x86_64-make mingw-w64-x86_64-gcc mingw-w64-x86_64-pkg-config mingw-w64-x86_64-assimp mingw-w64-x86_64-libepoxy mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-bullet mingw-w64-x86_64-tinyxml2
+pacman -S mingw-w64-x86_64-{cmake,make,gcc,pkg-config,assimp,libepoxy,SDL2,SDL2_mixer,bullet,tinyxml2}
 ```
 
 If you do not already have `git` installed, please also install it with:
@@ -43,12 +43,12 @@ pacman -S git
 ### Arch Linux
 **Note:** Package `tinyxml2` can be found in AUR.
 ```bash
-pacman -S cmake make gcc pkg-config assimp libepoxy sdl2 sdl2-mixer bullet mesa
+pacman -S cmake make gcc pkg-config assimp libepoxy sdl2 sdl2-mixer bullet mesa unittestpp
 ```
 
 ### Debian 8 / Ubuntu 14.04 / Linux Mint 17.x
 ```bash
-apt-get install cmake make gcc pkg-config libassimp-dev libepoxy-dev libsdl2-dev libsdl2-mixer-dev libbullet-dev libtinyxml2-dev libgl1-mesa-dev libunittest++-dev
+apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2,sdl2-mixer,bullet,tinyxml2,gl1-mesa,unittest++}-dev
 ```
 
 ### Others
@@ -65,8 +65,8 @@ Pretty much like libfoo-dev for most libraries.
 In your favorite console, run these commands:
 
 ```bash
-git clone https://github.com/GlPortal/glPortal.git
-cd glPortal
+git clone https://github.com/GlPortal/RadixEngine.git
+cd RadixEngine
 git submodule init
 git submodule update
 ```
@@ -84,22 +84,19 @@ cmake ..
 
 **NOTE**: On Windows, please use `cmake .. -G "MSYS Makefiles"` instead.
 
-If you want to profile the source code pass *-DCMAKE_CXX_FLAGS=-pg* to cmake.   
+If you want to profile the source code pass *-DCMAKE_CXX_FLAGS=-pg* to cmake.
 Now if this throws an error you have to fix something first. If you don't manage to fix the error, use the
-bugtracker https://github.com/GlPortal/glPortal/issues or http://bugs.glportal.de to report what you did, and what error you got.
+bugtracker linked below.
 
 If the command did not produce an error, you can build the binary by typing in:
 ```bash
 make
 ```
 
-If this produces no error you have built the binary and should be able to start GlPortal by typing in:
-```bash
-make run
-```
+If this produces no error you have built the binary and should be able to link it with a project, e.g. GlPortal.
 
-If you get errors, try to build GlPortal again. If you don't manage to fix the error, use the
-bugtracker https://github.com/GlPortal/glPortal/issues or http://bugs.glportal.de to report what you did, and what error you got.
+If you get errors, try to build Radix again. If you don't manage to fix the error, use the
+bugtracker https://github.com/GlPortal/RadixEngine/issues or http://bugs.glportal.de to report what you did, and what error you got.
 
 # Keep us posted
 Not working? No worries! Help us help you figure out what we missed to make this work on 
