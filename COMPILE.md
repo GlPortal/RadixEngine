@@ -23,7 +23,7 @@ You will need very recent versions of all the dependencies. So please upgrade yo
 - gcc *(make)*
 - pkg-config *(make)*
 - git *(download source code)*
-- libunittest++
+- libunittest++ *(optional)*
 
 ## Installing dependencies
 Remember, you have to be root, so you might want to prefix `sudo`.
