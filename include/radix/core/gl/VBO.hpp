@@ -9,13 +9,13 @@ namespace glPortal {
 
 class VBO {
 protected:
-  int size;
+  std::size_t size;
   GLuint id;
 
 public:
   // Ctor / dtor
   VBO();
-  VBO(unsigned int size, GLenum usage = GL_STATIC_DRAW);
+  VBO(std::size_t size, GLenum usage = GL_STATIC_DRAW);
   ~VBO();
   // No copy
   VBO(const VBO&) = delete;
@@ -25,8 +25,8 @@ public:
   VBO& operator=(VBO&&);
   
   operator GLuint() const { return id; }
-  void setSize(unsigned int size, GLenum usage = GL_STATIC_DRAW);
-  int getSize() const {
+  void setSize(std::size_t size, GLenum usage = GL_STATIC_DRAW);
+  std::size_t getSize() const {
     return size;
   }
 
@@ -39,7 +39,7 @@ public:
     glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
   }
   template <typename T>
-  void setData(const T *data, unsigned int count, GLenum usage = GL_STATIC_DRAW) {
+  void setData(const T *data, std::size_t count, GLenum usage = GL_STATIC_DRAW) {
     GLint currentBoundArray; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &currentBoundArray);
     glBindBuffer(GL_ARRAY_BUFFER, id);
     size = count*sizeof(T);
@@ -47,7 +47,7 @@ public:
     glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
   }
   template <typename T>
-  void update(const std::vector<T> &data, unsigned int count = 0, unsigned int offset = 0) {
+  void update(const std::vector<T> &data, std::size_t count = 0, std::size_t offset = 0) {
     GLint currentBoundArray; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &currentBoundArray);
     glBindBuffer(GL_ARRAY_BUFFER, id);
     if (count == 0) {
@@ -57,7 +57,7 @@ public:
     glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
   }
   template <typename T>
-  void update(const T *data, unsigned int count, unsigned int offset = 0) {
+  void update(const T *data, std::size_t count, std::size_t offset = 0) {
     GLint currentBoundArray; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &currentBoundArray);
     glBindBuffer(GL_ARRAY_BUFFER, id);
     glBufferSubData(GL_ARRAY_BUFFER, offset, count*sizeof(T), data);
