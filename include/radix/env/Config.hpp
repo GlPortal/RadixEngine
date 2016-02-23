@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace glPortal {
+namespace radix {
 
 class Config {
 public:
@@ -32,6 +32,6 @@ private:
   bool hide_portals_by_click;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* CONFIG_HPP */

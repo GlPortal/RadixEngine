@@ -5,7 +5,7 @@
 
 #include <radix/core/diag/Logger.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Vector2f;
 class Vector3f;
@@ -52,6 +52,6 @@ public:
   LogInput& operator<<(const Vector4f&);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* LOGINPUT_HPP */

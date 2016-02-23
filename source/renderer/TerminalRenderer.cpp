@@ -12,7 +12,7 @@
 #include <radix/material/MaterialLoader.hpp>
 #include <radix/input/Input.hpp>
 
-namespace glPortal {
+namespace radix {
 
 void TerminalRenderer::render(Renderer &renderer) {
   if (not renderer.getScene()->terminal->enabled) {
@@ -44,4 +44,4 @@ void TerminalRenderer::render(Renderer &renderer) {
                       Vector3f(0, vpHeight-30, -1));
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

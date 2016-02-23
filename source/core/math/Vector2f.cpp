@@ -14,7 +14,7 @@
 #include <cmath>
 #include <sstream>
 
-namespace glPortal {
+namespace radix {
 
 const Vector2f Vector2f::ZERO = Vector2f(0, 0);
 const Vector2f Vector2f::UP = Vector2f(0, 1);
@@ -113,4 +113,4 @@ Vector2f normalize(const Vector2f& v) {
   return Vector2f(v.x / length, v.y / length);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

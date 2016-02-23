@@ -6,7 +6,7 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Quaternion.hpp>
 
-namespace glPortal {
+namespace radix {
 Vector3f Math::toDirection(const Quaternion &orientation) {
   return orientation * Vector3f::FORWARD;
 }
@@ -34,4 +34,4 @@ Vector3f Math::toEuler(const Vector3f &direction) {
   return euler;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

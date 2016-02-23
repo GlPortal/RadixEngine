@@ -11,7 +11,7 @@
 #include <radix/core/gl/VBO.hpp>
 #include <radix/Camera.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class PhysicsDebugDraw : public btIDebugDraw {
 private:
@@ -38,6 +38,6 @@ public:
   void render(const Camera &cam);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* PHYSICS_DEBUG_DRAW_HPP */

@@ -10,14 +10,15 @@
 #include <radix/core/math/Vector4f.hpp>
 #include <radix/renderer/UiRenderer.hpp>
 
-namespace glPortal {
+namespace radix {
+
 class Camera;
 class Entity;
 class Portal;
 class Scene;
 class Texture;
 class Font;
-class Viewport;
+struct Viewport;
 
 class Renderer {
 public:
@@ -136,6 +137,6 @@ private:
   int portalDepth;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* RENDERER_HPP */

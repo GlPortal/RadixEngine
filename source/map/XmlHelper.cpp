@@ -8,7 +8,7 @@
 using namespace std;
 using namespace tinyxml2;
 
-namespace glPortal {
+namespace radix {
 
 std::string XmlHelper::mandatoryAttributeMessage("Mandatory attribute has not been defined.");
 std::string XmlHelper::invalidElementMessage(
@@ -62,4 +62,4 @@ void XmlHelper::extractScale(XMLElement *xmlElement, Vector3f &scale) {
   pushAttributeVertexToVector(xmlElement->FirstChildElement("scale"), scale);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

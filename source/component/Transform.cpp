@@ -3,7 +3,7 @@
 #include <radix/component/Player.hpp>
 #include <radix/component/RigidBody.hpp>
 
-namespace glPortal {
+namespace radix {
 
 void Transform::setPosition(const Vector3f &val) {
   position = val;
@@ -42,4 +42,4 @@ void Transform::getModelMtx(Matrix4f &m) const {
   applyModelMtx(m);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

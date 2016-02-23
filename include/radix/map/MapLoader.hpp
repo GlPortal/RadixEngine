@@ -5,7 +5,7 @@
 
 #include <tinyxml2.h>
 
-namespace glPortal {
+namespace radix {
 class Entity;
 class Mesh;
 class Scene;
@@ -28,6 +28,6 @@ private:
   static void extractModels();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* MAPLOADER_HPP */

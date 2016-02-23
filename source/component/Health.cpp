@@ -1,7 +1,7 @@
 #include <radix/component/Health.hpp>
 #include <radix/core/math/Math.hpp>
 
-namespace glPortal {
+namespace radix {
 
 Health::Health(Entity &ent) :
   Component(ent), maxHealth(1.f), health(maxHealth) {
@@ -29,4 +29,4 @@ void Health::revive() {
   }
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

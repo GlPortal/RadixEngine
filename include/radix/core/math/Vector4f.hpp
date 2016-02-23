@@ -7,7 +7,7 @@
 class btVector4;
 class btQuaternion;
 
-namespace glPortal {
+namespace radix {
 
 struct Vector2f;
 struct Vector3f;
@@ -184,6 +184,6 @@ constexpr inline Quaternion conjugate(const Quaternion &q) {
   return Quaternion(-q.x, -q.y, -q.z, q.w);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* VECTOR4F_HPP */

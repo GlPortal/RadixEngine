@@ -3,7 +3,7 @@
 
 #include <epoxy/gl.h>
 
-namespace glPortal {
+namespace radix {
 
 struct Texture {
   GLuint handle = 0xBAD7E96;
@@ -11,6 +11,6 @@ struct Texture {
   int height;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* TEXTURE_HPP */

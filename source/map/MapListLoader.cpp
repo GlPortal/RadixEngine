@@ -8,7 +8,7 @@
 
 using namespace std;
 
-namespace glPortal {
+namespace radix {
 
 vector<string> MapListLoader::getMapList() {
   vector<string> mapList;
@@ -28,4 +28,4 @@ vector<string> MapListLoader::getMapList() {
   return mapList;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

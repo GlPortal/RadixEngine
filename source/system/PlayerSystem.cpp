@@ -11,7 +11,7 @@
 #include <radix/component/Player.hpp>
 #include <radix/input/Input.hpp>
 
-namespace glPortal {
+namespace radix {
 
 static const float RUNNING_SPEED = 0.1f;
 static const float JUMP_SPEED = 0.15f;
@@ -155,4 +155,4 @@ void PlayerSystem::update(float dtime) {
   move(*scene->player, dtime);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

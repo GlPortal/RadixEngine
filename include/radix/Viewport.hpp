@@ -1,12 +1,12 @@
 #ifndef VIEWPORT_HPP
 #define VIEWPORT_HPP
 
-namespace glPortal {
+namespace radix {
 
 struct Viewport {
   virtual void getSize(int *w, int *h) const = 0;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* VIEWPORT_HPP */

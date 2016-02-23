@@ -15,7 +15,7 @@
 
 #include <string>
 
-namespace glPortal {
+namespace radix {
 
 /** \class Vector2f
  * @brief 2-dimensional `float`-based vector/point storage and manipulation struct
@@ -65,6 +65,6 @@ float dot(const Vector2f& v1, const Vector2f& v2);
 Vector2f negate(const Vector2f& v);
 Vector2f normalize(const Vector2f& v);
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* VECTOR2F_HPP */

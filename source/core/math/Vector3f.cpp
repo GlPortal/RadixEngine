@@ -16,7 +16,7 @@
 
 #include <bullet/LinearMath/btVector3.h>
 
-namespace glPortal {
+namespace radix {
 
 const Vector3f Vector3f::ZERO = Vector3f(0, 0, 0);
 const Vector3f Vector3f::FORWARD = Vector3f(0, 0, -1);
@@ -84,4 +84,4 @@ Vector3f cross(const Vector3f& v1, const Vector3f& v2) {
   return v;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

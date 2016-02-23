@@ -2,7 +2,7 @@
 
 #include <radix/scene/Scene.hpp>
 
-namespace glPortal {
+namespace radix {
 
 EntityManager::EntityManager(Scene &scene) :
   scene(scene) {
@@ -13,4 +13,4 @@ Entity& EntityManager::create() {
   return back();
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

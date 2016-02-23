@@ -9,7 +9,7 @@
 
 #include <radix/Entity.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class SoundManager {
 public:
@@ -33,6 +33,6 @@ private:
   static std::map<int, SoundInfo> sounds;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* SOUNDMANAGER_HPP */

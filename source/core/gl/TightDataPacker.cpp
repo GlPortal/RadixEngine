@@ -1,6 +1,6 @@
 #include <radix/core/gl/TightDataPacker.hpp>
 
-namespace glPortal {
+namespace radix {
 
 TightDataPacker::TightDataPacker(unsigned int reserveBytes) {
   data.reserve(reserveBytes);
@@ -18,4 +18,4 @@ const uint8_t* TightDataPacker::getDataPtr() const {
   return data.data();
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

@@ -7,7 +7,7 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 constexpr Vector4f::Vector4f(const Vector3f &v, float w)
   : x(v.x), y(v.y), z(v.z), w(w) {}
@@ -168,4 +168,4 @@ Matrix4f Quaternion::toMatrix() const {
   return m;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

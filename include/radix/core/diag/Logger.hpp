@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace glPortal {
+namespace radix {
 
 enum LogLevel {
   Verbose,
@@ -34,6 +34,6 @@ public:
   virtual void log(const std::string &message, LogLevel lvl, const std::string &tag) {}
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* LOGGER_HPP */

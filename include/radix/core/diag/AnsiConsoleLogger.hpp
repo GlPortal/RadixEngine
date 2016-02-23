@@ -5,7 +5,7 @@
 
 #include <radix/core/diag/Logger.hpp>
 
-namespace glPortal {
+namespace radix {
 
 /** \class AnsiConsoleLogger
  * @brief Logger that outputs to an ANSI/vt-100 console
@@ -26,6 +26,6 @@ public:
   const char* getName() const;
   void log(const std::string &message, LogLevel lvl, const std::string &tag);
 };
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* ANSI_CONSOLE_LOGGER_HPP */

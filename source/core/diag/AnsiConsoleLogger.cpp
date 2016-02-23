@@ -5,7 +5,7 @@
 
 using std::cout;
 
-namespace glPortal {
+namespace radix {
 
 /*! \cond PRIVATE */
 static const struct LogLevelOutputInfo {
@@ -85,4 +85,4 @@ void AnsiConsoleLogger::log(const std::string &message, LogLevel lvl, const std:
   cout << std::endl;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

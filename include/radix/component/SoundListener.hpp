@@ -4,7 +4,7 @@
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class SoundListener : public Component {
 public:
@@ -14,6 +14,6 @@ public:
   // TODO
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_SOUNDLISTENER_HPP */

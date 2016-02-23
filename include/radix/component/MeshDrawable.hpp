@@ -6,7 +6,7 @@
 #include <radix/model/Mesh.hpp>
 #include <radix/material/Material.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class MeshDrawable : public Component {
 public:
@@ -18,6 +18,6 @@ public:
     Component(ent) {}
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_MESHDRAWABLE_HPP */

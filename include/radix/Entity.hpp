@@ -8,7 +8,7 @@
 #include <radix/component/Component.hpp>
 #include <radix/env/System.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class EntityManager;
 
@@ -63,6 +63,6 @@ public:
   }
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* ENTITY_HPP */

@@ -6,7 +6,7 @@
 #include <radix/physics/Uncollider.hpp>
 #include <radix/model/MeshLoader.hpp>
 
-namespace glPortal {
+namespace radix {
 
 void PhysicsSystem::setScene(Scene *scene) {
   scene->physics.world->getPairCache()->setOverlapFilterCallback(nullptr);
@@ -66,4 +66,4 @@ void PhysicsSystem::update(float dtime) {
   }
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

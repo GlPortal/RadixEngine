@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-using namespace glPortal;
+using namespace radix;
 using namespace std;
 
 struct QuaternionTestFixtures {

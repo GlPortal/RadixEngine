@@ -8,7 +8,7 @@
 
 #include <radix/core/event/Event.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Observer;
 
@@ -30,5 +30,5 @@ public:
   void dispatch(Event event);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 #endif /* DISPATCHER_HPP */

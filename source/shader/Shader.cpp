@@ -1,6 +1,6 @@
 #include <radix/shader/Shader.hpp>
 
-namespace glPortal {
+namespace radix {
 
 GLint Shader::uni(const std::string &name) {
   // Check if the uniform name is already in our map
@@ -30,4 +30,4 @@ GLint Shader::att(const std::string &name) {
   return loc;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

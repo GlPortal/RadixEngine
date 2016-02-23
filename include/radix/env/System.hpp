@@ -7,7 +7,7 @@
 
 #include <radix/core/diag/LogInput.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class System {
 private:
@@ -29,6 +29,6 @@ public:
   static void Init();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* SYSTEM_HPP */

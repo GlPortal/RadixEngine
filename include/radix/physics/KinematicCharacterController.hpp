@@ -36,7 +36,7 @@ class btCollisionWorld;
 class btCollisionDispatcher;
 class btPairCachingGhostObject;
 
-namespace glPortal {
+namespace radix {
 
 /// KinematicCharacterController is an object that supports a sliding motion in a world.
 /// It uses a ghost object and convex sweep test to test for upcoming collisions. This is combined
@@ -177,6 +177,6 @@ public:
   void setUpInterpolate(bool value);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* KINEMATIC_CHARACTER_CONTROLLER_HPP */

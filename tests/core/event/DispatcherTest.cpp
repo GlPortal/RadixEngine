@@ -5,7 +5,7 @@
 #include <engine/core/event/Event.hpp>
 #include <stdexcept>
 
-using namespace glPortal;
+using namespace radix;
 
 struct DispatcherFixtures {
   Dispatcher dispatcher;

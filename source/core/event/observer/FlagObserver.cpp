@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace glPortal {
+namespace radix {
 
 FlagObserver::FlagObserver(bool &flag, bool resultingStatus) {
   this->flag = &flag;
@@ -13,4 +13,4 @@ void FlagObserver::execute() {
   *flag = resultingStatus;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

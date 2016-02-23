@@ -2,7 +2,7 @@
 
 #include <radix/env/System.hpp>
 
-namespace glPortal {
+namespace radix {
 
 #if 0
 bool CollisionDispatcher::needsCollision(const btCollisionObject *obj0,
@@ -16,4 +16,4 @@ bool CollisionDispatcher::needsResponse(const btCollisionObject *obj0,
 }
 #endif
 
-} /* namespace glPortal */
+} /* namespace radix */

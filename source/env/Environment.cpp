@@ -6,7 +6,7 @@
 
 #include <radix/core/file/Path.hpp>
 
-namespace glPortal {
+namespace radix {
 
 Dispatcher Environment::dispatcher;
 Config Environment::config;
@@ -47,4 +47,4 @@ void Environment::setDataDir(const std::string &string) {
   datadir = string;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

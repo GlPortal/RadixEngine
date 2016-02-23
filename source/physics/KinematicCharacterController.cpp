@@ -34,7 +34,7 @@ what we need.
 #include <radix/physics/KinematicCharacterController.hpp>
 #include <radix/physics/Uncollider.hpp>
 
-namespace glPortal {
+namespace radix {
 
 static btVector3
 getNormalizedVector(const btVector3& v)
@@ -749,4 +749,4 @@ void KinematicCharacterController::setUpInterpolate(bool value)
   m_interpolateUp = value;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

@@ -6,7 +6,7 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Quaternion.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Camera {
 public:
@@ -68,6 +68,6 @@ private:
   float right   = DEFAULT_RIGHT;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* CAMERA_H */

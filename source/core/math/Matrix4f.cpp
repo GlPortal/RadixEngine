@@ -20,7 +20,7 @@
 #include <radix/core/math/Quaternion.hpp>
 #include <radix/core/math/Math.hpp>
 
-namespace glPortal {
+namespace radix {
 
 static float Identity4[4*4] = {
   1.f, 0.f, 0.f, 0.f,
@@ -311,4 +311,4 @@ Matrix3f toMatrix3f(const Matrix4f &m) {
   return d;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

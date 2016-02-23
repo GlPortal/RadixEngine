@@ -6,7 +6,7 @@
 
 #include <radix/material/Material.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class MaterialLoader {
 public:
@@ -17,6 +17,6 @@ private:
   static std::map<std::string, Material> materialCache;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* TEXTURELOADER_HPP */

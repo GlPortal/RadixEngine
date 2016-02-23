@@ -15,7 +15,7 @@
 
 #include <string>
 
-namespace glPortal {
+namespace radix {
 
 class Matrix4f;
 class Vector3f;
@@ -55,6 +55,6 @@ float determinant(const Matrix3f& m);
 Matrix3f inverse(const Matrix3f& m);
 Matrix4f toMatrix4f(const Matrix3f& m);
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* MATRIX3F_HPP */

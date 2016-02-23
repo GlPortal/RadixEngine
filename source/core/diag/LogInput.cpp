@@ -8,7 +8,7 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Vector4f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 LogInput::LogInput(Logger &sink, LogLevel lvl, const std::string &tag) :
   sink(sink), lvl(lvl), tag(tag) {
@@ -120,4 +120,4 @@ LogInput& LogInput::operator<<(const Vector4f &v) {
   return *this;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

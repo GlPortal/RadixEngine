@@ -4,7 +4,7 @@
 #include <assets/map/XmlHelper.hpp>
 #include <stdexcept>
 
-using namespace glPortal;
+using namespace radix;
 using namespace std;
 
 struct XmlReadingFixtures

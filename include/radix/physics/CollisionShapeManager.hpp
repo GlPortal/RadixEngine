@@ -4,7 +4,7 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class CollisionShapeManager {
 public:
@@ -17,6 +17,6 @@ public:
   Vector3f size;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COLLISION_SHAPE_MANAGER_HPP */

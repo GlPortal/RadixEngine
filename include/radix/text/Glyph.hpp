@@ -3,7 +3,7 @@
 
 #include <radix/model/Mesh.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Glyph {
 public:
@@ -18,6 +18,6 @@ public:
   Mesh mesh;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* GLYPH_HPP */

@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-namespace glPortal {
+namespace radix {
 
 class Input {
 public:
@@ -21,6 +21,6 @@ private:
   static std::string charbuffer;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* INPUT_HPP */

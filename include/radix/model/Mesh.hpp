@@ -5,7 +5,7 @@
 
 #include <radix/core/math/Vector3f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Mesh {
 public:
@@ -14,6 +14,6 @@ public:
   std::vector<Vector3f> vertices;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* MESH_HPP */

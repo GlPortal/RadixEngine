@@ -9,7 +9,7 @@
 #include <Gwen/Gwen.h>
 #include <Gwen/BaseRender.h>
 
-namespace glPortal {
+namespace radix {
 
 class VBO;
 
@@ -66,6 +66,6 @@ protected:
   Vertex vertices[MaxVerts];
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif

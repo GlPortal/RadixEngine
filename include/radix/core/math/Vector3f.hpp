@@ -17,7 +17,7 @@
 
 class btVector3;
 
-namespace glPortal {
+namespace radix {
 
 /** \class Vector3f
  * @brief 3-dimensional `float`-based vector/point storage and manipulation struct
@@ -124,6 +124,6 @@ inline Vector3f normalize(const Vector3f &v) {
   return v / v.length();
 }
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* VECTOR3F_HPP */

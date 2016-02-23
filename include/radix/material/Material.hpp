@@ -6,7 +6,7 @@
 
 #include <radix/texture/Texture.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Material {
 public:
@@ -24,6 +24,6 @@ public:
   int tileScale;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* MATERIAL_HPP */

@@ -4,7 +4,7 @@
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Health : public Component {
 public:
@@ -19,6 +19,6 @@ public:
   void revive();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_HEALTH_HPP */

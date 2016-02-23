@@ -38,7 +38,7 @@
 #include <radix/renderer/UiRenderer.hpp>
 #include <radix/renderer/TerminalRenderer.hpp>
 
-namespace glPortal {
+namespace radix {
 
 Renderer::Renderer() :
   viewport(nullptr),
@@ -412,4 +412,4 @@ Matrix4f Renderer::clipProjMat(const Entity &ent,
 }
 */
 
-} /* namespace glPortal */
+} /* namespace radix */

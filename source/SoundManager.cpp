@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 
-namespace glPortal {
+namespace radix {
 
 bool SoundManager::isInitialized = false;
 bool SoundManager::isDisabled = true;

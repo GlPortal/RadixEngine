@@ -7,7 +7,7 @@
 #include <radix/SoundManager.hpp>
 #include <radix/env/Environment.hpp>
 
-namespace glPortal {
+namespace radix {
 
 const std::array<const std::string, 3> MUSIC_PLAYLIST = {
   "/audio/music/track1.ogg",
@@ -22,6 +22,6 @@ public:
   void loadMap();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* MUSIC_OBSERVER_HPP */

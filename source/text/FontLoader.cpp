@@ -10,7 +10,7 @@
 #include <radix/texture/TextureLoader.hpp>
 #include <radix/env/Environment.hpp>
 
-namespace glPortal {
+namespace radix {
 
 std::map<std::string, Font> FontLoader::fontCache = {};
 
@@ -71,4 +71,4 @@ Font FontLoader::loadFont(const std::string &path, const std::string &name) {
   return font;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

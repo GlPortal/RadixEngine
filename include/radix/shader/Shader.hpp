@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-namespace glPortal {
+namespace radix {
 
 class Shader {
 public:
@@ -16,6 +16,6 @@ private:
   std::map<std::string, GLint> locationMap;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* SHADER_HPP */

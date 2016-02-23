@@ -4,7 +4,7 @@
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Trigger : public Component {
 public:
@@ -25,6 +25,6 @@ public:
   void onUseEnd(Entity&);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_TRIGGER_HPP */

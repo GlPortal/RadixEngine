@@ -8,7 +8,7 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class XmlHelper {
 public:
@@ -22,6 +22,6 @@ public:
   static void extractScale(tinyxml2::XMLElement *xmlElement, Vector3f &scale);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* XMLHELPER_HPP */

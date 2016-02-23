@@ -5,7 +5,7 @@
 #include <cstring>
 #include <vector>
 
-namespace glPortal {
+namespace radix {
 
 class TightDataPacker {
 protected:
@@ -24,6 +24,6 @@ public:
   const uint8_t* getDataPtr() const;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* TIGHT_DATA_PACKER_HPP */

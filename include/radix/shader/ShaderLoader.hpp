@@ -9,7 +9,7 @@
 
 #include <radix/shader/Shader.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class ShaderLoader {
 public:
@@ -19,6 +19,6 @@ private:
   static std::map<std::pair<std::string, std::string>, Shader> shaderCache;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* SHADERLOADER_HPP */

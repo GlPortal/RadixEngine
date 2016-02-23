@@ -14,7 +14,7 @@
 #include <radix/scene/Screen.hpp>
 #include <radix/scene/Terminal.hpp>
 
-namespace glPortal {
+namespace radix {
 
 typedef std::pair<Entity*, Entity*> EntityPair;
 class World;
@@ -54,6 +54,6 @@ public:
   Scene(Scene&&) = delete;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* SCENE_HPP */

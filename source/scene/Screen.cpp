@@ -1,9 +1,9 @@
 #include <radix/scene/Screen.hpp>
 
-namespace glPortal {
+namespace radix {
 
 Screen::Screen(std::string title, std::string text):
   title(title), text(text), enabled(false), alpha(1),
   textColor(0, 0, 0, 1), backgroundColor(1, 1, 1, 1) {
 }
-} /* namespace glPortal */
+} /* namespace radix */

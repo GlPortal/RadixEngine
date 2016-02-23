@@ -7,7 +7,7 @@
 #include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
 
-namespace glPortal {
+namespace radix {
 
 Scene::Physics::Physics(Scene &parent) :
   parent(parent),
@@ -49,4 +49,4 @@ Scene::Scene() :
   terminal = std::make_unique<Terminal>();
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

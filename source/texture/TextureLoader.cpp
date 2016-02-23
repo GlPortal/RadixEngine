@@ -8,7 +8,7 @@
 #include <radix/env/Environment.hpp>
 #include "../stb_image.h"
 
-namespace glPortal {
+namespace radix {
 
 std::map<std::string, Texture> TextureLoader::textureCache = {};
 
@@ -76,4 +76,4 @@ Texture TextureLoader::uploadTexture(const unsigned char *data, int width, int h
   return texture;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

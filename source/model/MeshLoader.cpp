@@ -18,7 +18,7 @@
 #include <radix/core/gl/TightDataPacker.hpp>
 #include <radix/component/Transform.hpp>
 
-namespace glPortal {
+namespace radix {
 
 std::map<std::string, Mesh> MeshLoader::meshCache = { };
 
@@ -353,4 +353,4 @@ Mesh MeshLoader::getSubPlane(int x, int y, int width, int height, int w, int h) 
   return mesh;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

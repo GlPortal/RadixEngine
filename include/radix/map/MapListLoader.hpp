@@ -4,13 +4,13 @@
 #include <string>
 #include <vector>
 
-namespace glPortal {
+namespace radix {
 
 class MapListLoader {
 public:
   static std::vector<std::string> getMapList();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* MAPLISTLOADER_HPP */

@@ -6,7 +6,7 @@
 #include <radix/core/math/Quaternion.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Transform : public Component {
 protected:
@@ -46,6 +46,6 @@ public:
   void getModelMtx(Matrix4f&) const;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_TRANSFORM_HPP */

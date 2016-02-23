@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace glPortal {
+namespace radix {
 namespace Exception {
 
 class Error : public std::exception {
@@ -27,6 +27,6 @@ public:
 
 
 } /* namespace Exception */
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* THROWABLES_HPP */

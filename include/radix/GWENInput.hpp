@@ -8,7 +8,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 
-namespace glPortal {
+namespace radix {
 
 class GWENInput {
 public:
@@ -131,6 +131,6 @@ protected:
   Gwen::Controls::Canvas *canvas;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* GWENINPUT_HPP */

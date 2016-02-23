@@ -6,7 +6,7 @@
 
 #include <radix/text/Glyph.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Font {
 public:
@@ -33,6 +33,6 @@ public:
   std::map<int, Glyph> letters;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* FONT_HPP */

@@ -1,6 +1,6 @@
 #include <radix/component/RigidBody.hpp>
 
-namespace glPortal {
+namespace radix {
 
 RigidBody::RigidBody(Entity &ent, float mass,
   const std::shared_ptr<btCollisionShape> &collisionshape) :
@@ -23,4 +23,4 @@ RigidBody::~RigidBody() {
   delete body;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

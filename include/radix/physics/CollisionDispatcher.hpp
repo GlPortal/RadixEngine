@@ -3,7 +3,7 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 
-namespace glPortal {
+namespace radix {
 
 class CollisionDispatcher : public btCollisionDispatcher {
 public:
@@ -13,6 +13,6 @@ public:
   //bool needsResponse(const btCollisionObject*, const btCollisionObject*) final override;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COLLISION_DISPATCHER_HPP */

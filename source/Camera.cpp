@@ -4,7 +4,7 @@
 
 #include <radix/core/math/Quaternion.hpp>
 
-namespace glPortal {
+namespace radix {
 
 Camera::Camera(float fovy, float aspect, float zNear, float zFar) {
   this->fovy = fovy;
@@ -133,4 +133,4 @@ void Camera::setOrientation(const Quaternion &o) {
   calcView();
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

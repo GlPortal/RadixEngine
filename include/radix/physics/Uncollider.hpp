@@ -17,7 +17,7 @@ struct hash<std::pair<T1*, T2*>> {
 };
 }
 
-namespace glPortal {
+namespace radix {
 
 class Uncollider : public btOverlapFilterCallback {
 private:
@@ -37,6 +37,6 @@ public:
   static void nearCallback(btBroadphasePair&, btCollisionDispatcher&, const btDispatcherInfo&);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* UNCOLLIDER_HPP */

@@ -11,7 +11,7 @@
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/material/MaterialLoader.hpp>
 
-namespace glPortal {
+namespace radix {
 
 void UiRenderer::render(Renderer &renderer) {
   glDepthMask(GL_FALSE);
@@ -96,4 +96,4 @@ void UiRenderer::renderHand(Renderer &renderer) {
   glUniform4f(sh.uni("color"), 0, 0, 0, renderer.getScene()->screen->alpha);
   renderer.renderMesh(camera, sh, widget, mesh, mat);
 }
-} /* namespace glPortal */
+} /* namespace radix */

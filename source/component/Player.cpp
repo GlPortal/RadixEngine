@@ -1,6 +1,6 @@
 #include <radix/component/Player.hpp>
 
-namespace glPortal {
+namespace radix {
 
 static const Vector3f PLAYER_SIZE(0.5, 1, 0.5);
 
@@ -42,4 +42,4 @@ Quaternion Player::getHeadOrientation() const {
   return Quaternion().fromAero(headAngle);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

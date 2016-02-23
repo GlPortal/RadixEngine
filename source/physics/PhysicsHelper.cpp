@@ -5,7 +5,7 @@
 #include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
 #include <bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h>
 
-namespace glPortal {
+namespace radix {
 
 bool PhysicsHelper::pointInAABB(const btVector3 &p, const btVector3 &min, const btVector3 &max) {
   return p.x() >= min.x() && p.x() <= max.x() &&
@@ -28,4 +28,4 @@ bool PhysicsHelper::pointInVolume(const btVector3 &p, const btCollisionObject &o
   return false;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

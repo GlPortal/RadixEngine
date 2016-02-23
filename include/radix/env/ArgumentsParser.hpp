@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace glPortal {
+namespace radix {
 
 class ArgumentsParser {
 private:
@@ -14,6 +14,6 @@ public:
   static void populateConfig();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* ARGUMENTS_PARSER_HPP */

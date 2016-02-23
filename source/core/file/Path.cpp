@@ -4,7 +4,7 @@
 
 using namespace std;
 
-namespace glPortal {
+namespace radix {
 
 string Path::GetDirectorySeparator() {
 #ifndef _WIN32
@@ -26,4 +26,4 @@ string Path::FromUnixPath(const string &unixPath) {
   return path;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

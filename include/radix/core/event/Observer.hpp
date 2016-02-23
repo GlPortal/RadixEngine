@@ -6,7 +6,7 @@
 
 #include <radix/core/event/Dispatcher.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Observer {
 private:

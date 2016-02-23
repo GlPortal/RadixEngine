@@ -1,9 +1,9 @@
 #include <radix/core/diag/Logger.hpp>
 
-namespace glPortal {
+namespace radix {
 
 const char* Logger::getName() const {
   return "Empty logger";
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

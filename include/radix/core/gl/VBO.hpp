@@ -5,7 +5,7 @@
 
 #include <epoxy/gl.h>
 
-namespace glPortal {
+namespace radix {
 
 class VBO {
 protected:
@@ -66,6 +66,6 @@ public:
   void bind() const;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* VBO_HPP */

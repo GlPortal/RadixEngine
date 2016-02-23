@@ -1,7 +1,7 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 
-namespace glPortal {
+namespace radix {
 
 class Vector3f;
 class Quaternion;
@@ -59,6 +59,6 @@ constexpr inline float rad(float deg) {
   return deg * Math::DEG_TO_RAD;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* MATH_HPP */

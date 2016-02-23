@@ -4,7 +4,7 @@
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class LightSource : public Component {
 public:
@@ -28,6 +28,6 @@ public:
   bool _uploaded;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_LIGHTSOURCE_HPP */

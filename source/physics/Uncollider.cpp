@@ -5,7 +5,7 @@
 
 #include <radix/physics/PhysicsHelper.hpp>
 
-namespace glPortal {
+namespace radix {
 
 std::list<btCollisionObject*> Uncollider::volumes;
 std::unordered_set<std::pair<btCollisionObject*, btCollisionObject*>>
@@ -106,4 +106,4 @@ void Uncollider::nearCallback(btBroadphasePair &collisionPair,
   }
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

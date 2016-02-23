@@ -5,7 +5,7 @@
 #include <radix/core/diag/AnsiConsoleLogger.hpp>
 #include <radix/core/diag/StdoutLogger.hpp>
 
-namespace glPortal {
+namespace radix {
 
 std::unique_ptr<Logger> System::logger;
 System::_Log System::Log;
@@ -33,4 +33,4 @@ LogInput System::_Log::operator()(LogLevel lvl, const std::string &tag) {
   return LogInput(*System::logger, lvl, tag);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

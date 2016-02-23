@@ -1,6 +1,6 @@
 #include <radix/core/event/observer/MusicObserver.hpp>
 
-namespace glPortal {
+namespace radix {
 
 void MusicObserver::loadMap() {
   //play a random piece of music each time a scene is loaded
@@ -8,4 +8,4 @@ void MusicObserver::loadMap() {
   SoundManager::playMusic(Environment::getDataDir() + MUSIC_PLAYLIST[dis(generator)]);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

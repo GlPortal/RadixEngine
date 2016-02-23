@@ -6,7 +6,7 @@
 
 #include <radix/text/Font.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class FontLoader {
 public:
@@ -16,6 +16,6 @@ private:
   static std::map<std::string, Font> fontCache;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* FONTLOADER_HPP */

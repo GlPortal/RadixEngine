@@ -13,7 +13,7 @@
 #include <radix/Entity.hpp>
 #include <radix/EntityManager.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class RigidBody : public Component {
 public:
@@ -25,6 +25,6 @@ public:
   ~RigidBody();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_RIGIDBODY_HPP */

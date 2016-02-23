@@ -19,7 +19,7 @@
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/texture/TextureLoader.hpp>
 
-namespace glPortal {
+namespace radix {
 
 GWENRenderer::GWENRenderer() :
   fontLetterSpacing(1.0f / 16.0f),
@@ -341,4 +341,4 @@ Gwen::Point GWENRenderer::MeasureText(Gwen::Font *font, const Gwen::UnicodeStrin
   return p;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

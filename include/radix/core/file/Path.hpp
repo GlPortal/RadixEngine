@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace glPortal {
+namespace radix {
 
 class Path {
 public:
@@ -13,6 +13,6 @@ public:
   static std::string FromUnixPath(const std::string & unixPath);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* PATH_HPP */

@@ -12,7 +12,7 @@ namespace {
   const int LOG_SIZE = 1024;
 }
 
-namespace glPortal {
+namespace radix {
 
 std::map<std::pair<std::string, std::string>, Shader> ShaderLoader::shaderCache = { };
 
@@ -125,4 +125,4 @@ int ShaderLoader::loadShader(const std::string &path, GLenum type) {
   return shader;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

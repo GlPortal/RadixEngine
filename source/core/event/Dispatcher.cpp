@@ -1,6 +1,6 @@
 #include <radix/core/event/Dispatcher.hpp>
 
-namespace glPortal {
+namespace radix {
 
 Dispatcher::Dispatcher() {
 }
@@ -42,4 +42,4 @@ void Dispatcher::removeObserver(CallbackPointer &ptr) {
   }
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

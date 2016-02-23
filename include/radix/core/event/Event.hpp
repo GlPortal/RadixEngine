@@ -1,13 +1,13 @@
 #ifndef EVENT_HPP
 #define EVENT_HPP
 
-namespace glPortal {
+namespace radix {
 
 enum class Event {
   loadScene,
   loadGame
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* EVENT_HPP */

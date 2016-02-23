@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL_keyboard.h>
 
-namespace glPortal {
+namespace radix {
 
 // Uses C++11's vector<bool> specialization, space-efficient (1 bool = 1 bit)
 std::vector<bool> Input::keystates(SDL_NUM_SCANCODES);
@@ -42,4 +42,4 @@ void Input::clear() {
   keystates.clear();
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

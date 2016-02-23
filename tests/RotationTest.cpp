@@ -3,7 +3,7 @@
 #include <util/math/Matrix4f.hpp>
 #include <cstdio>
 
-using namespace glPortal;
+using namespace radix;
 
 int main(int argc, char *argv[]) {
   Vector3f portalPos(4, 0, -2);

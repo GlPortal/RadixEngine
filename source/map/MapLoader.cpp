@@ -27,7 +27,7 @@
 using namespace std;
 using namespace tinyxml2;
 
-namespace glPortal {
+namespace radix {
 /** \class MapLoader
  *  Load a map in GlPortal XML format.
  *  @ref map-format-spec
@@ -267,4 +267,4 @@ void MapLoader::extractModels() {
     } while ((modelElement = modelElement->NextSiblingElement("object")) != nullptr);
   }
 }
-} /* namespace glPortal */
+} /* namespace radix */

@@ -11,7 +11,7 @@
 
 using namespace json11;
 
-namespace glPortal {
+namespace radix {
 
 void Config::load() {
   std::string err;
@@ -48,4 +48,4 @@ void Config::load() {
   map = "n1";
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

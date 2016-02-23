@@ -6,7 +6,7 @@
 #include <radix/core/event/Dispatcher.hpp>
 #include <radix/env/Config.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Environment {
 private:
@@ -22,6 +22,6 @@ public:
   static void setDataDir(const std::string &string);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* ENVIRONMENT_HPP */

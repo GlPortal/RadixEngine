@@ -3,12 +3,12 @@
 
 #include <radix/core/diag/Logger.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Console : public Logger {
 public:
   void render();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 #endif /* CONSOLE_HPP */

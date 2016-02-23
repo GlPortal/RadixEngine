@@ -5,7 +5,7 @@
 
 #include <radix/Entity.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Scene;
 
@@ -20,6 +20,6 @@ public:
   Entity& create();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* ENTITY_MANAGER_HPP */

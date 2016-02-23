@@ -3,7 +3,7 @@
 
 #include <radix/scene/Scene.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Uncollider;
 
@@ -19,6 +19,6 @@ public:
   void update(float dtime);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* PHYSICS_SYSTEM_HPP */

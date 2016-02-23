@@ -10,7 +10,7 @@
 
 using namespace tinyxml2;
 
-namespace glPortal {
+namespace radix {
 
 std::map<std::string, Material> MaterialLoader::materialCache = {};
 
@@ -138,4 +138,4 @@ const Material& MaterialLoader::fromTexture(const std::string &name) {
   return inserted.first->second;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

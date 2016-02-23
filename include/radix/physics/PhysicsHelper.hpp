@@ -6,7 +6,7 @@
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
 
-namespace glPortal {
+namespace radix {
 
 class PhysicsHelper {
 private:
@@ -34,6 +34,6 @@ public:
   }
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* PHYSICS_HELPER_HPP */

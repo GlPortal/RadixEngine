@@ -4,7 +4,7 @@
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class SoundSource : public Component {
 public:
@@ -16,6 +16,6 @@ public:
   void playSound(const std::string &path);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_SOUNDSOURCE_HPP */

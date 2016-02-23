@@ -8,7 +8,7 @@
 
 struct aiMesh;
 
-namespace glPortal {
+namespace radix {
 class Entity;
 
 class MeshLoader {
@@ -21,6 +21,6 @@ private:
   static std::map<std::string, Mesh> meshCache;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* MESHLOADER_HPP */

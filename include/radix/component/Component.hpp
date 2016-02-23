@@ -5,7 +5,7 @@
 #include <cassert>
 #include <type_traits>
 
-namespace glPortal {
+namespace radix {
 
 using ComponentTypeId = size_t;
 
@@ -53,6 +53,6 @@ inline ComponentTypeId getNewId() {
   return lastId++;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_HPP */

@@ -5,7 +5,7 @@
 
 #include <radix/core/math/Vector4f.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Terminal {
 public:
@@ -15,6 +15,6 @@ public:
   Vector4f textColor;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* TERMINAL_HPP */

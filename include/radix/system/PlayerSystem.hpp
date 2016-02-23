@@ -5,7 +5,7 @@
 
 #include <radix/scene/Scene.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class PlayerSystem {
 private:
@@ -22,6 +22,6 @@ public:
   void move(Entity&, double dtime);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* PLAYER_SYSTEM_HPP */

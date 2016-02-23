@@ -6,7 +6,7 @@
 #include <radix/renderer/Renderer.hpp>
 #include <radix/shader/Shader.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Renderer;
 class Viewport;
@@ -21,6 +21,6 @@ public:
   static void render(Renderer &renderer);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* TERMINAL_RENDERER_HPP */

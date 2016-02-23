@@ -3,7 +3,7 @@
 
 #include <radix/core/event/Observer.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class FlagObserver : public Observer{
 private:
@@ -15,6 +15,6 @@ public:
   void execute();
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* FLAG_OBSERVER_HPP */

@@ -4,7 +4,7 @@
 #include <radix/texture/TextureLoader.hpp>
 #include <radix/env/System.hpp>
 
-namespace glPortal {
+namespace radix {
 
 PhysicsDebugDraw::PhysicsDebugDraw() {
   setDebugMode(btIDebugDraw::DBG_DrawWireframe | btIDebugDraw::DBG_DrawContactPoints);
@@ -80,4 +80,4 @@ void PhysicsDebugDraw::render(const Camera &cam) {
   points.clear();
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

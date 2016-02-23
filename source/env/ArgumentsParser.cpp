@@ -10,7 +10,7 @@
 #include <radix/env/Config.hpp>
 #include <radix/env/Environment.hpp>
 
-namespace glPortal {
+namespace radix {
 std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";
 
@@ -83,4 +83,4 @@ void ArgumentsParser::populateConfig() {
   }
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

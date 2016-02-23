@@ -5,7 +5,7 @@
 #include <radix/shader/Shader.hpp>
 #include <radix/Viewport.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Renderer;
 class Entity;
@@ -21,6 +21,6 @@ public:
   static void renderHand(Renderer &renderer);
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* UIRENDERER_HPP */

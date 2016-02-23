@@ -1,6 +1,6 @@
 #include <radix/core/gl/VBO.hpp>
 
-namespace glPortal {
+namespace radix {
 
 VBO::VBO() :
   size(0) {
@@ -41,4 +41,4 @@ void VBO::setSize(std::size_t size, GLenum usage) {
   glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

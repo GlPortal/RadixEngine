@@ -2,7 +2,7 @@
 
 #include <radix/env/Environment.hpp>
 
-namespace glPortal {
+namespace radix {
 
 void Observer::addCallback(Event event, const std::function<void()> &method) {
   observing.push_back(Environment::dispatcher.addObserver(event, method));

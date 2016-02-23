@@ -20,7 +20,7 @@
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Math.hpp>
 
-namespace glPortal {
+namespace radix {
 
 static float Identity3[3*3] = {
   1.f, 0.f, 0.f,
@@ -185,4 +185,4 @@ Matrix4f toMatrix4f(const Matrix3f& m) {
   return d;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

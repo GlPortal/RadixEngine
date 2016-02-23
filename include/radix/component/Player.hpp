@@ -14,7 +14,7 @@
 #include <radix/physics/KinematicCharacterController.hpp>
 #include <radix/scene/Scene.hpp>
 
-namespace glPortal {
+namespace radix {
 
 class Player : public Component {
 public:
@@ -34,6 +34,6 @@ public:
   Quaternion getHeadOrientation() const;
 };
 
-} /* namespace glPortal */
+} /* namespace radix */
 
 #endif /* COMPONENT_PLAYER_HPP */
