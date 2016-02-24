@@ -7,3 +7,6 @@
 [submodule "external/vhacd-lib"]
 	path = external/vhacd-lib
 	url = https://github.com/GlPortal/vhacd-lib.git
+[submodule "external/serine"]
+	path = external/serine
+	url = https://github.com/GlPortal/serine.git
