@@ -10,6 +10,7 @@
 #include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
 #include <radix/input/Input.hpp>
+#include <radix/World.hpp>
 
 namespace radix {
 
@@ -17,26 +18,22 @@ static const float RUNNING_SPEED = 0.1f;
 static const float JUMP_SPEED = 0.15f;
 static const float HURT_VELOCITY = 0.18f;
 
-static const std::array<const std::string, 2> PLAYER_PANTING_SOUND =
-{
+static const std::array<const std::string, 2> PLAYER_PANTING_SOUND = {
   "/audio/sfx/character/fem_panting_1.ogg",
   "/audio/sfx/character/fem_panting_2.ogg"
 };
 
-static const std::array<const std::string, 2> PLAYER_JUMP_SOUND =
-{
+static const std::array<const std::string, 2> PLAYER_JUMP_SOUND = {
   "/audio/sfx/character/fem_jump_1.ogg",
   "/audio/sfx/character/fem_jump_2.ogg"
 };
 
-static const std::array<const std::string, 2> PLAYER_FALL_SOUND =
-{
+static const std::array<const std::string, 2> PLAYER_FALL_SOUND = {
   "/audio/sfx/character/fem_fall_1.ogg",
   "/audio/sfx/character/fem_fall_2.ogg"
 };
 
-static const std::array<const std::string, 6> PLAYER_FOOT_SOUND =
-{
+static const std::array<const std::string, 6> PLAYER_FOOT_SOUND = {
   "/audio/sfx/character/fem_foot_1.ogg",
   "/audio/sfx/character/fem_foot_2.ogg",
   "/audio/sfx/character/fem_foot_3.ogg",
@@ -52,8 +49,6 @@ PlayerSystem::PlayerSystem(World &w) :
 PlayerSystem::~PlayerSystem() {
 }
 
-#if 0
-/// @todo
 void PlayerSystem::mouseLook(Entity &entity) {
   Player &plr = entity.getComponent<Player>();
   if (plr.frozen) {
@@ -93,7 +88,7 @@ void PlayerSystem::move(Entity &entity, double dtime) {
   if (jumping and ctrl.canJump()) {
     std::uniform_int_distribution<> dis(0, PLAYER_JUMP_SOUND.size()-1);
       entity.getComponent<SoundSource>().playSound(
-        Environment::getDataDir() + PLAYER_JUMP_SOUND[dis(generator)]);
+        Environment::getDataDir() + PLAYER_JUMP_SOUND[dis(Util::Rand)]);
     ctrl.jump();
   }
   if (movingFwd) {
@@ -122,7 +117,7 @@ void PlayerSystem::move(Entity &entity, double dtime) {
     if (plr.stepCounter >= 2.5f) {
       std::uniform_int_distribution<> dis(0, PLAYER_FOOT_SOUND.size()-1);
       entity.getComponent<SoundSource>().playSound(
-        Environment::getDataDir() + PLAYER_FOOT_SOUND[dis(generator)]);
+        Environment::getDataDir() + PLAYER_FOOT_SOUND[dis(Util::Rand)]);
       plr.stepCounter -= 2.5f;
     }
   }
@@ -147,7 +142,6 @@ void PlayerSystem::move(Entity &entity, double dtime) {
     }
 #endif
 }
-#endif
 
 bool PlayerSystem::runsBefore(const System &sys) {
   const char *name = sys.getName();
@@ -155,10 +149,8 @@ bool PlayerSystem::runsBefore(const System &sys) {
 }
 
 void PlayerSystem::update(float dtime) {
-#if 0
-  mouseLook(*scene->player);
-  move(*scene->player, dtime);
-#endif
+  mouseLook(world.getPlayer());
+  move(world.getPlayer(), dtime);
 }
 
 } /* namespace radix */

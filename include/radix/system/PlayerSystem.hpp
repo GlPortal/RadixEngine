@@ -7,7 +7,13 @@
 
 namespace radix {
 
+class Entity;
+
 class PlayerSystem : public System {
+protected:
+  void mouseLook(Entity &entity);
+  void move(Entity &entity, double dtime);
+
 public:
   PlayerSystem(World&);
   ~PlayerSystem();
