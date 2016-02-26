@@ -11,8 +11,6 @@ set(RADIX_SOURCES
   ${D}/map/XmlHelper.cpp
   ${D}/material/MaterialLoader.cpp
   ${D}/model/MeshLoader.cpp
-  ${D}/scene/Screen.cpp
-  ${D}/scene/Terminal.cpp
   ${D}/shader/Shader.cpp
   ${D}/shader/ShaderLoader.cpp
   ${D}/text/FontLoader.cpp
