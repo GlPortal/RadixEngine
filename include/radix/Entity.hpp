@@ -20,11 +20,18 @@ using EntityId = uint32_t;
  */
 class Entity {
 private:
+  friend class EntityManager;
+
   Entity(Entity&) = delete;
   Entity(Entity&&) = delete;
 
   void addComponent(ComponentTypeId, Component*);
   void removeComponent(ComponentTypeId);
+
+  /**
+   * Entity's name. Used to find a specific entity from the @ref World entity list.
+   */
+  std::string name;
 
 public:
   struct ComponentAddedEvent : public Event {
@@ -49,6 +56,17 @@ public:
     ComponentRemovedEvent(Entity &e, Component &c) :
       entity(e), component(c) {}
   };
+  struct NameChangedEvent : public Event {
+    static constexpr StaticEventType Type = "radix/Entity/NameChanged";
+    const EventType getType() const {
+      return Type;
+    }
+
+    Entity &entity;
+    const std::string oldName;
+    NameChangedEvent(Entity &e, const std::string &o) :
+      entity(e), oldName(o) {}
+  };
 
 
   EntityManager &manager;
@@ -69,10 +87,10 @@ public:
    */
   EntityId id;
 
-  /**
-   * Entity's name. Used to find a specific entity from the @ref World entity list.
-   */
-  std::string name;
+  std::string getName() const {
+    return name;
+  }
+  void setName(const std::string&);
 
   template<typename T, typename... TArgs>
   T& addComponent(TArgs&&... mArgs) {

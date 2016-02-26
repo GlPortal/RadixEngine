@@ -5,6 +5,12 @@
 
 namespace radix {
 
+void Entity::setName(const std::string &newName) {
+  const std::string oldName = name;
+  name = newName;
+  manager.world.event.dispatch(NameChangedEvent(*this, oldName));
+}
+
 void Entity::addComponent(ComponentTypeId id, Component *comp) {
   components[id].reset(comp);
   manager.world.event.dispatch(ComponentAddedEvent(*this, *comp));
