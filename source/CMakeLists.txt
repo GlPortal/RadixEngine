@@ -49,9 +49,7 @@ set(RADIX_SOURCES
   ${D}/physics/PhysicsHelper.cpp
   ${D}/physics/Uncollider.cpp
   ${D}/renderer/GWENRenderer.cpp
-  #${D}/renderer/Renderer.cpp
-  #${D}/renderer/TerminalRenderer.cpp
-  #${D}/renderer/UiRenderer.cpp
+  ${D}/renderer/Renderer.cpp
   ${D}/SoundManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp

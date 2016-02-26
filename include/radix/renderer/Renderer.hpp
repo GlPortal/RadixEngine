@@ -16,29 +16,15 @@ namespace radix {
 class Camera;
 class Entity;
 class Portal;
-class Scene;
 class Texture;
 class Font;
 struct Viewport;
 
 class Renderer {
 public:
-  Renderer();
+  Renderer(World&);
   void setViewport(Viewport *vp);
   Viewport* getViewport() const;
-
-
-  /**
-   * Sets the current scene for rendering
-   */
-  void setScene(Scene *scene);
-
-  /**
-   * Getss the current scene
-   */
-  inline Scene* getScene() const {
-    return scene;
-  }
 
   /**
    * Main scene rendering method. To be called only once per frame.
@@ -129,10 +115,10 @@ public:
   static Matrix4f clipProjMat(const Entity &ent, const Matrix4f &view, const Matrix4f &proj);
 
 private:
+  World &world;
   Viewport *viewport;
   int vpWidth, vpHeight;
   double time;
-  Scene *scene;
   Vector4f fontColor;
   Font *font;
   int portalDepth;

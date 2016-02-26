@@ -14,7 +14,7 @@
 #include <radix/text/FontLoader.hpp>
 #include <radix/shader/ShaderLoader.hpp>
 
-#include <radix/scene/Scene.hpp>
+#include <radix/World.hpp>
 #include <radix/model/Mesh.hpp>
 #include <radix/texture/Texture.hpp>
 #include <radix/text/Font.hpp>
@@ -40,26 +40,13 @@
 
 namespace radix {
 
-Renderer::Renderer() :
+Renderer::Renderer(World &w) :
+  world(w),
   viewport(nullptr),
   vpWidth(0), vpHeight(0),
-  scene(nullptr),
   fontColor(1, 1, 1, 1),
   font(nullptr),
   portalDepth(2) {
-}
-
-void Renderer::setViewport(Viewport *vp) {
-  viewport = vp;
-  viewport->getSize(&vpWidth, &vpHeight);
-}
-
-Viewport* Renderer::getViewport() const {
-  return viewport;
-}
-
-void Renderer::setScene(Scene *scene) {
-  this->scene = scene;
 }
 
 void Renderer::setFont(const std::string &font, float size) {
@@ -103,13 +90,13 @@ void Renderer::render(double dtime, const Camera &cam) {
 
   /* Lights */ {
     int numLights = 0;
-    for (const Entity &e : scene->entities) {
+    for (const Entity &e : world.entities) {
       if (not e.hasComponent<LightSource>()) {
         continue;
       }
 
       LightSource &ls = e.getComponent<LightSource>();
-      if (not ls._uploaded) {
+      //if (not ls._uploaded) {
         const Transform &t = e.getComponent<Transform>();
         std::string index = std::to_string(numLights);
         std::string position = "lights[" + index + "].position";
@@ -124,7 +111,7 @@ void Renderer::render(double dtime, const Camera &cam) {
         glUniform1f(diffuse.uni(energy.c_str()), ls.energy);
         glUniform1f(diffuse.uni(specular.c_str()), ls.specular);
         // ls._uploaded = true;
-      }
+      //}
 
       ++numLights;
     }
@@ -137,13 +124,13 @@ void Renderer::render(double dtime, const Camera &cam) {
 
   /* Lights */ {
     int numLights = 0;
-    for (const Entity &e : scene->entities) {
+    for (const Entity &e : world.entities) {
       if (not e.hasComponent<LightSource>()) {
         continue;
       }
 
       LightSource &ls = e.getComponent<LightSource>();
-      if (not ls._uploaded) {
+      //if (not ls._uploaded) {
         const Transform &t = e.getComponent<Transform>();
         std::string index = std::to_string(numLights);
         std::string position = "lights[" + index + "].position";
@@ -158,7 +145,7 @@ void Renderer::render(double dtime, const Camera &cam) {
         glUniform1f(metal.uni(energy.c_str()), ls.energy);
         glUniform1f(metal.uni(specular.c_str()), ls.specular);
         // ls._uploaded = true;
-      }
+      //}
 
       ++numLights;
     }
@@ -247,7 +234,7 @@ void Renderer::renderScene(const Camera &camera) {
 }
 
 void Renderer::renderEntities(const Camera &cam) {
-  for (Entity &e : scene->entities) {
+  for (Entity &e : world.entities) {
     if (e.hasComponent<MeshDrawable>()) {
       renderEntity(cam, e);
     }
@@ -269,7 +256,7 @@ void Renderer::renderEntity(const Camera &cam, const Entity &e) {
 }
 
 void Renderer::renderPlayer(const Camera &cam) {
-  const Transform &t = scene->player->getComponent<Transform>();
+  const Transform &t = world.getPlayer().getComponent<Transform>();
   Matrix4f mtx;
   mtx.translate(t.getPosition() + Vector3f(0, -.5f, 0));
   mtx.rotate(t.getOrientation());
