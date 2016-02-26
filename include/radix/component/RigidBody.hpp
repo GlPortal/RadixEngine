@@ -9,7 +9,6 @@
 
 #include <radix/component/Component.hpp>
 #include <radix/component/Transform.hpp>
-#include <radix/scene/Scene.hpp>
 #include <radix/Entity.hpp>
 #include <radix/EntityManager.hpp>
 
@@ -23,6 +22,16 @@ public:
 
   RigidBody(Entity &ent, float mass, const std::shared_ptr<btCollisionShape> &collisionshape);
   ~RigidBody();
+
+  const char* getName() const {
+    return "RigidBody";
+  }
+
+  TypeId getTypeId() const {
+    return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
+  void serialize(serine::Archiver&);
 };
 
 } /* namespace radix */

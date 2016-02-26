@@ -61,6 +61,8 @@ list(APPEND RADIX_LIBRARIES ${VHACD_LIBRARY})
 
 set(PORTAL_TEST_LIBRARIES ${RADIX_LIBRARIES})
 
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/external/serine/include")
+
 #### ENGINE ####
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")

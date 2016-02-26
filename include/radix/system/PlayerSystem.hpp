@@ -3,23 +3,20 @@
 
 #include <random>
 
-#include <radix/scene/Scene.hpp>
+#include <radix/system/System.hpp>
 
 namespace radix {
 
-class PlayerSystem {
-private:
-  Scene *scene;
-  std::mt19937 generator;
-
+class PlayerSystem : public System {
 public:
-  PlayerSystem();
+  PlayerSystem(World&);
   ~PlayerSystem();
-  void setScene(Scene *scene);
-  void update(float dtime);
 
-  void mouseLook(Entity&);
-  void move(Entity&, double dtime);
+  const char* getName() const {
+    return "PlayerSystem";
+  }
+  bool runsBefore(const System&);
+  void update(float dtime);
 };
 
 } /* namespace radix */

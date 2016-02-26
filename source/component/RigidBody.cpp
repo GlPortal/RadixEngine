@@ -15,12 +15,14 @@ RigidBody::RigidBody(Entity &ent, float mass,
   btRigidBody::btRigidBodyConstructionInfo ci(mass, &motionState, shape.get(), localInertia);
   body = new btRigidBody(ci);
   body->setUserPointer(&entity);
-  entity.manager.scene.physics.world->addRigidBody(body);
 }
 
 RigidBody::~RigidBody() {
-  entity.manager.scene.physics.world->removeRigidBody(body);
   delete body;
+}
+
+void RigidBody::serialize(serine::Archiver &ar) {
+  /// @todo RigidBody serialization
 }
 
 } /* namespace radix */

@@ -16,6 +16,18 @@ public:
 
   MeshDrawable(Entity &ent) :
     Component(ent) {}
+
+  const char* getName() const {
+    return "MeshDrawable";
+  }
+
+  TypeId getTypeId() const {
+    return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
+  void serialize(serine::Archiver &ar) {
+    /// @todo MeshDrawable serialization
+  }
 };
 
 } /* namespace radix */

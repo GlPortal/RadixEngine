@@ -1,7 +1,5 @@
 #include <radix/physics/CollisionDispatcher.hpp>
 
-#include <radix/env/System.hpp>
-
 namespace radix {
 
 #if 0

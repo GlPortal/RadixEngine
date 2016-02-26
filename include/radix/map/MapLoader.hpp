@@ -6,26 +6,31 @@
 #include <tinyxml2.h>
 
 namespace radix {
+
 class Entity;
 class Mesh;
-class Scene;
+class World;
 
 class MapLoader {
+private:
+  World &world;
+  tinyxml2::XMLHandle rootHandle;
+
 public:
-  static Scene* getSceneFromPath(const std::string &path);
-  static Scene* getScene(const std::string &path);
-  static Scene* scene;
-  static tinyxml2::XMLHandle rootHandle;
+  MapLoader(World&);
+  
+  void load(const std::string &path);
+
 private:
   static Mesh getBox(const Entity &wall);
-  static void extractMaterials();
-  static void extractSpawn();
-  static void extractLights();
-  static void extractDoor();
-  static void extractWalls();
-  static void extractAcids();
-  static void extractTriggers();
-  static void extractModels();
+  void extractMaterials();
+  void extractSpawn();
+  void extractLights();
+  void extractDoor();
+  void extractWalls();
+  void extractAcids();
+  void extractTriggers();
+  void extractModels();
 };
 
 } /* namespace radix */

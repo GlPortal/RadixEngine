@@ -1,58 +1,68 @@
 #include <radix/system/PhysicsSystem.hpp>
-#include <radix/component/MeshDrawable.hpp>
-#include <radix/component/Transform.hpp>
+
+#include <radix/component/Player.hpp>
 #include <radix/component/RigidBody.hpp>
-#include <radix/material/MaterialLoader.hpp>
 #include <radix/physics/Uncollider.hpp>
-#include <radix/model/MeshLoader.hpp>
+#include <radix/World.hpp>
 
 namespace radix {
 
-void PhysicsSystem::setScene(Scene *scene) {
-  scene->physics.world->getPairCache()->setOverlapFilterCallback(nullptr);
-  delete filterCallback;
+PhysicsSystem::PhysicsSystem(World &w) :
+  System(w),
+  filterCallback(nullptr),
+  broadphase(new btDbvtBroadphase()),
+  collisionConfiguration(new btDefaultCollisionConfiguration()),
+  dispatcher(new CollisionDispatcher(collisionConfiguration)),
+  solver(new btSequentialImpulseConstraintSolver),
+  physWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
+  gpCallback(new btGhostPairCallback) {
+  broadphase->getOverlappingPairCache()->setInternalGhostPairCallback(gpCallback);
+  filterCallback = new Uncollider(w);
+  //physWorld->getPairCache()->setOverlapFilterCallback(filterCallback);
+  dispatcher->setNearCallback(Uncollider::nearCallback);
+  physWorld->setGravity(btVector3(0, -9.8, 0));
 
-  this->scene = scene;
-  filterCallback = new Uncollider(*scene);
-  //scene->physics.world->getPairCache()->setOverlapFilterCallback(filterCallback);
-  scene->physics.dispatcher->setNearCallback(Uncollider::nearCallback);
-}
-
-PhysicsSystem::PhysicsSystem() :
-  filterCallback(nullptr) {
+  cpCompAdd = w.event.observe(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e){
+    Component &c = ((Entity::ComponentAddedEvent&)e).component;
+    auto ctid = c.getTypeId();
+    if (ctid == Component::getTypeId<RigidBody>()) {
+      RigidBody &rb = (RigidBody&)c;
+      this->physWorld->addRigidBody(rb.body);
+    } else if (ctid == Component::getTypeId<Player>()) {
+      Player &p = (Player&)c;
+      this->physWorld->addCollisionObject(p.obj,
+        btBroadphaseProxy::CharacterFilter,
+        btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
+      this->physWorld->addAction(p.controller);
+    }
+  });
+  cpCompRem = w.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &e){
+    Component &c = ((Entity::ComponentAddedEvent&)e).component;
+    auto ctid = c.getTypeId();
+    if (ctid == Component::getTypeId<RigidBody>()) {
+      RigidBody &rb = (RigidBody&)c;
+      this->physWorld->removeRigidBody(rb.body);
+    } else if (ctid == Component::getTypeId<Player>()) {
+      Player &p = (Player&)c;
+      this->physWorld->removeAction(p.controller);
+      this->physWorld->removeCollisionObject(p.obj);
+    }
+  });
 }
 
 PhysicsSystem::~PhysicsSystem() {
+  world.event.unobserve(cpCompAdd, cpCompRem);
   delete filterCallback;
 }
 
+bool PhysicsSystem::runsBefore(const System &sys) {
+  return false;
+}
+
 void PhysicsSystem::update(float dtime) {
-#if 0
-  // TESTING
-  static bool spawned = false;
-  static float time = 0;
-  if (not spawned) {
-    if (time < 1) {
-      time += dtime;
-    } else {
-      Vector3f posz[3] = {Vector3f(10.6, 6, 5), Vector3f(10, 5, 5), Vector3f(10, 4, 5.6)};
-      for (const Vector3f &pos : posz) {
-        Entity &e = scene->entities.create();
-        Transform &t = e.addComponent<Transform>();
-        t.setPosition(pos);
-        t.setOrientation(Quaternion().fromAero(0, rad(45), 0));
-        MeshDrawable &m = e.addComponent<MeshDrawable>();
-        m.material = MaterialLoader::getMaterial("boxes/dev00");
-        m.mesh = MeshLoader::getMesh("Cube.obj");
-        e.addComponent<RigidBody>(1, std::make_shared<btBoxShape>(btVector3(.5, .5, .5)));
-      }
-      spawned = true;
-    }
-  }
-#endif
   filterCallback->beforePhysicsStep();
-  scene->physics.world->stepSimulation(dtime, 10);
-  for (Entity &e : scene->entities) {
+  physWorld->stepSimulation(dtime, 10);
+  for (Entity &e : world.entities) {
     if (e.hasComponent<RigidBody>()) {
       RigidBody &b = e.getComponent<RigidBody>();
       if (not b.body->isStaticObject()) {

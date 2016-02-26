@@ -1,9 +1,20 @@
 #include <radix/component/Transform.hpp>
+
+#include <serine/Archiver.hpp>
+
 #include <radix/Entity.hpp>
 #include <radix/component/Player.hpp>
 #include <radix/component/RigidBody.hpp>
 
 namespace radix {
+
+void Transform::serialize(serine::Archiver &ar) {
+  ar("pos", position);
+  if (ar.isLoading() || (ar.isSaving() && (scale.x != 0 || scale.y != 0 || scale.z != 0))) {
+    ar("scl", scale);
+  }
+  ar("orient", orientation);
+}
 
 void Transform::setPosition(const Vector3f &val) {
   position = val;

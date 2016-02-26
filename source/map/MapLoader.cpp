@@ -17,7 +17,7 @@
 #include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
 
-#include <radix/scene/Scene.hpp>
+#include <radix/World.hpp>
 #include <radix/model/Mesh.hpp>
 #include <radix/texture/Texture.hpp>
 #include <radix/model/MeshLoader.hpp>
@@ -33,14 +33,11 @@ namespace radix {
  *  @ref map-format-spec
  */
 
-  Scene* MapLoader::scene;
-  XMLHandle MapLoader::rootHandle = XMLHandle(0);
 
 /**
  * Get a scene from a map file in XML format.
  */
-Scene* MapLoader::getSceneFromPath(const std::string &path) {
-  scene = new Scene();
+void MapLoader::load(const std::string &path) {
   XMLDocument doc;
   XMLError error = doc.LoadFile(path.c_str());
 
@@ -57,18 +54,11 @@ Scene* MapLoader::getSceneFromPath(const std::string &path) {
     extractWalls();
     extractAcids();
     extractTriggers();
-    System::Log(Info, "MapLoader") << "Map " << path << " loaded";
+    Util::Log(Info, "MapLoader") << "Map " << path << " loaded";
   } else {
-    System::Log(Error, "MapLoader") << "Failed to load map " << Environment::getDataDir()
+    Util::Log(Error, "MapLoader") << "Failed to load map " << Environment::getDataDir()
                        << "/" << path << ".xml";
   }
-  return scene;
-}
-/**
- * Get a scene from a map file in XML format.
- */
-Scene* MapLoader::getScene(const std::string &path) {
-  return getSceneFromPath((Environment::getDataDir() + "/maps/" + path + ".xml"));
 }
 
 void MapLoader::extractMaterials() {
@@ -81,14 +71,14 @@ void MapLoader::extractMaterials() {
         int mid = -1;
         matElm->QueryIntAttribute("mid", &mid);
         if (mid == -1) {
-          System::Log(Error) << "Invalid Material ID in map.";
+          Util::Log(Error) << "Invalid Material ID in map.";
           continue;
         }
         std::string name = matElm->Attribute("name");
         if (name.length() > 0) {
-          scene->materials[mid] = MaterialLoader::getMaterial(name);
+          world.materials[mid] = MaterialLoader::getMaterial(name);
         } else {
-          System::Log(Error) << "Name is mandatory for mat tag.";
+          Util::Log(Error) << "Name is mandatory for mat tag.";
           continue;
         }
       } while ((matElm = matElm->NextSiblingElement("mat")) != nullptr);
@@ -103,14 +93,14 @@ void MapLoader::extractSpawn() {
   XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
 
   if (spawnElement) {
-    scene->start = &scene->entities.create();
-    Transform &t = scene->start->addComponent<Transform>();
+    Entity &start = world.entities.create();
+    Transform &t = start.addComponent<Transform>();
     Vector3f position;
     XmlHelper::extractPosition(spawnElement, position);
     t.setPosition(position);
-    Player &p = scene->player->getComponent<Player>();
+    Player &p = world.getPlayer().getComponent<Player>();
     XmlHelper::extractRotation(spawnElement, p.headAngle);
-    Transform &pt = scene->player->getComponent<Transform>();
+    Transform &pt = world.getPlayer().getComponent<Transform>();
     pt.setPosition(position);
   } else {
     throw std::runtime_error("No spawn position defined.");
@@ -139,7 +129,7 @@ void MapLoader::extractLights() {
       specular = 0;
     }
 
-    Entity &light = scene->entities.create();
+    Entity &light = world.entities.create();
     Transform &t = light.addComponent<Transform>();
     t.setPosition(lightPos);
     LightSource &ls = light.addComponent<LightSource>();
@@ -154,9 +144,7 @@ void MapLoader::extractDoor() {
   XMLElement *endElement = rootHandle.FirstChildElement("end").ToElement();
 
   if (endElement) {
-    Entity &door = scene->entities.create();
-    scene->end = &door;
-    door.clearComponents();
+    Entity &door = world.entities.create();
     Transform &t = door.addComponent<Transform>();
     Vector3f position;
     XmlHelper::extractPosition(endElement, position);
@@ -175,7 +163,7 @@ void MapLoader::extractWalls() {
 
   if (wallBoxElement) {
     do {
-      Entity &wall = scene->entities.create();
+      Entity &wall = world.entities.create();
 
       Transform &t = wall.addComponent<Transform>();
       Vector3f position;
@@ -191,7 +179,7 @@ void MapLoader::extractWalls() {
       int mid = -1;
       wallBoxElement->QueryIntAttribute("mid", &mid);
       MeshDrawable &m = wall.addComponent<MeshDrawable>();
-      m.material = scene->materials[mid];
+      m.material = world.materials[mid];
       m.material.scaleU = m.material.scaleV = 2.f;
       m.mesh = MeshLoader::getPortalBox(wall);
       wall.addComponent<RigidBody>
@@ -206,7 +194,7 @@ void MapLoader::extractAcids() {
   
   if (acidElement) {
     do {
-      Entity &acid = scene->entities.create();
+      Entity &acid = world.entities.create();
 
       Transform &t = acid.addComponent<Transform>();
       Vector3f position;
@@ -228,7 +216,7 @@ void MapLoader::extractTriggers() {
 
   if (triggerElement) {
     do {
-      Entity &trigger = scene->entities.create();
+      Entity &trigger = world.entities.create();
 
       Transform &t = trigger.addComponent<Transform>();
       Vector3f position;
@@ -253,7 +241,7 @@ void MapLoader::extractModels() {
       modelElement->QueryIntAttribute("mid", &mid);
       mesh = modelElement->Attribute("mesh");
 
-      Entity &model = scene->entities.create();
+      Entity &model = world.entities.create();
       Transform &t = model.addComponent<Transform>();
       Vector3f position;
       XmlHelper::extractPosition(modelElement, position);
@@ -262,7 +250,7 @@ void MapLoader::extractModels() {
       XmlHelper::extractRotation(modelElement, angles);
       t.setOrientation(Quaternion().fromAero(angles));
       MeshDrawable &m = model.addComponent<MeshDrawable>();
-      m.material = scene->materials[mid];
+      m.material = world.materials[mid];
       m.mesh = MeshLoader::getMesh(mesh);
     } while ((modelElement = modelElement->NextSiblingElement("object")) != nullptr);
   }

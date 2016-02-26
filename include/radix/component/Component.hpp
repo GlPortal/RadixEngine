@@ -5,15 +5,17 @@
 #include <cassert>
 #include <type_traits>
 
+#include <serine/Serializable.hpp>
+
 namespace radix {
 
 using ComponentTypeId = size_t;
 
-ComponentTypeId getNewId();
+ComponentTypeId getNewComponentTypeId();
 
 /*! \cond PRIVATE */
 template<typename T> struct _ComponentTypeId { static ComponentTypeId id; };
-template<typename T> ComponentTypeId _ComponentTypeId<T>::id { getNewId() };
+template<typename T> ComponentTypeId _ComponentTypeId<T>::id { getNewComponentTypeId() };
 /*! \endcond */
 
 class Entity;
@@ -21,7 +23,7 @@ class Entity;
 /** \class Component
  * @brief Base class to create entity components
  */
-class Component {
+class Component : public serine::Serializable {
 private:
   // Forbid any copy
   Component(const Component&) = delete;
@@ -45,10 +47,13 @@ public:
   inline Component(Entity &ent) noexcept :
     entity(ent) {}
 
+  virtual const char* getName() const = 0;
+  virtual TypeId getTypeId() const = 0;
+
   virtual ~Component() {}
 };
 
-inline ComponentTypeId getNewId() {
+inline ComponentTypeId getNewComponentTypeId() {
   static ComponentTypeId lastId(0);
   return lastId++;
 }

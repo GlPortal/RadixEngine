@@ -45,17 +45,15 @@ static const std::array<const std::string, 6> PLAYER_FOOT_SOUND =
   "/audio/sfx/character/fem_foot_6.ogg"
 };
 
-void PlayerSystem::setScene(Scene *scene) {
-  this->scene = scene;
-}
-
-PlayerSystem::PlayerSystem() :
-  scene(nullptr) {
+PlayerSystem::PlayerSystem(World &w) :
+  System(w) {
 }
 
 PlayerSystem::~PlayerSystem() {
 }
 
+#if 0
+/// @todo
 void PlayerSystem::mouseLook(Entity &entity) {
   Player &plr = entity.getComponent<Player>();
   if (plr.frozen) {
@@ -149,10 +147,18 @@ void PlayerSystem::move(Entity &entity, double dtime) {
     }
 #endif
 }
+#endif
+
+bool PlayerSystem::runsBefore(const System &sys) {
+  const char *name = sys.getName();
+  return ::strcmp(name, "PhysicsSystem") == 0;
+}
 
 void PlayerSystem::update(float dtime) {
+#if 0
   mouseLook(*scene->player);
   move(*scene->player, dtime);
+#endif
 }
 
 } /* namespace radix */

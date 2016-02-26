@@ -4,9 +4,8 @@
 #include <list>
 #include <unordered_set>
 
+#include <bullet/BulletCollision/btBulletCollisionCommon.h>
 #include <bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h>
-
-#include <radix/scene/Scene.hpp>
 
 namespace std {
 template<typename T1, typename T2>
@@ -19,9 +18,11 @@ struct hash<std::pair<T1*, T2*>> {
 
 namespace radix {
 
+class World;
+
 class Uncollider : public btOverlapFilterCallback {
 private:
-  Scene &scene;
+  World &world;
 
 public:
   static std::list<btCollisionObject*> volumes;
@@ -31,7 +32,7 @@ public:
   static void removeCollisonPairExclusion(btCollisionObject*, btCollisionObject*);
   static bool isPointInUncollideVolume(const btVector3 &p);
 
-  Uncollider(Scene&);
+  Uncollider(World&);
   void beforePhysicsStep();
   bool needBroadphaseCollision(btBroadphaseProxy *proxy0, btBroadphaseProxy *proxy1) const;
   static void nearCallback(btBroadphasePair&, btCollisionDispatcher&, const btDispatcherInfo&);

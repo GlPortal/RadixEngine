@@ -15,6 +15,8 @@
 
 #include <string>
 
+#include <serine/Serializable.hpp>
+
 class btVector3;
 
 namespace radix {
@@ -22,7 +24,7 @@ namespace radix {
 /** \class Vector3f
  * @brief 3-dimensional `float`-based vector/point storage and manipulation struct
  */
-struct Vector3f {
+struct Vector3f : public serine::Serializable {
   union {
     float x, r, s, yaw, heading, azimuth, tetha;
   };
@@ -48,6 +50,8 @@ struct Vector3f {
 
   float length() const;
   std::string str() const;
+
+  void serialize(serine::Archiver&);
 
   /* Operator overloads */
   bool operator==(const Vector3f& v) const;

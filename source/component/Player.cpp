@@ -10,10 +10,13 @@ Player::Player(Entity &ent) :
   noclip(false),
   frozen(false),
   stepCounter(0) {
+
+  /// @todo Move this to systems and add a dependency model
   if (not entity.hasComponent<Transform>()) {
     entity.addComponent<Transform>();
   }
   entity.getComponent<Transform>().setScale(PLAYER_SIZE);
+
   obj = new btPairCachingGhostObject;
   Transform &tform = entity.getComponent<Transform>();
   obj->setWorldTransform(btTransform(tform.getOrientation(), tform.getPosition()));
@@ -21,17 +24,15 @@ Player::Player(Entity &ent) :
   obj->setCollisionShape(shape.get());
   obj->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
   controller = new KinematicCharacterController(obj, shape.get(), 0.35);
-  entity.manager.scene.physics.world->addCollisionObject(obj,
-    btBroadphaseProxy::CharacterFilter,
-    btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
-  entity.manager.scene.physics.world->addAction(controller);
 }
 
 Player::~Player() {
-  entity.manager.scene.physics.world->removeAction(controller);
-  entity.manager.scene.physics.world->removeCollisionObject(obj);
   delete controller;
   delete obj;
+}
+
+void Player::serialize(serine::Archiver &ar) {
+
 }
 
 Quaternion Player::getBaseHeadOrientation() const {

@@ -14,21 +14,21 @@ std::map<int, SoundManager::SoundInfo> SoundManager::sounds = {};
 
 void SoundManager::init() {
   if (isInitialized) {
-    System::Log(Info, "SoundManager") << "init() called when already initialized";
+    Util::Log(Info, "SoundManager") << "init() called when already initialized";
     return;
   }
 
   isDisabled = false;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
-    System::Log(Verbose, "SoundManager") << "SDL Audio system already initialized";
+    Util::Log(Verbose, "SoundManager") << "SDL Audio system already initialized";
   } else {
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
-      System::Log(Warning, "SoundManager") << "SDL Audio system init failed: "
+      Util::Log(Warning, "SoundManager") << "SDL Audio system init failed: "
                                            << SDL_GetError() << ", sound disabled";
       isDisabled = true;
     } else {
-      System::Log(Info, "SoundManager") << "SDL Audio system initialized";
+      Util::Log(Info, "SoundManager") << "SDL Audio system initialized";
     }
   }
 
@@ -39,7 +39,7 @@ void SoundManager::init() {
     int flags = MIX_INIT_OGG;
 
     if ((Mix_Init(flags) & flags) != flags) {
-      System::Log(Warning, "SoundManager") << "SDL_mixer Init failed: "
+      Util::Log(Warning, "SoundManager") << "SDL_mixer Init failed: "
                                            << Mix_GetError() << ", sound disabled";
       isDisabled = true;
     }
@@ -52,13 +52,13 @@ void SoundManager::init() {
     int audioBuffers = 4096;
 
     if (Mix_OpenAudio(audioRate, audioFormat, audioChannels, audioBuffers) == -1) {
-      System::Log(Warning, "SoundManager") << "SDL_mixer OpenAudio failed: "
+      Util::Log(Warning, "SoundManager") << "SDL_mixer OpenAudio failed: "
                                            << Mix_GetError() << ", sound disabled";
       isDisabled = true;
     }
   }
 
-  System::Log(Verbose, "SoundManager") << "fully initialized";
+  Util::Log(Verbose, "SoundManager") << "fully initialized";
   isInitialized = true;
 }
 
@@ -74,14 +74,14 @@ void SoundManager::playMusic(const std::string &filename) {
 
   music = Mix_LoadMUS(filename.c_str());
   if (music == NULL) {
-    System::Log(Warning, "SoundManager") << "music load failed: " << Mix_GetError();
+    Util::Log(Warning, "SoundManager") << "music load failed: " << Mix_GetError();
     return;
   }
 
   Mix_VolumeMusic(14);
 
   if (Mix_PlayMusic(music, 0) == -1) {
-    System::Log(Warning, "SoundManager") << "music play failed: " << Mix_GetError();
+    Util::Log(Warning, "SoundManager") << "music play failed: " << Mix_GetError();
     return;
   }
 }
@@ -93,7 +93,7 @@ void SoundManager::playSound(const std::string &filename, const Entity &source) 
 
   Mix_Chunk *sound = Mix_LoadWAV(filename.c_str());
   if (sound == nullptr) {
-    System::Log(Warning, "SoundManager") << "sound load failed: " << Mix_GetError();
+    Util::Log(Warning, "SoundManager") << "sound load failed: " << Mix_GetError();
     return;
   }
 
@@ -101,7 +101,7 @@ void SoundManager::playSound(const std::string &filename, const Entity &source) 
   int channel = Mix_PlayChannel(-1, sound, 0);
 
   if (channel == -1) {
-    System::Log(Warning, "SoundManager") << "sound play failed: " << Mix_GetError();
+    Util::Log(Warning, "SoundManager") << "sound play failed: " << Mix_GetError();
     return;
   }
 
@@ -130,7 +130,7 @@ void SoundManager::update(const Entity &listener) {
 
 void SoundManager::destroy() {
   if (isInitialized) {
-    System::Log(Info, "SoundManager") << "destroy() called when uninitialized";
+    Util::Log(Info, "SoundManager") << "destroy() called when uninitialized";
     return;
   }
 

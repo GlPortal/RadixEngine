@@ -3,7 +3,6 @@
 
 #include <string>
 
-#include <radix/core/event/Dispatcher.hpp>
 #include <radix/env/Config.hpp>
 
 namespace radix {
@@ -14,7 +13,6 @@ private:
   static std::string datadir;
 
 public:
-  static Dispatcher dispatcher;
   static void init();
   static Config& getConfig();
   static void initializeConfig();

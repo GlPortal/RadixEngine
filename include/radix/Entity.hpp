@@ -5,12 +5,15 @@
 #include <memory>
 #include <type_traits>
 
+#include <radix/core/event/Event.hpp>
 #include <radix/component/Component.hpp>
-#include <radix/env/System.hpp>
+#include <radix/env/Util.hpp>
 
 namespace radix {
 
 class EntityManager;
+
+using EntityId = uint32_t;
 
 /** \class Entity
  * @brief ECS entity, Component container
@@ -20,27 +23,66 @@ private:
   Entity(Entity&) = delete;
   Entity(Entity&&) = delete;
 
+  void addComponent(ComponentTypeId, Component*);
+  void removeComponent(ComponentTypeId);
+
 public:
+  struct ComponentAddedEvent : public Event {
+    static constexpr StaticEventType Type = "radix/Entity/ComponentAdded";
+    const EventType getType() const {
+      return Type;
+    }
+
+    Entity &entity;
+    Component &component;
+    ComponentAddedEvent(Entity &e, Component &c) :
+      entity(e), component(c) {}
+  };
+  struct ComponentRemovedEvent : public Event {
+    static constexpr StaticEventType Type = "radix/Entity/ComponentRemoved";
+    const EventType getType() const {
+      return Type;
+    }
+
+    Entity &entity;
+    Component &component;
+    ComponentRemovedEvent(Entity &e, Component &c) :
+      entity(e), component(c) {}
+  };
+
+
   EntityManager &manager;
-  Entity(EntityManager &manager) :
-    manager(manager) {
-    // mt19937 is guaranteed to be a 32 bit random generator
-    uid = System::Rand();
+  Entity(EntityManager &manager, EntityId id) :
+    manager(manager), id(id) {
+  }
+
+  ~Entity() {
+    clearComponents();
   }
 
   std::array<std::unique_ptr<Component>, Component::MaxId> components;
-  uint32_t uid;
+
+  /**
+   * Entity (instance) identifier.
+   * @note IDs are **not** stable, so don't store/use them across map saves/loads.
+   *       Use @ref name instead.
+   */
+  EntityId id;
+
+  /**
+   * Entity's name. Used to find a specific entity from the @ref World entity list.
+   */
   std::string name;
 
   template<typename T, typename... TArgs>
   T& addComponent(TArgs&&... mArgs) {
     static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
     if (hasComponent<T>()) {
-      System::Log(Warning) << "Overwriting a " << typeid(T).name() << " component";
+      Util::Log(Warning) << "Overwriting a " << typeid(T).name() << " component";
     }
     T* result(new T(*this, std::forward<TArgs>(mArgs)...));
     Component::TypeId id = Component::getTypeId<T>();
-    components[id] = std::unique_ptr<Component>(result);
+    addComponent(id, result);
     return *result;
   }
 
@@ -56,11 +98,12 @@ public:
     return *reinterpret_cast<T*>(components[Component::getTypeId<T>()].get());
   }
 
-  void clearComponents() {
-    for (std::unique_ptr<Component> &p : components) {
-      p.reset(nullptr);
-    }
+  template<class T>
+  void removeComponent() {
+    removeComponent(Component::getTypeId<T>());
   }
+
+  void clearComponents();
 };
 
 } /* namespace radix */

@@ -1,10 +1,18 @@
 #include <radix/component/Health.hpp>
+
+#include <serine/Archiver.hpp>
+
 #include <radix/core/math/Math.hpp>
 
 namespace radix {
 
 Health::Health(Entity &ent) :
   Component(ent), maxHealth(1.f), health(maxHealth) {
+}
+
+void Health::serialize(serine::Archiver &ar) {
+  ar("maxHealth", maxHealth);
+  ar("health", health);
 }
 
 bool Health::isAlive() {

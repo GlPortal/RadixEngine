@@ -8,7 +8,6 @@
 
 namespace radix {
 
-Dispatcher Environment::dispatcher;
 Config Environment::config;
 
 std::string Environment::datadir = "";

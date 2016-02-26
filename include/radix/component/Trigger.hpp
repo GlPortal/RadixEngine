@@ -16,6 +16,18 @@ public:
   Trigger(Entity &ent) :
     Component(ent) {}
 
+  const char* getName() const {
+    return "Trigger";
+  }
+
+  TypeId getTypeId() const {
+    return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
+  void serialize(serine::Archiver &ar) {
+    // ...
+  }
+
   void onEnter(Entity&);
   void onMove(Entity&);
   void onExit(Entity&);

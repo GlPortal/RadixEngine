@@ -3,6 +3,8 @@
 #include <bullet/LinearMath/btQuaternion.h>
 #include <bullet/LinearMath/btVector3.h>
 
+#include <serine/Archiver.hpp>
+
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Matrix4f.hpp>
@@ -44,6 +46,13 @@ Vector4f::Vector4f(const btQuaternion &q)
 Vector4f& Vector4f::operator=(const btQuaternion &q) {
   x = q.x(); y = q.y(); z = q.z(); w = q.w();
   return *this;
+}
+
+void Vector4f::serialize(serine::Archiver &ar) {
+  ar("x", x);
+  ar("y", y);
+  ar("z", z);
+  ar("w", w);
 }
 
 // === Quaternion === //

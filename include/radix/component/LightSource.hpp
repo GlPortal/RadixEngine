@@ -2,6 +2,9 @@
 #define COMPONENT_LIGHTSOURCE_HPP
 
 #include <radix/component/Component.hpp>
+
+#include <serine/Archiver.hpp>
+
 #include <radix/core/math/Vector3f.hpp>
 
 namespace radix {
@@ -20,12 +23,24 @@ public:
     color(1, 1, 1),
     distance(1),
     energy(10),
-    specular(1),
-    _uploaded(false) {
+    specular(1) {
   }
 
-  // Internal
-  bool _uploaded;
+  const char* getName() const {
+    return "LightSource";
+  }
+
+  TypeId getTypeId() const {
+    return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
+  void serialize(serine::Archiver &ar) {
+    ar("enabled", enabled);
+    ar("color", color);
+    ar("distance", distance);
+    ar("energy", energy);
+    ar("specular", specular);
+  }
 };
 
 } /* namespace radix */

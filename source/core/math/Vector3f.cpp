@@ -14,6 +14,8 @@
 #include <cmath>
 #include <sstream>
 
+#include <serine/Archiver.hpp>
+
 #include <bullet/LinearMath/btVector3.h>
 
 namespace radix {
@@ -43,6 +45,12 @@ std::string Vector3f::str() const {
   std::stringstream ss;
   ss << "(" << x << ", " << y << ", " << z << ")";
   return ss.str();
+}
+
+void Vector3f::serialize(serine::Archiver &ar) {
+  ar("x", x);
+  ar("y", y);
+  ar("z", z);
 }
 
 /* Operator overloads */

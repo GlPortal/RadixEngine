@@ -11,6 +11,16 @@ public:
   SoundListener(Entity &ent) :
     Component(ent) {}
 
+  const char* getName() const {
+    return "SoundSource";
+  }
+
+  TypeId getTypeId() const {
+    return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
+  void serialize(serine::Archiver&);
+
   // TODO
 };
 

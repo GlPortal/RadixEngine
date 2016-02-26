@@ -27,6 +27,16 @@ public:
   Transform(Entity &ent) :
     Component(ent), scale(1, 1, 1) {}
 
+  const char* getName() const {
+    return "Transform";
+  }
+
+  TypeId getTypeId() const {
+    return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
+  void serialize(serine::Archiver&);
+
   inline const Vector3f& getPosition() const {
     return position;
   }

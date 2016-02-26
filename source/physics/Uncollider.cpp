@@ -4,6 +4,8 @@
 #include <utility>
 
 #include <radix/physics/PhysicsHelper.hpp>
+#include <radix/system/PhysicsSystem.hpp>
+#include <radix/World.hpp>
 
 namespace radix {
 
@@ -11,8 +13,8 @@ std::list<btCollisionObject*> Uncollider::volumes;
 std::unordered_set<std::pair<btCollisionObject*, btCollisionObject*>>
   Uncollider::collisonPairExclusions;
 
-Uncollider::Uncollider(Scene &scene) :
-  scene(scene) {
+Uncollider::Uncollider(World &w) :
+  world(w) {
 }
 
 bool Uncollider::isPointInUncollideVolume(const btVector3 &p) {
@@ -30,7 +32,7 @@ void Uncollider::beforePhysicsStep() {
   if (volumes.size() > 0) {
     for (btCollisionObject *volume : volumes) {
       btVector3 ext = ((btBoxShape*)volume)->getHalfExtentsWithoutMargin();
-      scene.physics.world->getDebugDrawer()->drawBox(-ext, ext,
+      world.getSystem<PhysicsSystem>().physWorld->getDebugDrawer()->drawBox(-ext, ext,
         volume->getWorldTransform(), btVector3(1, .5, 0));
     }
   }

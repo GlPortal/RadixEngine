@@ -6,7 +6,7 @@
 #include <memory>
 
 #include <radix/env/Environment.hpp>
-#include <radix/env/System.hpp>
+#include <radix/env/Util.hpp>
 
 namespace {
   const int LOG_SIZE = 1024;
@@ -44,13 +44,13 @@ Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &
   GLint success = 0;
   glGetProgramiv(shader, GL_LINK_STATUS, &success);
   if (success == GL_TRUE) {
-    System::Log(Debug, "ShaderLoader") << fpath << ": program linked";
+    Util::Log(Debug, "ShaderLoader") << fpath << ": program linked";
   } else {
     GLint logSize = 0;
     glGetProgramiv(shader, GL_INFO_LOG_LENGTH, &logSize);
     std::unique_ptr<char> log(new char[logSize]);
     glGetProgramInfoLog(shader, logSize, NULL, log.get());
-    System::Log(Error, "ShaderLoader") << fpath << ": linking failed:\n" << log.get();
+    Util::Log(Error, "ShaderLoader") << fpath << ": linking failed:\n" << log.get();
   }
 
   glValidateProgram(shader);
@@ -58,13 +58,13 @@ Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &
   // Error checking
   glGetProgramiv(shader, GL_VALIDATE_STATUS, &success);
   if (success == GL_TRUE) {
-    System::Log(Debug, "ShaderLoader") << fpath << ": progam validated";
+    Util::Log(Debug, "ShaderLoader") << fpath << ": progam validated";
   } else {
     GLint logSize = 0;
     glGetProgramiv(shader, GL_INFO_LOG_LENGTH, &logSize);
     std::unique_ptr<char> log(new char[logSize]);
     glGetProgramInfoLog(shader, logSize, NULL, log.get());
-    System::Log(Error, "ShaderLoader") << fpath << ": validation failed:\n" << log.get();
+    Util::Log(Error, "ShaderLoader") << fpath << ": validation failed:\n" << log.get();
   }
 
   Shader s;
@@ -78,7 +78,7 @@ Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &
 int ShaderLoader::loadShader(const std::string &path, GLenum type) {
   std::ifstream file(path);
   if (not file.is_open()) {
-    System::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
+    Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
   }
   std::string str;
   std::string file_contents;
@@ -98,10 +98,10 @@ int ShaderLoader::loadShader(const std::string &path, GLenum type) {
 
   if (success == GL_TRUE) {
     if (type == GL_VERTEX_SHADER) {
-      System::Log(Debug, "ShaderLoader") << path << ": vertex shader compiled";
+      Util::Log(Debug, "ShaderLoader") << path << ": vertex shader compiled";
     }
     if (type == GL_FRAGMENT_SHADER) {
-      System::Log(Debug, "ShaderLoader") << path << ": fragment shader compiled";
+      Util::Log(Debug, "ShaderLoader") << path << ": fragment shader compiled";
     }
   } else {
     GLint logSize = 0;
@@ -111,11 +111,11 @@ int ShaderLoader::loadShader(const std::string &path, GLenum type) {
     glGetShaderInfoLog(shader, logSize, &logSize, log.get());
 
     if (type == GL_VERTEX_SHADER) {
-      System::Log(Error, "ShaderLoader") << path << ": vertex shader compilation failed:\n" <<
+      Util::Log(Error, "ShaderLoader") << path << ": vertex shader compilation failed:\n" <<
         log.get();
     }
     if (type == GL_FRAGMENT_SHADER) {
-      System::Log(Error, "ShaderLoader") << path << ": fragment shader compilation failed:\n" <<
+      Util::Log(Error, "ShaderLoader") << path << ": fragment shader compilation failed:\n" <<
         log.get();
     }
 

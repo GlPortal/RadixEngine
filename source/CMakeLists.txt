@@ -11,7 +11,6 @@ set(RADIX_SOURCES
   ${D}/map/XmlHelper.cpp
   ${D}/material/MaterialLoader.cpp
   ${D}/model/MeshLoader.cpp
-  ${D}/scene/Scene.cpp
   ${D}/scene/Screen.cpp
   ${D}/scene/Terminal.cpp
   ${D}/shader/Shader.cpp
@@ -19,7 +18,8 @@ set(RADIX_SOURCES
   ${D}/text/FontLoader.cpp
   ${D}/texture/TextureLoader.cpp
   ${D}/Camera.cpp
-  ${D}/Camera.cpp
+  ${D}/Entity.cpp
+  ${D}/World.cpp
   ${D}/component/Health.cpp
   ${D}/component/Player.cpp
   ${D}/component/RigidBody.cpp
@@ -29,10 +29,7 @@ set(RADIX_SOURCES
   ${D}/core/diag/Logger.cpp
   ${D}/core/diag/LogInput.cpp
   ${D}/core/diag/StdoutLogger.cpp
-  ${D}/core/event/Dispatcher.cpp
-  ${D}/core/event/Observer.cpp
-  ${D}/core/event/observer/FlagObserver.cpp
-  ${D}/core/event/observer/MusicObserver.cpp
+  ${D}/core/event/EventDispatcher.cpp
   ${D}/core/file/Path.cpp
   ${D}/core/gl/TightDataPacker.cpp
   ${D}/core/gl/VBO.cpp
@@ -46,7 +43,7 @@ set(RADIX_SOURCES
   ${D}/env/ArgumentsParser.cpp
   ${D}/env/Config.cpp
   ${D}/env/Environment.cpp
-  ${D}/env/System.cpp
+  ${D}/env/Util.cpp
   ${D}/input/Input.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/KinematicCharacterController.cpp
@@ -54,9 +51,9 @@ set(RADIX_SOURCES
   ${D}/physics/PhysicsHelper.cpp
   ${D}/physics/Uncollider.cpp
   ${D}/renderer/GWENRenderer.cpp
-  ${D}/renderer/Renderer.cpp
-  ${D}/renderer/TerminalRenderer.cpp
-  ${D}/renderer/UiRenderer.cpp
+  #${D}/renderer/Renderer.cpp
+  #${D}/renderer/TerminalRenderer.cpp
+  #${D}/renderer/UiRenderer.cpp
   ${D}/SoundManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp

@@ -1,5 +1,5 @@
-#ifndef SYSTEM_HPP
-#define SYSTEM_HPP
+#ifndef RADIX_UTIL_HPP
+#define RADIX_UTIL_HPP
 
 #include <string>
 #include <memory>
@@ -9,7 +9,7 @@
 
 namespace radix {
 
-class System {
+class Util {
 private:
   static std::unique_ptr<Logger> logger;
 
@@ -31,4 +31,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* SYSTEM_HPP */
+#endif /* RADIX_UTIL_HPP */

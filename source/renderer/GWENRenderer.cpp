@@ -14,7 +14,7 @@
 #include "../stb_image.h"
 #include <radix/core/gl/VBO.hpp>
 #include <radix/core/math/Matrix4f.hpp>
-#include <radix/env/System.hpp>
+#include <radix/env/Util.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/texture/TextureLoader.hpp>
@@ -48,7 +48,7 @@ GWENRenderer::~GWENRenderer() {
 }
 
 void GWENRenderer::Init() {
-  System::Log(Debug, "GWENRenderer") << "Initialize";
+  Util::Log(Debug, "GWENRenderer") << "Initialize";
   loadDebugFont();
 }
 
@@ -208,7 +208,7 @@ void GWENRenderer::LoadTexture(Gwen::Texture *tex) {
                                   &width, &height, &bytes, 0);
   if (width == 0 or height == 0 or bytes == 0) {
     tex->failed = true;
-    System::Log(Debug, "GWENRenderer") << "LoadTexture: loading " << tex->name.c_str() << " failed";
+    Util::Log(Debug, "GWENRenderer") << "LoadTexture: loading " << tex->name.c_str() << " failed";
     return;
   }
   tex->width = width;
@@ -226,10 +226,10 @@ void GWENRenderer::LoadTexture(Gwen::Texture *tex) {
   } else if (bytes == 4) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
   } else {
-    System::Log(Debug, "GWENRenderer") << "LoadTexture: unsupported byte depth " << bytes;
+    Util::Log(Debug, "GWENRenderer") << "LoadTexture: unsupported byte depth " << bytes;
   }
   stbi_image_free(data);
-  System::Log(Debug, "GWENRenderer") << "LoadTexture " << tex->name.c_str() << ", id " << *glTex;
+  Util::Log(Debug, "GWENRenderer") << "LoadTexture " << tex->name.c_str() << ", id " << *glTex;
 }
 
 void GWENRenderer::FreeTexture(Gwen::Texture *tex) {

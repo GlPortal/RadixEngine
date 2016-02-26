@@ -12,7 +12,6 @@
 #include <radix/Entity.hpp>
 #include <radix/EntityManager.hpp>
 #include <radix/physics/KinematicCharacterController.hpp>
-#include <radix/scene/Scene.hpp>
 
 namespace radix {
 
@@ -29,6 +28,16 @@ public:
 
   Player(Entity&);
   ~Player();
+
+  const char* getName() const {
+    return "Player";
+  }
+
+  TypeId getTypeId() const {
+    return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
+  void serialize(serine::Archiver&);
 
   Quaternion getBaseHeadOrientation() const;
   Quaternion getHeadOrientation() const;

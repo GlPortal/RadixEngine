@@ -4,6 +4,8 @@
 #include <cmath>
 #include <string>
 
+#include <serine/Serializable.hpp>
+
 class btVector4;
 class btQuaternion;
 
@@ -17,7 +19,7 @@ class Matrix4f;
 /** \class Vector4f
  * @brief 4-dimensional `float`-based vector/point storage and manipulation struct
  */
-struct Vector4f {
+struct Vector4f : public serine::Serializable {
   union {
     float x, r, s, yaw, heading, azimuth, tetha;
   };
@@ -39,6 +41,8 @@ struct Vector4f {
     : x(v), y(v), z(v), d(v) {}
   constexpr Vector4f(const Vector3f&, float w);
   constexpr Vector4f(const Vector2f&, float z, float w);
+
+  void serialize(serine::Archiver&);
 
   void set(float x, float y, float z, float w) {
     this->x = x;

@@ -6,7 +6,7 @@
 
 #include <radix/texture/TextureLoader.hpp>
 #include <radix/env/Environment.hpp>
-#include <radix/env/System.hpp>
+#include <radix/env/Util.hpp>
 
 using namespace tinyxml2;
 
@@ -20,7 +20,7 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
   XMLError error = doc.LoadFile((Environment::getDataDir() + "/textures/" + path + ".gmd").c_str());
 
   if (error != XML_NO_ERROR) {
-    System::Log(Error, "MaterialLoader") << "XML Error " << doc.ErrorID() << ": " <<
+    Util::Log(Error, "MaterialLoader") << "XML Error " << doc.ErrorID() << ": " <<
       doc.ErrorName() << " in " << path;
   }
 
@@ -41,7 +41,7 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
     std::string diffP = diffE->Attribute("path");
     if (diffP.length() > 0) {
       diffP = dir + "/" + diffP;
-      System::Log(Debug, "MaterialLoader") << mat.name << ": load " << diffP;
+      Util::Log(Debug, "MaterialLoader") << mat.name << ": load " << diffP;
       mat.diffuse = TextureLoader::getTexture(diffP);
     }
   } else {
@@ -53,7 +53,7 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
     std::string normP = normE->Attribute("path");
     if (normP.length() > 0) {
       normP = dir + "/" + normP;
-      System::Log(Debug, "MaterialLoader") << mat.name << ": load " << normP;
+      Util::Log(Debug, "MaterialLoader") << mat.name << ": load " << normP;
       mat.normal = TextureLoader::getTexture(normP);
     }
   } else {
@@ -65,7 +65,7 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
     std::string specP = specE->Attribute("path");
     if (specP.length() > 0) {
       specP = dir + "/" + specP;
-      System::Log(Debug, "MaterialLoader") << mat.name << ": load " << specP;
+      Util::Log(Debug, "MaterialLoader") << mat.name << ": load " << specP;
       mat.specular = TextureLoader::getTexture(specP);
     }
     specE->QueryFloatAttribute("shininess", &mat.shininess);

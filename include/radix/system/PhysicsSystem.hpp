@@ -1,21 +1,39 @@
 #ifndef PHYSICS_SYSTEM_HPP
 #define PHYSICS_SYSTEM_HPP
 
-#include <radix/scene/Scene.hpp>
+#include <bullet/btBulletDynamicsCommon.h>
+#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+
+#include <radix/core/event/EventDispatcher.hpp>
+#include <radix/physics/CollisionDispatcher.hpp>
+#include <radix/system/System.hpp>
 
 namespace radix {
 
 class Uncollider;
 
-class PhysicsSystem {
+class PhysicsSystem : public System {
 private:
-  Scene *scene;
+  EventDispatcher::CallbackPointer cpCompAdd, cpCompRem;
+
+  friend class Uncollider;
   Uncollider *filterCallback;
 
+  btBroadphaseInterface *broadphase;
+  btDefaultCollisionConfiguration *collisionConfiguration;
+  CollisionDispatcher *dispatcher;
+  btSequentialImpulseConstraintSolver *solver;
+  btDiscreteDynamicsWorld *physWorld;
+  btGhostPairCallback *gpCallback;
+
 public:
-  PhysicsSystem();
+  PhysicsSystem(World&);
   ~PhysicsSystem();
-  void setScene(Scene *scene);
+
+  const char* getName() const {
+    return "PhysicsSystem";
+  }
+  bool runsBefore(const System&);
   void update(float dtime);
 };
 

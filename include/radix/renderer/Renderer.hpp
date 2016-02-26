@@ -3,7 +3,8 @@
 
 #include <string>
 
-#include <radix/scene/Scene.hpp>
+#include <radix/World.hpp>
+#include <radix/material/Material.hpp>
 #include <radix/shader/Shader.hpp>
 #include <radix/text/Font.hpp>
 #include <radix/core/math/Matrix4f.hpp>

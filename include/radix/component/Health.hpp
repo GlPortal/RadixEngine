@@ -2,7 +2,6 @@
 #define COMPONENT_HEALTH_HPP
 
 #include <radix/component/Component.hpp>
-#include <radix/core/math/Vector3f.hpp>
 
 namespace radix {
 
@@ -12,6 +11,17 @@ public:
   float health;
 
   Health(Entity &ent);
+
+  const char* getName() const {
+    return "Health";
+  }
+
+  TypeId getTypeId() const {
+    return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
+  void serialize(serine::Archiver&);
+
   bool isAlive();
   void heal(float amount);
   void harm(float amount);

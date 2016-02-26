@@ -2,7 +2,7 @@
 
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/texture/TextureLoader.hpp>
-#include <radix/env/System.hpp>
+#include <radix/env/Util.hpp>
 
 namespace radix {
 
@@ -23,7 +23,7 @@ void PhysicsDebugDraw::setDebugMode(int debugMode) {
 }
 
 void PhysicsDebugDraw::reportErrorWarning(const char *warningString) {
-  System::Log(Warning) << "PhysDbg: " << warningString;
+  Util::Log(Warning) << "PhysDbg: " << warningString;
 }
 
 void PhysicsDebugDraw::drawLine(const btVector3 &from,
