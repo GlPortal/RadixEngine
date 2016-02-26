@@ -1,5 +1,5 @@
-#ifndef GWENINPUT_HPP
-#define GWENINPUT_HPP
+#ifndef RADIX_GWENINPUT_HPP
+#define RADIX_GWENINPUT_HPP
 
 #include <Gwen/InputHandler.h>
 #include <Gwen/Gwen.h>
@@ -133,4 +133,4 @@ protected:
 
 } /* namespace radix */
 
-#endif /* GWENINPUT_HPP */
+#endif /* RADIX_GWENINPUT_HPP */
