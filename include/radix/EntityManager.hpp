@@ -12,9 +12,22 @@ class World;
 /** \class EntityManager
  * @brief Manager and container of @ref Entity "entities"
  */
-/// @todo Make inheritance private/protected and add public accessors
-class EntityManager : public std::list<Entity> {
+class EntityManager : protected std::list<Entity> {
 public:
+  using std::list<Entity>::front;
+  using std::list<Entity>::back;
+  using std::list<Entity>::begin;
+  using std::list<Entity>::cbegin;
+  using std::list<Entity>::end;
+  using std::list<Entity>::cend;
+  using std::list<Entity>::rbegin;
+  using std::list<Entity>::crbegin;
+  using std::list<Entity>::rend;
+  using std::list<Entity>::crend;
+  using std::list<Entity>::empty;
+  using std::list<Entity>::size;
+  using std::list<Entity>::max_size;
+
   World &world;
   EntityManager(World&);
 
