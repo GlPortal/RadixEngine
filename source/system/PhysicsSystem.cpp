@@ -56,6 +56,7 @@ PhysicsSystem::~PhysicsSystem() {
 }
 
 bool PhysicsSystem::runsBefore(const System &sys) {
+  (void) sys;
   return false;
 }
 
