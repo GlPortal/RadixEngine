@@ -35,9 +35,6 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/env/Environment.hpp>
 
-#include <radix/renderer/UiRenderer.hpp>
-#include <radix/renderer/TerminalRenderer.hpp>
-
 namespace radix {
 
 Renderer::Renderer(World &w) :
@@ -225,8 +222,6 @@ void Renderer::render(double dtime, const Camera &cam) {
 
   //Draw GUI
   glClear(GL_DEPTH_BUFFER_BIT);
-  UiRenderer::render(*this);
-  TerminalRenderer::render(*this);
 }
 
 void Renderer::renderScene(const Camera &camera) {

@@ -55,11 +55,6 @@ PhysicsSystem::~PhysicsSystem() {
   delete filterCallback;
 }
 
-bool PhysicsSystem::runsBefore(const System &sys) {
-  (void) sys;
-  return false;
-}
-
 void PhysicsSystem::update(float dtime) {
   filterCallback->beforePhysicsStep();
   physWorld->stepSimulation(dtime, 10);

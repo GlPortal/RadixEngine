@@ -1,5 +1,5 @@
-#ifndef ENTITY_HPP
-#define ENTITY_HPP
+#ifndef RADIX_ENTITY_HPP
+#define RADIX_ENTITY_HPP
 
 #include <array>
 #include <memory>
@@ -126,4 +126,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* ENTITY_HPP */
+#endif /* RADIX_ENTITY_HPP */

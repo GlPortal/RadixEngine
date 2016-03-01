@@ -33,7 +33,6 @@ public:
   const char* getName() const {
     return "PhysicsSystem";
   }
-  bool runsBefore(const System&);
   void update(float dtime);
 };
 

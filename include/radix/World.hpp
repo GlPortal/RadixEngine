@@ -1,10 +1,11 @@
-#ifndef WORLD_HPP
-#define WORLD_HPP
+#ifndef RADIX_WORLD_HPP
+#define RADIX_WORLD_HPP
 
 #include <algorithm>
 #include <array>
 #include <random>
 #include <map>
+#include <set>
 #include <stack>
 #include <string>
 #include <utility>
@@ -24,12 +25,31 @@ class World {
 protected:
   Entity *player;
 
+  using SystemsPrecedingMap = std::map<SystemTypeId, std::set<SystemTypeId>>;
+  using SystemsFollowingMap = SystemsPrecedingMap;
+
 public:
   struct SystemAddedEvent : public Event {
-    /// @todo implement
+    static constexpr StaticEventType Type = "radix/World/SystemAdded";
+    const EventType getType() const {
+      return Type;
+    }
+
+    World &world;
+    System &system;
+    SystemAddedEvent(World &w, System &s) :
+      world(w), system(s) {}
   };
   struct SystemRemovedEvent : public Event {
-    /// @todo implement
+    static constexpr StaticEventType Type = "radix/World/SystemRemoved";
+    const EventType getType() const {
+      return Type;
+    }
+
+    World &world;
+    System &system;
+    SystemRemovedEvent(World &w, System &s) :
+      world(w), system(s) {}
   };
 
 
@@ -64,17 +84,22 @@ public:
   std::vector<std::unique_ptr<System>> systems;
   std::map<SystemTypeId, System*> systemsById;
   template<class T, typename... ArgsT> void addSystem(ArgsT... args) {
-    std::unique_ptr<System> newSys(new T(*this, std::forward<ArgsT>(args)...));
-    systemsById.emplace(std::piecewise_construct, std::forward_as_tuple(System::getTypeId<T>()),
-      std::forward_as_tuple(&*systems.emplace(std::upper_bound(systems.begin(), systems.end(), newSys,
-        [](const std::unique_ptr<System> &a, const std::unique_ptr<System> &b) -> bool {
-          return a->runsBefore(*b);
-        }), std::move(newSys))));
+    static_assert(std::is_base_of<System, T>::value, "T must be a System");
+    systems.resize(System::getTypeId<T>() + 1);
+    systems.at(System::getTypeId<T>()).reset(new T(*this, std::forward<ArgsT>(args)...));
+    systemsById.emplace(std::piecewise_construct,
+      std::forward_as_tuple(System::getTypeId<T>()),
+      std::forward_as_tuple(&systems.at(System::getTypeId<T>())));
+    event.dispatch(SystemAddedEvent(*this, *systems.at(System::getTypeId<T>())));
   }
   template<class T> T& getSystem() {
     return (T&)*systemsById.at(System::getTypeId<T>());
   }
-  /// @todo Implement template<class T> void removeSystem()
+  template<class T> void removeSystem() {
+    System &sys = *systems.at(System::getTypeId<T>());
+    event.dispatch(SystemRemovedEvent(*this, sys));
+    systems.at(System::getTypeId<T>()).reset(nullptr);
+  }
 
 
   World();
@@ -96,4 +121,4 @@ private:
 
 } /* namespace glPortal */
 
-#endif /* WORLD_HPP */
+#endif /* RADIX_WORLD_HPP */

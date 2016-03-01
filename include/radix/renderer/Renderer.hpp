@@ -9,7 +9,6 @@
 #include <radix/text/Font.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/core/math/Vector4f.hpp>
-#include <radix/renderer/UiRenderer.hpp>
 
 namespace radix {
 

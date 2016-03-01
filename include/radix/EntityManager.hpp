@@ -1,5 +1,5 @@
-#ifndef ENTITY_MANAGER_HPP
-#define ENTITY_MANAGER_HPP
+#ifndef RADIX_ENTITY_MANAGER_HPP
+#define RADIX_ENTITY_MANAGER_HPP
 
 #include <list>
 
@@ -50,4 +50,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* ENTITY_MANAGER_HPP */
+#endif /* RADIX_ENTITY_MANAGER_HPP */
