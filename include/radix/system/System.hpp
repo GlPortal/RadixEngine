@@ -34,8 +34,9 @@ public:
   System(World &w) : world(w) {}
 
   virtual const char* getName() const = 0;
-  virtual bool runsBefore(const System&) {}
-  virtual bool runsAfter(const System&) {}
+  virtual TypeId getTypeId() const = 0;
+  virtual bool runsBefore(const System&) { return false; }
+  virtual bool runsAfter(const System&) { return false; }
   virtual void update(float dtime) = 0;
 };
 

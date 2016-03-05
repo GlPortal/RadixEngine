@@ -33,6 +33,11 @@ public:
   const char* getName() const {
     return "PhysicsSystem";
   }
+
+  TypeId getTypeId() const {
+    return System::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
   void update(float dtime);
 };
 

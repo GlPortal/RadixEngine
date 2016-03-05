@@ -1,14 +1,12 @@
 #include <radix/World.hpp>
 
 #include <climits>
-#include <cmath>
-#include <vector>
 #include <cstdio>
+#include <cmath>
+#include <limits>
+#include <vector>
 
 #include <SDL2/SDL_timer.h>
-
-// TODO remove
-#include <radix/renderer/GWENRenderer.hpp>
 
 #include <radix/map/MapLoader.hpp>
 #include <radix/map/MapListLoader.hpp>
@@ -25,11 +23,10 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/component/Player.hpp>
 
-#include <radix/core/math/Math.hpp>
-#include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector3f.hpp>
 
-#include <radix/input/Input.hpp>
+#include <iostream>
+#include <fstream>
 
 namespace radix {
 
@@ -46,6 +43,168 @@ World::World() :
 }
 
 World::~World() = default;
+
+struct SystemGraphNodeInfo {
+  SystemTypeId system, index, lowlink;
+  bool onStack;
+  std::set<SystemTypeId> predecessors, successors;
+  static constexpr decltype(index) indexUndef = std::numeric_limits<decltype(index)>::max();
+  static constexpr decltype(lowlink) lowlinkUndef = std::numeric_limits<decltype(lowlink)>::max();
+  SystemGraphNodeInfo() :
+    index(indexUndef),
+    lowlink(lowlinkUndef),
+    onStack(false) {
+  }
+};
+
+static void strongconnect(SystemTypeId &index, std::stack<SystemTypeId> &S,
+  SystemTypeId stid, SystemGraphNodeInfo &si,
+  std::vector<SystemGraphNodeInfo> &sinfo,
+  std::vector<std::set<SystemTypeId>> &stronglyConnected) {
+  // Set the depth index for v to the smallest unused index
+  si.index = index;
+  si.lowlink = index;
+  ++index;
+  S.push(stid);
+  si.onStack = true;
+
+  // Consider successors of s
+  for (SystemTypeId wtid : si.successors) {
+    SystemGraphNodeInfo &wi = sinfo.at(wtid);
+    if (wi.index == SystemGraphNodeInfo::indexUndef) {
+      // Successor w has not yet been visited; recurse on it
+      strongconnect(index, S, wtid, wi, sinfo, stronglyConnected);
+      si.lowlink = std::min(si.lowlink, wi.lowlink);
+    } else if (wi.onStack) {
+      // Successor w is in stack S and hence in the current SCC
+      si.lowlink = std::min(si.lowlink, wi.index);
+    }
+  }
+
+  // If v is a root node, pop the stack and generate an SCC
+  if (si.lowlink == si.index) {
+    stronglyConnected.emplace_back();
+    std::set<SystemTypeId> &strong = stronglyConnected.back();
+    SystemTypeId wtid;
+    do {
+      wtid = S.top();
+      S.pop();
+      SystemGraphNodeInfo &wi = sinfo.at(wtid);
+      wi.onStack = false;
+      strong.insert(wtid);
+    } while (wtid != stid);
+  }
+}
+
+static bool isReachableBySuccessors(const SystemGraphNodeInfo &start, SystemTypeId targetstid,
+  const std::vector<SystemGraphNodeInfo> &sinfo, std::stack<SystemTypeId> &path) {
+  auto search = start.successors.find(targetstid);
+  if (search != start.successors.end()) {
+    path.push(targetstid);  
+    return true;
+  } else {
+    for (SystemTypeId stid : start.successors) {
+      if (isReachableBySuccessors(sinfo[stid], targetstid, sinfo, path)) {
+        path.push(stid);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+void World::computeSystemOrder() {
+  std::vector<SystemGraphNodeInfo> sinfo(systems.size());
+  // Each System can request to be run before other Systems, and after some others.
+  // This allows for the injection of Systems between two other in the execution graph, which
+  // otherwise wouldn't be possible with only 1 of the "run before" and "run after" condition.
+  // 1-way dependencies exhibit a single issue in our case: creating loops in the graph. This is
+  // fairly easy to detect thanks to Tarjan's strongly connected components algorithm.
+  // Having Systems both requesting to run before and after some others, even more loops might get
+  // introduced, i.e. A wants to run both before and after B, even indirectly; e.g. A runs before B
+  // & after C, but C runs after B -- keeping in mind the graph we eventually want to get is a
+  // plain Directed Acyclic Graph.
+  //
+  // A solution to successfully create an execution graph is the following:
+  // Step 1: create basic "run before" directed graph.
+  // Step 2: check for loops with Tarjan. If none, proceed.
+  // Step 3: add "run after" deps by reversing them (B runs after A, so A runs before B).
+  //         If there already exists a reverse path from B to A then it's incoherent
+  //         (because transitively B runs after A, therefore cannot also run before A).
+  // Step 4: delete any edges that can be transitively obtained (i.e. only keeping the longest
+  //         paths), a.k.a. transitive reduction (as opposed to transitive closure).
+
+  /* Step 1, O(E²) */ {
+    for (const std::unique_ptr<System> &sptr : systems) {
+      if (sptr) {
+        SystemTypeId stid = sptr->getTypeId();
+        SystemGraphNodeInfo &si = sinfo[stid];
+        si.system = stid;
+        for (const std::unique_ptr<System> &rbsptr : systems) {
+          if (rbsptr and sptr->runsBefore(*rbsptr)) {
+            SystemTypeId rbstid = rbsptr->getTypeId();
+            si.successors.insert(rbstid);
+            sinfo[rbstid].predecessors.insert(stid);
+          }
+        }
+      }
+    }
+  }
+
+  /* Step 2, O(|V| + |E|) */ {
+    SystemTypeId index = 0;
+    std::stack<SystemTypeId> S;
+    std::vector<std::set<SystemTypeId>> stronglyConnected;
+    for (const std::unique_ptr<System> &sptr : systems) {
+      if (sptr) {
+        SystemTypeId stid = sptr->getTypeId();
+        SystemGraphNodeInfo &si = sinfo[stid];
+        if (si.index == SystemGraphNodeInfo::indexUndef) {
+          strongconnect(index, S, stid, si, sinfo, stronglyConnected);
+        }
+      }
+    }
+    for (const std::set<SystemTypeId> &elems : stronglyConnected) {
+      if (elems.size() > 1) {
+        throw stronglyConnected;
+      }
+    }
+  }
+
+  /* Step 3, O(E² × <?>) */ {
+    std::stack<SystemTypeId> succReachPath;
+    for (const std::unique_ptr<System> &sptr : systems) {
+      if (sptr) {
+        SystemTypeId stid = sptr->getTypeId();
+        SystemGraphNodeInfo &si = sinfo[stid];
+        for (const std::unique_ptr<System> &rasptr : systems) {
+          if (rasptr and sptr->runsAfter(*rasptr)) {
+            SystemTypeId rastid = rasptr->getTypeId();
+            // Check if the System to run after is already reachable, if yes, it would
+            // create a loop; complain.
+            if (isReachableBySuccessors(si, rastid, sinfo, succReachPath)) {
+              succReachPath.push(stid);
+              throw succReachPath;
+            }
+            sinfo[rastid].successors.insert(stid);
+            si.predecessors.insert(rastid);
+          }
+        }
+      }
+    }
+  }
+
+  std::ofstream dot;
+  dot.open("/tmp/radixSystemGraph.dot", std::ios_base::out | std::ios_base::trunc);
+  dot << "digraph SystemRunGraph {\n";
+  for (const SystemGraphNodeInfo &sgni : sinfo) {
+    for (SystemTypeId succStid : sgni.successors) {
+      dot << systems[sgni.system]->getName() << " -> " << systems[succStid]->getName() << ";\n";
+    }
+  }
+  dot << "}";
+  dot.close();
+}
 
 void World::create() {
   lastUpdateTime = SDL_GetTicks();

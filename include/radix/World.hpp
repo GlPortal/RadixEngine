@@ -28,7 +28,13 @@ protected:
   using SystemsPrecedingMap = std::map<SystemTypeId, std::set<SystemTypeId>>;
   using SystemsFollowingMap = SystemsPrecedingMap;
 
+  //std::vector<std::set<SystemTypeId>>
+  std::vector<std::set<SystemTypeId>> getSystemDependencyCycles() const;
+  //void computeSystemOrder();
+
 public:
+  void computeSystemOrder();
+
   struct SystemAddedEvent : public Event {
     static constexpr StaticEventType Type = "radix/World/SystemAdded";
     const EventType getType() const {
@@ -82,18 +88,19 @@ public:
 
   /// @todo make publicly read-only
   std::vector<std::unique_ptr<System>> systems;
-  std::map<SystemTypeId, System*> systemsById;
+  std::map<std::string, System*> systemsByName;
   template<class T, typename... ArgsT> void addSystem(ArgsT... args) {
     static_assert(std::is_base_of<System, T>::value, "T must be a System");
     systems.resize(System::getTypeId<T>() + 1);
     systems.at(System::getTypeId<T>()).reset(new T(*this, std::forward<ArgsT>(args)...));
-    systemsById.emplace(std::piecewise_construct,
-      std::forward_as_tuple(System::getTypeId<T>()),
-      std::forward_as_tuple(&systems.at(System::getTypeId<T>())));
+    System &sys = *systems.at(System::getTypeId<T>());
+    systemsByName.emplace(std::piecewise_construct,
+      std::forward_as_tuple(sys.getName()),
+      std::forward_as_tuple(&sys));
     event.dispatch(SystemAddedEvent(*this, *systems.at(System::getTypeId<T>())));
   }
   template<class T> T& getSystem() {
-    return (T&)*systemsById.at(System::getTypeId<T>());
+    return (T&)*systems.at(System::getTypeId<T>());
   }
   template<class T> void removeSystem() {
     System &sys = *systems.at(System::getTypeId<T>());

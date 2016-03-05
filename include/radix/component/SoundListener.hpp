@@ -19,7 +19,9 @@ public:
     return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
   }
 
-  void serialize(serine::Archiver&);
+  void serialize(serine::Archiver&) {
+    // TODO
+  }
 
   // TODO
 };

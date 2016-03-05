@@ -21,6 +21,11 @@ public:
   const char* getName() const {
     return "PlayerSystem";
   }
+
+  TypeId getTypeId() const {
+    return System::getTypeId<std::remove_reference<decltype(*this)>::type>();
+  }
+
   bool runsBefore(const System&);
   void update(float dtime);
 };
