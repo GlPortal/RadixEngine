@@ -46,13 +46,14 @@ World::~World() = default;
 
 struct SystemGraphNodeInfo {
   SystemTypeId system, index, lowlink;
-  bool onStack;
+  bool sysExists, onStack;
   std::set<SystemTypeId> predecessors, successors;
   static constexpr decltype(index) indexUndef = std::numeric_limits<decltype(index)>::max();
   static constexpr decltype(lowlink) lowlinkUndef = std::numeric_limits<decltype(lowlink)>::max();
   SystemGraphNodeInfo() :
     index(indexUndef),
     lowlink(lowlinkUndef),
+    sysExists(false),
     onStack(false) {
   }
 };
@@ -139,6 +140,7 @@ void World::computeSystemOrder() {
       if (sptr) {
         SystemTypeId stid = sptr->getTypeId();
         SystemGraphNodeInfo &si = sinfo[stid];
+        si.sysExists = true;
         si.system = stid;
         for (const std::unique_ptr<System> &rbsptr : systems) {
           if (rbsptr and sptr->runsBefore(*rbsptr)) {
@@ -194,16 +196,24 @@ void World::computeSystemOrder() {
     }
   }
 
-  std::ofstream dot;
-  dot.open("/tmp/radixSystemGraph.dot", std::ios_base::out | std::ios_base::trunc);
-  dot << "digraph SystemRunGraph {\n";
-  for (const SystemGraphNodeInfo &sgni : sinfo) {
-    for (SystemTypeId succStid : sgni.successors) {
-      dot << systems[sgni.system]->getName() << " -> " << systems[succStid]->getName() << ";\n";
+  {
+    std::ofstream dot;
+    dot.open("/tmp/radixSystemGraph.final.dot", std::ios_base::out | std::ios_base::trunc);
+    dot << "digraph SystemRunGraph {" << std::endl;
+    for (const SystemGraphNodeInfo &sgni : sinfo) {
+      if (sgni.sysExists) {
+        if (sgni.successors.size() > 0) {
+          for (SystemTypeId succStid : sgni.successors) {
+            dot << systems[sgni.system]->getName() << " -> " << systems[succStid]->getName() << ';' << std::endl;
+          }
+        } else {
+          dot << systems[sgni.system]->getName() << ';' << std::endl;
+        }
+      }
     }
+    dot << "}";
+    dot.close();
   }
-  dot << "}";
-  dot.close();
 }
 
 void World::create() {

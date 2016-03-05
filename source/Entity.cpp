@@ -25,8 +25,10 @@ void Entity::removeComponent(ComponentTypeId id) {
 
 void Entity::clearComponents() {
   for (std::unique_ptr<Component> &p : components) {
-    manager.world.event.dispatch(ComponentRemovedEvent(*this, *p));
-    p.reset(nullptr);
+    if (p) {
+      manager.world.event.dispatch(ComponentRemovedEvent(*this, *p));
+      p.reset(nullptr);
+    }
   }
 }
 

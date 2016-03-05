@@ -78,7 +78,7 @@ public:
   /**
    * Gets the reference to the entity with specified name.
    * @throws std::out_of_range if no entity with this name is found.
-   * @note No name unicity is enforced by the engine itself. The first entity in the entity list
+   * @note No name unicity is enforced by the engine itself. Any entity in the entity list
    * matching this name will be returned.
    */
   inline Entity& getEntityByName(const std::string &name) {
@@ -91,7 +91,10 @@ public:
   std::map<std::string, System*> systemsByName;
   template<class T, typename... ArgsT> void addSystem(ArgsT... args) {
     static_assert(std::is_base_of<System, T>::value, "T must be a System");
-    systems.resize(System::getTypeId<T>() + 1);
+    const SystemTypeId stid = System::getTypeId<T>();
+    if (systems.size() <= stid) {
+      systems.resize(stid + 1);
+    }
     systems.at(System::getTypeId<T>()).reset(new T(*this, std::forward<ArgsT>(args)...));
     System &sys = *systems.at(System::getTypeId<T>());
     systemsByName.emplace(std::piecewise_construct,

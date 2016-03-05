@@ -9,7 +9,7 @@
 
 namespace radix {
 
-using ComponentTypeId = size_t;
+using ComponentTypeId = std::size_t;
 
 ComponentTypeId getNewComponentTypeId();
 
@@ -41,7 +41,7 @@ public:
    */
   template<typename T> inline static TypeId getTypeId() {
     static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
-    return _ComponentTypeId<T>::id;
+    return _ComponentTypeId<typename std::remove_cv<T>::type>::id;
   }
   
   inline Component(Entity &ent) noexcept :

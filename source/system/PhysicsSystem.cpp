@@ -10,7 +10,7 @@ namespace radix {
 PhysicsSystem::PhysicsSystem(World &w) :
   System(w),
   filterCallback(nullptr),
-  broadphase(new btDbvtBroadphase()),
+  broadphase(new btDbvtBroadphase),
   collisionConfiguration(new btDefaultCollisionConfiguration()),
   dispatcher(new CollisionDispatcher(collisionConfiguration)),
   solver(new btSequentialImpulseConstraintSolver),

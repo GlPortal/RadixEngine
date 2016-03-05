@@ -5,7 +5,7 @@
 
 namespace radix {
 
-using SystemTypeId = size_t;
+using SystemTypeId = std::size_t;
 
 SystemTypeId getNewSystemTypeId();
 
@@ -28,7 +28,7 @@ public:
    */
   template<typename T> inline static TypeId getTypeId() {
     static_assert(std::is_base_of<System, T>::value, "T must be a System");
-    return _SystemTypeId<T>::id;
+    return _SystemTypeId<typename std::remove_cv<T>::type>::id;
   }
 
   System(World &w) : world(w) {}
