@@ -61,7 +61,7 @@ struct SystemGraphNodeInfo {
 static void strongconnect(SystemTypeId &index, std::stack<SystemTypeId> &S,
   SystemTypeId stid, SystemGraphNodeInfo &si,
   std::vector<SystemGraphNodeInfo> &sinfo,
-  std::vector<std::set<SystemTypeId>> &stronglyConnected) {
+  World::SystemLoopVector &stronglyConnected) {
   // Set the depth index for v to the smallest unused index
   si.index = index;
   si.lowlink = index;
@@ -114,6 +114,41 @@ static bool isReachableBySuccessors(const SystemGraphNodeInfo &start, SystemType
   return false;
 }
 
+static void df(SystemGraphNodeInfo &vertex0, SystemGraphNodeInfo &child0,
+        std::set<SystemTypeId> &done, std::vector<SystemGraphNodeInfo> &sinfo) {
+  if (done.find(child0.system) != done.end()) {
+    return;
+  }
+  for (SystemTypeId child : child0.successors) {
+    vertex0.successors.erase(child);
+    SystemGraphNodeInfo &childNi = sinfo[child];
+    childNi.predecessors.erase(vertex0.system);
+    df(vertex0, childNi, done, sinfo);
+  }
+  done.insert(child0.system);
+}
+
+static void dumpGraph(const std::string &path, const std::vector<std::unique_ptr<System>> &systems,
+  const std::vector<SystemGraphNodeInfo> &sinfo) {
+  std::ofstream dot;
+  dot.open(path, std::ios_base::out | std::ios_base::trunc);
+  dot << "digraph SystemRunGraph {" << std::endl;
+  for (const SystemGraphNodeInfo &sgni : sinfo) {
+    if (sgni.sysExists) {
+      if (sgni.successors.size() > 0) {
+        for (SystemTypeId succStid : sgni.successors) {
+          dot << systems[sgni.system]->getName() << " -> " << systems[succStid]->getName() << ';' << std::endl;
+        }
+      } else {
+        dot << systems[sgni.system]->getName() << ';' << std::endl;
+      }
+    }
+  }
+  dot << "}";
+  dot.close();
+  std::system(("dot -O -Tpng " + path).c_str());
+}
+
 void World::computeSystemOrder() {
   std::vector<SystemGraphNodeInfo> sinfo(systems.size());
   // Each System can request to be run before other Systems, and after some others.
@@ -135,7 +170,7 @@ void World::computeSystemOrder() {
   // Step 4: delete any edges that can be transitively obtained (i.e. only keeping the longest
   //         paths), a.k.a. transitive reduction (as opposed to transitive closure).
 
-  /* Step 1, O(E²) */ {
+  /* Step 1, O(V²) best & worst case (O(V(V-1)) really) */ {
     for (const std::unique_ptr<System> &sptr : systems) {
       if (sptr) {
         SystemTypeId stid = sptr->getTypeId();
@@ -143,7 +178,7 @@ void World::computeSystemOrder() {
         si.sysExists = true;
         si.system = stid;
         for (const std::unique_ptr<System> &rbsptr : systems) {
-          if (rbsptr and sptr->runsBefore(*rbsptr)) {
+          if (rbsptr and rbsptr != sptr and sptr->runsBefore(*rbsptr)) {
             SystemTypeId rbstid = rbsptr->getTypeId();
             si.successors.insert(rbstid);
             sinfo[rbstid].predecessors.insert(stid);
@@ -153,10 +188,10 @@ void World::computeSystemOrder() {
     }
   }
 
-  /* Step 2, O(|V| + |E|) */ {
+  /* Step 2, O(|V| + |E|) worst case */ {
     SystemTypeId index = 0;
     std::stack<SystemTypeId> S;
-    std::vector<std::set<SystemTypeId>> stronglyConnected;
+    SystemLoopVector stronglyConnected;
     for (const std::unique_ptr<System> &sptr : systems) {
       if (sptr) {
         SystemTypeId stid = sptr->getTypeId();
@@ -168,25 +203,25 @@ void World::computeSystemOrder() {
     }
     for (const std::set<SystemTypeId> &elems : stronglyConnected) {
       if (elems.size() > 1) {
-        throw stronglyConnected;
+        throw RunsBeforeCreatesLoopsException(std::move(stronglyConnected));
       }
     }
   }
 
-  /* Step 3, O(E² × <?>) */ {
-    std::stack<SystemTypeId> succReachPath;
+  /* Step 3, O(V² × <?>) */ {
+    SystemLoopPath succReachPath;
     for (const std::unique_ptr<System> &sptr : systems) {
       if (sptr) {
         SystemTypeId stid = sptr->getTypeId();
         SystemGraphNodeInfo &si = sinfo[stid];
         for (const std::unique_ptr<System> &rasptr : systems) {
-          if (rasptr and sptr->runsAfter(*rasptr)) {
+          if (rasptr and rasptr != sptr and sptr->runsAfter(*rasptr)) {
             SystemTypeId rastid = rasptr->getTypeId();
             // Check if the System to run after is already reachable, if yes, it would
             // create a loop; complain.
             if (isReachableBySuccessors(si, rastid, sinfo, succReachPath)) {
               succReachPath.push(stid);
-              throw succReachPath;
+              throw RunsAfterCreatesLoopException(std::move(succReachPath));
             }
             sinfo[rastid].successors.insert(stid);
             si.predecessors.insert(rastid);
@@ -196,24 +231,19 @@ void World::computeSystemOrder() {
     }
   }
 
-  {
-    std::ofstream dot;
-    dot.open("/tmp/radixSystemGraph.final.dot", std::ios_base::out | std::ios_base::trunc);
-    dot << "digraph SystemRunGraph {" << std::endl;
-    for (const SystemGraphNodeInfo &sgni : sinfo) {
+  /* Step 4, O(<?>) */ {
+    // http://stackoverflow.com/a/11237184/1616310
+    for (SystemGraphNodeInfo &sgni : sinfo) {
       if (sgni.sysExists) {
-        if (sgni.successors.size() > 0) {
-          for (SystemTypeId succStid : sgni.successors) {
-            dot << systems[sgni.system]->getName() << " -> " << systems[succStid]->getName() << ';' << std::endl;
-          }
-        } else {
-          dot << systems[sgni.system]->getName() << ';' << std::endl;
+        std::set<SystemTypeId> done;
+        for (SystemTypeId child : sgni.successors) {
+          df(sgni, sinfo[child], done, sinfo);
         }
       }
     }
-    dot << "}";
-    dot.close();
   }
+
+  //dumpGraph("/tmp/radixSystemGraph", systems, sinfo);
 }
 
 void World::create() {

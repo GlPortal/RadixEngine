@@ -7,6 +7,7 @@
 #include <map>
 #include <set>
 #include <stack>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -25,14 +26,21 @@ class World {
 protected:
   Entity *player;
 
-  using SystemsPrecedingMap = std::map<SystemTypeId, std::set<SystemTypeId>>;
-  using SystemsFollowingMap = SystemsPrecedingMap;
-
-  //std::vector<std::set<SystemTypeId>>
-  std::vector<std::set<SystemTypeId>> getSystemDependencyCycles() const;
-  //void computeSystemOrder();
-
 public:
+  using SystemLoopPath = std::stack<SystemTypeId>;
+  using SystemLoopVector = std::vector<std::set<SystemTypeId>>;
+
+  struct RunsBeforeCreatesLoopsException : public std::logic_error, SystemLoopVector {
+    RunsBeforeCreatesLoopsException(SystemLoopVector &&slv) :
+      std::logic_error("Execution graph created with System::runsBefore() contain loops"),
+      SystemLoopVector(slv) {}
+  };
+  struct RunsAfterCreatesLoopException : public std::logic_error, SystemLoopPath {
+    RunsAfterCreatesLoopException(SystemLoopPath &&slp) :
+      std::logic_error("Inserting a System into the execution graph according to System::runsAfter() would create a loop"),
+      SystemLoopPath(slp) {}
+  };
+
   void computeSystemOrder();
 
   struct SystemAddedEvent : public Event {
