@@ -1,9 +1,9 @@
 #include <random>
 #include <cmath>
 #include <unittest++/UnitTest++.h>
-#include <engine/core/math/Math.hpp>
-#include <engine/core/math/Vector3f.hpp>
-#include <engine/core/math/Quaternion.hpp>
+#include <radix/core/math/Math.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Quaternion.hpp>
 
 #include <iostream>
 

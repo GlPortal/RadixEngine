@@ -1,7 +1,7 @@
 #include <unittest++/UnitTest++.h>
 #include <tinyxml2.h>
-#include <engine/core/math/Vector3f.hpp>
-#include <assets/map/XmlHelper.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/map/XmlHelper.hpp>
 #include <stdexcept>
 
 using namespace radix;
@@ -16,7 +16,7 @@ struct XmlReadingFixtures
 
   XmlReadingFixtures() {
     doc.NewDeclaration("1.0");
-    lightElement = doc.NewElement("light"); 	
+    lightElement = doc.NewElement("light");
     sourceVector = Vector3f(155, 266, 377);
     lightElement->SetAttribute("x", sourceVector.x);
     lightElement->SetAttribute("y", sourceVector.y);
