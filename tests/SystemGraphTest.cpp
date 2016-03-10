@@ -31,7 +31,9 @@ public:
     return strcmp(s.getName(), "TestSystem2") == 0;
   }*/
 
-  void update(float dtime) {}
+  void update(float dtime) {
+    // std::cout << "run TestSystem" << std::endl;
+  }
 };
 
 class TestSystem2 : public radix::System {
@@ -51,7 +53,9 @@ public:
     return strcmp(s.getName(), "TestSystem") == 0;
   }
 
-  void update(float dtime) {}
+  void update(float dtime) {
+    // std::cout << "run TestSystem2" << std::endl;
+  }
 };
 
 class RunBeforeSystem : public radix::System {
@@ -74,7 +78,9 @@ public:
     return strcmp(s.getName(), "TestSystem") == 0;
   }*/
 
-  void update(float dtime) {}
+  void update(float dtime) {
+    // std::cout << "run RunBeforeSystem" << std::endl;
+  }
 };
 
 template<int I> class TinySystem : public radix::System {
@@ -98,7 +104,9 @@ public:
            atoi(s.getName() + 10) > I;
   }
 
-  void update(float dtime) {}
+  void update(float dtime) {
+    // std::cout << "run TinySystem" << I << std::endl;
+  }
 };
 
 template<int I> void add(radix::World &wld) {
@@ -128,7 +136,19 @@ int main(const int argc, char *argv[]) {
   wld.computeSystemOrder();
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> diff = end-start;
-  std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(diff).count() << " ms\n";
-  
+  std::cout << "Graph sorting: " << std::chrono::duration_cast<std::chrono::milliseconds>(diff).count() << " ms\n";
+
+  constexpr int runs = 10000;
+  start = std::chrono::high_resolution_clock::now();
+  for (int i = 0; i < runs; ++i) {
+    wld.update(0.016);
+  }
+  end = std::chrono::high_resolution_clock::now();
+  diff = end-start;
+  std::cout << "Graph running: " <<
+    std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1, 1000>>>(diff).count() /
+      runs << " ms/run (" << runs << " runs, " <<
+    std::chrono::duration_cast<std::chrono::milliseconds>(diff).count() << "ms total)\n";
+
   return 0;
 }

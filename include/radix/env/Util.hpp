@@ -7,6 +7,10 @@
 
 #include <radix/core/diag/LogInput.hpp>
 
+namespace std {
+  class thread;
+}
+
 namespace radix {
 
 class Util {
@@ -27,6 +31,11 @@ public:
   static std::mt19937 Rand;
 
   static void Init();
+
+  static void SetThreadName(std::thread&, const char*);
+  inline static void SetThreadName(std::thread &thread, const std::string &name) {
+    SetThreadName(thread, name.c_str());
+  }
 };
 
 } /* namespace radix */

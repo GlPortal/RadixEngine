@@ -2,13 +2,16 @@
 #define RADIX_WORLD_HPP
 
 #include <algorithm>
-#include <array>
-#include <random>
+#include <condition_variable>
+#include <functional>
 #include <map>
+#include <mutex>
 #include <set>
 #include <stack>
 #include <stdexcept>
 #include <string>
+#include <queue>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -26,6 +29,21 @@ class World {
 protected:
   Entity *player;
 
+  struct SystemRunner {
+    std::vector<std::thread> threads;
+    std::queue<SystemTypeId> queue;
+    std::mutex queueMutex;
+    std::condition_variable queueCondVar;
+    bool exit;
+    double dtime;
+    SystemTypeId runCount;
+    std::mutex runCountMutex;
+    std::condition_variable runCountCondVar;
+    SystemRunner(World&);
+    ~SystemRunner();
+    void threadProc(World&);
+  } systemRun;
+
 public:
   using SystemLoopPath = std::stack<SystemTypeId>;
   using SystemLoopVector = std::vector<std::set<SystemTypeId>>;
@@ -37,7 +55,8 @@ public:
   };
   struct RunsAfterCreatesLoopException : public std::logic_error, SystemLoopPath {
     RunsAfterCreatesLoopException(SystemLoopPath &&slp) :
-      std::logic_error("Inserting a System into the execution graph according to System::runsAfter() would create a loop"),
+      std::logic_error("Inserting a System into the execution graph according to"
+        "System::runsAfter() would create a loop"),
       SystemLoopPath(slp) {}
   };
 
@@ -95,7 +114,30 @@ public:
 
 
   /// @todo make publicly read-only
-  std::vector<std::unique_ptr<System>> systems;
+  struct SystemGraphNode;
+  using SystemPtrVector = std::vector<std::unique_ptr<System>>;
+  using SystemGraphNodeVector = std::vector<std::unique_ptr<SystemGraphNode>>;
+  struct SystemGraphNode {
+    const SystemTypeId system;
+    SystemPtrVector &systems;
+    SystemGraphNodeVector &graph;
+
+    std::set<SystemTypeId> predecessors, successors;
+
+    /* Tarjan's strongly connected components algothm data */
+    SystemTypeId index, lowlink;
+    bool onStack;
+    static constexpr decltype(index) indexUndef = std::numeric_limits<decltype(index)>::max();
+    static constexpr decltype(lowlink) lowlinkUndef = std::numeric_limits<decltype(lowlink)>::max();
+
+    /* System execution variables */
+    uint counter;
+    std::mutex counterMut;
+
+    SystemGraphNode(SystemTypeId system, SystemPtrVector &systems, SystemGraphNodeVector &graph);
+  };
+  SystemPtrVector systems;
+  SystemGraphNodeVector systemGraph;
   std::map<std::string, System*> systemsByName;
   template<class T, typename... ArgsT> void addSystem(ArgsT... args) {
     static_assert(std::is_base_of<System, T>::value, "T must be a System");
@@ -116,6 +158,8 @@ public:
   template<class T> void removeSystem() {
     System &sys = *systems.at(System::getTypeId<T>());
     event.dispatch(SystemRemovedEvent(*this, sys));
+    systemsByName.erase(sys.getName());
+    systemGraph.at(System::getTypeId<T>()).reset(nullptr);
     systems.at(System::getTypeId<T>()).reset(nullptr);
   }
 

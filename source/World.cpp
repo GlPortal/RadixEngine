@@ -4,7 +4,6 @@
 #include <cstdio>
 #include <cmath>
 #include <limits>
-#include <vector>
 
 #include <SDL2/SDL_timer.h>
 
@@ -30,7 +29,68 @@
 
 namespace radix {
 
+World::SystemRunner::SystemRunner(World &w) :
+  threads(std::thread::hardware_concurrency()),
+  exit(false) {
+  for (unsigned i = 0; i < std::thread::hardware_concurrency(); ++i) {
+    threads.emplace_back(std::bind(&SystemRunner::threadProc, this, std::ref(w)));
+    Util::SetThreadName(threads.back(), ("SystemRunner thread " + std::to_string(i)).c_str());
+  }
+}
+
+void World::SystemRunner::threadProc(World &w) {
+  while (!exit) {
+    SystemTypeId processStid;
+    { std::unique_lock<std::mutex> lk(queueMutex);
+      queueCondVar.wait(lk, [this](){ return exit || queue.size() > 0; });
+      if (exit) {
+        return;
+      }
+      processStid = queue.front();
+      queue.pop();
+    }
+    w.systems[processStid]->update(dtime);
+    { std::unique_lock<std::mutex> lk(queueMutex);
+      SystemGraphNode &sgn = *w.systemGraph[processStid];
+      for (SystemTypeId nextStid : sgn.successors) {
+        SystemGraphNode &nextSgn = *w.systemGraph[nextStid];
+        std::unique_lock<std::mutex> clk(nextSgn.counterMut);
+        ++nextSgn.counter;
+        if (nextSgn.counter == nextSgn.predecessors.size()) {
+          queue.push(nextStid);
+          queueCondVar.notify_one();
+        }
+      }
+    }
+    { std::unique_lock<std::mutex> lk(runCountMutex);
+      ++runCount;
+      runCountCondVar.notify_all();
+    }
+  }
+}
+
+World::SystemRunner::~SystemRunner() {
+  exit = true;
+  queueCondVar.notify_all();
+  for (std::thread &thr : threads) {
+    if (thr.joinable()) {
+      thr.join();
+    }
+  }
+}
+
+World::SystemGraphNode::SystemGraphNode(SystemTypeId system, SystemPtrVector &systems,
+  SystemGraphNodeVector &graph) :
+  system(system),
+  systems(systems),
+  graph(graph),
+  index(indexUndef),
+  lowlink(lowlinkUndef),
+  onStack(false) {
+}
+
 World::World() :
+  systemRun(*this),
   entities(*this),
   gameTime(0),
   lastUpdateTime(0) {
@@ -44,23 +104,11 @@ World::World() :
 
 World::~World() = default;
 
-struct SystemGraphNodeInfo {
-  SystemTypeId system, index, lowlink;
-  bool sysExists, onStack;
-  std::set<SystemTypeId> predecessors, successors;
-  static constexpr decltype(index) indexUndef = std::numeric_limits<decltype(index)>::max();
-  static constexpr decltype(lowlink) lowlinkUndef = std::numeric_limits<decltype(lowlink)>::max();
-  SystemGraphNodeInfo() :
-    index(indexUndef),
-    lowlink(lowlinkUndef),
-    sysExists(false),
-    onStack(false) {
-  }
-};
+using SystemGraphNode = World::SystemGraphNode;
+using SystemGraphNodeVector = World::SystemGraphNodeVector;
 
 static void strongconnect(SystemTypeId &index, std::stack<SystemTypeId> &S,
-  SystemTypeId stid, SystemGraphNodeInfo &si,
-  std::vector<SystemGraphNodeInfo> &sinfo,
+  SystemTypeId stid, SystemGraphNode &si, SystemGraphNodeVector &sinfo,
   World::SystemLoopVector &stronglyConnected) {
   // Set the depth index for v to the smallest unused index
   si.index = index;
@@ -71,8 +119,8 @@ static void strongconnect(SystemTypeId &index, std::stack<SystemTypeId> &S,
 
   // Consider successors of s
   for (SystemTypeId wtid : si.successors) {
-    SystemGraphNodeInfo &wi = sinfo.at(wtid);
-    if (wi.index == SystemGraphNodeInfo::indexUndef) {
+    SystemGraphNode &wi = *sinfo.at(wtid);
+    if (wi.index == SystemGraphNode::indexUndef) {
       // Successor w has not yet been visited; recurse on it
       strongconnect(index, S, wtid, wi, sinfo, stronglyConnected);
       si.lowlink = std::min(si.lowlink, wi.lowlink);
@@ -90,22 +138,22 @@ static void strongconnect(SystemTypeId &index, std::stack<SystemTypeId> &S,
     do {
       wtid = S.top();
       S.pop();
-      SystemGraphNodeInfo &wi = sinfo.at(wtid);
+      SystemGraphNode &wi = *sinfo.at(wtid);
       wi.onStack = false;
       strong.insert(wtid);
     } while (wtid != stid);
   }
 }
 
-static bool isReachableBySuccessors(const SystemGraphNodeInfo &start, SystemTypeId targetstid,
-  const std::vector<SystemGraphNodeInfo> &sinfo, std::stack<SystemTypeId> &path) {
+static bool isReachableBySuccessors(const SystemGraphNode &start, SystemTypeId targetstid,
+  const SystemGraphNodeVector &sinfo, std::stack<SystemTypeId> &path) {
   auto search = start.successors.find(targetstid);
   if (search != start.successors.end()) {
     path.push(targetstid);  
     return true;
   } else {
     for (SystemTypeId stid : start.successors) {
-      if (isReachableBySuccessors(sinfo[stid], targetstid, sinfo, path)) {
+      if (isReachableBySuccessors(*sinfo[stid], targetstid, sinfo, path)) {
         path.push(stid);
         return true;
       }
@@ -114,14 +162,14 @@ static bool isReachableBySuccessors(const SystemGraphNodeInfo &start, SystemType
   return false;
 }
 
-static void df(SystemGraphNodeInfo &vertex0, SystemGraphNodeInfo &child0,
-        std::set<SystemTypeId> &done, std::vector<SystemGraphNodeInfo> &sinfo) {
+static void df(SystemGraphNode &vertex0, SystemGraphNode &child0,
+        std::set<SystemTypeId> &done, SystemGraphNodeVector &sinfo) {
   if (done.find(child0.system) != done.end()) {
     return;
   }
   for (SystemTypeId child : child0.successors) {
     vertex0.successors.erase(child);
-    SystemGraphNodeInfo &childNi = sinfo[child];
+    SystemGraphNode &childNi = *sinfo[child];
     childNi.predecessors.erase(vertex0.system);
     df(vertex0, childNi, done, sinfo);
   }
@@ -129,18 +177,18 @@ static void df(SystemGraphNodeInfo &vertex0, SystemGraphNodeInfo &child0,
 }
 
 static void dumpGraph(const std::string &path, const std::vector<std::unique_ptr<System>> &systems,
-  const std::vector<SystemGraphNodeInfo> &sinfo) {
+  const SystemGraphNodeVector &sinfo) {
   std::ofstream dot;
   dot.open(path, std::ios_base::out | std::ios_base::trunc);
   dot << "digraph SystemRunGraph {" << std::endl;
-  for (const SystemGraphNodeInfo &sgni : sinfo) {
-    if (sgni.sysExists) {
-      if (sgni.successors.size() > 0) {
-        for (SystemTypeId succStid : sgni.successors) {
-          dot << systems[sgni.system]->getName() << " -> " << systems[succStid]->getName() << ';' << std::endl;
+  for (const std::unique_ptr<SystemGraphNode> &sgnptr : sinfo) {
+    if (sgnptr) {
+      if (sgnptr->successors.size() > 0) {
+        for (SystemTypeId succStid : sgnptr->successors) {
+          dot << systems[sgnptr->system]->getName() << " -> " << systems[succStid]->getName() << ';' << std::endl;
         }
       } else {
-        dot << systems[sgni.system]->getName() << ';' << std::endl;
+        dot << systems[sgnptr->system]->getName() << ';' << std::endl;
       }
     }
   }
@@ -150,7 +198,8 @@ static void dumpGraph(const std::string &path, const std::vector<std::unique_ptr
 }
 
 void World::computeSystemOrder() {
-  std::vector<SystemGraphNodeInfo> sinfo(systems.size());
+  systemGraph.clear();
+  systemGraph.reserve(systems.size());
   // Each System can request to be run before other Systems, and after some others.
   // This allows for the injection of Systems between two other in the execution graph, which
   // otherwise wouldn't be possible with only 1 of the "run before" and "run after" condition.
@@ -170,18 +219,27 @@ void World::computeSystemOrder() {
   // Step 4: delete any edges that can be transitively obtained (i.e. only keeping the longest
   //         paths), a.k.a. transitive reduction (as opposed to transitive closure).
 
+  /* Step 0, O(V) */ {
+    for (const std::unique_ptr<System> &sptr : systems) {
+      if (sptr) {
+        SystemTypeId stid = sptr->getTypeId();
+        systemGraph.emplace_back(new SystemGraphNode(stid, systems, systemGraph));
+      } else {
+        systemGraph.emplace_back();
+      }
+    }
+  }
+
   /* Step 1, O(V²) best & worst case (O(V(V-1)) really) */ {
     for (const std::unique_ptr<System> &sptr : systems) {
       if (sptr) {
         SystemTypeId stid = sptr->getTypeId();
-        SystemGraphNodeInfo &si = sinfo[stid];
-        si.sysExists = true;
-        si.system = stid;
+        SystemGraphNode &si = *systemGraph[stid];
         for (const std::unique_ptr<System> &rbsptr : systems) {
           if (rbsptr and rbsptr != sptr and sptr->runsBefore(*rbsptr)) {
             SystemTypeId rbstid = rbsptr->getTypeId();
             si.successors.insert(rbstid);
-            sinfo[rbstid].predecessors.insert(stid);
+            systemGraph[rbstid]->predecessors.insert(stid);
           }
         }
       }
@@ -195,9 +253,9 @@ void World::computeSystemOrder() {
     for (const std::unique_ptr<System> &sptr : systems) {
       if (sptr) {
         SystemTypeId stid = sptr->getTypeId();
-        SystemGraphNodeInfo &si = sinfo[stid];
-        if (si.index == SystemGraphNodeInfo::indexUndef) {
-          strongconnect(index, S, stid, si, sinfo, stronglyConnected);
+        SystemGraphNode &si = *systemGraph[stid];
+        if (si.index == SystemGraphNode::indexUndef) {
+          strongconnect(index, S, stid, si, systemGraph, stronglyConnected);
         }
       }
     }
@@ -213,17 +271,17 @@ void World::computeSystemOrder() {
     for (const std::unique_ptr<System> &sptr : systems) {
       if (sptr) {
         SystemTypeId stid = sptr->getTypeId();
-        SystemGraphNodeInfo &si = sinfo[stid];
+        SystemGraphNode &si = *systemGraph[stid];
         for (const std::unique_ptr<System> &rasptr : systems) {
           if (rasptr and rasptr != sptr and sptr->runsAfter(*rasptr)) {
             SystemTypeId rastid = rasptr->getTypeId();
             // Check if the System to run after is already reachable, if yes, it would
             // create a loop; complain.
-            if (isReachableBySuccessors(si, rastid, sinfo, succReachPath)) {
+            if (isReachableBySuccessors(si, rastid, systemGraph, succReachPath)) {
               succReachPath.push(stid);
               throw RunsAfterCreatesLoopException(std::move(succReachPath));
             }
-            sinfo[rastid].successors.insert(stid);
+            systemGraph[rastid]->successors.insert(stid);
             si.predecessors.insert(rastid);
           }
         }
@@ -233,17 +291,17 @@ void World::computeSystemOrder() {
 
   /* Step 4, O(<?>) */ {
     // http://stackoverflow.com/a/11237184/1616310
-    for (SystemGraphNodeInfo &sgni : sinfo) {
-      if (sgni.sysExists) {
+    for (std::unique_ptr<SystemGraphNode> &sgnptr : systemGraph) {
+      if (sgnptr) {
         std::set<SystemTypeId> done;
-        for (SystemTypeId child : sgni.successors) {
-          df(sgni, sinfo[child], done, sinfo);
+        for (SystemTypeId child : sgnptr->successors) {
+          df(*sgnptr, *systemGraph[child], done, systemGraph);
         }
       }
     }
   }
 
-  //dumpGraph("/tmp/radixSystemGraph", systems, sinfo);
+  //dumpGraph("/tmp/radixSystemGraph", systems, systemGraph);
 }
 
 void World::create() {
@@ -283,6 +341,38 @@ void World::loadScene(const std::string &path) {
 
 void World::update(double dtime) {
   gameTime += dtime;
+  { std::unique_lock<std::mutex> lk(systemRun.runCountMutex);
+    // Reset previous run count and set the dtime parameter to pass to Systems
+    systemRun.runCount = 0;
+    systemRun.dtime = dtime;
+
+    // Count the Systems so we know when all of them were run. Also count the ones without
+    // predecessors, i.e. the ones that runs first, to know how many threads to notify.
+    SystemTypeId targetRunCount = 0;
+    uint startCount = 0;
+    { std::unique_lock<std::mutex> qlk(systemRun.queueMutex);
+      for (std::unique_ptr<SystemGraphNode> &sgn : systemGraph) {
+        if (sgn) {
+          sgn->counter = 0;
+          if (sgn->predecessors.empty()) {
+            systemRun.queue.push(sgn->system);
+            ++startCount;
+          }
+          ++targetRunCount;
+        }
+      }
+    }
+
+    // Wake (notify) threads to start running Systems
+    while (startCount--) {
+      systemRun.queueCondVar.notify_one();
+    }
+
+    // Wait for all Systems to have run, i.e. runCount reached its target.
+    systemRun.runCountCondVar.wait(lk, [this, targetRunCount]() {
+      return systemRun.runCount == targetRunCount;
+    });
+  }
 #if 0
   /// @todo
   Entity &player = *this->player;
