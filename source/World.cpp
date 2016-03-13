@@ -176,6 +176,7 @@ static void df(SystemGraphNode &vertex0, SystemGraphNode &child0,
   done.insert(child0.system);
 }
 
+#if 0
 static void dumpGraph(const std::string &path, const std::vector<std::unique_ptr<System>> &systems,
   const SystemGraphNodeVector &sinfo) {
   std::ofstream dot;
@@ -196,6 +197,7 @@ static void dumpGraph(const std::string &path, const std::vector<std::unique_ptr
   dot.close();
   std::system(("dot -O -Tpng " + path).c_str());
 }
+#endif
 
 void World::computeSystemOrder() {
   systemGraph.clear();
