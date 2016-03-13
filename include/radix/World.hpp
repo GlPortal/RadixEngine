@@ -92,6 +92,10 @@ public:
   EventDispatcher event;
 
   EntityManager entities;
+
+  // Convenience
+  std::map<std::string, Entity*> entityAliases;
+  std::map<std::string, std::vector<Entity*>> entityGroups;
   std::map<std::string, std::vector<EntityPair>> entityPairs;
 
   /**
