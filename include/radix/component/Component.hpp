@@ -43,7 +43,7 @@ public:
     static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
     return _ComponentTypeId<typename std::remove_cv<T>::type>::id;
   }
-  
+
   inline Component(Entity &ent) noexcept :
     entity(ent) {}
 

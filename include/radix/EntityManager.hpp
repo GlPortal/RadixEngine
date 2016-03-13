@@ -2,6 +2,7 @@
 #define RADIX_ENTITY_MANAGER_HPP
 
 #include <list>
+#include <unordered_map>
 
 #include <radix/Entity.hpp>
 
@@ -12,7 +13,12 @@ class World;
 /** \class EntityManager
  * @brief Manager and container of @ref Entity "entities"
  */
-class EntityManager : protected std::list<Entity> {
+class EntityManager final : protected std::list<Entity> {
+private:
+  friend class Entity;
+  std::unordered_map<std::string, Entity&> nameMap;
+  void changeEntityName(Entity&, const std::string&, const std::string&);
+
 public:
   using std::list<Entity>::front;
   using std::list<Entity>::back;
@@ -42,8 +48,6 @@ public:
   /**
    * Gets the reference to the entity with specified name.
    * @throws std::out_of_range if no entity with this name is found.
-   * @note No name unicity is enforced by the engine itself. The first entity in the entity list
-   * matching this name will be returned.
    */
   Entity& getByName(const std::string &name);
 };

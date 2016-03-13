@@ -105,8 +105,6 @@ public:
   /**
    * Gets the reference to the entity with specified name.
    * @throws std::out_of_range if no entity with this name is found.
-   * @note No name unicity is enforced by the engine itself. Any entity in the entity list
-   * matching this name will be returned.
    */
   inline Entity& getEntityByName(const std::string &name) {
     return entities.getByName(name);

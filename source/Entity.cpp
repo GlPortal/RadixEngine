@@ -7,6 +7,7 @@ namespace radix {
 
 void Entity::setName(const std::string &newName) {
   if (newName != name) {
+    manager.changeEntityName(*this, name, newName);
     const std::string oldName = name;
     name = newName;
     manager.world.event.dispatch(NameChangedEvent(*this, oldName));
