@@ -34,6 +34,11 @@ namespace radix {
  */
 
 
+MapLoader::MapLoader(World &w) :
+  world(w),
+  rootHandle(nullptr) {
+}
+
 /**
  * Get a scene from a map file in XML format.
  */

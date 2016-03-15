@@ -38,6 +38,10 @@ public:
     return System::getTypeId<std::remove_reference<decltype(*this)>::type>();
   }
 
+  btDiscreteDynamicsWorld& getPhysWorld() const {
+    return *physWorld;
+  }
+
   void update(float dtime);
 };
 

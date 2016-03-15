@@ -15,15 +15,21 @@ namespace radix {
 class Camera;
 class Entity;
 class Portal;
-class Texture;
+struct Texture;
 class Font;
 struct Viewport;
 
 class Renderer {
 public:
   Renderer(World&);
-  void setViewport(Viewport *vp);
-  Viewport* getViewport() const;
+
+  // TODO: possibly remove to make rendering viewport-stateless
+  void setViewport(Viewport *vp) {
+    viewport = vp;
+  }
+  Viewport* getViewport() const {
+    return viewport;
+  }
 
   /**
    * Main scene rendering method. To be called only once per frame.

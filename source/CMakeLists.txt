@@ -18,6 +18,7 @@ set(RADIX_SOURCES
   ${D}/Camera.cpp
   ${D}/Entity.cpp
   ${D}/World.cpp
+  ${D}/stb_image.c
   ${D}/component/Health.cpp
   ${D}/component/Player.cpp
   ${D}/component/RigidBody.cpp
@@ -43,6 +44,9 @@ set(RADIX_SOURCES
   ${D}/env/Environment.cpp
   ${D}/env/Util.cpp
   ${D}/input/Input.cpp
+  ${D}/map/MapListLoader.cpp
+  ${D}/map/MapLoader.cpp
+  ${D}/map/XmlHelper.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/KinematicCharacterController.cpp
   ${D}/physics/PhysicsDebugDraw.cpp
