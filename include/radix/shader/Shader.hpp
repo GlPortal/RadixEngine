@@ -1,5 +1,5 @@
-#ifndef SHADER_HPP
-#define SHADER_HPP
+#ifndef RADIX_SHADER_HPP
+#define RADIX_SHADER_HPP
 
 #include <epoxy/gl.h>
 #include <string>
@@ -18,4 +18,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* SHADER_HPP */
+#endif /* RADIX_SHADER_HPP */

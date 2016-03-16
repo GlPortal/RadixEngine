@@ -1,5 +1,5 @@
-#ifndef PHYSICS_DEBUG_DRAW_HPP
-#define PHYSICS_DEBUG_DRAW_HPP
+#ifndef RADIX_PHYSICS_DEBUG_DRAW_HPP
+#define RADIX_PHYSICS_DEBUG_DRAW_HPP
 
 #include <memory>
 #include <vector>
@@ -40,4 +40,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* PHYSICS_DEBUG_DRAW_HPP */
+#endif /* RADIX_PHYSICS_DEBUG_DRAW_HPP */

@@ -1,5 +1,5 @@
-#ifndef COMPONENT_HPP
-#define COMPONENT_HPP
+#ifndef RADIX_COMPONENT_HPP
+#define RADIX_COMPONENT_HPP
 
 #include <cstddef>
 #include <cassert>
@@ -60,4 +60,4 @@ inline ComponentTypeId getNewComponentTypeId() {
 
 } /* namespace radix */
 
-#endif /* COMPONENT_HPP */
+#endif /* RADIX_COMPONENT_HPP */

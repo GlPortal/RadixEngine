@@ -1,5 +1,5 @@
-#ifndef ANSI_CONSOLE_LOGGER_HPP
-#define ANSI_CONSOLE_LOGGER_HPP
+#ifndef RADIX_ANSI_CONSOLE_LOGGER_HPP
+#define RADIX_ANSI_CONSOLE_LOGGER_HPP
 
 #include <string>
 
@@ -28,4 +28,4 @@ public:
 };
 } /* namespace radix */
 
-#endif /* ANSI_CONSOLE_LOGGER_HPP */
+#endif /* RADIX_ANSI_CONSOLE_LOGGER_HPP */

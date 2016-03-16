@@ -1,5 +1,5 @@
-#ifndef TEXTURELOADER_HPP
-#define TEXTURELOADER_HPP
+#ifndef RADIX_TEXTURELOADER_HPP
+#define RADIX_TEXTURELOADER_HPP
 
 #include <map>
 #include <string>
@@ -27,4 +27,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* TEXTURELOADER_HPP */
+#endif /* RADIX_TEXTURELOADER_HPP */

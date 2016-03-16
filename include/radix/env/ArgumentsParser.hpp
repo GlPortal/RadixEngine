@@ -1,5 +1,5 @@
-#ifndef ARGUMENTS_PARSER_HPP
-#define ARGUMENTS_PARSER_HPP
+#ifndef RADIX_ARGUMENTS_PARSER_HPP
+#define RADIX_ARGUMENTS_PARSER_HPP
 
 #include <string>
 
@@ -16,4 +16,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* ARGUMENTS_PARSER_HPP */
+#endif /* RADIX_ARGUMENTS_PARSER_HPP */

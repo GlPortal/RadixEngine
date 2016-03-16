@@ -1,5 +1,5 @@
-#ifndef ENVIRONMENT_HPP
-#define ENVIRONMENT_HPP
+#ifndef RADIX_ENVIRONMENT_HPP
+#define RADIX_ENVIRONMENT_HPP
 
 #include <string>
 
@@ -22,4 +22,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* ENVIRONMENT_HPP */
+#endif /* RADIX_ENVIRONMENT_HPP */

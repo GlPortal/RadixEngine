@@ -1,5 +1,5 @@
-#ifndef COMPONENT_HEALTH_HPP
-#define COMPONENT_HEALTH_HPP
+#ifndef RADIX_COMPONENT_HEALTH_HPP
+#define RADIX_COMPONENT_HEALTH_HPP
 
 #include <radix/component/Component.hpp>
 
@@ -31,4 +31,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_HEALTH_HPP */
+#endif /* RADIX_COMPONENT_HEALTH_HPP */

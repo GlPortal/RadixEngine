@@ -1,5 +1,5 @@
-#ifndef SOUNDMANAGER_HPP
-#define SOUNDMANAGER_HPP
+#ifndef RADIX_SOUNDMANAGER_HPP
+#define RADIX_SOUNDMANAGER_HPP
 
 #include <map>
 #include <string>
@@ -35,4 +35,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* SOUNDMANAGER_HPP */
+#endif /* RADIX_SOUNDMANAGER_HPP */

@@ -1,5 +1,5 @@
-#ifndef COMPONENT_PLAYER_HPP
-#define COMPONENT_PLAYER_HPP
+#ifndef RADIX_COMPONENT_PLAYER_HPP
+#define RADIX_COMPONENT_PLAYER_HPP
 
 #include <memory>
 
@@ -45,4 +45,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_PLAYER_HPP */
+#endif /* RADIX_COMPONENT_PLAYER_HPP */

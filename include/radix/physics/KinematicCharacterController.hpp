@@ -21,8 +21,8 @@ This file is taken from the original Bullet engine source, and is MODIFIED to ad
 we need.
 
 */
-#ifndef KINEMATIC_CHARACTER_CONTROLLER_HPP
-#define KINEMATIC_CHARACTER_CONTROLLER_HPP
+#ifndef RADIX_KINEMATIC_CHARACTER_CONTROLLER_HPP
+#define RADIX_KINEMATIC_CHARACTER_CONTROLLER_HPP
 
 #include <bullet/LinearMath/btVector3.h>
 #include <bullet/BulletDynamics/Character/btCharacterControllerInterface.h>
@@ -179,4 +179,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* KINEMATIC_CHARACTER_CONTROLLER_HPP */
+#endif /* RADIX_KINEMATIC_CHARACTER_CONTROLLER_HPP */

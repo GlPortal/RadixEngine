@@ -1,5 +1,5 @@
-#ifndef CONSOLE_HPP
-#define CONSOLE_HPP
+#ifndef RADIX_CONSOLE_HPP
+#define RADIX_CONSOLE_HPP
 
 #include <radix/core/diag/Logger.hpp>
 
@@ -11,4 +11,4 @@ public:
 };
 
 } /* namespace radix */
-#endif /* CONSOLE_HPP */
+#endif /* RADIX_CONSOLE_HPP */

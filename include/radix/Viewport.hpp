@@ -1,5 +1,5 @@
-#ifndef VIEWPORT_HPP
-#define VIEWPORT_HPP
+#ifndef RADIX_VIEWPORT_HPP
+#define RADIX_VIEWPORT_HPP
 
 namespace radix {
 
@@ -9,4 +9,4 @@ struct Viewport {
 
 } /* namespace radix */
 
-#endif /* VIEWPORT_HPP */
+#endif /* RADIX_VIEWPORT_HPP */

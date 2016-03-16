@@ -1,5 +1,5 @@
-#ifndef MESH_HPP
-#define MESH_HPP
+#ifndef RADIX_MESH_HPP
+#define RADIX_MESH_HPP
 
 #include <vector>
 
@@ -16,4 +16,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* MESH_HPP */
+#endif /* RADIX_MESH_HPP */

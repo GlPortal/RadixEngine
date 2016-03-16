@@ -1,5 +1,5 @@
-#ifndef COLLISION_SHAPE_MANAGER_HPP
-#define COLLISION_SHAPE_MANAGER_HPP
+#ifndef RADIX_COLLISION_SHAPE_MANAGER_HPP
+#define RADIX_COLLISION_SHAPE_MANAGER_HPP
 
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
@@ -19,4 +19,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COLLISION_SHAPE_MANAGER_HPP */
+#endif /* RADIX_COLLISION_SHAPE_MANAGER_HPP */

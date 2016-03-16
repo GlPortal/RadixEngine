@@ -1,5 +1,5 @@
-#ifndef SHADERLOADER_HPP
-#define SHADERLOADER_HPP
+#ifndef RADIX_SHADERLOADER_HPP
+#define RADIX_SHADERLOADER_HPP
 
 #include <map>
 #include <string>
@@ -21,4 +21,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* SHADERLOADER_HPP */
+#endif /* RADIX_SHADERLOADER_HPP */

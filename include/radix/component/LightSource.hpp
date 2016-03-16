@@ -1,5 +1,5 @@
-#ifndef COMPONENT_LIGHTSOURCE_HPP
-#define COMPONENT_LIGHTSOURCE_HPP
+#ifndef RADIX_COMPONENT_LIGHTSOURCE_HPP
+#define RADIX_COMPONENT_LIGHTSOURCE_HPP
 
 #include <radix/component/Component.hpp>
 
@@ -45,4 +45,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_LIGHTSOURCE_HPP */
+#endif /* RADIX_COMPONENT_LIGHTSOURCE_HPP */

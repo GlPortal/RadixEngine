@@ -1,5 +1,5 @@
-#ifndef UNCOLLIDER_HPP
-#define UNCOLLIDER_HPP
+#ifndef RADIX_UNCOLLIDER_HPP
+#define RADIX_UNCOLLIDER_HPP
 
 #include <list>
 #include <unordered_set>
@@ -40,4 +40,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* UNCOLLIDER_HPP */
+#endif /* RADIX_UNCOLLIDER_HPP */

@@ -1,5 +1,5 @@
-#ifndef COMPONENT_TRANSFORM_HPP
-#define COMPONENT_TRANSFORM_HPP
+#ifndef RADIX_COMPONENT_TRANSFORM_HPP
+#define RADIX_COMPONENT_TRANSFORM_HPP
 
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
@@ -58,4 +58,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_TRANSFORM_HPP */
+#endif /* RADIX_COMPONENT_TRANSFORM_HPP */

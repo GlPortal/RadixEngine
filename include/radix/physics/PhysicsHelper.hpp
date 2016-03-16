@@ -1,5 +1,5 @@
-#ifndef PHYSICS_HELPER_HPP
-#define PHYSICS_HELPER_HPP
+#ifndef RADIX_PHYSICS_HELPER_HPP
+#define RADIX_PHYSICS_HELPER_HPP
 
 #include <bullet/LinearMath/btVector3.h>
 #include <bullet/BulletCollision/Gimpact/btBoxCollision.h>
@@ -36,4 +36,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* PHYSICS_HELPER_HPP */
+#endif /* RADIX_PHYSICS_HELPER_HPP */

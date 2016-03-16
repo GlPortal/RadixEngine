@@ -1,5 +1,5 @@
-#ifndef STDOUT_LOGGER_HPP
-#define STDOUT_LOGGER_HPP
+#ifndef RADIX_STDOUT_LOGGER_HPP
+#define RADIX_STDOUT_LOGGER_HPP
 
 #include <string>
 
@@ -18,4 +18,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* STDOUT_LOGGER_HPP */
+#endif /* RADIX_STDOUT_LOGGER_HPP */

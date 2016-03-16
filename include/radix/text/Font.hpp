@@ -1,5 +1,5 @@
-#ifndef FONT_HPP
-#define FONT_HPP
+#ifndef RADIX_FONT_HPP
+#define RADIX_FONT_HPP
 
 #include <map>
 #include <string>
@@ -35,4 +35,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* FONT_HPP */
+#endif /* RADIX_FONT_HPP */

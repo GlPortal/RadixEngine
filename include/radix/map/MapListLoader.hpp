@@ -1,5 +1,5 @@
-#ifndef MAPLISTLOADER_HPP
-#define MAPLISTLOADER_HPP
+#ifndef RADIX_MAPLISTLOADER_HPP
+#define RADIX_MAPLISTLOADER_HPP
 
 #include <string>
 #include <vector>
@@ -13,4 +13,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* MAPLISTLOADER_HPP */
+#endif /* RADIX_MAPLISTLOADER_HPP */

@@ -1,5 +1,5 @@
-#ifndef THROWABLES_HPP
-#define THROWABLES_HPP
+#ifndef RADIX_THROWABLES_HPP
+#define RADIX_THROWABLES_HPP
 
 #include <stdexcept>
 #include <string>
@@ -29,4 +29,4 @@ public:
 } /* namespace Exception */
 } /* namespace radix */
 
-#endif /* THROWABLES_HPP */
+#endif /* RADIX_THROWABLES_HPP */

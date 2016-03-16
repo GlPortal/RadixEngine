@@ -1,5 +1,5 @@
-#ifndef GWEN_RENDERERS_HPP
-#define GWEN_RENDERERS_HPP
+#ifndef RADIX_GWEN_RENDERER_HPP
+#define RADIX_GWEN_RENDERER_HPP
 
 #include <memory>
 #include <vector>
@@ -68,4 +68,4 @@ protected:
 
 } /* namespace radix */
 
-#endif
+#endif /* RADIX_GWEN_RENDERER_HPP */

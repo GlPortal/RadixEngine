@@ -1,5 +1,5 @@
-#ifndef COMPONENT_RIGIDBODY_HPP
-#define COMPONENT_RIGIDBODY_HPP
+#ifndef RADIX_COMPONENT_RIGIDBODY_HPP
+#define RADIX_COMPONENT_RIGIDBODY_HPP
 
 #include <memory>
 
@@ -36,4 +36,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_RIGIDBODY_HPP */
+#endif /* RADIX_COMPONENT_RIGIDBODY_HPP */

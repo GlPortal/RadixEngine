@@ -1,5 +1,5 @@
-#ifndef PLAYER_SYSTEM_HPP
-#define PLAYER_SYSTEM_HPP
+#ifndef RADIX_PLAYER_SYSTEM_HPP
+#define RADIX_PLAYER_SYSTEM_HPP
 
 #include <random>
 
@@ -32,4 +32,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* PLAYER_SYSTEM_HPP */
+#endif /* RADIX_PLAYER_SYSTEM_HPP */

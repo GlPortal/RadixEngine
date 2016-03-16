@@ -1,5 +1,5 @@
-#ifndef INPUT_HPP
-#define INPUT_HPP
+#ifndef RADIX_INPUT_HPP
+#define RADIX_INPUT_HPP
 
 #include <vector>
 #include <string>
@@ -23,4 +23,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* INPUT_HPP */
+#endif /* RADIX_INPUT_HPP */

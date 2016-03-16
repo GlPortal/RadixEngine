@@ -1,5 +1,5 @@
-#ifndef MATERIAL_HPP
-#define MATERIAL_HPP
+#ifndef RADIX_MATERIAL_HPP
+#define RADIX_MATERIAL_HPP
 
 #include <string>
 #include <vector>
@@ -26,4 +26,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* MATERIAL_HPP */
+#endif /* RADIX_MATERIAL_HPP */

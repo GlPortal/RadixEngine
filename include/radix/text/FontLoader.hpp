@@ -1,5 +1,5 @@
-#ifndef FONTLOADER_HPP
-#define FONTLOADER_HPP
+#ifndef RADIX_FONTLOADER_HPP
+#define RADIX_FONTLOADER_HPP
 
 #include <map>
 #include <string>
@@ -18,4 +18,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* FONTLOADER_HPP */
+#endif /* RADIX_FONTLOADER_HPP */

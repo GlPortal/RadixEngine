@@ -1,5 +1,5 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef RADIX_CAMERA_HPP
+#define RADIX_CAMERA_HPP
 
 #include <radix/core/math/Math.hpp>
 #include <radix/core/math/Matrix4f.hpp>
@@ -70,4 +70,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* CAMERA_H */
+#endif /* RADIX_CAMERA_HPP */

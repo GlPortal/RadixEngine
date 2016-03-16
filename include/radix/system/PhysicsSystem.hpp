@@ -1,5 +1,5 @@
-#ifndef PHYSICS_SYSTEM_HPP
-#define PHYSICS_SYSTEM_HPP
+#ifndef RADIX_PHYSICS_SYSTEM_HPP
+#define RADIX_PHYSICS_SYSTEM_HPP
 
 #include <bullet/btBulletDynamicsCommon.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
@@ -47,4 +47,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* PHYSICS_SYSTEM_HPP */
+#endif /* RADIX_PHYSICS_SYSTEM_HPP */

@@ -1,5 +1,5 @@
-#ifndef GLYPH_HPP
-#define GLYPH_HPP
+#ifndef RADIX_GLYPH_HPP
+#define RADIX_GLYPH_HPP
 
 #include <radix/model/Mesh.hpp>
 
@@ -20,4 +20,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* GLYPH_HPP */
+#endif /* RADIX_GLYPH_HPP */

@@ -1,5 +1,5 @@
-#ifndef LOGINPUT_HPP
-#define LOGINPUT_HPP
+#ifndef RADIX_LOGINPUT_HPP
+#define RADIX_LOGINPUT_HPP
 
 #include <string>
 
@@ -54,4 +54,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* LOGINPUT_HPP */
+#endif /* RADIX_LOGINPUT_HPP */

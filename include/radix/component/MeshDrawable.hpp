@@ -1,5 +1,5 @@
-#ifndef COMPONENT_MESHDRAWABLE_HPP
-#define COMPONENT_MESHDRAWABLE_HPP
+#ifndef RADIX_COMPONENT_MESHDRAWABLE_HPP
+#define RADIX_COMPONENT_MESHDRAWABLE_HPP
 
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
@@ -32,4 +32,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_MESHDRAWABLE_HPP */
+#endif /* RADIX_COMPONENT_MESHDRAWABLE_HPP */

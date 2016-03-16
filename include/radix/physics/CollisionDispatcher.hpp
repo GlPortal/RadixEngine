@@ -1,5 +1,5 @@
-#ifndef COLLISION_DISPATCHER_HPP
-#define COLLISION_DISPATCHER_HPP
+#ifndef RADIX_COLLISION_DISPATCHER_HPP
+#define RADIX_COLLISION_DISPATCHER_HPP
 
 #include <bullet/btBulletDynamicsCommon.h>
 
@@ -15,4 +15,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COLLISION_DISPATCHER_HPP */
+#endif /* RADIX_COLLISION_DISPATCHER_HPP */

@@ -1,5 +1,5 @@
-#ifndef COMPONENT_SOUNDLISTENER_HPP
-#define COMPONENT_SOUNDLISTENER_HPP
+#ifndef RADIX_COMPONENT_SOUNDLISTENER_HPP
+#define RADIX_COMPONENT_SOUNDLISTENER_HPP
 
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
@@ -28,4 +28,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_SOUNDLISTENER_HPP */
+#endif /* RADIX_COMPONENT_SOUNDLISTENER_HPP */

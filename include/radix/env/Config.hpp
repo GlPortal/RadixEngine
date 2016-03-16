@@ -1,5 +1,5 @@
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef RADIX_CONFIG_HPP
+#define RADIX_CONFIG_HPP
 
 #include <string>
 
@@ -34,4 +34,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* CONFIG_HPP */
+#endif /* RADIX_CONFIG_HPP */

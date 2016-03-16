@@ -1,5 +1,5 @@
-#ifndef COMPONENT_SOUNDSOURCE_HPP
-#define COMPONENT_SOUNDSOURCE_HPP
+#ifndef RADIX_COMPONENT_SOUNDSOURCE_HPP
+#define RADIX_COMPONENT_SOUNDSOURCE_HPP
 
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
@@ -30,4 +30,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_SOUNDSOURCE_HPP */
+#endif /* RADIX_COMPONENT_SOUNDSOURCE_HPP */

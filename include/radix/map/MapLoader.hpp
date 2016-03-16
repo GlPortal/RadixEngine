@@ -1,5 +1,5 @@
-#ifndef MAPLOADER_HPP
-#define MAPLOADER_HPP
+#ifndef RADIX_MAPLOADER_HPP
+#define RADIX_MAPLOADER_HPP
 
 #include <string>
 
@@ -35,4 +35,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* MAPLOADER_HPP */
+#endif /* RADIX_MAPLOADER_HPP */

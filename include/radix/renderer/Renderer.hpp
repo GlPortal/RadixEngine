@@ -1,5 +1,5 @@
-#ifndef RENDERER_HPP
-#define RENDERER_HPP
+#ifndef RADIX_RENDERER_HPP
+#define RADIX_RENDERER_HPP
 
 #include <string>
 
@@ -131,4 +131,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* RENDERER_HPP */
+#endif /* RADIX_RENDERER_HPP */

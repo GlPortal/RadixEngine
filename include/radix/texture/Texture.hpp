@@ -1,5 +1,5 @@
-#ifndef TEXTURE_HPP
-#define TEXTURE_HPP
+#ifndef RADIX_TEXTURE_HPP
+#define RADIX_TEXTURE_HPP
 
 #include <epoxy/gl.h>
 
@@ -13,4 +13,4 @@ struct Texture {
 
 } /* namespace radix */
 
-#endif /* TEXTURE_HPP */
+#endif /* RADIX_TEXTURE_HPP */

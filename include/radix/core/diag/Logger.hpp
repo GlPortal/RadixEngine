@@ -1,5 +1,5 @@
-#ifndef LOGGER_HPP
-#define LOGGER_HPP
+#ifndef RADIX_LOGGER_HPP
+#define RADIX_LOGGER_HPP
 
 #include <string>
 
@@ -36,4 +36,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* LOGGER_HPP */
+#endif /* RADIX_LOGGER_HPP */

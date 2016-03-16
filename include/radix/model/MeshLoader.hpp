@@ -1,5 +1,5 @@
-#ifndef MESHLOADER_HPP
-#define MESHLOADER_HPP
+#ifndef RADIX_MESHLOADER_HPP
+#define RADIX_MESHLOADER_HPP
 
 #include <string>
 #include <map>
@@ -23,4 +23,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* MESHLOADER_HPP */
+#endif /* RADIX_MESHLOADER_HPP */

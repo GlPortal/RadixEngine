@@ -1,5 +1,5 @@
-#ifndef COMPONENT_TRIGGER_HPP
-#define COMPONENT_TRIGGER_HPP
+#ifndef RADIX_COMPONENT_TRIGGER_HPP
+#define RADIX_COMPONENT_TRIGGER_HPP
 
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
@@ -39,4 +39,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* COMPONENT_TRIGGER_HPP */
+#endif /* RADIX_COMPONENT_TRIGGER_HPP */

@@ -1,5 +1,5 @@
-#ifndef MATERIALLOADER_HPP
-#define MATERIALLOADER_HPP
+#ifndef RADIX_MATERIAL_LOADER_HPP
+#define RADIX_MATERIAL_LOADER_HPP
 
 #include <string>
 #include <map>
@@ -19,4 +19,4 @@ private:
 
 } /* namespace radix */
 
-#endif /* TEXTURELOADER_HPP */
+#endif /* RADIX_MATERIAL_LOADER_HPP */
