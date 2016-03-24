@@ -29,7 +29,7 @@ GWENRenderer::GWENRenderer() :
   
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
-  vbo = std::make_unique<VBO>(MaxVerts*sizeof(Vertex), GL_DYNAMIC_DRAW);
+  vbo = std::make_unique<VBO>(MaxVerts*sizeof(Vertex), VBO::Dynamic | VBO::Draw);
   vbo->bind();
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
     sizeof(Vertex), (GLvoid*)offsetof(Vertex, x));

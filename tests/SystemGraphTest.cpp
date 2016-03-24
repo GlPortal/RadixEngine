@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <string>
 #include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <chrono>
 
@@ -24,8 +25,8 @@ public:
   }
 
   bool runsAfter(const System &s) {
-    return strcmp(s.getName(), "PlayerSystem") == 0 or
-           strcmp(s.getName(), "PhysicsSystem") == 0;
+    return s.getTypeId() == System::getTypeId<radix::PlayerSystem>() or
+           s.getTypeId() == System::getTypeId<radix::PhysicsSystem>();
   }
   /*bool runsBefore(const System &s) {
     return strcmp(s.getName(), "TestSystem2") == 0;
@@ -50,7 +51,7 @@ public:
   }
 
   bool runsBefore(const System &s) {
-    return strcmp(s.getName(), "TestSystem") == 0;
+    return s.getTypeId() == System::getTypeId<TestSystem>();
   }
 
   void update(float dtime) {
@@ -72,7 +73,7 @@ public:
   }
 
   bool runsBefore(const System &s) {
-    return strcmp(s.getName(), "PhysicsSystem") == 0;
+    return s.getTypeId() == System::getTypeId<radix::PhysicsSystem>();
   }
   /*bool runsAfter(const System &s) {
     return strcmp(s.getName(), "TestSystem") == 0;

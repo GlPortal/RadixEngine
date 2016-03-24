@@ -1,8 +1,10 @@
 #include <radix/shader/Shader.hpp>
 
+#include <epoxy/gl.h>
+
 namespace radix {
 
-GLint Shader::uni(const std::string &name) {
+int Shader::uni(const std::string &name) {
   // Check if the uniform name is already in our map
   auto it = locationMap.find(name);
   if (it != locationMap.end()) {
@@ -16,7 +18,7 @@ GLint Shader::uni(const std::string &name) {
   return loc;
 }
 
-GLint Shader::att(const std::string &name) {
+int Shader::att(const std::string &name) {
   // Check if the attribute name is already in our map
   auto it = locationMap.find(name);
   if (it != locationMap.end()) {

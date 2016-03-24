@@ -3,6 +3,8 @@
 #include <cmath>
 #include <utility>
 
+#include <bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
+
 #include <radix/physics/PhysicsHelper.hpp>
 #include <radix/system/PhysicsSystem.hpp>
 #include <radix/World.hpp>

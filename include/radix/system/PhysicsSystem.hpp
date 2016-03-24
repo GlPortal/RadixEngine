@@ -1,15 +1,18 @@
 #ifndef RADIX_PHYSICS_SYSTEM_HPP
 #define RADIX_PHYSICS_SYSTEM_HPP
 
-#include <bullet/btBulletDynamicsCommon.h>
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
-
 #include <radix/core/event/EventDispatcher.hpp>
-#include <radix/physics/CollisionDispatcher.hpp>
 #include <radix/system/System.hpp>
+
+class btBroadphaseInterface;
+class btDefaultCollisionConfiguration;
+class btSequentialImpulseConstraintSolver;
+class btDiscreteDynamicsWorld;
+class btGhostPairCallback;
 
 namespace radix {
 
+class CollisionDispatcher;
 class Uncollider;
 
 class PhysicsSystem : public System {

@@ -10,6 +10,7 @@
 #include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
 #include <radix/input/Input.hpp>
+#include <radix/system/PhysicsSystem.hpp>
 #include <radix/World.hpp>
 
 namespace radix {
@@ -144,8 +145,7 @@ void PlayerSystem::move(Entity &entity, double dtime) {
 }
 
 bool PlayerSystem::runsBefore(const System &sys) {
-  const char *name = sys.getName();
-  return ::strcmp(name, "PhysicsSystem") == 0;
+  return sys.getTypeId() == System::getTypeId<PhysicsSystem>();
 }
 
 void PlayerSystem::update(float dtime) {

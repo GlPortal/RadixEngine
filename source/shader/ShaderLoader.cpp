@@ -5,6 +5,8 @@
 #include <string>
 #include <memory>
 
+#include <epoxy/gl.h>
+
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
 
@@ -30,8 +32,8 @@ Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &
   }
 
   // Load the shaders
-  int vertShader = loadShader(vpath, GL_VERTEX_SHADER);
-  int fragShader = loadShader(fpath, GL_FRAGMENT_SHADER);
+  int vertShader = loadShader(vpath, Shader::Vertex);
+  int fragShader = loadShader(fpath, Shader::Fragment);
 
   // Create a program and attach both shaders
   int shader = glCreateProgram();
@@ -75,7 +77,21 @@ Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &
   return inserted.first->second;
 }
 
-int ShaderLoader::loadShader(const std::string &path, GLenum type) {
+constexpr static GLint getGlShaderType(const Shader::Type type) {
+  switch (type) {
+  case Shader::Vertex:
+    return GL_VERTEX_SHADER;
+  case Shader::Fragment:
+    return GL_FRAGMENT_SHADER;
+  case Shader::Geometry:
+    return GL_GEOMETRY_SHADER;
+  default:
+    ;
+  }
+  return 0;
+}
+
+int ShaderLoader::loadShader(const std::string &path, Shader::Type type) {
   std::ifstream file(path);
   if (not file.is_open()) {
     Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
@@ -88,7 +104,7 @@ int ShaderLoader::loadShader(const std::string &path, GLenum type) {
   }
   const char* buffer = file_contents.c_str();
 
-  int shader = glCreateShader(type);
+  int shader = glCreateShader(getGlShaderType(type));
   glShaderSource(shader, 1, (const char**) &buffer, NULL);
   glCompileShader(shader);
 
@@ -97,10 +113,10 @@ int ShaderLoader::loadShader(const std::string &path, GLenum type) {
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
   if (success == GL_TRUE) {
-    if (type == GL_VERTEX_SHADER) {
+    if (type == Shader::Vertex) {
       Util::Log(Debug, "ShaderLoader") << path << ": vertex shader compiled";
     }
-    if (type == GL_FRAGMENT_SHADER) {
+    if (type == Shader::Fragment) {
       Util::Log(Debug, "ShaderLoader") << path << ": fragment shader compiled";
     }
   } else {
@@ -110,11 +126,11 @@ int ShaderLoader::loadShader(const std::string &path, GLenum type) {
     std::unique_ptr<char> log(new char[logSize]);
     glGetShaderInfoLog(shader, logSize, &logSize, log.get());
 
-    if (type == GL_VERTEX_SHADER) {
+    if (type == Shader::Vertex) {
       Util::Log(Error, "ShaderLoader") << path << ": vertex shader compilation failed:\n" <<
         log.get();
     }
-    if (type == GL_FRAGMENT_SHADER) {
+    if (type == Shader::Fragment) {
       Util::Log(Error, "ShaderLoader") << path << ": fragment shader compilation failed:\n" <<
         log.get();
     }

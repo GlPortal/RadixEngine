@@ -1,7 +1,6 @@
 #ifndef RADIX_SHADER_HPP
 #define RADIX_SHADER_HPP
 
-#include <epoxy/gl.h>
 #include <string>
 #include <map>
 
@@ -9,11 +8,17 @@ namespace radix {
 
 class Shader {
 public:
+  enum Type {
+    Vertex,
+    Fragment,
+    Geometry
+  };
+
   int handle;
-  GLint uni(const std::string&);
-  GLint att(const std::string&);
+  int uni(const std::string&);
+  int att(const std::string&);
 private:
-  std::map<std::string, GLint> locationMap;
+  std::map<std::string, int> locationMap;
 };
 
 } /* namespace radix */

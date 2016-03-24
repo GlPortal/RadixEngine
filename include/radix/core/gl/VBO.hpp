@@ -1,21 +1,31 @@
 #ifndef VBO_HPP
 #define VBO_HPP
 
+#include <cstdint>
 #include <vector>
-
-#include <epoxy/gl.h>
 
 namespace radix {
 
 class VBO {
 protected:
   std::size_t size;
-  GLuint id;
+  unsigned int id;
 
 public:
+  enum Usage : uint8_t {
+    Static = 0,
+    Dynamic,
+    Stream,
+
+    Draw = 1 << 2,
+    Read,
+    Copy
+  };
+  constexpr static Usage DefaultUsage = (Usage)(Static | Draw);
+
   // Ctor / dtor
   VBO();
-  VBO(std::size_t size, GLenum usage = GL_STATIC_DRAW);
+  VBO(std::size_t size, Usage usage = DefaultUsage);
   ~VBO();
   // No copy
   VBO(const VBO&) = delete;
@@ -24,47 +34,42 @@ public:
   VBO(VBO&&);
   VBO& operator=(VBO&&);
   
-  operator GLuint() const { return id; }
-  void setSize(std::size_t size, GLenum usage = GL_STATIC_DRAW);
+  operator unsigned int() const { return id; }
+  void setSize(std::size_t size, Usage usage = DefaultUsage);
   std::size_t getSize() const {
     return size;
   }
 
+  void setData(const void *data, std::size_t count, Usage usage = DefaultUsage);
+
   template <typename T>
-  void setData(const std::vector<T> &data, GLenum usage = GL_STATIC_DRAW) {
-    GLint currentBoundArray; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &currentBoundArray);
-    glBindBuffer(GL_ARRAY_BUFFER, id);
-    size = data.size()*sizeof(T);
-    glBufferData(GL_ARRAY_BUFFER, size, data.data(), usage);
-    glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
+  void setData(const std::vector<T> &data, Usage usage = DefaultUsage) {
+    setData(data.data(), data.size()*sizeof(T), usage);
   }
   template <typename T>
-  void setData(const T *data, std::size_t count, GLenum usage = GL_STATIC_DRAW) {
-    GLint currentBoundArray; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &currentBoundArray);
-    glBindBuffer(GL_ARRAY_BUFFER, id);
-    size = count*sizeof(T);
-    glBufferData(GL_ARRAY_BUFFER, size, data, usage);
-    glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
+  void setData(const T *data, std::size_t count, Usage usage = DefaultUsage) {
+    setData(data, count*sizeof(T), usage);
   }
+
+  void update(const void *data, std::size_t count = 0, std::size_t offset = 0);
+
   template <typename T>
   void update(const std::vector<T> &data, std::size_t count = 0, std::size_t offset = 0) {
-    GLint currentBoundArray; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &currentBoundArray);
-    glBindBuffer(GL_ARRAY_BUFFER, id);
     if (count == 0) {
       count = data.size();
     }
-    glBufferSubData(GL_ARRAY_BUFFER, offset, count*sizeof(T), data.data());
-    glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
+    update(data.data(), count*sizeof(T), offset);
   }
   template <typename T>
   void update(const T *data, std::size_t count, std::size_t offset = 0) {
-    GLint currentBoundArray; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &currentBoundArray);
-    glBindBuffer(GL_ARRAY_BUFFER, id);
-    glBufferSubData(GL_ARRAY_BUFFER, offset, count*sizeof(T), data);
-    glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
+    update(data, count*sizeof(T), offset);
   }
   void bind() const;
 };
+
+constexpr inline VBO::Usage operator|(const VBO::Usage a, const VBO::Usage b) {
+  return static_cast<VBO::Usage>(static_cast<uint8_t>(a) | static_cast<uint8_t>(b));
+}
 
 } /* namespace radix */
 
