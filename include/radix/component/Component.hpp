@@ -2,7 +2,6 @@
 #define RADIX_COMPONENT_HPP
 
 #include <cstddef>
-#include <cassert>
 #include <type_traits>
 
 #include <serine/Serializable.hpp>

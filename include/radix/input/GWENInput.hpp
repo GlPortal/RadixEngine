@@ -90,7 +90,7 @@ public:
 
     case SDL_MOUSEBUTTONDOWN:
     case SDL_MOUSEBUTTONUP: {
-      int button;
+      int button = -1;
       switch (evt.button.button) {
       case SDL_BUTTON_LEFT:
         button = 0;

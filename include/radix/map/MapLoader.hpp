@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <tinyxml2.h>
-
 namespace radix {
 
 class Entity;
@@ -12,25 +10,12 @@ class Mesh;
 class World;
 
 class MapLoader {
-private:
+protected:
   World &world;
-  tinyxml2::XMLHandle rootHandle;
+  MapLoader(World&);
 
 public:
-  MapLoader(World&);
-  
-  void load(const std::string &path);
-
-private:
-  static Mesh getBox(const Entity &wall);
-  void extractMaterials();
-  void extractSpawn();
-  void extractLights();
-  void extractDoor();
-  void extractWalls();
-  void extractAcids();
-  void extractTriggers();
-  void extractModels();
+  virtual void load(const std::string &path) = 0;
 };
 
 } /* namespace radix */
