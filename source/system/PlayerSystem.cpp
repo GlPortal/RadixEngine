@@ -1,5 +1,7 @@
 #include <radix/system/PlayerSystem.hpp>
 
+#include <iostream>
+
 #include <SDL2/SDL_mouse.h>
 #include <SDL2/SDL_keyboard.h>
 

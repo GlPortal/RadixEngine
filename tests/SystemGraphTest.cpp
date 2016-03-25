@@ -126,16 +126,18 @@ int main(const int argc, char *argv[]) {
   radix::Environment::setDataDir(argv[1]);
   radix::Environment::init();
   radix::World wld;
-  wld.addSystem<radix::PlayerSystem>();
-  wld.addSystem<radix::PhysicsSystem>();
-  wld.addSystem<TestSystem>();
-  wld.addSystem<TestSystem2>();
-  wld.addSystem<RunBeforeSystem>();
-  add<10>(wld);
-  
-  auto start = std::chrono::high_resolution_clock::now();
-  wld.computeSystemOrder();
-  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+  { radix::World::SystemTransaction st = wld.systemTransact();
+    wld.addSystem<radix::PlayerSystem>();
+    wld.addSystem<radix::PhysicsSystem>();
+    wld.addSystem<TestSystem>();
+    wld.addSystem<TestSystem2>();
+    wld.addSystem<RunBeforeSystem>();
+    add<10>(wld);
+    start = std::chrono::high_resolution_clock::now();
+    // Here, st gets destructed, changes committed (i.e. system graph recomputed)
+  }
+  end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> diff = end-start;
   std::cout << "Graph sorting: " << std::chrono::duration_cast<std::chrono::milliseconds>(diff).count() << " ms\n";
 

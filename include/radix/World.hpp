@@ -29,63 +29,7 @@ class World {
 protected:
   Entity *player;
 
-  struct SystemRunner {
-    std::vector<std::thread> threads;
-    std::queue<SystemTypeId> queue;
-    std::mutex queueMutex;
-    std::condition_variable queueCondVar;
-    bool exit;
-    double dtime;
-    SystemTypeId runCount;
-    std::mutex runCountMutex;
-    std::condition_variable runCountCondVar;
-    SystemRunner(World&);
-    ~SystemRunner();
-    void threadProc(World&);
-  } systemRun;
-
 public:
-  using SystemLoopPath = std::stack<SystemTypeId>;
-  using SystemLoopVector = std::vector<std::set<SystemTypeId>>;
-
-  struct RunsBeforeCreatesLoopsException : public std::logic_error, SystemLoopVector {
-    RunsBeforeCreatesLoopsException(SystemLoopVector &&slv) :
-      std::logic_error("Execution graph created with System::runsBefore() contain loops"),
-      SystemLoopVector(slv) {}
-  };
-  struct RunsAfterCreatesLoopException : public std::logic_error, SystemLoopPath {
-    RunsAfterCreatesLoopException(SystemLoopPath &&slp) :
-      std::logic_error("Inserting a System into the execution graph according to"
-        "System::runsAfter() would create a loop"),
-      SystemLoopPath(slp) {}
-  };
-
-  void computeSystemOrder();
-
-  struct SystemAddedEvent : public Event {
-    static constexpr StaticEventType Type = "radix/World/SystemAdded";
-    const EventType getType() const {
-      return Type;
-    }
-
-    World &world;
-    System &system;
-    SystemAddedEvent(World &w, System &s) :
-      world(w), system(s) {}
-  };
-  struct SystemRemovedEvent : public Event {
-    static constexpr StaticEventType Type = "radix/World/SystemRemoved";
-    const EventType getType() const {
-      return Type;
-    }
-
-    World &world;
-    System &system;
-    SystemRemovedEvent(World &w, System &s) :
-      world(w), system(s) {}
-  };
-
-
   Camera camera;
   std::map<int, Material> materials;
 
@@ -114,10 +58,12 @@ public:
     return entities.getByName(name);
   }
 
-
-  /// @todo make publicly read-only
-  struct SystemGraphNode;
+  /* =========== */
+  /*   Systems   */
+  /* =========== */
+public:
   using SystemPtrVector = std::vector<std::unique_ptr<System>>;
+  struct SystemGraphNode;
   using SystemGraphNodeVector = std::vector<std::unique_ptr<SystemGraphNode>>;
   struct SystemGraphNode {
     const SystemTypeId system;
@@ -138,31 +84,118 @@ public:
 
     SystemGraphNode(SystemTypeId system, SystemPtrVector &systems, SystemGraphNodeVector &graph);
   };
+
+protected:
+  struct SystemRunner {
+    std::vector<std::thread> threads;
+    std::queue<SystemTypeId> queue;
+    std::mutex queueMutex;
+    std::condition_variable queueCondVar;
+    bool exit;
+    double dtime;
+    SystemTypeId runCount;
+    std::mutex runCountMutex;
+    std::condition_variable runCountCondVar;
+    SystemRunner(World&);
+    ~SystemRunner();
+    void threadProc(World&);
+  } systemRun;
+
   SystemPtrVector systems;
   SystemGraphNodeVector systemGraph;
-  std::map<std::string, System*> systemsByName;
-  template<class T, typename... ArgsT> void addSystem(ArgsT... args) {
-    static_assert(std::is_base_of<System, T>::value, "T must be a System");
-    const SystemTypeId stid = System::getTypeId<T>();
-    if (systems.size() <= stid) {
-      systems.resize(stid + 1);
+  std::map<std::string, System&> systemsByName;
+
+  void computeSystemOrder();
+
+public:
+  using SystemLoopPath = std::stack<SystemTypeId>;
+  using SystemLoopVector = std::vector<std::set<SystemTypeId>>;
+
+  struct RunsBeforeCreatesLoopsException : public std::logic_error, SystemLoopVector {
+    RunsBeforeCreatesLoopsException(SystemLoopVector &&slv) :
+      std::logic_error("Execution graph contain loops"),
+      SystemLoopVector(slv) {}
+  };
+  struct RunsAfterCreatesLoopException : public std::logic_error, SystemLoopPath {
+    RunsAfterCreatesLoopException(SystemLoopPath &&slp) :
+      std::logic_error("Inserting a System into the execution graph according to"
+        "System::runsAfter() would create a loop"),
+      SystemLoopPath(slp) {}
+  };
+
+  struct SystemAddedEvent : public Event {
+    static constexpr StaticEventType Type = "radix/World/SystemAdded";
+    const EventType getType() const {
+      return Type;
     }
-    systems.at(System::getTypeId<T>()).reset(new T(*this, std::forward<ArgsT>(args)...));
-    System &sys = *systems.at(System::getTypeId<T>());
-    systemsByName.emplace(std::piecewise_construct,
-      std::forward_as_tuple(sys.getName()),
-      std::forward_as_tuple(&sys));
-    event.dispatch(SystemAddedEvent(*this, *systems.at(System::getTypeId<T>())));
+
+    World &world;
+    System &system;
+    SystemAddedEvent(World &w, System &s) :
+      world(w), system(s) {}
+  };
+  struct SystemRemovedEvent : public Event {
+    static constexpr StaticEventType Type = "radix/World/SystemRemoved";
+    const EventType getType() const {
+      return Type;
+    }
+
+    World &world;
+    System &system;
+    SystemRemovedEvent(World &w, System &s) :
+      world(w), system(s) {}
+  };
+
+  class SystemTransaction final {
+  public:
+    World &w;
+
+  private:
+    friend class World;
+    SystemTransaction(World &w) : w(w) {}
+
+  public:
+    ~SystemTransaction() {
+      w.computeSystemOrder();
+    }
+
+    template<class T, typename... ArgsT> void addSystem(ArgsT... args) {
+      static_assert(std::is_base_of<System, T>::value, "T must be a System");
+      const SystemTypeId stid = System::getTypeId<T>();
+      if (w.systems.size() <= stid) {
+        w.systems.resize(stid + 1);
+      }
+      w.systems.at(System::getTypeId<T>()).reset(new T(w, std::forward<ArgsT>(args)...));
+      System &sys = *w.systems.at(System::getTypeId<T>());
+      w.systemsByName.emplace(std::piecewise_construct,
+        std::forward_as_tuple(sys.getName()),
+        std::forward_as_tuple(sys));
+      w.event.dispatch(SystemAddedEvent(w, *w.systems.at(System::getTypeId<T>())));
+    }
+    
+    template<class T> void removeSystem() {
+      System &sys = *w.systems.at(System::getTypeId<T>());
+      w.event.dispatch(SystemRemovedEvent(w, sys));
+      w.systemsByName.erase(sys.getName());
+      w.systemGraph.at(System::getTypeId<T>()).reset(nullptr);
+      w.systems.at(System::getTypeId<T>()).reset(nullptr);
+    }
+  };
+
+  SystemTransaction systemTransact() {
+    return SystemTransaction(*this);
   }
+
   template<class T> T& getSystem() {
     return (T&)*systems.at(System::getTypeId<T>());
   }
+  template<class T, typename... ArgsT> void addSystem(ArgsT... args) {
+    SystemTransaction st(*this);
+    
+  }
   template<class T> void removeSystem() {
-    System &sys = *systems.at(System::getTypeId<T>());
-    event.dispatch(SystemRemovedEvent(*this, sys));
-    systemsByName.erase(sys.getName());
-    systemGraph.at(System::getTypeId<T>()).reset(nullptr);
-    systems.at(System::getTypeId<T>()).reset(nullptr);
+    SystemTransaction st(*this);
+    st.removeSystem<T>();
   }
 
 

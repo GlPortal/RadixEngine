@@ -90,8 +90,8 @@ World::SystemGraphNode::SystemGraphNode(SystemTypeId system, SystemPtrVector &sy
 }
 
 World::World() :
-  systemRun(*this),
   entities(*this),
+  systemRun(*this),
   gameTime(0),
   lastUpdateTime(0) {
   player = &entities.create();
