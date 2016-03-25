@@ -1,6 +1,7 @@
 #ifndef RADIX_ANSI_CONSOLE_LOGGER_HPP
 #define RADIX_ANSI_CONSOLE_LOGGER_HPP
 
+#include <mutex>
 #include <string>
 
 #include <radix/core/diag/Logger.hpp>
@@ -11,6 +12,9 @@ namespace radix {
  * @brief Logger that outputs to an ANSI/vt-100 console
  */
 class AnsiConsoleLogger : public Logger {
+protected:
+  std::mutex mtx;
+
 public:
   /**
    * @brief Enables colored output

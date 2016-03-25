@@ -58,6 +58,8 @@ bool needBlackText(int bgcol) {
 }
 
 void AnsiConsoleLogger::log(const std::string &message, LogLevel lvl, const std::string &tag) {
+  std::unique_lock<std::mutex> lk(mtx);
+
   const LogLevelOutputInfo &oi = outInfo[(int)lvl];
   if (enableColors) {
     cout << "\x1B[97m\x1B[48;5;" << oi.colorCode << 'm';
