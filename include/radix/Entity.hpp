@@ -35,7 +35,11 @@ private:
 
 public:
   struct ComponentAddedEvent : public Event {
-    static constexpr StaticEventType Type = "radix/Entity/ComponentAdded";
+    static constexpr StaticEventTypeName TypeName = "radix/Entity/ComponentAdded";
+    const EventTypeName getTypeName() const {
+      return TypeName;
+    }
+    static constexpr StaticEventType Type = TypeNameHash(TypeName);
     const EventType getType() const {
       return Type;
     }
@@ -46,7 +50,11 @@ public:
       entity(e), component(c) {}
   };
   struct ComponentRemovedEvent : public Event {
-    static constexpr StaticEventType Type = "radix/Entity/ComponentRemoved";
+    static constexpr StaticEventTypeName TypeName = "radix/Entity/ComponentRemoved";
+    const EventTypeName getTypeName() const {
+      return TypeName;
+    }
+    static constexpr StaticEventType Type = TypeNameHash(TypeName);
     const EventType getType() const {
       return Type;
     }
@@ -57,7 +65,11 @@ public:
       entity(e), component(c) {}
   };
   struct NameChangedEvent : public Event {
-    static constexpr StaticEventType Type = "radix/Entity/NameChanged";
+    static constexpr StaticEventTypeName TypeName = "radix/Entity/NameChanged";
+    const EventTypeName getTypeName() const {
+      return TypeName;
+    }
+    static constexpr StaticEventType Type = TypeNameHash(TypeName);
     const EventType getType() const {
       return Type;
     }
