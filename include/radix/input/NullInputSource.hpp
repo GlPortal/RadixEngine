@@ -11,7 +11,7 @@ public:
 
   void keyPressed(int, int) {}
   void keyReleased(int, int) {}
-  bool isKeyDown(int) {}
+  bool isKeyDown(int) { return false; }
   std::string getCharBuffer() { return ""; }
   void addToBuffer(const std::string&) {}
   void clearBuffer() {}
