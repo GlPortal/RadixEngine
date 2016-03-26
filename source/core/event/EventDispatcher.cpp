@@ -16,7 +16,24 @@ void EventDispatcher::dispatch(const Event &event) {
   }
 }
 
-EventDispatcher::CallbackPointer EventDispatcher::observe(
+EventDispatcher::CallbackHolder EventDispatcher::observe(
+  EventType type, const Callback &method) {
+  ObserverMap::iterator it;
+  it = observerMap.find(type);
+  if (it != observerMap.end()) {
+    it->second.push_back(method);
+    return CallbackHolder(this, type, --it->second.end());
+  } else {
+    auto newIt = observerMap.emplace(std::piecewise_construct,
+                                     std::forward_as_tuple(type),
+                                     std::forward_as_tuple()).first;
+    CallbackList &observers = newIt->second;
+    observers.push_back(method);
+    return CallbackHolder(this, type, --observers.end());
+  }
+}
+
+EventDispatcher::CallbackPointer EventDispatcher::observeRaw(
   EventType type, const Callback &method) {
   ObserverMap::iterator it;
   it = observerMap.find(type);

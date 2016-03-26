@@ -16,6 +16,42 @@ public:
   using CallbackList = std::list<Callback>;
   using ObserverMap = std::unordered_map<EventType, CallbackList>;
   using CallbackPointer = std::pair<EventType, CallbackList::iterator>;
+  class CallbackHolder final : public CallbackPointer {
+  private:
+    EventDispatcher *dispatcher;
+
+  public:
+    CallbackHolder() :
+      dispatcher(nullptr) {
+    }
+    CallbackHolder(EventDispatcher *dispatcher, EventType &et, CallbackList::iterator &it) :
+      CallbackPointer(et, it),
+      dispatcher(dispatcher) {
+    }
+
+    // No copy
+    CallbackHolder(CallbackHolder&) = delete;
+    CallbackHolder& operator=(CallbackHolder&) = delete;
+
+    // Allow movement
+    CallbackHolder(CallbackHolder &&o) :
+      CallbackPointer(o),
+      dispatcher(o.dispatcher) {
+      o.dispatcher = nullptr;
+    }
+    CallbackHolder& operator=(CallbackHolder &&o) {
+      CallbackPointer::operator=(o);
+      dispatcher = o.dispatcher;
+      o.dispatcher = nullptr;
+      return *this;
+    }
+
+    ~CallbackHolder() {
+      if (dispatcher) {
+        dispatcher->unobserve(*this);
+      }
+    }
+  };
 
 private:
   ObserverMap observerMap;
@@ -24,7 +60,8 @@ public:
   EventDispatcher();
 
 
-  CallbackPointer observe(EventType type, const Callback &method);
+  CallbackHolder  observe(EventType type, const Callback &method);
+  CallbackPointer observeRaw(EventType type, const Callback &method);
 
   void unobserve(const CallbackPointer &ptr);
   template<class... CPTypes>
