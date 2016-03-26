@@ -17,6 +17,7 @@ set(RADIX_SOURCES
   ${D}/texture/TextureLoader.cpp
   ${D}/Camera.cpp
   ${D}/Entity.cpp
+  ${D}/Window.cpp
   ${D}/World.cpp
   ${D}/stb_image.c
   ${D}/component/Health.cpp
@@ -43,7 +44,6 @@ set(RADIX_SOURCES
   ${D}/env/Config.cpp
   ${D}/env/Environment.cpp
   ${D}/env/Util.cpp
-  ${D}/input/Input.cpp
   ${D}/map/MapListLoader.cpp
   ${D}/map/MapLoader.cpp
   ${D}/map/XmlHelper.cpp

@@ -89,7 +89,8 @@ World::SystemGraphNode::SystemGraphNode(SystemTypeId system, SystemPtrVector &sy
   onStack(false) {
 }
 
-World::World() :
+World::World(InputSource &input) :
+  input(input),
   entities(*this),
   systemRun(*this),
   gameTime(0),

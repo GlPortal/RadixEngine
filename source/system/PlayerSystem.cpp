@@ -11,7 +11,6 @@
 #include <radix/component/SoundSource.hpp>
 #include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
-#include <radix/input/Input.hpp>
 #include <radix/system/PhysicsSystem.hpp>
 #include <radix/World.hpp>
 
@@ -76,12 +75,13 @@ void PlayerSystem::move(Entity &entity, double dtime) {
   if (plr.frozen) {
     return;
   }
-  bool movingFwd     = Input::isKeyDown(SDL_SCANCODE_W) or Input::isKeyDown(SDL_SCANCODE_UP),
-       movingBack    = Input::isKeyDown(SDL_SCANCODE_S) or Input::isKeyDown(SDL_SCANCODE_DOWN),
-       strafingLeft  = Input::isKeyDown(SDL_SCANCODE_A) or Input::isKeyDown(SDL_SCANCODE_LEFT),
-       strafingRight = Input::isKeyDown(SDL_SCANCODE_D) or Input::isKeyDown(SDL_SCANCODE_RIGHT),
-       jumping       = Input::isKeyDown(SDL_SCANCODE_SPACE) or
-                       Input::isKeyDown(SDL_SCANCODE_BACKSPACE);
+  InputSource &input = world.input;
+  bool movingFwd     = input.isKeyDown(SDL_SCANCODE_W) or input.isKeyDown(SDL_SCANCODE_UP),
+       movingBack    = input.isKeyDown(SDL_SCANCODE_S) or input.isKeyDown(SDL_SCANCODE_DOWN),
+       strafingLeft  = input.isKeyDown(SDL_SCANCODE_A) or input.isKeyDown(SDL_SCANCODE_LEFT),
+       strafingRight = input.isKeyDown(SDL_SCANCODE_D) or input.isKeyDown(SDL_SCANCODE_RIGHT),
+       jumping       = input.isKeyDown(SDL_SCANCODE_SPACE) or
+                       input.isKeyDown(SDL_SCANCODE_BACKSPACE);
   float rot = plr.headAngle.heading;
   Vector3f movement;
   KinematicCharacterController &ctrl = *entity.getComponent<Player>().controller;

@@ -20,6 +20,7 @@
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/material/Material.hpp>
 #include <radix/system/System.hpp>
+#include <radix/input/InputSource.hpp>
 
 namespace radix {
 
@@ -30,6 +31,20 @@ protected:
   Entity *player;
 
 public:
+  InputSource &input;
+
+  World(InputSource &input);
+  ~World();
+  void create();
+  void destroy();
+
+  inline double getTime() const {
+    return gameTime;
+  }
+  void update(double dtime);
+
+  Entity& getPlayer();
+
   Camera camera;
   std::map<int, Material> materials;
 
@@ -205,19 +220,6 @@ public:
     SystemTransaction st(*this);
     st.removeSystem<T>();
   }
-
-
-  World();
-  ~World();
-  void create();
-  void destroy();
-
-  inline double getTime() const {
-    return gameTime;
-  }
-  void update(double dtime);
-
-  Entity& getPlayer();
 
 private:
   double gameTime;

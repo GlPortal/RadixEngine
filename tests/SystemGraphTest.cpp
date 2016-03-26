@@ -10,6 +10,7 @@
 #include <radix/system/System.hpp>
 #include <radix/system/PlayerSystem.hpp>
 #include <radix/system/PhysicsSystem.hpp>
+#include <radix/input/NullInputSource.hpp>
 
 class TestSystem : public radix::System {
 public:
@@ -125,7 +126,8 @@ int main(const int argc, char *argv[]) {
   }
   radix::Environment::setDataDir(argv[1]);
   radix::Environment::init();
-  radix::World wld;
+  radix::NullInputSource nis;
+  radix::World wld(nis);
   std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
   { radix::World::SystemTransaction st = wld.systemTransact();
     wld.addSystem<radix::PlayerSystem>();
