@@ -2,6 +2,11 @@
 
 namespace radix {
 
+RigidBody::RigidBody(Entity &ent) :
+  Component(ent),
+  body(nullptr) {
+}
+
 RigidBody::RigidBody(Entity &ent, float mass,
   const std::shared_ptr<btCollisionShape> &collisionshape) :
   Component(ent), shape(collisionshape) {

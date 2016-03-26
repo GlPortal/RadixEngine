@@ -20,6 +20,7 @@ public:
   btDefaultMotionState motionState;
   btRigidBody *body;
 
+  RigidBody(Entity &ent);
   RigidBody(Entity &ent, float mass, const std::shared_ptr<btCollisionShape> &collisionshape);
   ~RigidBody();
 
