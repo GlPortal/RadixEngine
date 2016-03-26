@@ -3,7 +3,7 @@
 
 #include <functional>
 #include <list>
-#include <map>
+#include <unordered_map>
 #include <utility>
 
 #include <radix/core/event/Event.hpp>
@@ -14,7 +14,7 @@ class EventDispatcher {
 public:
   using Callback = std::function<void(const Event&)>;
   using CallbackList = std::list<Callback>;
-  using ObserverMap = std::map<EventType, CallbackList>;
+  using ObserverMap = std::unordered_map<EventType, CallbackList>;
   using CallbackPointer = std::pair<EventType, CallbackList::iterator>;
 
 private:
