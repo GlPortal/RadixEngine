@@ -13,7 +13,7 @@ namespace radix {
 
 class VBO;
 
-class GWENRenderer : public Gwen::Renderer::Base {
+class GlGwenRenderer : public Gwen::Renderer::Base {
 public:
   struct Vertex {
     float x, y;
@@ -21,8 +21,8 @@ public:
     unsigned char r, g, b, a;
   };
 
-  GWENRenderer();
-  ~GWENRenderer();
+  GlGwenRenderer();
+  ~GlGwenRenderer();
 
   void Init() final override;
 
@@ -42,8 +42,8 @@ public:
   Gwen::Color PixelColour(Gwen::Texture *tex, unsigned int x, unsigned int y,
     const Gwen::Color &col_default) final override;
 
-  void RenderText(Gwen::Font *font, Gwen::Point pos, const Gwen::UnicodeString &text);
-  Gwen::Point MeasureText(Gwen::Font *font, const Gwen::UnicodeString &text);
+  void RenderText(Gwen::Font *font, Gwen::Point pos, const Gwen::UnicodeString &text) final override;
+  Gwen::Point MeasureText(Gwen::Font *font, const Gwen::UnicodeString &text) final override;
 
 protected:
 

@@ -1,4 +1,4 @@
-#include <radix/renderer/GWENRenderer.hpp>
+#include <radix/renderer/GlGwenRenderer.hpp>
 
 #include <cmath>
 #include <fstream>
@@ -21,7 +21,7 @@
 
 namespace radix {
 
-GWENRenderer::GWENRenderer() :
+GlGwenRenderer::GlGwenRenderer() :
   fontLetterSpacing(1.0f / 16.0f),
   fontSpacing(0xFF) {
   vertNum = 0;
@@ -43,16 +43,16 @@ GWENRenderer::GWENRenderer() :
   glBindVertexArray(0);
 }
 
-GWENRenderer::~GWENRenderer() {
+GlGwenRenderer::~GlGwenRenderer() {
   glDeleteVertexArrays(1, &vao);
 }
 
-void GWENRenderer::Init() {
-  Util::Log(Debug, "GWENRenderer") << "Initialize";
+void GlGwenRenderer::Init() {
+  Util::Log(Debug, "GlGwenRenderer") << "Initialize";
   loadDebugFont();
 }
 
-void GWENRenderer::Begin() {
+void GlGwenRenderer::Begin() {
   glDepthMask(GL_FALSE);
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
@@ -61,11 +61,11 @@ void GWENRenderer::Begin() {
   glEnable(GL_BLEND);
 }
 
-void GWENRenderer::End() {
+void GlGwenRenderer::End() {
   flush();
 }
 
-void GWENRenderer::flush() {
+void GlGwenRenderer::flush() {
   if (vertNum == 0) {
     return;
   }
@@ -104,7 +104,7 @@ void GWENRenderer::flush() {
   vertNum = 0;
 }
 
-void GWENRenderer::addVert(int x, int y, float u, float v) {
+void GlGwenRenderer::addVert(int x, int y, float u, float v) {
   if (vertNum >= MaxVerts - 1) {
     flush();
   }
@@ -120,7 +120,7 @@ void GWENRenderer::addVert(int x, int y, float u, float v) {
   vertNum++;
 }
 
-void GWENRenderer::DrawFilledRect(Gwen::Rect rect) {
+void GlGwenRenderer::DrawFilledRect(Gwen::Rect rect) {
   GLuint boundtex;
   GLboolean texturesOn;
   glGetBooleanv(GL_TEXTURE_2D, &texturesOn);
@@ -143,11 +143,11 @@ void GWENRenderer::DrawFilledRect(Gwen::Rect rect) {
   addVert(rect.x, rect.y + rect.h);
 }
 
-void GWENRenderer::SetDrawColor(Gwen::Color color) {
+void GlGwenRenderer::SetDrawColor(Gwen::Color color) {
   this->color = color;
 }
 
-void GWENRenderer::StartClip() {
+void GlGwenRenderer::StartClip() {
   flush();
   Gwen::Rect rect = ClipRegion();
   // OpenGL's scissor feature speaks window coordinates,
@@ -166,12 +166,12 @@ void GWENRenderer::StartClip() {
   glEnable(GL_SCISSOR_TEST);
 };
 
-void GWENRenderer::EndClip() {
+void GlGwenRenderer::EndClip() {
   flush();
   glDisable(GL_SCISSOR_TEST);
 };
 
-void GWENRenderer::DrawTexturedRect(Gwen::Texture *tex, Gwen::Rect rect, float u1, float v1,
+void GlGwenRenderer::DrawTexturedRect(Gwen::Texture *tex, Gwen::Rect rect, float u1, float v1,
   float u2, float v2) {
   GLuint *glTex = (GLuint*)tex->data;
 
@@ -202,13 +202,13 @@ void GWENRenderer::DrawTexturedRect(Gwen::Texture *tex, Gwen::Rect rect, float u
   addVert(rect.x, rect.y + rect.h, u1, v2);
 }
 
-void GWENRenderer::LoadTexture(Gwen::Texture *tex) {
+void GlGwenRenderer::LoadTexture(Gwen::Texture *tex) {
   int width = 0, height = 0, bytes = 0;
   unsigned char *data = stbi_load(tex->name.c_str(),
                                   &width, &height, &bytes, 0);
   if (width == 0 or height == 0 or bytes == 0) {
     tex->failed = true;
-    Util::Log(Debug, "GWENRenderer") << "LoadTexture: loading " << tex->name.c_str() << " failed";
+    Util::Log(Debug, "GlGwenRenderer") << "LoadTexture: loading " << tex->name.c_str() << " failed";
     return;
   }
   tex->width = width;
@@ -226,13 +226,13 @@ void GWENRenderer::LoadTexture(Gwen::Texture *tex) {
   } else if (bytes == 4) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
   } else {
-    Util::Log(Debug, "GWENRenderer") << "LoadTexture: unsupported byte depth " << bytes;
+    Util::Log(Debug, "GlGwenRenderer") << "LoadTexture: unsupported byte depth " << bytes;
   }
   stbi_image_free(data);
-  Util::Log(Debug, "GWENRenderer") << "LoadTexture " << tex->name.c_str() << ", id " << *glTex;
+  Util::Log(Debug, "GlGwenRenderer") << "LoadTexture " << tex->name.c_str() << ", id " << *glTex;
 }
 
-void GWENRenderer::FreeTexture(Gwen::Texture *tex) {
+void GlGwenRenderer::FreeTexture(Gwen::Texture *tex) {
   GLuint *glTex = (GLuint*)tex->data;
 
   if (not glTex) {
@@ -244,7 +244,7 @@ void GWENRenderer::FreeTexture(Gwen::Texture *tex) {
   tex->data = nullptr;
 }
 
-Gwen::Color GWENRenderer::PixelColour(Gwen::Texture *tex, unsigned int x, unsigned int y,
+Gwen::Color GlGwenRenderer::PixelColour(Gwen::Texture *tex, unsigned int x, unsigned int y,
   const Gwen::Color &col_default) {
   GLuint *glTex = (GLuint*)tex->data;
 
@@ -272,7 +272,7 @@ Gwen::Color GWENRenderer::PixelColour(Gwen::Texture *tex, unsigned int x, unsign
   return c;
 }
 
-void GWENRenderer::loadDebugFont() {
+void GlGwenRenderer::loadDebugFont() {
   if (fontTex) {
     return;
   }
@@ -289,7 +289,7 @@ void GWENRenderer::loadDebugFont() {
   fontSpacing.assign(start, end);
 }
 
-void GWENRenderer::RenderText(Gwen::Font *font, Gwen::Point pos, const Gwen::UnicodeString &text) {
+void GlGwenRenderer::RenderText(Gwen::Font *font, Gwen::Point pos, const Gwen::UnicodeString &text) {
   float size = font->size * Scale();
 
   if (not text.length()) {
@@ -325,7 +325,7 @@ void GWENRenderer::RenderText(Gwen::Font *font, Gwen::Point pos, const Gwen::Uni
   }
 }
 
-Gwen::Point GWENRenderer::MeasureText(Gwen::Font *font, const Gwen::UnicodeString &text) {
+Gwen::Point GlGwenRenderer::MeasureText(Gwen::Font *font, const Gwen::UnicodeString &text) {
   Gwen::Point p;
   float size = font->size * Scale();
   Gwen::String converted_string = Gwen::Utility::UnicodeToString(text);

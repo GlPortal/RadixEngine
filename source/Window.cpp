@@ -20,7 +20,7 @@
 #include <radix/texture/TextureLoader.hpp>
 #include <radix/core/diag/Throwables.hpp>
 #include <radix/input/GWENInput.hpp>
-#include <radix/renderer/GWENRenderer.hpp>
+#include <radix/renderer/GlGwenRenderer.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
 
@@ -104,7 +104,7 @@ void Window::create(const char *title) {
   // Lock cursor in the middle of the screen
   lockMouse();
 
-  gwenRenderer = std::make_unique<GWENRenderer>();
+  gwenRenderer = std::make_unique<GlGwenRenderer>();
   gwenSkin = std::make_unique<Gwen::Skin::TexturedBase>(gwenRenderer.get());
   gwenSkin->Init((Environment::getDataDir() + "/gui/DefaultSkin.png").c_str());
   gwenCanvas = std::make_unique<Gwen::Controls::Canvas>(gwenSkin.get());

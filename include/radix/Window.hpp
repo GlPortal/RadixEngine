@@ -15,7 +15,7 @@
 
 namespace radix {
 
-class GWENRenderer;
+class GlGwenRenderer;
 class GWENInput;  
 
 class Window : public Viewport, public InputSource {
@@ -31,7 +31,7 @@ public:
   void lockMouse();
   void unlockMouse();
 
-  std::unique_ptr<radix::GWENRenderer> gwenRenderer;
+  std::unique_ptr<radix::GlGwenRenderer> gwenRenderer;
   std::unique_ptr<Gwen::Skin::TexturedBase> gwenSkin;
   std::unique_ptr<Gwen::Controls::Canvas> gwenCanvas;
   std::unique_ptr<radix::GWENInput> gwenInput;
