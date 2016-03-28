@@ -1,7 +1,7 @@
 #ifndef RADIX_RENDER_CONTEXT_HPP
 #define RADIX_RENDER_CONTEXT_HPP
 
-#include <stack>
+#include <vector>
 
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/Camera.hpp>
@@ -14,40 +14,40 @@ struct RenderContext {
   Renderer &renderer;
   RenderContext(Renderer &r) : renderer(r) {}
 
-  std::stack<Matrix4f> projStack;
+  std::vector<Matrix4f> projStack;
   inline Matrix4f& getProj() {
-    return projStack.top();
+    return projStack.back();
   }
 
-  std::stack<Matrix4f> viewStack, invViewStack;
+  std::vector<Matrix4f> viewStack, invViewStack;
   int viewStackMaxDepth;
   inline Matrix4f& getView() {
-    return viewStack.top();
+    return viewStack.back();
   }
   inline Matrix4f& getInvView() {
-    return invViewStack.top();
+    return invViewStack.back();
   }
   inline void pushView(const Matrix4f &m) {
-    viewStack.push(m);
-    invViewStack.push(inverse(m));
+    viewStack.push_back(m);
+    invViewStack.push_back(inverse(m));
   }
   inline void popView() {
-    viewStack.pop();
-    invViewStack.pop();
+    viewStack.pop_back();
+    invViewStack.pop_back();
   }
 
   inline void pushCamera(const Camera &c) {
-    projStack.push(Matrix4f::Identity);
-    c.getProjMatrix(projStack.top());
-    viewStack.push(Matrix4f::Identity);
-    c.getViewMatrix(viewStack.top());
-    invViewStack.push(Matrix4f::Identity);
-    c.getInvViewMatrix(invViewStack.top());
+    projStack.push_back(Matrix4f::Identity);
+    c.getProjMatrix(projStack.back());
+    viewStack.push_back(Matrix4f::Identity);
+    c.getViewMatrix(viewStack.back());
+    invViewStack.push_back(Matrix4f::Identity);
+    c.getInvViewMatrix(invViewStack.back());
   }
   inline void popCamera() {
-    projStack.pop();
-    viewStack.pop();
-    invViewStack.pop();
+    projStack.pop_back();
+    viewStack.pop_back();
+    invViewStack.pop_back();
   }
 };
 

@@ -82,13 +82,14 @@ void Renderer::render(double dtime, const Camera &cam) {
   camera.setPerspective();
   camera.setAspect((float)vpWidth / vpHeight);
 
-  rc.projStack = decltype(rc.projStack)();
-  rc.projStack.push(Matrix4f());
-  camera.getProjMatrix(rc.projStack.top());
+  rc.projStack.resize(1);
+  camera.getProjMatrix(rc.projStack.back());
 
-  rc.viewStack = decltype(rc.viewStack)();
-  rc.viewStack.push(Matrix4f());
-  camera.getViewMatrix(rc.viewStack.top());
+  rc.viewStack.resize(1);
+  camera.getViewMatrix(rc.viewStack.back());
+
+  rc.invViewStack.resize(1);
+  camera.getInvViewMatrix(rc.invViewStack.back());
 
   renderScene(rc);
 
