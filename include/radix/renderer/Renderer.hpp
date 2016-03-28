@@ -9,6 +9,7 @@
 #include <radix/text/Font.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/core/math/Vector4f.hpp>
+#include <radix/renderer/RenderContext.hpp>
 
 namespace radix {
 
@@ -42,28 +43,26 @@ public:
    * Renders the scene with provided camera parameters
    * @param cam The camera from which we look at the scene
    */
-  void renderScene(const Camera &cam);
-
-  void renderUI(const Camera &cam);
+  void renderScene(RenderContext &rc);
 
   /**
    * Renders all the entities in the scene regardless of shading
    * @param cam The camera from which we look at the scene
    */
-  void renderEntities(const Camera &cam);
+  void renderEntities(RenderContext &rc);
 
   /**
    * Renders a single entity regardless of shading
    * @param cam The camera from which we look at the entity
    * @param e   The entity to render
    */
-  void renderEntity(const Camera &cam, const Entity &e);
+  void renderEntity(RenderContext &rc, const Entity &e);
 
   /**
    * Renders the player character using ambient shading
    * @param cam The camera from which we look at the player
    */
-  void renderPlayer(const Camera &cam);
+  void renderPlayer(RenderContext &rc);
 
 
   /**
@@ -74,7 +73,7 @@ public:
    * @param x    The x-coordinate of the top left corner of the text in window coordinates
    * @param y    The y-coordinate of the top left corner of the text in window coordinates
    */
-  void renderText(const Camera &cam, const std::string &text, Vector3f vector);
+  void renderText(RenderContext &rc, const std::string &text, Vector3f vector);
 
 
   /**
@@ -86,12 +85,12 @@ public:
    * @param mesh   The mesh to render
    * @param mat    The material to render the mesh with
    */
-  void renderMesh(const Camera &cam, Shader &shader, Matrix4f &mdlMtx, const Mesh &mesh,
+  void renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx, const Mesh &mesh,
                   const Material *mat = nullptr);
 
-  void renderMesh(const Camera &cam, Shader &shader, Matrix4f &mdlMtx, const Mesh &mesh,
+  void renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx, const Mesh &mesh,
                   const Material &mat) {
-    return renderMesh(cam, shader, mdlMtx, mesh, &mat);
+    return renderMesh(rc, shader, mdlMtx, mesh, &mat);
   }
 
   /**
@@ -126,7 +125,7 @@ private:
   double time;
   Vector4f fontColor;
   Font *font;
-  int portalDepth;
+  RenderContext rc;
 };
 
 } /* namespace radix */

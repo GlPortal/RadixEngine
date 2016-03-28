@@ -2,9 +2,8 @@
 #define RADIX_COMPONENT_MESHDRAWABLE_HPP
 
 #include <radix/component/Component.hpp>
-#include <radix/core/math/Vector3f.hpp>
-#include <radix/model/Mesh.hpp>
 #include <radix/material/Material.hpp>
+#include <radix/model/Mesh.hpp>
 
 namespace radix {
 

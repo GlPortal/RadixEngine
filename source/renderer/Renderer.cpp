@@ -43,7 +43,7 @@ Renderer::Renderer(World &w) :
   vpWidth(0), vpHeight(0),
   fontColor(1, 1, 1, 1),
   font(nullptr),
-  portalDepth(2) {
+  rc(*this) {
 }
 
 void Renderer::setFont(const std::string &font, float size) {
@@ -81,6 +81,18 @@ void Renderer::render(double dtime, const Camera &cam) {
   Camera camera = cam;
   camera.setPerspective();
   camera.setAspect((float)vpWidth / vpHeight);
+
+  rc.projStack = decltype(rc.projStack)();
+  rc.projStack.push(Matrix4f());
+  camera.getProjMatrix(rc.projStack.top());
+
+  rc.viewStack = decltype(rc.viewStack)();
+  rc.viewStack.push(Matrix4f());
+  camera.getViewMatrix(rc.viewStack.top());
+
+  renderScene(rc);
+
+#if 0
 
   Shader &diffuse = ShaderLoader::getShader("diffuse.frag");
   glUseProgram(diffuse.handle);
@@ -149,7 +161,7 @@ void Renderer::render(double dtime, const Camera &cam) {
     int numLightsLoc = metal.uni("numLights");
     glUniform1i(numLightsLoc, numLights);
   }
-
+#endif
 #if 0 /// @todo reintroduce portals
   /* Portals, pass 1 */
   for (EntityPair &p : scene->portalPairs) {
@@ -185,7 +197,7 @@ void Renderer::render(double dtime, const Camera &cam) {
   }
 #endif
 
-  renderScene(camera);
+  
 
 #if 0 /// @todo reintroduce portals
   /* Portals, pass 2 */
@@ -221,36 +233,36 @@ void Renderer::render(double dtime, const Camera &cam) {
 #endif
 
   //Draw GUI
-  glClear(GL_DEPTH_BUFFER_BIT);
+  //glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::renderScene(const Camera &camera) {
-  renderEntities(camera);
+void Renderer::renderScene(RenderContext &rc) {
+  renderEntities(rc);
 }
 
-void Renderer::renderEntities(const Camera &cam) {
+void Renderer::renderEntities(RenderContext &rc) {
   for (Entity &e : world.entities) {
     if (e.hasComponent<MeshDrawable>()) {
-      renderEntity(cam, e);
+      renderEntity(rc, e);
     }
   }
 }
 
-void Renderer::renderEntity(const Camera &cam, const Entity &e) {
+void Renderer::renderEntity(RenderContext &rc, const Entity &e) {
   MeshDrawable &drawable = e.getComponent<MeshDrawable>();
   Matrix4f mtx;
   e.getComponent<Transform>().getModelMtx(mtx);
 
   if (drawable.material.fancyname.compare("Metal tiles .5x") == 0) {
     Shader &metal = ShaderLoader::getShader("metal.frag");
-    renderMesh(cam, metal, mtx, drawable.mesh, drawable.material);
+    renderMesh(rc, metal, mtx, drawable.mesh, drawable.material);
   } else {
     Shader &diffuse = ShaderLoader::getShader("diffuse.frag");
-    renderMesh(cam, diffuse, mtx, drawable.mesh, drawable.material);
+    renderMesh(rc, diffuse, mtx, drawable.mesh, drawable.material);
   }
 }
 
-void Renderer::renderPlayer(const Camera &cam) {
+void Renderer::renderPlayer(RenderContext &rc) {
   const Transform &t = world.getPlayer().getComponent<Transform>();
   Matrix4f mtx;
   mtx.translate(t.getPosition() + Vector3f(0, -.5f, 0));
@@ -259,10 +271,10 @@ void Renderer::renderPlayer(const Camera &cam) {
   const Mesh &dummy = MeshLoader::getMesh("HumanToken.obj");
   const Material &mat = MaterialLoader::fromTexture("HumanToken.png");
 
-  renderMesh(cam, ShaderLoader::getShader("diffuse.frag"), mtx, dummy, mat);
+  renderMesh(rc, ShaderLoader::getShader("diffuse.frag"), mtx, dummy, mat);
 }
 
-void Renderer::renderText(const Camera &cam, const std::string &text, Vector3f vector) {
+void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f vector) {
   // FIXME This should be determined by the currently set font
   const Material &mat = MaterialLoader::fromTexture("Pacaya.png");
   Shader &shader = ShaderLoader::getShader("text.frag");
@@ -285,22 +297,18 @@ void Renderer::renderText(const Camera &cam, const std::string &text, Vector3f v
     mtx.scale(Vector3f(letter.width * font->size,
                       letter.height * font->size, 1));
 
-    renderMesh(cam, shader, mtx, mesh, mat);
+    renderMesh(rc, shader, mtx, mesh, mat);
     position.x += letter.advance * font->size;
   }
 }
 
-
-void Renderer::renderMesh(const Camera &cam, Shader &shader, Matrix4f &mdlMtx,
+void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
                           const Mesh &mesh, const Material *mat) {
   glUseProgram(shader.handle);
 
-  Matrix4f projMatrix; cam.getProjMatrix(projMatrix);
-  glUniformMatrix4fv(shader.uni("projectionMatrix"), 1, false, projMatrix.toArray());
-  Matrix4f viewMatrix; cam.getViewMatrix(viewMatrix);
-  glUniformMatrix4fv(shader.uni("viewMatrix"), 1, false, viewMatrix.toArray());
-  Matrix4f invViewMatrix = inverse(viewMatrix);
-  glUniformMatrix4fv(shader.uni("invViewMatrix"), 1, false, invViewMatrix.toArray());
+  glUniformMatrix4fv(shader.uni("projectionMatrix"), 1, false, rc.getProj().toArray());
+  glUniformMatrix4fv(shader.uni("viewMatrix"), 1, false, rc.getView().toArray());
+  glUniformMatrix4fv(shader.uni("invViewMatrix"), 1, false, rc.getInvView().toArray());
 
   Matrix3f mdlMtx3 = toMatrix3f(mdlMtx);
   Matrix3f i3 = inverse(mdlMtx3);
