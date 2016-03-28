@@ -35,7 +35,7 @@ private:
 
 public:
   struct ComponentAddedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/Entity/ComponentAdded";
+    static constexpr StaticEventTypeName TypeName = "radix/Entity:ComponentAdded";
     const EventTypeName getTypeName() const {
       return TypeName;
     }
@@ -50,7 +50,7 @@ public:
       entity(e), component(c) {}
   };
   struct ComponentRemovedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/Entity/ComponentRemoved";
+    static constexpr StaticEventTypeName TypeName = "radix/Entity:ComponentRemoved";
     const EventTypeName getTypeName() const {
       return TypeName;
     }
@@ -65,7 +65,7 @@ public:
       entity(e), component(c) {}
   };
   struct NameChangedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/Entity/NameChanged";
+    static constexpr StaticEventTypeName TypeName = "radix/Entity:NameChanged";
     const EventTypeName getTypeName() const {
       return TypeName;
     }
@@ -94,8 +94,8 @@ public:
 
   /**
    * Entity (instance) identifier.
-   * @note IDs are **not** stable, so don't store/use them across map saves/loads.
-   *       Use @ref name instead.
+   * @note IDs are stable and may be used as permanent access keys, but consider using @ref getName
+   *       when not referring to a particular unique instance but rather any entity that has.
    */
   EntityId id;
 

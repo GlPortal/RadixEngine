@@ -139,7 +139,7 @@ public:
   };
 
   struct SystemAddedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/World/SystemAdded";
+    static constexpr StaticEventTypeName TypeName = "radix/World:SystemAdded";
     const EventTypeName getTypeName() const {
       return TypeName;
     }
@@ -154,7 +154,7 @@ public:
       world(w), system(s) {}
   };
   struct SystemRemovedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/World/SystemRemoved";
+    static constexpr StaticEventTypeName TypeName = "radix/World:SystemRemoved";
     const EventTypeName getTypeName() const {
       return TypeName;
     }
