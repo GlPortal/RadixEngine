@@ -14,6 +14,9 @@ void EventDispatcher::dispatch(const Event &event) {
       f(event);
     }
   }
+  for (Callback &f : wildcardObservers) {
+    f(event);
+  }
 }
 
 EventDispatcher::CallbackHolder EventDispatcher::observe(
@@ -57,6 +60,21 @@ void EventDispatcher::unobserve(const CallbackPointer &ptr) {
     CallbackList &observers = it->second;
     observers.erase(ptr.second);
   }
+}
+
+EventDispatcher::CallbackHolder EventDispatcher::observeWildcard(const Callback &method) {
+  wildcardObservers.push_back(method);
+  EventType et = 0;
+  return CallbackHolder(this, et, --wildcardObservers.end());
+}
+
+EventDispatcher::CallbackPointer EventDispatcher::observeWildcardRaw(const Callback &method) {
+  wildcardObservers.push_back(method);
+  return std::make_pair(0, --wildcardObservers.end());
+}
+
+void EventDispatcher::unobserveWildcard(const CallbackPointer &ptr) {
+  wildcardObservers.erase(ptr.second);
 }
 
 } /* namespace radix */

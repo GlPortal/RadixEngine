@@ -55,11 +55,13 @@ public:
 
 private:
   ObserverMap observerMap;
+  CallbackList wildcardObservers;
 
 public:
   EventDispatcher();
 
 
+  /* Observers */
   CallbackHolder  observe(EventType type, const Callback &method);
   CallbackPointer observeRaw(EventType type, const Callback &method);
 
@@ -70,6 +72,16 @@ public:
     unobserve(cbN...);
   }
 
+
+  /* Wildcard observers */
+  CallbackHolder  observeWildcard(const Callback &method);
+  CallbackPointer observeWildcardRaw(const Callback &method);
+
+  void unobserveWildcard(const CallbackPointer &ptr);
+  // Templated unobserveWildcard intentionally unimplemented: wildcard is a debug feature.
+
+
+  /* Event dispatching */
   void dispatch(const Event &event);
 };
 
