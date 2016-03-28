@@ -29,6 +29,8 @@ static float Identity4[4*4] = {
   0.f, 0.f, 0.f, 1.f
 };
 
+const Matrix4f Matrix4f::Identity;
+
 /* Core */
 Matrix4f::Matrix4f() {
   setIdentity();

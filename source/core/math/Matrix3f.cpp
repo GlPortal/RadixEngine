@@ -28,6 +28,8 @@ static float Identity3[3*3] = {
   0.f, 0.f, 1.f
 };
 
+const Matrix3f Matrix3f::Identity;
+
 /* Core */
 Matrix3f::Matrix3f() {
   setIdentity();

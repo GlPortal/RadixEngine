@@ -24,6 +24,8 @@ class Quaternion;
 
 class Matrix4f {
 public:
+  static const Matrix4f Identity;
+
   /* Core */
   Matrix4f();
   Matrix4f(const Vector3f&, const Quaternion&);

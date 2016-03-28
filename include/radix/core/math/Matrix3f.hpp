@@ -23,6 +23,8 @@ class Vector2f;
 
 class Matrix3f {
 public:
+  static const Matrix3f Identity;
+
   /* Core */
   Matrix3f();
   void setIdentity();
