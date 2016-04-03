@@ -39,8 +39,8 @@ struct Vector4f : public serine::Serializable {
     : x(x), y(y), z(z), w(w) {}
   constexpr Vector4f(float v)
     : x(v), y(v), z(v), d(v) {}
-  constexpr Vector4f(const Vector3f&, float w);
-  constexpr Vector4f(const Vector2f&, float z, float w);
+  Vector4f(const Vector3f&, float w);
+  Vector4f(const Vector2f&, float z, float w);
 
   void serialize(serine::Archiver&);
 

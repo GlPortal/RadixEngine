@@ -11,10 +11,10 @@
 
 namespace radix {
 
-constexpr Vector4f::Vector4f(const Vector3f &v, float w)
+Vector4f::Vector4f(const Vector3f &v, float w)
   : x(v.x), y(v.y), z(v.z), w(w) {}
 
-constexpr Vector4f::Vector4f(const Vector2f &v, float z, float w)
+Vector4f::Vector4f(const Vector2f &v, float z, float w)
   : x(v.x), y(v.y), z(z), w(w) {}
 
 Vector4f::operator btVector4() const {
