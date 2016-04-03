@@ -18,13 +18,22 @@ struct RenderContext {
   inline Matrix4f& getProj() {
     return projStack.back();
   }
+  inline const Matrix4f& getProj() const {
+    return projStack.back();
+  }
 
   std::vector<Matrix4f> viewStack, invViewStack;
   int viewStackMaxDepth;
   inline Matrix4f& getView() {
     return viewStack.back();
   }
+  inline const Matrix4f& getView() const {
+    return viewStack.back();
+  }
   inline Matrix4f& getInvView() {
+    return invViewStack.back();
+  }
+  inline const Matrix4f& getInvView() const {
     return invViewStack.back();
   }
   inline void pushView(const Matrix4f &m) {
