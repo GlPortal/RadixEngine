@@ -12,7 +12,7 @@ class Entity;
 class PlayerSystem : public System {
 protected:
   void mouseLook(Entity &entity);
-  void move(Entity &entity, double dtime);
+  void move(Entity &entity, TDelta dtime);
 
 public:
   PlayerSystem(World&);
@@ -27,7 +27,7 @@ public:
   }
 
   bool runsBefore(const System&);
-  void update(float dtime);
+  void update(TDelta dtime);
 };
 
 } /* namespace radix */

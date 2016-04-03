@@ -3,6 +3,8 @@
 
 #include <type_traits>
 
+#include <radix/core/types/TimeDelta.hpp>
+
 namespace radix {
 
 using SystemTypeId = std::size_t;
@@ -37,7 +39,7 @@ public:
   virtual TypeId getTypeId() const = 0;
   virtual bool runsBefore(const System&) { return false; }
   virtual bool runsAfter(const System&) { return false; }
-  virtual void update(float dtime) = 0;
+  virtual void update(TDelta dtime) = 0;
 };
 
 inline SystemTypeId getNewSystemTypeId() {

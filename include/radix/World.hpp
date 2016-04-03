@@ -17,6 +17,7 @@
 
 #include <radix/Camera.hpp>
 #include <radix/EntityManager.hpp>
+#include <radix/core/types/TimeDelta.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/material/Material.hpp>
 #include <radix/system/System.hpp>
@@ -41,7 +42,7 @@ public:
   inline double getTime() const {
     return gameTime;
   }
-  void update(double dtime);
+  void update(TDelta dtime);
 
   Entity& getPlayer();
 
@@ -107,7 +108,7 @@ protected:
     std::mutex queueMutex;
     std::condition_variable queueCondVar;
     bool exit;
-    double dtime;
+    TDelta dtime;
     SystemTypeId runCount;
     std::mutex runCountMutex;
     std::condition_variable runCountCondVar;

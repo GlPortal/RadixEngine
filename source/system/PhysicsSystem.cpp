@@ -59,9 +59,9 @@ PhysicsSystem::~PhysicsSystem() {
   delete filterCallback;
 }
 
-void PhysicsSystem::update(float dtime) {
+void PhysicsSystem::update(TDelta dtime) {
   filterCallback->beforePhysicsStep();
-  physWorld->stepSimulation(dtime, 10);
+  physWorld->stepSimulation(dtime.sec_d(), 10);
   for (Entity &e : world.entities) {
     if (e.hasComponent<RigidBody>()) {
       RigidBody &b = e.getComponent<RigidBody>();

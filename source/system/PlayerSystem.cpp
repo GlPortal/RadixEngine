@@ -69,7 +69,7 @@ void PlayerSystem::mouseLook(Entity &entity) {
   plr.headAngle.attitude = Math::clamp(plr.headAngle.attitude, rad(-89.99), rad(89.99));
 }
 
-void PlayerSystem::move(Entity &entity, double dtime) {
+void PlayerSystem::move(Entity &entity, TDelta dtime) {
   (void) dtime;
   Player &plr = entity.getComponent<Player>();
   if (plr.frozen) {
@@ -150,7 +150,7 @@ bool PlayerSystem::runsBefore(const System &sys) {
   return sys.getTypeId() == System::getTypeId<PhysicsSystem>();
 }
 
-void PlayerSystem::update(float dtime) {
+void PlayerSystem::update(TDelta dtime) {
   mouseLook(world.getPlayer());
   move(world.getPlayer(), dtime);
 }

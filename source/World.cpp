@@ -31,7 +31,8 @@ namespace radix {
 
 World::SystemRunner::SystemRunner(World &w) :
   threads(std::thread::hardware_concurrency()),
-  exit(false) {
+  exit(false),
+  dtime(0) {
   for (unsigned i = 0; i < std::thread::hardware_concurrency(); ++i) {
     threads.emplace_back(std::bind(&SystemRunner::threadProc, this, std::ref(w)));
     Util::SetThreadName(threads.back(), ("SystemRunner thread " + std::to_string(i)).c_str());
@@ -342,7 +343,7 @@ void World::loadScene(const std::string &path) {
 }
 #endif
 
-void World::update(double dtime) {
+void World::update(TDelta dtime) {
   gameTime += dtime;
   { std::unique_lock<std::mutex> lk(systemRun.runCountMutex);
     // Reset previous run count and set the dtime parameter to pass to Systems
