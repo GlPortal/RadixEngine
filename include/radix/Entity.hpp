@@ -23,7 +23,9 @@ private:
   friend class EntityManager;
 
   Entity(Entity&) = delete;
+  Entity& operator=(Entity&) = delete;
   Entity(Entity&&) = delete;
+  Entity& operator=(Entity&&) = delete;
 
   void addComponent(ComponentTypeId, Component*);
   void removeComponent(ComponentTypeId);

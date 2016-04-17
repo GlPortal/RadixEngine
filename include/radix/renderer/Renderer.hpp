@@ -9,7 +9,9 @@
 #include <radix/text/Font.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/core/math/Vector4f.hpp>
+#include <radix/core/math/Rectangle.hpp>
 #include <radix/renderer/RenderContext.hpp>
+#include <radix/component/Transform.hpp>
 
 namespace radix {
 
@@ -44,6 +46,9 @@ public:
    * @param cam The camera from which we look at the scene
    */
   void renderScene(RenderContext &rc);
+
+  void renderViewFrames(RenderContext &rc);
+  void renderViewFrameStencil(RenderContext &rc);
 
   /**
    * Renders all the entities in the scene regardless of shading
@@ -100,8 +105,20 @@ public:
    * @param portal      The portal in which to place the camera
    * @param otherPortal The counterpart of the portal
    */
-  void setCameraInPortal(const Camera &cam, Camera &dest, const Entity &portal,
+  static void setCameraInPortal(const Camera &cam, Camera &dest, const Entity &portal,
                          const Entity &otherPortal);
+  static Matrix4f getFrameView(const Matrix4f &src, const Matrix4f &in, const Matrix4f &out);
+  static Matrix4f getFrameView(const Matrix4f &src, const Transform &in, const Transform &out) {
+    Matrix4f inMat;
+    inMat.translate(in.getPosition());
+    inMat.rotate(in.getOrientation());
+    Matrix4f outMat;
+    outMat.translate(out.getPosition());
+    outMat.rotate(out.getOrientation());
+    return getFrameView(src, inMat, outMat);
+  }
+  static bool clipViewFrame(const RenderContext &rc, const Mesh &frame,
+    const Transform &frameTform, RectangleI &scissor);
 
 
   /**

@@ -33,6 +33,7 @@
 #include <radix/component/Transform.hpp>
 #include <radix/component/MeshDrawable.hpp>
 #include <radix/component/LightSource.hpp>
+#include <radix/component/ViewFrame.hpp>
 #include <radix/env/Environment.hpp>
 
 namespace radix {
@@ -91,10 +92,13 @@ void Renderer::render(double dtime, const Camera &cam) {
   rc.invViewStack.resize(1);
   camera.getInvViewMatrix(rc.invViewStack.back());
 
+  rc.viewFramesStack.clear();
+
+  rc.projDirty = rc.viewDirty = true;
+
   renderScene(rc);
 
 #if 0
-
   Shader &diffuse = ShaderLoader::getShader("diffuse.frag");
   glUseProgram(diffuse.handle);
 
@@ -163,42 +167,6 @@ void Renderer::render(double dtime, const Camera &cam) {
     glUniform1i(numLightsLoc, numLights);
   }
 #endif
-#if 0 /// @todo reintroduce portals
-  /* Portals, pass 1 */
-  for (EntityPair &p : scene->portalPairs) {
-    Entity &pEnt1 = *p.first,
-           &pEnt2 = *p.second;
-    Portal &portal1 = pEnt1.getComponent<Portal>(),
-           &portal2 = pEnt2.getComponent<Portal>();
-
-    // Render portals
-    renderPortal(camera, pEnt1, pEnt2);
-    renderPortal(camera, pEnt2, pEnt1);
-    // Depth buffer
-    if (portal1.open and portal2.open) {
-      Shader &unshaded = ShaderLoader::getShader("unshaded.frag");
-
-      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-      glDepthMask(GL_TRUE);
-      glClear(GL_DEPTH_BUFFER_BIT);
-
-      const Mesh &portalStencil = MeshLoader::getMesh("PortalStencil.obj");
-
-      Matrix4f mtx;
-      pEnt1.getComponent<Transform>().getModelMtx(mtx);
-      mtx.scale(portal1.getScaleMult());
-      renderMesh(camera, unshaded, mtx, portalStencil);
-
-      pEnt2.getComponent<Transform>().getModelMtx(mtx);
-      mtx.scale(portal2.getScaleMult());
-      renderMesh(camera, unshaded, mtx, portalStencil);
-
-      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    }
-  }
-#endif
-
-  
 
 #if 0 /// @todo reintroduce portals
   /* Portals, pass 2 */
@@ -237,7 +205,119 @@ void Renderer::render(double dtime, const Camera &cam) {
   //glClear(GL_DEPTH_BUFFER_BIT);
 }
 
+void Renderer::renderViewFrames(RenderContext &rc) {
+  GLboolean save_stencil_test;
+  glGetBooleanv(GL_STENCIL_TEST, &save_stencil_test);
+  GLboolean save_scissor_test;
+  glGetBooleanv(GL_SCISSOR_TEST, &save_scissor_test);
+
+  glEnable(GL_STENCIL_TEST);
+  glEnable(GL_SCISSOR_TEST);
+  for (Entity &e : world.entities) {
+    if (e.hasComponent<ViewFrame>()) {
+      const Transform &t = e.getComponent<Transform>();
+      Matrix4f inMat; t.getModelMtx(inMat);
+      const ViewFrame &vf = e.getComponent<ViewFrame>();
+      Matrix4f outMat;
+      outMat.translate(vf.view.getPosition());
+      outMat.rotate(vf.view.getOrientation());
+      Matrix4f frameView = getFrameView(rc.getView(), inMat, outMat);
+      rc.pushViewFrame(RenderContext::ViewFrameInfo(vf.mesh, t));
+      rc.pushView(frameView);
+      renderScene(rc);
+      rc.popView();
+      rc.popViewFrame();
+    }
+  }
+  if (!save_stencil_test) {
+    glDisable(GL_STENCIL_TEST);
+  }
+  if (!save_scissor_test) {
+    glDisable(GL_SCISSOR_TEST);
+  }
+
+  // Draw portal in the depth buffer so they are not overwritten
+  glClear(GL_DEPTH_BUFFER_BIT);
+
+  GLboolean save_color_mask[4];
+  GLboolean save_depth_mask;
+  glGetBooleanv(GL_COLOR_WRITEMASK, save_color_mask);
+  glGetBooleanv(GL_DEPTH_WRITEMASK, &save_depth_mask);
+  glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+  glDepthMask(GL_TRUE);
+  Shader shader = ShaderLoader::getShader("whitefill.frag");
+  Matrix4f modelMtx;
+  for (size_t i = 0; i < rc.viewFramesStack.size(); i++) {
+    renderMesh(rc, shader, modelMtx, rc.viewFramesStack[i].first, nullptr);
+  }
+  glColorMask(save_color_mask[0], save_color_mask[1], save_color_mask[2], save_color_mask[3]);
+  glDepthMask(save_depth_mask);
+}
+
+void Renderer::renderViewFrameStencil(RenderContext &rc) {
+  GLboolean save_color_mask[4];
+  GLboolean save_depth_mask;
+  glGetBooleanv(GL_COLOR_WRITEMASK, save_color_mask);
+  glGetBooleanv(GL_DEPTH_WRITEMASK, &save_depth_mask);
+
+  glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+  glDepthMask(GL_FALSE);
+  glStencilFunc(GL_NEVER, 0, 0xFF);
+  glStencilOp(GL_INCR, GL_KEEP, GL_KEEP);  // draw 1s on test fail (always)
+  glClear(GL_STENCIL_BUFFER_BIT);  // needs mask=0xFF
+
+  rc.pushView(rc.viewStack[0]);
+  Shader shader = ShaderLoader::getShader("whitefill.frag");
+  Matrix4f modelMtx; rc.viewFramesStack.back().second.getModelMtx(modelMtx);
+  renderMesh(rc, shader, modelMtx, rc.viewFramesStack.back().first, nullptr);
+  rc.popView();
+
+  for (size_t i = 1; i < rc.viewStack.size() - 1; i++) {  // -1 to ignore last view
+    // Increment intersection for current portal
+    glStencilFunc(GL_EQUAL, 0, 0xFF);
+    glStencilOp(GL_INCR, GL_KEEP, GL_KEEP);  // draw 1s on test fail (always)
+    renderMesh(rc, shader, modelMtx, rc.viewFramesStack.back().first, nullptr);
+
+    // Decremental outer portal -> only sub-portal intersection remains
+    glStencilFunc(GL_NEVER, 0, 0xFF);
+    glStencilOp(GL_DECR, GL_KEEP, GL_KEEP);  // draw 1s on test fail (always)
+    rc.pushView(rc.viewStack[i-1]);
+    renderMesh(rc, shader, modelMtx, rc.viewFramesStack.back().first, nullptr);
+  }
+
+  //glColorMask(GL_TRUE, GL_TRUE, GL_FALSE, GL_TRUE);  // blue-ish filter if drawing on white or grey
+  glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+  glDepthMask(GL_TRUE);
+  glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  /* Fill 1 or more */
+  glStencilFunc(GL_LEQUAL, 1, 0xFF);
+  glColorMask(save_color_mask[0], save_color_mask[1], save_color_mask[2], save_color_mask[3]);
+  glDepthMask(save_depth_mask);
+}
+
 void Renderer::renderScene(RenderContext &rc) {
+  constexpr int MaxViewFrameDepth = 2; // TODO: make into a setting
+  if (rc.viewFramesStack.size() > MaxViewFrameDepth) {
+    return;
+  }
+  RectangleI scissor;
+  if (rc.viewFramesStack.size() > 0) {
+    const RenderContext::ViewFrameInfo &vfi = rc.getViewFrame();
+    // Don't render further if computed clip rect is zero-sized
+    if (!clipViewFrame(rc, vfi.first, vfi.second, scissor)) {
+      return;
+    }
+  }
+
+  glClear(GL_DEPTH_BUFFER_BIT);
+
+  renderViewFrames(rc);
+
+  if (rc.viewFramesStack.size() > 0) {
+    glScissor(scissor.x, scissor.y, scissor.w, scissor.h);
+    renderViewFrameStencil(rc);
+  }
+
   renderEntities(rc);
 }
 
@@ -346,6 +426,76 @@ void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
     glBindTexture(GL_TEXTURE_2D, 0);
   }
   glBindVertexArray(0);
+}
+
+Matrix4f Renderer::getFrameView(const Matrix4f &src, const Matrix4f &in, const Matrix4f &out) {
+  Matrix4f rotate180; rotate180.rotate(rad(180), 0, 1, 0);
+  return src * in * rotate180 * inverse(out);
+}
+
+bool Renderer::clipViewFrame(const RenderContext &rc, const Mesh &frame,
+  const Transform &frameTform, RectangleI &scissor) {
+  int sw, sh;
+  rc.renderer.getViewport()->getSize(&sw, &sh);
+  scissor.set(0, 0, sw, sh);
+  for (unsigned int v = 0; v < rc.viewStack.size() - 1; ++v) { // -1 to ignore last view
+    Vector4f p[4];
+    RectangleI r;
+    bool found_negative_w = false;
+    Matrix4f modelMtx; frameTform.applyModelMtx(modelMtx);
+    Matrix4f projMtx = rc.getProj();
+    projMtx[0] = projMtx[5] / (1.0f*sw/sh);
+    for (int pi = 0; pi < 4; pi++) {
+      p[pi] = projMtx
+        * rc.viewStack[v]
+        * modelMtx
+        * Vector4f(frame.vertices[pi], 1);
+      if (p[pi].w < 0) {
+        found_negative_w = true;
+      } else {
+        p[pi].x /= p[pi].w;
+        p[pi].y /= p[pi].w;
+      }
+    }
+    if (found_negative_w) {
+      continue;
+    }
+
+    Vector4f min_x, max_x, max_y, min_y;
+    min_x = max_x = min_y = max_y = p[0];
+    for (int i = 0; i < 4; i++) {
+      if (p[i].x < min_x.x) min_x = p[i];
+      if (p[i].x > max_x.x) max_x = p[i];
+      if (p[i].y < min_y.y) min_y = p[i];
+      if (p[i].y > max_y.y) max_y = p[i];
+    }
+
+    min_x.x = (std::max(-1.f, min_x.x) + 1) / 2 * sw;
+    max_x.x = (std::min( 1.f, max_x.x) + 1) / 2 * sw;
+    min_y.y = (std::max(-1.f, min_y.y) + 1) / 2 * sh;
+    max_y.y = (std::min( 1.f, max_y.y) + 1) / 2 * sh;
+
+    r.x = min_x.x;
+    r.y = min_y.y;
+    r.w = max_x.x-min_x.x;
+    r.h = max_y.y-min_y.y;
+
+    {
+      int r_min_x = std::max(r.x, scissor.x);
+      int r_max_x = std::min(r.x+r.w, scissor.x+scissor.w);
+      scissor.x = r_min_x;
+      scissor.w = r_max_x - scissor.x;
+      int r_min_y = std::max(r.y, scissor.y);
+      int r_max_y = std::min(r.y+r.h, scissor.y+scissor.h);
+      scissor.y = r_min_y;
+      scissor.h = r_max_y - scissor.y;
+    }
+    if (scissor.w <= 0 || scissor.h <= 0) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 void Renderer::setCameraInPortal(const Camera &cam, Camera &dest,

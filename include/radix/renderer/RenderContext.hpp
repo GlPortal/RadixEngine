@@ -9,20 +9,32 @@
 namespace radix {
 
 class Renderer;
+class Mesh;
+class Transform;
 
 struct RenderContext {
   Renderer &renderer;
   RenderContext(Renderer &r) : renderer(r) {}
 
   std::vector<Matrix4f> projStack;
+  bool projDirty;
   inline Matrix4f& getProj() {
     return projStack.back();
   }
   inline const Matrix4f& getProj() const {
     return projStack.back();
   }
+  inline void pushProj(const Matrix4f &m) {
+    projStack.push_back(m);
+    projDirty = true;
+  }
+  inline void popProj() {
+    projStack.pop_back();
+    projDirty = true;
+  }
 
   std::vector<Matrix4f> viewStack, invViewStack;
+  bool viewDirty;
   int viewStackMaxDepth;
   inline Matrix4f& getView() {
     return viewStack.back();
@@ -39,10 +51,12 @@ struct RenderContext {
   inline void pushView(const Matrix4f &m) {
     viewStack.push_back(m);
     invViewStack.push_back(inverse(m));
+    viewDirty = true;
   }
   inline void popView() {
     viewStack.pop_back();
     invViewStack.pop_back();
+    viewDirty = true;
   }
 
   inline void pushCamera(const Camera &c) {
@@ -52,11 +66,25 @@ struct RenderContext {
     c.getViewMatrix(viewStack.back());
     invViewStack.push_back(Matrix4f::Identity);
     c.getInvViewMatrix(invViewStack.back());
+    projDirty = viewDirty = true;
   }
   inline void popCamera() {
     projStack.pop_back();
     viewStack.pop_back();
     invViewStack.pop_back();
+    projDirty = viewDirty = true;
+  }
+
+  using ViewFrameInfo = std::pair<const Mesh&, const Transform&>;
+  std::vector<ViewFrameInfo> viewFramesStack;
+  inline const ViewFrameInfo getViewFrame() const {
+    return viewFramesStack.back();
+  }
+  inline void pushViewFrame(const ViewFrameInfo &frame) {
+    viewFramesStack.push_back(frame);
+  }
+  inline void popViewFrame() {
+    viewFramesStack.pop_back();
   }
 };
 
