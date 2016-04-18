@@ -29,6 +29,11 @@ public:
       dispatcher(dispatcher) {
     }
 
+    // Handy call operator to directly call the callback
+    void operator()(const Event &e) {
+      (*second)(e);
+    }
+
     // No copy
     CallbackHolder(CallbackHolder&) = delete;
     CallbackHolder& operator=(CallbackHolder&) = delete;
