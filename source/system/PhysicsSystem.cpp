@@ -52,6 +52,15 @@ PhysicsSystem::PhysicsSystem(World &w) :
       this->physWorld->removeCollisionObject(p.obj);
     }
   });
+
+  for (Entity &e : world.entities) {
+    if (e.hasComponent<RigidBody>()) {
+      cbCompAdd(Entity::ComponentAddedEvent(e, e.getComponent<RigidBody>()));
+    }
+    if (e.hasComponent<Player>()) {
+      cbCompAdd(Entity::ComponentAddedEvent(e, e.getComponent<Player>()));
+    }
+  }
 }
 
 PhysicsSystem::~PhysicsSystem() {
