@@ -17,7 +17,7 @@ class Uncollider;
 
 class PhysicsSystem : public System {
 private:
-  EventDispatcher::CallbackPointer cpCompAdd, cpCompRem;
+  EventDispatcher::CallbackHolder cbCompAdd, cbCompRem;
 
   friend class Uncollider;
   Uncollider *filterCallback;

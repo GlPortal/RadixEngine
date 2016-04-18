@@ -26,7 +26,7 @@ PhysicsSystem::PhysicsSystem(World &w) :
   dispatcher->setNearCallback(Uncollider::nearCallback);
   physWorld->setGravity(btVector3(0, -9.8, 0));
 
-  cpCompAdd = w.event.observe(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e){
+  cbCompAdd = w.event.observe(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e) {
     Component &c = ((Entity::ComponentAddedEvent&)e).component;
     auto ctid = c.getTypeId();
     if (ctid == Component::getTypeId<RigidBody>()) {
@@ -40,7 +40,7 @@ PhysicsSystem::PhysicsSystem(World &w) :
       this->physWorld->addAction(p.controller);
     }
   });
-  cpCompRem = w.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &e){
+  cbCompRem = w.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &e) {
     Component &c = ((Entity::ComponentAddedEvent&)e).component;
     auto ctid = c.getTypeId();
     if (ctid == Component::getTypeId<RigidBody>()) {
@@ -55,7 +55,6 @@ PhysicsSystem::PhysicsSystem(World &w) :
 }
 
 PhysicsSystem::~PhysicsSystem() {
-  world.event.unobserve(cpCompAdd, cpCompRem);
   delete filterCallback;
 }
 
