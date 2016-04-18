@@ -16,13 +16,13 @@ public:
 
   static constexpr TimeDelta sec(Type t) { return TimeDelta(t*1000000); }
   constexpr Type sec() const { return value / 1000000; }
-  constexpr Type sec_d() const { return value / 1000000.; }
+  constexpr double sec_d() const { return value / 1000000.; }
   static constexpr TimeDelta msec(Type t) { return TimeDelta(t*1000); }
   constexpr Type msec() const { return value / 1000; }
-  constexpr Type msec_d() const { return value / 1000.; }
+  constexpr double msec_d() const { return value / 1000.; }
   static constexpr TimeDelta usec(Type t) { return TimeDelta(t); }
   constexpr Type usec() const { return value; }
-  constexpr Type usec_d() const { return (double) value; }
+  constexpr double usec_d() const { return (double) value; }
 };
 
 using TDelta = TimeDelta;
