@@ -24,9 +24,6 @@
 
 #include <radix/core/math/Vector3f.hpp>
 
-#include <iostream>
-#include <fstream>
-
 namespace radix {
 
 World::SystemRunner::SystemRunner(World &w) :
@@ -304,8 +301,6 @@ void World::computeSystemOrder() {
       }
     }
   }
-
-  //dumpGraph("/tmp/radixSystemGraph", systems, systemGraph);
 }
 
 void World::create() {
@@ -314,34 +309,6 @@ void World::create() {
 
 void World::destroy() {
 }
-
-#if 0
-/// @todo recreate scene loading utility
-void World::loadScene(const std::string &path) {
-  // Delete previous scene
-  delete scene;
-  currentScenePath = path;
-  scene = MapLoader::getScene(path);
-
-  if (justStarted) {
-    Entity &player = *scene->player;
-    Player &plr = player.getComponent<Player>();
-    plr.frozen = true;
-    scene->screen->enabled = true;
-    justStarted = false;
-  }
-
-  scene->world = this;
-  plrSys.setScene(scene);
-  phys.setScene(scene);
-  scene->physics.world->setDebugDrawer(&pdd);
-  scene->physics.setGravity(0, -9.8, 0);
-  prtl.setScene(scene);
-  renderer->setScene(scene);
-
-  Environment::dispatcher.dispatch(Event::loadScene);
-}
-#endif
 
 void World::update(TDelta dtime) {
   gameTime += dtime;
@@ -390,11 +357,6 @@ void World::update(TDelta dtime) {
     hidePortals();
   }
 
-  plrSys.update(dtime);
-  phys.update(dtime);
-  prtl.update(dtime);
-
-/*
   for (Entity &e : scene->entities) {
     // Trigger
     if (e.hasComponent<Trigger>()) {
@@ -432,14 +394,6 @@ void World::update(TDelta dtime) {
     }
   }*/
 
-  // Parent camera to player
-  camera.setPerspective();
-  int vpWidth, vpHeight;
-  renderer->getViewport()->getSize(&vpWidth, &vpHeight);
-  camera.setAspect((float)vpWidth / vpHeight);
-  camera.setPosition(plrTform.getPosition() + Vector3f(0, plrTform.getScale().y/2, 0));
-  camera.setOrientation(plrComp.getHeadOrientation());
-
   //Check if the end of the level has been reached
   float distToEnd = (scene->end->getComponent<Transform>().getPosition() -
                      plrTform.getPosition()).length();
@@ -457,14 +411,6 @@ void World::update(TDelta dtime) {
 }
 
 #if 0
-void World::shootPortal(int button) {
-  WorldHelper::shootPortal(button, scene);
-}
-
-Renderer* World::getRenderer() const {
-  return renderer;
-}
-
 // TODO: move elsewhere. World is world, not renderer.
 void World::render(double dtime) {
   renderer->render(dtime, scene->camera);
