@@ -17,6 +17,7 @@
 #include <chrono>
 #include <thread>
 
+#include <radix/core/event/EventDispatcher.hpp>
 #include <radix/texture/TextureLoader.hpp>
 #include <radix/core/diag/Throwables.hpp>
 #include <radix/input/GWENInput.hpp>
@@ -213,21 +214,68 @@ void Window::processEvents() {
       keyReleased(key, mod);
       break;
     case SDL_MOUSEBUTTONDOWN:
-      ;
+    case SDL_MOUSEBUTTONUP:
+      MouseButton button;
+      switch (event.button.button) {
+        case SDL_BUTTON_LEFT:
+          button = MouseButton::Left;
+          break;
+        case SDL_BUTTON_MIDDLE:
+          button = MouseButton::Middle;
+          break;
+        case SDL_BUTTON_RIGHT:
+          button = MouseButton::Right;
+          break;
+        case SDL_BUTTON_X1:
+          button = MouseButton::Aux1;
+          break;
+        case SDL_BUTTON_X2:
+          button = MouseButton::Aux2;
+          break;
+        default:
+          button = MouseButton::Unknown;
+          break;
+      }
+      if (event.type == SDL_MOUSEBUTTONDOWN) {
+        const MouseButtonPressedEvent mbpe(*this, button);
+        for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+          d.get().dispatch(mbpe);
+        }
+      } else {
+        const MouseButtonReleasedEvent mbre(*this, button);
+        for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+          d.get().dispatch(mbre);
+        }
+      }
       break;
+      case SDL_MOUSEWHEEL:
+        const int dirmult = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) ? -1 : 1;
+        const MouseWheelScrolledEvent mwse(*this, event.wheel.x * dirmult, event.wheel.y * dirmult);
+        for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+          d.get().dispatch(mwse);
+        }
+        break;
     }
   }
 }
 
-void Window::keyPressed(int key, int mod) {
+void Window::keyPressed(KeyboardKey key, KeyboardModifier mod) {
   keystates[key] = true;
+  const KeyPressedEvent kpe(*this, key, mod);
+  for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+    d.get().dispatch(kpe);
+  }
 }
 
-void Window::keyReleased(int key, int mod) {
+void Window::keyReleased(KeyboardKey key, KeyboardModifier mod) {
   keystates[key] = false;
+  const KeyPressedEvent kre(*this, key, mod);
+  for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+    d.get().dispatch(kre);
+  }
 }
 
-bool Window::isKeyDown(int key) {
+bool Window::isKeyDown(KeyboardKey key) {
   return keystates[key];
 }
 

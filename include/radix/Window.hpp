@@ -38,9 +38,9 @@ public:
 
   void processEvents();
 
-  void keyPressed(int key, int mod);
-  void keyReleased(int key, int mod);
-  bool isKeyDown(int key);
+  void keyPressed(KeyboardKey key, KeyboardModifier mod);
+  void keyReleased(KeyboardKey key, KeyboardModifier mod);
+  bool isKeyDown(KeyboardKey key);
   std::string getCharBuffer();
   void addToBuffer(const std::string &character);
   void clearBuffer();
