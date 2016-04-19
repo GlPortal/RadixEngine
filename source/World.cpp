@@ -93,6 +93,7 @@ World::World(InputSource &input) :
   systemRun(*this),
   gameTime(0),
   lastUpdateTime(0) {
+  input.addDispatcher(event);
   player = &entities.create();
   player->addComponent<Transform>().setPosition(Vector3f(2.5, 1, 5));
   player->addComponent<Health>();
@@ -101,7 +102,9 @@ World::World(InputSource &input) :
   player->addComponent<Player>();
 }
 
-World::~World() = default;
+World::~World() {
+  input.removeDispatcher(event);
+}
 
 using SystemGraphNode = World::SystemGraphNode;
 using SystemGraphNodeVector = World::SystemGraphNodeVector;
