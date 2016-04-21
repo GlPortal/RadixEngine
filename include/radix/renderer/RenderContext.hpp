@@ -35,7 +35,7 @@ struct RenderContext {
 
   std::vector<Matrix4f> viewStack, invViewStack;
   bool viewDirty;
-  int viewStackMaxDepth;
+  size_t viewStackMaxDepth;
   inline Matrix4f& getView() {
     return viewStack.back();
   }

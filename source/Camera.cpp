@@ -39,6 +39,7 @@ void Camera::calcView() {
   Matrix4f &m = viewMatrix;
   m = inverse(orientation.toMatrix());
   m.translate(-position);
+  invViewMatrix = inverse(viewMatrix);
 }
 
 void Camera::getProjMatrix(Matrix4f &m) const {
@@ -55,6 +56,7 @@ void Camera::getViewMatrix(Matrix4f &m) const {
 
 void Camera::setViewMatrix(const Matrix4f &m) {
   viewMatrix = m;
+  invViewMatrix = inverse(viewMatrix);
 }
 
 void Camera::getInvViewMatrix(Matrix4f &m) const {

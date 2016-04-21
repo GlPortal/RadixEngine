@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdio>
+#include <cstring>
 #include <string>
 #include <vector>
 
@@ -39,12 +40,14 @@
 namespace radix {
 
 Renderer::Renderer(World &w) :
+  lightsUBO(0),
   world(w),
   viewport(nullptr),
   vpWidth(0), vpHeight(0),
   fontColor(1, 1, 1, 1),
   font(nullptr),
   rc(*this) {
+  support.uniformBuffers = epoxy_has_gl_extension("GL_ARB_uniform_buffer_object");
 }
 
 void Renderer::setFont(const std::string &font, float size) {
@@ -96,113 +99,119 @@ void Renderer::render(double dtime, const Camera &cam) {
 
   rc.projDirty = rc.viewDirty = true;
 
-  renderScene(rc);
-
-#if 0
+  /* Lights */
+  // Currently, the way this is handled is horrendous: in UBO mode, it doesn't allow for lighting
+  // changes, and in direct mode light data gets sent over and over again.
   Shader &diffuse = ShaderLoader::getShader("diffuse.frag");
-  glUseProgram(diffuse.handle);
-
-  /* Lights */ {
-    int numLights = 0;
-    for (const Entity &e : world.entities) {
-      if (not e.hasComponent<LightSource>()) {
-        continue;
-      }
-
-      LightSource &ls = e.getComponent<LightSource>();
-      //if (not ls._uploaded) {
-        const Transform &t = e.getComponent<Transform>();
-        std::string index = std::to_string(numLights);
-        std::string position = "lights[" + index + "].position";
-        std::string color = "lights[" + index + "].color";
-        std::string distance = "lights[" + index + "].distance";
-        std::string energy = "lights[" + index + "].energy";
-        std::string specular = "lights[" + index + "].specular";
-        const Vector3f &tposition = t.getPosition();
-        glUniform3f(diffuse.uni(position.c_str()), tposition.x, tposition.y, tposition.z);
-        glUniform3f(diffuse.uni(color.c_str()), ls.color.x, ls.color.y, ls.color.z);
-        glUniform1f(diffuse.uni(distance.c_str()), ls.distance);
-        glUniform1f(diffuse.uni(energy.c_str()), ls.energy);
-        glUniform1f(diffuse.uni(specular.c_str()), ls.specular);
-        // ls._uploaded = true;
-      //}
-
-      ++numLights;
-    }
-    int numLightsLoc = diffuse.uni("numLights");
-    glUniform1i(numLightsLoc, numLights);
-  }
-
   Shader &metal = ShaderLoader::getShader("metal.frag");
-  glUseProgram(metal.handle);
-
-  /* Lights */ {
-    int numLights = 0;
-    for (const Entity &e : world.entities) {
-      if (not e.hasComponent<LightSource>()) {
-        continue;
+  Shader *const shaders[] = { &diffuse, &metal };
+  static int numLights = 0;
+  for (uint i = 0; i < sizeof(shaders)/sizeof(*shaders); ++i) {
+    glUseProgram(shaders[i]->handle);
+    if (support.uniformBuffers) {
+      glGetError();
+      GLuint lightsUBindex = glGetUniformBlockIndex(diffuse.handle, "lightsUB");
+      if (glGetError() == GL_INVALID_OPERATION) {
+        Util::Log(Debug, "Renderer") << "Uploading lights: bad shader handle";
+      } else if (lightsUBindex == GL_INVALID_INDEX) {
+        Util::Log(Debug, "Renderer") << "Uniform Block lightsUB not found";
       }
+      GLuint lightsUBbinding = 0;
+      glUniformBlockBinding(shaders[i]->handle, lightsUBindex, lightsUBbinding);
 
-      LightSource &ls = e.getComponent<LightSource>();
-      //if (not ls._uploaded) {
-        const Transform &t = e.getComponent<Transform>();
-        std::string index = std::to_string(numLights);
-        std::string position = "lights[" + index + "].position";
-        std::string color = "lights[" + index + "].color";
-        std::string distance = "lights[" + index + "].distance";
-        std::string energy = "lights[" + index + "].energy";
-        std::string specular = "lights[" + index + "].specular";
-        const Vector3f &tposition = t.getPosition();
-        glUniform3f(metal.uni(position.c_str()), tposition.x, tposition.y, tposition.z);
-        glUniform3f(metal.uni(color.c_str()), ls.color.x, ls.color.y, ls.color.z);
-        glUniform1f(metal.uni(distance.c_str()), ls.distance);
-        glUniform1f(metal.uni(energy.c_str()), ls.energy);
-        glUniform1f(metal.uni(specular.c_str()), ls.specular);
-        // ls._uploaded = true;
-      //}
+      if (lightsUBO == 0) {
+        GLint lightsUBsize;
+        glGetActiveUniformBlockiv(shaders[i]->handle, lightsUBindex,
+          GL_UNIFORM_BLOCK_DATA_SIZE, &lightsUBsize);
+        struct {
+          uint position;
+          uint color;
+          uint distance;
+          uint energy;
+          uint specular;
+        } lightStructOffsets;
+        uint lightStructSize;
+        {
+          constexpr const GLchar *const names[] = {"lights[0].position", "lights[0].color", "lights[0].distance",
+          "lights[0].energy", "lights[0].specular", "lights[1].position"};
+          constexpr uint namesCount = sizeof(names)/sizeof(*names);
+          GLuint indices[namesCount];
+          glGetUniformIndices(shaders[i]->handle, namesCount, names, indices);
+          GLint offsets[namesCount];
+          glGetActiveUniformsiv(shaders[i]->handle, namesCount, indices, GL_UNIFORM_OFFSET, offsets);
+          lightStructOffsets.position = offsets[0];
+          lightStructOffsets.color = offsets[1];
+          lightStructOffsets.distance = offsets[2];
+          lightStructOffsets.energy = offsets[3];
+          lightStructOffsets.specular = offsets[4];
+          lightStructSize = offsets[5] - offsets[0];
+        }
+        Util::Log(Debug, "Renderer") << "struct Light {\n"
+          "  position : " << lightStructOffsets.position << '\n' <<
+          "  distance : " << lightStructOffsets.distance << '\n' <<
+          "  color : " << lightStructOffsets.color << '\n' <<
+          "  energy : " << lightStructOffsets.energy << '\n' <<
+          "  specular : " << lightStructOffsets.specular << '\n' <<
+          "} : " << lightStructSize;
+        std::unique_ptr<uint8_t[]> buf(new uint8_t[lightsUBsize]);
+        for (const Entity &e : world.entities) {
+          if (not e.hasComponent<LightSource>()) {
+            continue;
+          }
 
-      ++numLights;
-    }
-    int numLightsLoc = metal.uni("numLights");
-    glUniform1i(numLightsLoc, numLights);
-  }
-#endif
+          LightSource &ls = e.getComponent<LightSource>();
+          const Transform &t = e.getComponent<Transform>();
+          const Vector3f &tposition = t.getPosition();
+          const uint baseAddr = numLights * lightStructSize;
+          memcpy(&buf[baseAddr + lightStructOffsets.position],
+                &tposition.x, sizeof(tposition.x)*3);
+          memcpy(&buf[baseAddr + lightStructOffsets.color],
+                &ls.color.r, sizeof(ls.color.r)*3);
+          memcpy(&buf[baseAddr + lightStructOffsets.distance],
+                &ls.distance, sizeof(ls.distance));
+          memcpy(&buf[baseAddr + lightStructOffsets.energy],
+                &ls.energy, sizeof(ls.energy));
+          memcpy(&buf[baseAddr + lightStructOffsets.specular],
+                &ls.specular, sizeof(ls.specular));
 
-#if 0 /// @todo reintroduce portals
-  /* Portals, pass 2 */
-  glDepthMask(GL_FALSE);
-  for (EntityPair &p : scene->portalPairs) {
-    Entity &pEnt1 = *p.first,
-           &pEnt2 = *p.second;
-    Portal &portal1 = pEnt1.getComponent<Portal>(),
-           &portal2 = pEnt2.getComponent<Portal>();
+          ++numLights;
+        }
 
-    // Draw simplex noise
-    if (portal1.open and portal2.open) {
-      double dtOpen = scene->world->getTime()-std::max(portal1.openSince, portal2.openSince);
-      if (dtOpen < Portal::NOISE_FADE_DELAY) {
-        float al = 1-((float)dtOpen/Portal::NOISE_FADE_DELAY)*2;
-        renderPortalNoise(camera, pEnt1, al);
-        renderPortalNoise(camera, pEnt2, al);
+        glGenBuffers(1, &lightsUBO);
+        glBindBuffer(GL_UNIFORM_BUFFER, lightsUBO);
+        glBufferData(GL_UNIFORM_BUFFER, lightsUBsize, buf.get(), GL_DYNAMIC_DRAW);
+        Util::Log(Debug, "Renderer") << "Uploading lights: UBO id=" << lightsUBO << " size=" << lightsUBsize;
       }
     } else {
-      if (portal1.open) {
-        renderPortalNoise(camera, pEnt1, 1.f);
-      }
-      if (portal2.open) {
-        renderPortalNoise(camera, pEnt2, 1.f);
+      numLights = 0;
+      for (const Entity &e : world.entities) {
+        if (not e.hasComponent<LightSource>()) {
+          continue;
+        }
+
+        LightSource &ls = e.getComponent<LightSource>();
+        const Transform &t = e.getComponent<Transform>();
+        std::string index = std::to_string(numLights);
+        std::string position = "lights[" + index + "].position";
+        std::string color = "lights[" + index + "].color";
+        std::string distance = "lights[" + index + "].distance";
+        std::string energy = "lights[" + index + "].energy";
+        std::string specular = "lights[" + index + "].specular";
+        const Vector3f &tposition = t.getPosition();
+        glUniform3f(shaders[i]->uni(position.c_str()), tposition.x, tposition.y, tposition.z);
+        glUniform3f(shaders[i]->uni(color.c_str()), ls.color.x, ls.color.y, ls.color.z);
+        glUniform1f(shaders[i]->uni(distance.c_str()), ls.distance);
+        glUniform1f(shaders[i]->uni(energy.c_str()), ls.energy);
+        glUniform1f(shaders[i]->uni(specular.c_str()), ls.specular);
+
+        ++numLights;
       }
     }
-
-    // Draw overlays
-    renderPortalOverlay(camera, pEnt1);
-    renderPortalOverlay(camera, pEnt2);
+    int numLightsLoc = shaders[i]->uni("numLights");
+    glUniform1i(numLightsLoc, numLights);
   }
-  glDepthMask(GL_TRUE);
-#endif
 
-  //Draw GUI
-  //glClear(GL_DEPTH_BUFFER_BIT);
+  renderScene(rc);
 }
 
 void Renderer::renderViewFrames(RenderContext &rc) {
@@ -296,8 +305,7 @@ void Renderer::renderViewFrameStencil(RenderContext &rc) {
 }
 
 void Renderer::renderScene(RenderContext &rc) {
-  constexpr int MaxViewFrameDepth = 2; // TODO: make into a setting
-  if (rc.viewFramesStack.size() > MaxViewFrameDepth) {
+  if (rc.viewFramesStack.size() > rc.viewStackMaxDepth) {
     return;
   }
   RectangleI scissor;
@@ -399,7 +407,12 @@ void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
   glUniformMatrix4fv(shader.uni("modelMatrix"), 1, false, mdlMtx.toArray());
 
   // Per-vertex color multiplier
-  glVertexAttrib4f(4, 1, 1, 1, 1);
+  glVertexAttrib4f(shader.att("color"), 1, 1, 1, 1);
+
+  if (support.uniformBuffers) {
+    glBindBuffer(GL_UNIFORM_BUFFER, lightsUBO);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0 /* lightsUBbinding, up there */, lightsUBO);
+  }
 
   glBindVertexArray(mesh.handle);
   if (mat) {

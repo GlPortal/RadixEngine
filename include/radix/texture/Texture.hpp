@@ -4,7 +4,7 @@
 namespace radix {
 
 struct Texture {
-  unsigned int handle = 0xBAD7E96;
+  unsigned int handle = 0;
   int width;
   int height;
 };

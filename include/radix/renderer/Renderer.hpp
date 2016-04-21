@@ -136,6 +136,10 @@ public:
   static Matrix4f clipProjMat(const Entity &ent, const Matrix4f &view, const Matrix4f &proj);
 
 private:
+  struct Support {
+    bool uniformBuffers;
+  } support;
+  uint lightsUBO;
   World &world;
   Viewport *viewport;
   int vpWidth, vpHeight;
