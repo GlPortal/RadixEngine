@@ -38,32 +38,86 @@ struct Vector2f {
   constexpr Vector2f(float v)
     : x(v), y(v) {}
 
-  void set(float x, float y);
-
   float length() const;
   std::string str() const;
 
   /* Operator overloads */
-  bool operator==(const Vector2f& v) const;
-  bool operator!=(const Vector2f& v) const;
-  Vector2f& operator+=(const Vector2f& v);
-  Vector2f& operator-=(const Vector2f& v);
-  Vector2f& operator*=(const Vector2f& v);
-  Vector2f& operator*=(float scale);
-  Vector2f& operator/=(const Vector2f& v);
-  Vector2f operator+(const Vector2f& v) const;
-  Vector2f operator-(const Vector2f& v) const;
-  Vector2f operator-() const;
-  Vector2f operator*(float scale) const;
-  Vector2f operator/(float divisor) const;
+  constexpr bool operator==(const Vector2f &v) const {
+    return x == v.x && y == v.y;
+  }
+
+  constexpr bool operator!=(const Vector2f &v) const {
+    return x != v.x || y != v.y;
+  }
+
+  constexpr Vector2f operator-() const {
+    return Vector2f(-x, -y);
+  }
+
+  constexpr Vector2f operator+(const Vector2f& v) const {
+    return Vector2f(x + v.x, y + v.y);
+  }
+  Vector2f& operator+=(const Vector2f &v) {
+    x += v.x;
+    y += v.y;
+    return *this;
+  }
+
+  constexpr Vector2f operator-(const Vector2f& v) const {
+    return Vector2f(x - v.x, y - v.y);
+  }
+  Vector2f& operator-=(const Vector2f& v) {
+    x -= v.x;
+    y -= v.y;
+    return *this;
+  }
+
+  constexpr Vector2f operator*(const Vector2f& v) const {
+    return Vector2f(x * v.x, y * v.y);
+  }
+  Vector2f& operator*=(const Vector2f& v) {
+    x *= v.x;
+    y *= v.y;
+    return *this;
+  }
+
+  constexpr Vector2f operator*(float scale) const {
+    return Vector2f(x * scale, y * scale);
+  }
+  Vector2f& operator*=(float scale) {
+    x *= scale;
+    y *= scale;
+    return *this;
+  }
+
+  constexpr Vector2f operator/(float divisor) const {
+    return Vector2f(x / divisor, y / divisor);
+  }
+  Vector2f& operator/=(float divisor) {
+    x /= divisor;
+    y /= divisor;
+    return *this;
+  }
+
+  constexpr Vector2f operator/=(const Vector2f& v) const {
+    return Vector2f(x / v.x, y / v.y);
+  }
+  Vector2f& operator/=(const Vector2f& v) {
+    x /= v.x;
+    y /= v.y;
+    return *this;
+  }
 
   bool fuzzyEqual(const Vector2f&, float threshold = .02f) const;
 };
 
 /* Utility functions */
-float dot(const Vector2f& v1, const Vector2f& v2);
-Vector2f negate(const Vector2f& v);
-Vector2f normalize(const Vector2f& v);
+constexpr inline float dot(const Vector2f &v1, const Vector2f &v2) {
+  return v1.x * v2.x + v1.y * v2.y;
+}
+inline Vector2f normalize(const Vector2f &v) {
+  return v / v.length();
+}
 
 } /* namespace radix */
 

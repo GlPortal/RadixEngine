@@ -45,23 +45,25 @@ struct Vector3f : public serine::Serializable {
   constexpr Vector3f(float v)
     : x(v), y(v), z(v) {}
 
-  void set(float x, float y, float z);
-  void set(const Vector3f& v);
-
   float length() const;
   std::string str() const;
 
   void serialize(serine::Archiver&);
 
   /* Operator overloads */
-  bool operator==(const Vector3f& v) const;
-  bool operator!=(const Vector3f& v) const;
+  constexpr bool operator==(const Vector3f &v) const {
+    return x == v.x && y == v.y && z == v.z;
+  }
 
-  Vector3f operator-() const {
+  constexpr bool operator!=(const Vector3f &v) const {
+    return x != v.x || y != v.y || z != v.z;
+  }
+
+  constexpr Vector3f operator-() const {
     return Vector3f(-x, -y, -z);
   }
 
-  Vector3f operator*(const Vector3f &v) const {
+  constexpr Vector3f operator*(const Vector3f &v) const {
     return Vector3f(x*v.x, y*v.y, z*v.z);
   }
   Vector3f& operator*=(const Vector3f &v) {
@@ -69,7 +71,7 @@ struct Vector3f : public serine::Serializable {
     return *this;
   }
 
-  Vector3f operator*(float v) const {
+  constexpr Vector3f operator*(float v) const {
     return Vector3f(x*v, y*v, z*v);
   }
   Vector3f& operator*=(float v) {
@@ -77,7 +79,7 @@ struct Vector3f : public serine::Serializable {
     return *this;
   }
 
-  Vector3f operator/(const Vector3f &v) const {
+  constexpr Vector3f operator/(const Vector3f &v) const {
     return Vector3f(x/v.x, y/v.y, z/v.z);
   }
   Vector3f& operator/=(const Vector3f &v) {
@@ -85,7 +87,7 @@ struct Vector3f : public serine::Serializable {
     return *this;
   }
 
-  Vector3f operator/(float v) const {
+  constexpr Vector3f operator/(float v) const {
     return Vector3f(x/v, y/v, z/v);
   }
   Vector3f& operator/=(float v) {
@@ -93,7 +95,7 @@ struct Vector3f : public serine::Serializable {
     return *this;
   }
 
-  Vector3f operator+(const Vector3f &v) const {
+  constexpr Vector3f operator+(const Vector3f &v) const {
     return Vector3f(x+v.x, y+v.y, z+v.z);
   }
   Vector3f& operator+=(const Vector3f &v) {
@@ -101,7 +103,7 @@ struct Vector3f : public serine::Serializable {
     return *this;
   }
 
-  Vector3f operator-(const Vector3f &v) const {
+  constexpr Vector3f operator-(const Vector3f &v) const {
     return Vector3f(x-v.x, y-v.y, z-v.z);
   }
   Vector3f& operator-=(const Vector3f &v) {

@@ -44,18 +44,11 @@ struct Vector4f : public serine::Serializable {
 
   void serialize(serine::Archiver&);
 
-  void set(float x, float y, float z, float w) {
-    this->x = x;
-    this->y = y;
-    this->z = z;
-    this->w = w;
-  }
-
-  Vector4f operator-() const {
+  constexpr Vector4f operator-() const {
     return Vector4f(-x, -y, -z, -w);
   }
 
-  Vector4f operator*(const Vector4f &v) const {
+  constexpr Vector4f operator*(const Vector4f &v) const {
     return Vector4f(x*v.x, y*v.y, z*v.z, w*v.w);
   }
   Vector4f& operator*=(const Vector4f &v) {
@@ -63,7 +56,7 @@ struct Vector4f : public serine::Serializable {
     return *this;
   }
 
-  Vector4f operator*(float v) const {
+  constexpr Vector4f operator*(float v) const {
     return Vector4f(x*v, y*v, z*v, w*v);
   }
   Vector4f& operator*=(float v) {
@@ -71,7 +64,7 @@ struct Vector4f : public serine::Serializable {
     return *this;
   }
 
-  Vector4f operator/(const Vector4f &v) const {
+  constexpr Vector4f operator/(const Vector4f &v) const {
     return Vector4f(x/v.x, y/v.y, z/v.z, w/v.w);
   }
   Vector4f& operator/=(const Vector4f &v) {
@@ -79,7 +72,7 @@ struct Vector4f : public serine::Serializable {
     return *this;
   }
 
-  Vector4f operator/(float v) const {
+  constexpr Vector4f operator/(float v) const {
     return Vector4f(x/v, y/v, z/v, w/v);
   }
   Vector4f& operator/=(float v) {
@@ -87,7 +80,7 @@ struct Vector4f : public serine::Serializable {
     return *this;
   }
 
-  Vector4f operator+(const Vector4f &v) const {
+  constexpr Vector4f operator+(const Vector4f &v) const {
     return Vector4f(x+v.x, y+v.y, z+v.z, w+v.w);
   }
   Vector4f& operator+=(const Vector4f &v) {
@@ -95,7 +88,7 @@ struct Vector4f : public serine::Serializable {
     return *this;
   }
 
-  Vector4f operator-(const Vector4f &v) const {
+  constexpr Vector4f operator-(const Vector4f &v) const {
     return Vector4f(x-v.x, y-v.y, z-v.z, w-v.w);
   }
   Vector4f& operator-=(const Vector4f &v) {
@@ -180,7 +173,7 @@ inline Vector4f normalize(const Vector4f &v) {
 }
 
 constexpr inline Quaternion normalize(const Quaternion &q) {
-  float l = length(q);
+  const float l = length(q);
   return Quaternion(q.x/l, q.y/l, q.z/l, q.w/l);
 }
 

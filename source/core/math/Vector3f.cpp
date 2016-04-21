@@ -20,23 +20,11 @@
 
 namespace radix {
 
-const Vector3f Vector3f::ZERO = Vector3f(0, 0, 0);
-const Vector3f Vector3f::FORWARD = Vector3f(0, 0, -1);
-const Vector3f Vector3f::UP = Vector3f(0, 1, 0);
+const Vector3f Vector3f::ZERO(0, 0, 0);
+const Vector3f Vector3f::FORWARD(0, 0, -1);
+const Vector3f Vector3f::UP(0, 1, 0);
 
 /* Core */
-void Vector3f::set(float x, float y, float z) {
-  this->x = x;
-  this->y = y;
-  this->z = z;
-}
-
-void Vector3f::set(const Vector3f& v) {
-  x = v.x;
-  y = v.y;
-  z = v.z;
-}
-
 float Vector3f::length() const {
   return sqrt(x * x + y * y + z * z);
 }
@@ -54,14 +42,6 @@ void Vector3f::serialize(serine::Archiver &ar) {
 }
 
 /* Operator overloads */
-bool Vector3f::operator==(const Vector3f& v) const {
-  return x == v.x && y == v.y && z == v.z;
-}
-
-bool Vector3f::operator!=(const Vector3f& v) const {
-  return x != v.x || y != v.y || z != v.z;
-}
-
 bool Vector3f::fuzzyEqual(const Vector3f &v, float threshold) const {
   return (x > v.x - threshold and x < v.x + threshold) and
          (y > v.y - threshold and y < v.y + threshold) and
