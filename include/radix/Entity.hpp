@@ -92,7 +92,6 @@ public:
     clearComponents();
   }
 
-  std::array<std::unique_ptr<Component>, Component::MaxId> components;
 
   /**
    * Entity (instance) identifier.
@@ -101,10 +100,21 @@ public:
    */
   EntityId id;
 
+  inline bool operator==(const Entity &o) const {
+    return id == o.id;
+  }
+  inline bool operator!=(const Entity &o) const {
+    return id != o.id;
+  }
+
+
   std::string getName() const {
     return name;
   }
   void setName(const std::string&);
+
+
+  std::array<std::unique_ptr<Component>, Component::MaxId> components;
 
   template<typename T, typename... TArgs>
   T& addComponent(TArgs&&... mArgs) {
