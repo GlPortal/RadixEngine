@@ -5,7 +5,7 @@ It runs on all modern operating systems including GNU/Linux, Mac and Windows.
 You can find the website at http://glportal.de .
 
 ## Team
-Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec, Jason Pulkkinen
+Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec
 [More Info](CONTRIBUTORS.md)
 
 ## Compile the source
