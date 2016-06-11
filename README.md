@@ -6,7 +6,6 @@ You can find the website at http://glportal.de .
 
 ## Team
 Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec
-[More Info](CONTRIBUTORS.md)
 
 ## Compile the source
 For instructions on how to compile the game please [read COMPILE.md](COMPILE.md).
