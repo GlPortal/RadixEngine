@@ -70,6 +70,12 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       /// - mapFromPath \n
       /// Set the map that should be loaded.
       mapPath = optarg;
+      break;
+    case '?':
+      /// getopt error handling
+	  /// getopt has already shown an error message.
+	  showUsage(argv);
+	  exit(1);
     default:
       break;
     }
