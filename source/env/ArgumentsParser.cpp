@@ -14,6 +14,17 @@ namespace radix {
 std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";
 
+void ArgumentsParser::showUsage(char **argv) {
+  std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
+
+  std::cout << "Options:" << std::endl;
+  std::cout << "  -h, --help               Show this help message and exit" << std::endl;
+  std::cout << "  -v, --version            Display GlPortal version" << std::endl;
+  std::cout << "  -d, --datadir DIR        Set the data directory" << std::endl;
+  std::cout << "  -m, --map NAME           Specify map name to load" << std::endl;
+  std::cout << "  -M, --mapfrompath FILE   Load the specified map file" << std::endl;
+}
+
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   static struct option long_options[] = {
     {"version",          no_argument,       0, 'v'},
@@ -48,16 +59,8 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     case 'h':
       /// - help \n
       /// Display the help.
-      std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
-
-      std::cout << "Options:" << std::endl;
-      std::cout << "  -h, --help               Show this help message and exit" << std::endl;
-      std::cout << "  -v, --version            Display GlPortal version" << std::endl;
-      std::cout << "  -d, --datadir DIR        Set the data directory" << std::endl;
-      std::cout << "  -m, --map NAME           Specify map name to load" << std::endl;
-      std::cout << "  -M, --mapfrompath FILE   Load the specified map file" << std::endl;
-
-      exit(0);
+      showUsage(argv);
+	  exit(0);
     case 'm':
       /// - map \n
       /// Set the map that should be loaded.
