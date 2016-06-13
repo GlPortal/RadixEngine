@@ -48,7 +48,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     case 'h':
       /// - help \n
       /// Display the help.
-      std::cout << "Usage: glportal [options]" << std::endl << std::endl;
+      std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
 
       std::cout << "Options:" << std::endl;
       std::cout << "  -h, --help               Show this help message and exit" << std::endl;
