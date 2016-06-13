@@ -14,20 +14,31 @@ namespace radix {
 std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";
 
+void ArgumentsParser::showUsage(char **argv) {
+  std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
+
+  std::cout << "Options:" << std::endl;
+  std::cout << "  -h, --help               Show this help message and exit" << std::endl;
+  std::cout << "  -v, --version            Display GlPortal version" << std::endl;
+  std::cout << "  -d, --datadir DIR        Set the data directory" << std::endl;
+  std::cout << "  -m, --map NAME           Specify map name to load" << std::endl;
+  std::cout << "  -M, --mapfrompath FILE   Load the specified map file" << std::endl;
+}
+
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   static struct option long_options[] = {
     {"version",          no_argument,       0, 'v'},
     {"help",             no_argument,       0, 'h'},
     {"datadir",          required_argument, 0, 'd'},
     {"map",              required_argument, 0, 'm'},
-    {"mapfrompath",      required_argument, 0, 'p'},
+    {"mapfrompath",      required_argument, 0, 'M'},
     {0, 0, 0, 0}
   };
 
   while (1) {
     int option_index = 0;
     int argument;
-    argument = getopt_long (argc, argv, "v:d:h:m:p", long_options, &option_index);
+    argument = getopt_long (argc, argv, "vhd:m:M:", long_options, &option_index);
 
     if (argument == -1) {
       break;
@@ -48,25 +59,23 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     case 'h':
       /// - help \n
       /// Display the help.
-      std::cout << "Usage: glportal [options]" << std::endl << std::endl;
-
-      std::cout << "Options:" << std::endl;
-      std::cout << "  --help               Show this help message and exit" << std::endl;
-      std::cout << "  --version            Display GlPortal version" << std::endl;
-      std::cout << "  --datadir DIR        Set the data directory" << std::endl;
-      std::cout << "  --map NAME           Specify map name to load" << std::endl;
-      std::cout << "  --mapfrompath FILE   Load the specified map file" << std::endl;
-
-      exit(0);
+      showUsage(argv);
+	  exit(0);
     case 'm':
       /// - map \n
       /// Set the map that should be loaded.
       mapName = optarg;
       break;
-    case 'p':
+    case 'M':
       /// - mapFromPath \n
       /// Set the map that should be loaded.
       mapPath = optarg;
+      break;
+    case '?':
+      /// getopt error handling
+	  /// getopt has already shown an error message.
+	  showUsage(argv);
+	  exit(1);
     default:
       break;
     }
