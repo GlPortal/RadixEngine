@@ -63,6 +63,11 @@ void Renderer::setFontColor(const Vector4f color) {
   this->fontColor = color;
 }
 
+/**
+ * Meassures the width of text respecting the current font
+ * @param text
+ * @return Width in pixels
+ */
 int Renderer::getTextWidth(std::string text) {
   return this->font->getStringLength(text);
 }
@@ -70,7 +75,7 @@ int Renderer::getTextWidth(std::string text) {
 void Renderer::render(double dtime, const Camera &cam) {
   time += dtime;
   viewport->getSize(&vpWidth, &vpHeight);
-
+ 
   glDepthMask(GL_TRUE);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
