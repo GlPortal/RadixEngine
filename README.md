@@ -1,11 +1,11 @@
-# Radix Engine
+#![RadixEngine](https://raw.githubusercontent.com/GlPortal/glportal_raw_data/master/graphics/logo/radix/RadixEngine.png "RadixEngine")
+
 Radix is a modern, free and open-source 3D game engine with an Entity Component System and physics simulation.
 It runs on all modern operating systems including GNU/Linux, Mac and Windows.
 You can find the website at http://glportal.de .
 
 ## Team
-Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec, Jason Pulkkinen
-[More Info](CONTRIBUTORS.md)
+Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec
 
 ## Compile the source
 For instructions on how to compile the game please [read COMPILE.md](COMPILE.md).

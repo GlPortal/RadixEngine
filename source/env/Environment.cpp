@@ -3,8 +3,10 @@
 #include <stdexcept>
 #include <getopt.h>
 #include <iostream>
+#include <vector>
 
 #include <radix/core/file/Path.hpp>
+#include <radix/env/Util.hpp>
 
 namespace radix {
 
@@ -22,10 +24,26 @@ void Environment::init() {
   // default installation dir
   if (datadir.empty()) {
 #ifndef _WIN32
-    datadir = "/usr/share/glportal/data";
+    std::vector<std::string> datadirpaths = {
+      "data",
+      "/usr/local/share/glportal/data",
+      "/usr/share/glportal/data"
+    };
 #else
-    datadir = "data";
+    std::vector<std::string> datadirpaths = {
+      "data"
+    };
 #endif
+
+    for (std::vector<std::string>::iterator it = datadirpaths.begin(); it != datadirpaths.end(); ++it) {
+      if (Path::DirectoryExist(*it)) {
+        datadir = *it;
+        Util::Log(Info, "DataDir") << *it;
+
+        break;
+      }
+    }
+
   }
   initializeConfig();
 }

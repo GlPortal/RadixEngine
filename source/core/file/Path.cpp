@@ -2,6 +2,10 @@
 
 #include <string>
 
+#ifndef _WIN32
+#include <sys/stat.h>
+#endif
+
 using namespace std;
 
 namespace radix {
@@ -11,6 +15,19 @@ string Path::GetDirectorySeparator() {
   return "/";
 #else
   return "\\";
+#endif
+}
+
+bool Path::DirectoryExist(std::string &directory) {
+#ifndef _WIN32
+  struct stat sb;
+
+  if (stat(directory.c_str(), &sb) == 0 and S_ISDIR(sb.st_mode)) {
+    return true;
+  }
+  return false;
+#else
+  return true;
 #endif
 }
 

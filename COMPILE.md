@@ -1,4 +1,4 @@
-# Compile Guide for GlPortal
+# Compile Guide for RadixEngine
 ## Quick note if you are compiling for the first time
 Well done. You made the right decision. It's not even that hard.
 

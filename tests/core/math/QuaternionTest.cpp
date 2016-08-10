@@ -110,7 +110,7 @@ SUITE(QuaternionTest) {
     }
   }
   TEST_FIXTURE(QuaternionTestFixtures, QuatToAero_A90) {
-    quat.set(.7071, 0, 0, .7071);
+    quat = Quaternion(.7071, 0, 0, .7071);
     Vector3f a = quat.toAero();
     CHECK(a.fuzzyEqual(Vector3f(0, rad(90), 0)));
   }
