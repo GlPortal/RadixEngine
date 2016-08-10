@@ -39,6 +39,11 @@
 
 namespace radix {
 
+/*
+ * This is the low level graphics renderer
+ * it is highly encouraged to move all
+ * specialized code into sub-renderers.
+ */
 Renderer::Renderer(World &w) :
   lightsUBO(0),
   world(w),
