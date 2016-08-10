@@ -22,8 +22,16 @@ struct Texture;
 class Font;
 struct Viewport;
 
+/**
+ * This is the low level graphics renderer
+ * it is highly encouraged to move all
+ * specialized code into sub-renderers.
+ */
 class Renderer {
 public:
+  /**
+   * @param World The world to render
+   */
   Renderer(World&);
 
   // TODO: possibly remove to make rendering viewport-stateless
@@ -131,7 +139,12 @@ public:
   void setFontSize(float size);
 
   void setFontColor(const Vector4f color);
-  
+
+  /**
+   * Meassures the width of text respecting the current font
+   * @param text
+   * @return Width in pixels
+   */
   int getTextWidth(std::string text);
   static Matrix4f clipProjMat(const Entity &ent, const Matrix4f &view, const Matrix4f &proj);
 

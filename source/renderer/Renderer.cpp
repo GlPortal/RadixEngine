@@ -39,13 +39,6 @@
 
 namespace radix {
 
-/**
- * This is the low level graphics renderer
- * it is highly encouraged to move all
- * specialized code into sub-renderers.
- *
- * @param World The world to render
- */
 Renderer::Renderer(World &w) :
   lightsUBO(0),
   world(w),
@@ -70,11 +63,6 @@ void Renderer::setFontColor(const Vector4f color) {
   this->fontColor = color;
 }
 
-/**
- * Meassures the width of text respecting the current font
- * @param text
- * @return Width in pixels
- */
 int Renderer::getTextWidth(std::string text) {
   return this->font->getStringLength(text);
 }
