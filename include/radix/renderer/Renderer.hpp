@@ -22,9 +22,9 @@ struct Texture;
 class Font;
 struct Viewport;
 
-/**
- * @class Renderer
+/** @class Renderer
  * @brief Low level graphics renderer.
+ *
  * This is the low level graphics renderer
  * it is highly encouraged to move all
  * specialized code into sub-renderers.
