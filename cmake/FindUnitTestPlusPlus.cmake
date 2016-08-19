@@ -6,6 +6,9 @@
 FIND_PATH(UnitTestPlusPlus_INCLUDE_DIR NAMES unittest++/UnitTest++.h)
 MARK_AS_ADVANCED(UnitTestPlusPlus_INCLUDE_DIR)
 
+FIND_PATH(UnitTestPlusPlus_INCLUDE_DIR NAMES UnitTest++/UnitTest++.h)
+MARK_AS_ADVANCED(UnitTestPlusPlus_INCLUDE_DIR)
+
 FIND_LIBRARY(UnitTestPlusPlus_LIBRARY NAMES UnitTest++)
 MARK_AS_ADVANCED(UnitTestPlusPlus_LIBRARY)
 
