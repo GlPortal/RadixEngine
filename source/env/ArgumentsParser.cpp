@@ -13,6 +13,7 @@
 namespace radix {
 std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";
+bool ArgumentsParser::showCursor = false;
 
 void ArgumentsParser::showUsage(char **argv) {
   std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
@@ -23,12 +24,14 @@ void ArgumentsParser::showUsage(char **argv) {
   std::cout << "  -d, --datadir DIR        Set the data directory" << std::endl;
   std::cout << "  -m, --map NAME           Specify map name to load" << std::endl;
   std::cout << "  -M, --mapfrompath FILE   Load the specified map file" << std::endl;
+  std::cout << "  -c, --showcursor         Forces to draw os mouse cursor" << std::endl;
 }
 
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   static struct option long_options[] = {
     {"version",          no_argument,       0, 'v'},
     {"help",             no_argument,       0, 'h'},
+    {"showcursor",       no_argument, 	    0, 'c'},
     {"datadir",          required_argument, 0, 'd'},
     {"map",              required_argument, 0, 'm'},
     {"mapfrompath",      required_argument, 0, 'M'},
@@ -71,6 +74,12 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       /// Set the map that should be loaded.
       mapPath = optarg;
       break;
+    case 'c':
+      /// - showCursor \n
+      /// Forces os mouse cursor to be drawn
+      /// Defaults to false;
+      showCursor = true;
+      break;
     case '?':
       /// getopt error handling
 	  /// getopt has already shown an error message.
@@ -90,6 +99,8 @@ void ArgumentsParser::populateConfig() {
   if (not mapPath.empty()) {
     config.mapPath = mapPath;
   }
+  
+  config.cursorVisibility = showCursor;
 }
 
 } /* namespace radix */

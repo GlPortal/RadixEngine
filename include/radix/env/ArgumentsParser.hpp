@@ -9,6 +9,7 @@ class ArgumentsParser {
 private:
   static std::string mapName;
   static std::string mapPath;
+  static bool showCursor;
 public:
   static void showUsage(char **argv);
   static void setEnvironmentFromArgs(const int argc, char **argv);
