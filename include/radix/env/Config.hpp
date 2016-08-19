@@ -17,9 +17,10 @@ public:
   bool hasSound() { return sound; }
   bool hasVsync() { return vsync; }
   bool isHidePortalsByClick() { return hide_portals_by_click; }
-
+  
   std::string map;
   std::string mapPath;
+  bool cursorVisibility;
 private:
   unsigned int width;
   unsigned int height;

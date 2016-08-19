@@ -175,6 +175,7 @@ void Window::lockMouse() {
 }
 
 void Window::unlockMouse() {
+  SDL_WarpMouseInWindow(window, width / 2, height / 2);
   SDL_SetRelativeMouseMode(SDL_FALSE);
 }
 
