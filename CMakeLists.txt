@@ -95,6 +95,7 @@ endif ()
 
 find_package(UnitTestPlusPlus)
 if (UnitTestPlusPlus_FOUND)
+  include_directories(${RADIX_INCLUDE_DIRS} ${UnitTestPlusPlus_INCLUDE_DIRS})
   enable_testing()
   add_subdirectory(tests)
 endif ()

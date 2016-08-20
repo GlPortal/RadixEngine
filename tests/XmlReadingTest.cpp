@@ -1,4 +1,4 @@
-#include <unittest++/UnitTest++.h>
+#include <UnitTest++.h>
 #include <tinyxml2.h>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/map/XmlHelper.hpp>

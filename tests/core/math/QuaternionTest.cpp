@@ -1,6 +1,6 @@
 #include <random>
 #include <cmath>
-#include <unittest++/UnitTest++.h>
+#include <UnitTest++.h>
 #include <radix/core/math/Math.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Quaternion.hpp>

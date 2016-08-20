@@ -3,10 +3,10 @@
 # C++ unit testing framework, enabling FIND_PACKAGE(UnitTestPlusPlus) to work.
 #
 
-FIND_PATH(UnitTestPlusPlus_INCLUDE_DIR NAMES unittest++/UnitTest++.h)
+FIND_PATH(UnitTestPlusPlus_INCLUDE_DIR UnitTest++.h /usr/include/unittest++)
 MARK_AS_ADVANCED(UnitTestPlusPlus_INCLUDE_DIR)
 
-FIND_PATH(UnitTestPlusPlus_INCLUDE_DIR NAMES UnitTest++/UnitTest++.h)
+FIND_PATH(UnitTestPlusPlus_INCLUDE_DIR UnitTest++.h /usr/include/UnitTest++)
 MARK_AS_ADVANCED(UnitTestPlusPlus_INCLUDE_DIR)
 
 FIND_LIBRARY(UnitTestPlusPlus_LIBRARY NAMES UnitTest++)
