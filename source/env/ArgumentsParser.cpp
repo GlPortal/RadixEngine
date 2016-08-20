@@ -41,7 +41,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   while (1) {
     int option_index = 0;
     int argument;
-    argument = getopt_long (argc, argv, "vhd:m:M:", long_options, &option_index);
+    argument = getopt_long (argc, argv, "cvhd:m:M:", long_options, &option_index);
 
     if (argument == -1) {
       break;
