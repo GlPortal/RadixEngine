@@ -31,7 +31,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   static struct option long_options[] = {
     {"version",          no_argument,       0, 'v'},
     {"help",             no_argument,       0, 'h'},
-    {"showcursor",       no_argument, 	    0, 'c'},
+    {"showcursor",       no_argument,       0, 'c'},
     {"datadir",          required_argument, 0, 'd'},
     {"map",              required_argument, 0, 'm'},
     {"mapfrompath",      required_argument, 0, 'M'},
@@ -63,7 +63,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       /// - help \n
       /// Display the help.
       showUsage(argv);
-	  exit(0);
+      exit(0);
     case 'm':
       /// - map \n
       /// Set the map that should be loaded.
@@ -82,9 +82,9 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       break;
     case '?':
       /// getopt error handling
-	  /// getopt has already shown an error message.
-	  showUsage(argv);
-	  exit(1);
+      /// getopt has already shown an error message.
+      showUsage(argv);
+      exit(1);
     default:
       break;
     }
