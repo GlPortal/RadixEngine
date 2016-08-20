@@ -99,7 +99,7 @@ void ArgumentsParser::populateConfig() {
   if (not mapPath.empty()) {
     config.mapPath = mapPath;
   }
-  
+
   config.cursorVisibility = showCursor;
 }
 
