@@ -4,9 +4,10 @@
 #
 
 FIND_PATH(UnitTestPlusPlus_INCLUDE_DIR UnitTest++.h /usr/include/unittest++)
-MARK_AS_ADVANCED(UnitTestPlusPlus_INCLUDE_DIR)
 
+IF ("${UnitTestPlusPlus_INCLUDE_DIR}" MATCHES "NOTFOUND")
 FIND_PATH(UnitTestPlusPlus_INCLUDE_DIR UnitTest++.h /usr/include/UnitTest++)
+ENDIF ("${UnitTestPlusPlus_INCLUDE_DIR}" MATCHES "NOTFOUND")
 MARK_AS_ADVANCED(UnitTestPlusPlus_INCLUDE_DIR)
 
 FIND_LIBRARY(UnitTestPlusPlus_LIBRARY NAMES UnitTest++)
