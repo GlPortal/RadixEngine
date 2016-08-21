@@ -100,7 +100,9 @@ void ArgumentsParser::populateConfig() {
     config.mapPath = mapPath;
   }
 
-  config.cursorVisibility = showCursor;
+  if (showCursor) {
+    config.cursorVisibility = showCursor;
+  }
 }
 
 } /* namespace radix */
