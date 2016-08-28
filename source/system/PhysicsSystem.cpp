@@ -11,8 +11,8 @@
 
 namespace radix {
 
-PhysicsSystem::PhysicsSystem(World &w) :
-  System(w),
+PhysicsSystem::PhysicsSystem(World &world) :
+  System(world),
   filterCallback(nullptr),
   broadphase(new btDbvtBroadphase),
   collisionConfiguration(new btDefaultCollisionConfiguration()),
@@ -21,12 +21,12 @@ PhysicsSystem::PhysicsSystem(World &w) :
   physWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
   gpCallback(new btGhostPairCallback) {
   broadphase->getOverlappingPairCache()->setInternalGhostPairCallback(gpCallback);
-  filterCallback = new Uncollider(w);
+  filterCallback = new Uncollider(world);
   //physWorld->getPairCache()->setOverlapFilterCallback(filterCallback);
   dispatcher->setNearCallback(Uncollider::nearCallback);
   physWorld->setGravity(btVector3(0, -9.8, 0));
 
-  cbCompAdd = w.event.observe(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e) {
+  cbCompAdd = world.event.observe(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e) {
     Component &c = ((Entity::ComponentAddedEvent&)e).component;
     auto ctid = c.getTypeId();
     if (ctid == Component::getTypeId<RigidBody>()) {
@@ -40,7 +40,7 @@ PhysicsSystem::PhysicsSystem(World &w) :
       this->physWorld->addAction(p.controller);
     }
   });
-  cbCompRem = w.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &e) {
+  cbCompRem = world.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &e) {
     Component &c = ((Entity::ComponentAddedEvent&)e).component;
     auto ctid = c.getTypeId();
     if (ctid == Component::getTypeId<RigidBody>()) {
