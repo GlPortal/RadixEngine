@@ -28,11 +28,11 @@ PhysicsSystem::PhysicsSystem(World &world) :
 
   cbCompAdd = world.event.observe(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e) {
     Component &component = ((Entity::ComponentAddedEvent&)e).component;
-    auto ctid = component.getTypeId();
-    if (ctid == Component::getTypeId<RigidBody>()) {
+    auto componentId = component.getTypeId();
+    if (componentId == Component::getTypeId<RigidBody>()) {
       RigidBody &rb = (RigidBody&)component;
       this->physWorld->addRigidBody(rb.body);
-    } else if (ctid == Component::getTypeId<Player>()) {
+    } else if (componentId == Component::getTypeId<Player>()) {
       Player &p = (Player&)component;
       this->physWorld->addCollisionObject(p.obj,
         btBroadphaseProxy::CharacterFilter,
@@ -42,11 +42,11 @@ PhysicsSystem::PhysicsSystem(World &world) :
   });
   cbCompRem = world.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &e) {
     Component &component = ((Entity::ComponentAddedEvent&)e).component;
-    auto ctid = component.getTypeId();
-    if (ctid == Component::getTypeId<RigidBody>()) {
+    auto componentId = component.getTypeId();
+    if (componentId == Component::getTypeId<RigidBody>()) {
       RigidBody &rb = (RigidBody&)component;
       this->physWorld->removeRigidBody(rb.body);
-    } else if (ctid == Component::getTypeId<Player>()) {
+    } else if (componentId == Component::getTypeId<Player>()) {
       Player &p = (Player&)component;
       this->physWorld->removeAction(p.controller);
       this->physWorld->removeCollisionObject(p.obj);
