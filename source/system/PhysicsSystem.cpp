@@ -18,26 +18,26 @@ PhysicsSystem::PhysicsSystem(World &world) :
   collisionConfiguration(new btDefaultCollisionConfiguration()),
   dispatcher(new CollisionDispatcher(collisionConfiguration)),
   solver(new btSequentialImpulseConstraintSolver),
-  physWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
+  physicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
   gpCallback(new btGhostPairCallback) {
   broadphase->getOverlappingPairCache()->setInternalGhostPairCallback(gpCallback);
   filterCallback = new Uncollider(world);
   //physWorld->getPairCache()->setOverlapFilterCallback(filterCallback);
   dispatcher->setNearCallback(Uncollider::nearCallback);
-  physWorld->setGravity(btVector3(0, -9.8, 0));
+  physicsWorld->setGravity(btVector3(0, -9.8, 0));
 
   cbCompAdd = world.event.observe(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e) {
     Component &component = ((Entity::ComponentAddedEvent&)e).component;
     auto componentId = component.getTypeId();
     if (componentId == Component::getTypeId<RigidBody>()) {
       RigidBody &rb = (RigidBody&)component;
-      this->physWorld->addRigidBody(rb.body);
+      this->physicsWorld->addRigidBody(rb.body);
     } else if (componentId == Component::getTypeId<Player>()) {
       Player &p = (Player&)component;
-      this->physWorld->addCollisionObject(p.obj,
+      this->physicsWorld->addCollisionObject(p.obj,
         btBroadphaseProxy::CharacterFilter,
         btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
-      this->physWorld->addAction(p.controller);
+      this->physicsWorld->addAction(p.controller);
     }
   });
   cbCompRem = world.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &event) {
@@ -45,11 +45,11 @@ PhysicsSystem::PhysicsSystem(World &world) :
     auto componentId = component.getTypeId();
     if (componentId == Component::getTypeId<RigidBody>()) {
       RigidBody &rigidBody = (RigidBody&)component;
-      this->physWorld->removeRigidBody(rigidBody.body);
+      this->physicsWorld->removeRigidBody(rigidBody.body);
     } else if (componentId == Component::getTypeId<Player>()) {
       Player &player = (Player&)component;
-      this->physWorld->removeAction(player.controller);
-      this->physWorld->removeCollisionObject(player.obj);
+      this->physicsWorld->removeAction(player.controller);
+      this->physicsWorld->removeCollisionObject(player.obj);
     }
   });
 
@@ -69,7 +69,7 @@ PhysicsSystem::~PhysicsSystem() {
 
 void PhysicsSystem::update(TDelta timeDelta) {
   filterCallback->beforePhysicsStep();
-  physWorld->stepSimulation(timeDelta.sec_d(), 10);
+  physicsWorld->stepSimulation(timeDelta.sec_d(), 10);
   for (Entity &entity : world.entities) {
     if (entity.hasComponent<RigidBody>()) {
       RigidBody &rigidBody = entity.getComponent<RigidBody>();

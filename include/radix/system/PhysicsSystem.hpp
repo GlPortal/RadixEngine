@@ -26,7 +26,7 @@ private:
   btDefaultCollisionConfiguration *collisionConfiguration;
   CollisionDispatcher *dispatcher;
   btSequentialImpulseConstraintSolver *solver;
-  btDiscreteDynamicsWorld *physWorld;
+  btDiscreteDynamicsWorld *physicsWorld;
   btGhostPairCallback *gpCallback;
 
 public:
@@ -41,8 +41,8 @@ public:
     return System::getTypeId<std::remove_reference<decltype(*this)>::type>();
   }
 
-  btDiscreteDynamicsWorld& getPhysWorld() const {
-    return *physWorld;
+  btDiscreteDynamicsWorld& getPhysicsWorld() const {
+    return *physicsWorld;
   }
 
   void update(TDelta timeDelta);
