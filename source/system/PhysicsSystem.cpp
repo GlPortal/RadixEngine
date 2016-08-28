@@ -40,25 +40,25 @@ PhysicsSystem::PhysicsSystem(World &world) :
       this->physWorld->addAction(p.controller);
     }
   });
-  cbCompRem = world.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &e) {
-    Component &component = ((Entity::ComponentAddedEvent&)e).component;
+  cbCompRem = world.event.observe(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &event) {
+    Component &component = ((Entity::ComponentAddedEvent&)event).component;
     auto componentId = component.getTypeId();
     if (componentId == Component::getTypeId<RigidBody>()) {
-      RigidBody &rb = (RigidBody&)component;
-      this->physWorld->removeRigidBody(rb.body);
+      RigidBody &rigidBody = (RigidBody&)component;
+      this->physWorld->removeRigidBody(rigidBody.body);
     } else if (componentId == Component::getTypeId<Player>()) {
-      Player &p = (Player&)component;
-      this->physWorld->removeAction(p.controller);
-      this->physWorld->removeCollisionObject(p.obj);
+      Player &player = (Player&)component;
+      this->physWorld->removeAction(player.controller);
+      this->physWorld->removeCollisionObject(player.obj);
     }
   });
 
-  for (Entity &e : world.entities) {
-    if (e.hasComponent<RigidBody>()) {
-      cbCompAdd(Entity::ComponentAddedEvent(e, e.getComponent<RigidBody>()));
+  for (Entity &entity : world.entities) {
+    if (entity.hasComponent<RigidBody>()) {
+      cbCompAdd(Entity::ComponentAddedEvent(entity, entity.getComponent<RigidBody>()));
     }
-    if (e.hasComponent<Player>()) {
-      cbCompAdd(Entity::ComponentAddedEvent(e, e.getComponent<Player>()));
+    if (entity.hasComponent<Player>()) {
+      cbCompAdd(Entity::ComponentAddedEvent(entity, entity.getComponent<Player>()));
     }
   }
 }
@@ -67,18 +67,18 @@ PhysicsSystem::~PhysicsSystem() {
   delete filterCallback;
 }
 
-void PhysicsSystem::update(TDelta dtime) {
+void PhysicsSystem::update(TDelta timeDelta) {
   filterCallback->beforePhysicsStep();
-  physWorld->stepSimulation(dtime.sec_d(), 10);
-  for (Entity &e : world.entities) {
-    if (e.hasComponent<RigidBody>()) {
-      RigidBody &b = e.getComponent<RigidBody>();
-      if (not b.body->isStaticObject()) {
-        Transform &t = e.getComponent<Transform>();
+  physWorld->stepSimulation(timeDelta.sec_d(), 10);
+  for (Entity &entity : world.entities) {
+    if (entity.hasComponent<RigidBody>()) {
+      RigidBody &rigidBody = entity.getComponent<RigidBody>();
+      if (not rigidBody.body->isStaticObject()) {
+        Transform &transform = entity.getComponent<Transform>();
         btTransform btTform;
-        b.body->getMotionState()->getWorldTransform(btTform);
-        t.privSetPosition(btTform.getOrigin());
-        t.privSetOrientation(btTform.getRotation());
+        rigidBody.body->getMotionState()->getWorldTransform(btTform);
+        transform.privSetPosition(btTform.getOrigin());
+        transform.privSetOrientation(btTform.getRotation());
       }
     }
   }

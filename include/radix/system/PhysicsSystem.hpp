@@ -45,7 +45,7 @@ public:
     return *physWorld;
   }
 
-  void update(TDelta dtime);
+  void update(TDelta timeDelta);
 };
 
 } /* namespace radix */
