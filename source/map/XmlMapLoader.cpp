@@ -234,7 +234,7 @@ void XmlMapLoader::extractTriggers() {
 void XmlMapLoader::extractModels() {
   int mid = -1;
   string mesh("none");
-  XMLElement *modelElement = rootHandle.FirstChildElement("object").ToElement();
+  XMLElement *modelElement = rootHandle.FirstChildElement("model").ToElement();
   if (modelElement){
     do {
       modelElement->QueryIntAttribute("material", &mid);
