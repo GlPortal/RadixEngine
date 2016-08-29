@@ -65,11 +65,11 @@ void XmlMapLoader::extractMaterials() {
   XMLElement *matIdxElm = rootHandle.FirstChildElement("materials").ToElement();
 
   if (matIdxElm) {
-    XMLElement *matElm = matIdxElm->FirstChildElement("mat");
+    XMLElement *matElm = matIdxElm->FirstChildElement("material");
     if (matElm) {
       do {
         int mid = -1;
-        matElm->QueryIntAttribute("mid", &mid);
+        matElm->QueryIntAttribute("id", &mid);
         if (mid == -1) {
           Util::Log(Error) << "Invalid Material ID in map.";
           continue;
@@ -81,7 +81,7 @@ void XmlMapLoader::extractMaterials() {
           Util::Log(Error) << "Name is mandatory for mat tag.";
           continue;
         }
-      } while ((matElm = matElm->NextSiblingElement("mat")) != nullptr);
+      } while ((matElm = matElm->NextSiblingElement("material")) != nullptr);
     }
   }
 }
@@ -116,12 +116,10 @@ void XmlMapLoader::extractLights() {
   float distance, energy, specular;
   XMLElement* lightElement = rootHandle.FirstChildElement("light").ToElement();
 
+  if (lightElement){
   do {
-    XmlHelper::pushAttributeVertexToVector(lightElement, lightPos);
-
-    lightElement->QueryFloatAttribute("r", &lightColor.x);
-    lightElement->QueryFloatAttribute("g", &lightColor.y);
-    lightElement->QueryFloatAttribute("b", &lightColor.z);
+    XmlHelper::extractPosition(lightElement, lightPos);
+    XmlHelper::extractColor(lightElement, lightColor);
 
     lightElement->QueryFloatAttribute("distance", &distance);
     lightElement->QueryFloatAttribute("energy", &energy);
@@ -138,6 +136,7 @@ void XmlMapLoader::extractLights() {
     ls.energy = energy;
     ls.specular = specular;
   } while ((lightElement = lightElement->NextSiblingElement("light")) != nullptr);
+  }
 }
 
 void XmlMapLoader::extractDoor() {
@@ -177,7 +176,7 @@ void XmlMapLoader::extractWalls() {
       t.setScale(scale);
 
       int mid = -1;
-      wallBoxElement->QueryIntAttribute("mid", &mid);
+      wallBoxElement->QueryIntAttribute("material", &mid);
       MeshDrawable &m = wall.addComponent<MeshDrawable>();
       m.material = world.materials[mid];
       m.material.scaleU = m.material.scaleV = 2.f;
@@ -238,7 +237,7 @@ void XmlMapLoader::extractModels() {
   XMLElement *modelElement = rootHandle.FirstChildElement("object").ToElement();
   if (modelElement){
     do {
-      modelElement->QueryIntAttribute("mid", &mid);
+      modelElement->QueryIntAttribute("material", &mid);
       mesh = modelElement->Attribute("mesh");
 
       Entity &model = world.entities.create();

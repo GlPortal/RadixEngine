@@ -18,6 +18,7 @@ public:
   static std::string invalidElementMessage;
   static void throwMandatoryAttributeException(const std::string &message);
   static void extractPosition(tinyxml2::XMLElement *xmlElement, Vector3f &position);
+  static void extractColor(tinyxml2::XMLElement *xmlElement, Vector3f &color);
   static void extractRotation(tinyxml2::XMLElement *xmlElement, Vector3f &rotation);
   static void extractScale(tinyxml2::XMLElement *xmlElement, Vector3f &scale);
 };
