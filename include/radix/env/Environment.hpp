@@ -10,7 +10,7 @@ namespace radix {
 class Environment {
 private:
   static Config config;
-  static std::string datadir;
+  static std::string dataDir;
 
 public:
   static void init();

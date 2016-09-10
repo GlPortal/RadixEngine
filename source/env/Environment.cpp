@@ -12,7 +12,7 @@ namespace radix {
 
 Config Environment::config;
 
-std::string Environment::datadir = "";
+std::string Environment::dataDir = "";
 
 /** @class Environment
     @brief Manager for environment and config
@@ -22,22 +22,22 @@ std::string Environment::datadir = "";
 
 void Environment::init() {
   // default installation dir
-  if (datadir.empty()) {
+  if (dataDir.empty()) {
 #ifndef _WIN32
-    std::vector<std::string> datadirpaths = {
+    std::vector<std::string> dataDirPaths = {
       "data",
       "/usr/local/share/glportal/data",
       "/usr/share/glportal/data"
     };
 #else
-    std::vector<std::string> datadirpaths = {
+    std::vector<std::string> dataDirPaths = {
       "data"
     };
 #endif
 
-    for (std::vector<std::string>::iterator it = datadirpaths.begin(); it != datadirpaths.end(); ++it) {
+    for (std::vector<std::string>::iterator it = dataDirPaths.begin(); it != dataDirPaths.end(); ++it) {
       if (Path::DirectoryExist(*it)) {
-        datadir = *it;
+        dataDir = *it;
         Util::Log(Info, "DataDir") << *it;
 
         break;
@@ -57,11 +57,11 @@ void Environment::initializeConfig() {
 }
 
 std::string Environment::getDataDir() {
-  return datadir;
+  return dataDir;
 }
 
 void Environment::setDataDir(const std::string &string) {
-  datadir = string;
+  dataDir = string;
 }
 
 } /* namespace radix */
