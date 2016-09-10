@@ -67,10 +67,10 @@ public:
 
 
   /* Observers */
-  CallbackHolder  observe(EventType type, const Callback &method);
-  CallbackPointer observeRaw(EventType type, const Callback &method);
+  CallbackHolder  addObserver(EventType type, const Callback &method);
+  CallbackPointer addObserverRaw(EventType type, const Callback &method);
 
-  void unobserve(const CallbackPointer &ptr);
+  void removeObserver(const CallbackPointer &ptr);
   template<class... CPTypes>
   void unobserve(CallbackPointer cb0, const CPTypes & ...cbN) {
     unobserve(cb0);
