@@ -19,8 +19,8 @@ void EventDispatcher::dispatch(const Event &event) {
   }
 }
 
-EventDispatcher::CallbackHolder EventDispatcher::observe(
-  EventType type, const Callback &method) {
+EventDispatcher::CallbackHolder EventDispatcher::addObserver(
+        EventType type, const Callback &method) {
   ObserverMap::iterator it;
   it = observerMap.find(type);
   if (it != observerMap.end()) {
@@ -36,8 +36,8 @@ EventDispatcher::CallbackHolder EventDispatcher::observe(
   }
 }
 
-EventDispatcher::CallbackPointer EventDispatcher::observeRaw(
-  EventType type, const Callback &method) {
+EventDispatcher::CallbackPointer EventDispatcher::addObserverRaw(
+        EventType type, const Callback &method) {
   ObserverMap::iterator it;
   it = observerMap.find(type);
   if (it != observerMap.end()) {
@@ -53,7 +53,7 @@ EventDispatcher::CallbackPointer EventDispatcher::observeRaw(
   }
 }
 
-void EventDispatcher::unobserve(const CallbackPointer &ptr) {
+void EventDispatcher::removeObserver(const CallbackPointer &ptr) {
   ObserverMap::iterator it;
   it = observerMap.find(ptr.first);
   if (it != observerMap.end()) {
