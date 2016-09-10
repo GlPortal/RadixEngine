@@ -1,7 +1,7 @@
 #include <radix/env/Config.hpp>
 
 #include <string>
-#include <cstring> // std::strerror
+#include <cstring>
 #include <fstream>
 #include <stdexcept>
 
