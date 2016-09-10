@@ -6,7 +6,7 @@
 #include <epoxy/gl.h>
 
 #include <radix/env/Environment.hpp>
-#include "../stb_image.h"
+#include <FreeImagePlus.h>
 
 namespace radix {
 
@@ -43,14 +43,18 @@ Texture TextureLoader::getTexture(const std::string &path) {
     return it->second;
   }
   int width = 0, height = 0, bytes = 0;
-  unsigned char *data = stbi_load((Environment::getDataDir() + "/textures/" + path).c_str(),
-                                  &width, &height, &bytes, 0);
-  Texture texture = uploadTexture(data, width, height, bytes);
-  stbi_image_free(data);
+  FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType((Environment::getDataDir() + "/textures/" + path).c_str()), (Environment::getDataDir() + "/textures/" + path).c_str());
+  FIBITMAP *image = FreeImage_ConvertTo32Bits(bitmap);
+  FreeImage_FlipVertical(image);
+  width = FreeImage_GetWidth(image);
+  height = FreeImage_GetHeight(image);
+  bytes = 4;
+  Texture texture = uploadTexture(FreeImage_GetBits(image), width, height, bytes);
   texture.width = width;
   texture.height = height;
   textureCache.insert(std::pair<std::string, Texture>(path, texture));
-  
+  FreeImage_Unload(image);
+  FreeImage_Unload(bitmap);
   return texture;
 }
 
