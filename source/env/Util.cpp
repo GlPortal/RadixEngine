@@ -3,7 +3,7 @@
 #include <thread>
 
 #include <SDL2/SDL_platform.h>
-
+#include <radix/env/OperatingSystem.hpp>
 #include <radix/core/diag/AnsiConsoleLogger.hpp>
 #include <radix/core/diag/StdoutLogger.hpp>
 
@@ -32,7 +32,7 @@ std::random_device Util::RandDev;
 std::mt19937 Util::Rand(Util::RandDev());
 
 void Util::Init() {
-  if (std::string("Linux") == SDL_GetPlatform()) {
+  if (OperatingSystem::IsLinux()) {
     logger.reset(new AnsiConsoleLogger);
   } else {
     logger.reset(new StdoutLogger);

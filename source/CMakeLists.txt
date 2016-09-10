@@ -43,6 +43,7 @@ set(RADIX_SOURCES
   ${D}/env/ArgumentsParser.cpp
   ${D}/env/Config.cpp
   ${D}/env/Environment.cpp
+  ${D}/env/OperatingSystem.cpp
   ${D}/env/Util.cpp
   ${D}/input/InputSource.cpp
   ${D}/map/MapListLoader.cpp
