@@ -17,46 +17,47 @@ public:
   using ObserverMap = std::unordered_map<EventType, CallbackList>;
   using CallbackPointer = std::pair<EventType, CallbackList::iterator>;
   class CallbackHolder final : public CallbackPointer {
-  private:
-    EventDispatcher *dispatcher;
+private:
+  EventDispatcher *dispatcher;
 
-  public:
-    CallbackHolder() :
-      dispatcher(nullptr) {
-    }
-    CallbackHolder(EventDispatcher *dispatcher, EventType &et, CallbackList::iterator &it) :
-      CallbackPointer(et, it),
-      dispatcher(dispatcher) {
-    }
+public:
+  CallbackHolder() :
+    dispatcher(nullptr) {
+  }
 
-    // Handy call operator to directly call the callback
-    void operator()(const Event &e) {
-      (*second)(e);
-    }
+  CallbackHolder(EventDispatcher *dispatcher, EventType &et, CallbackList::iterator &it) :
+    CallbackPointer(et, it),
+    dispatcher(dispatcher) {
+  }
 
-    // No copy
-    CallbackHolder(CallbackHolder&) = delete;
-    CallbackHolder& operator=(CallbackHolder&) = delete;
+  // Handy call operator to directly call the callback
+  void operator()(const Event &e) {
+    (*second)(e);
+  }
 
-    // Allow movement
-    CallbackHolder(CallbackHolder &&o) :
-      CallbackPointer(o),
-      dispatcher(o.dispatcher) {
-      o.dispatcher = nullptr;
-    }
-    CallbackHolder& operator=(CallbackHolder &&o) {
-      CallbackPointer::operator=(o);
-      dispatcher = o.dispatcher;
-      o.dispatcher = nullptr;
-      return *this;
-    }
+  // No copy
+  CallbackHolder(CallbackHolder&) = delete;
+  CallbackHolder& operator=(CallbackHolder&) = delete;
 
-    ~CallbackHolder() {
-      if (dispatcher) {
-        dispatcher->unobserve(*this);
-      }
+  // Allow movement
+  CallbackHolder(CallbackHolder &&o) :
+    CallbackPointer(o),
+    dispatcher(o.dispatcher) {
+    o.dispatcher = nullptr;
+  }
+  CallbackHolder& operator=(CallbackHolder &&o) {
+    CallbackPointer::operator=(o);
+    dispatcher = o.dispatcher;
+    o.dispatcher = nullptr;
+    return *this;
+  }
+
+  ~CallbackHolder() {
+    if (dispatcher) {
+      dispatcher->unobserve(*this);
     }
-  };
+  }
+};
 
 private:
   ObserverMap observerMap;
