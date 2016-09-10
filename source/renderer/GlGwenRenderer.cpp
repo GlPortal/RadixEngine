@@ -11,7 +11,7 @@
 #include <Gwen/Texture.h>
 #include <Gwen/WindowProvider.h>
 
-#include "../stb_image.h"
+#include <FreeImage.h>
 #include <radix/core/gl/VBO.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/env/Util.hpp>
@@ -204,8 +204,11 @@ void GlGwenRenderer::DrawTexturedRect(Gwen::Texture *tex, Gwen::Rect rect, float
 
 void GlGwenRenderer::LoadTexture(Gwen::Texture *tex) {
   int width = 0, height = 0, bytes = 0;
-  unsigned char *data = stbi_load(tex->name.c_str(),
-                                  &width, &height, &bytes, 0);
+  FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(tex->name.c_str(), 0), tex->name.c_str());
+  FIBITMAP *image = FreeImage_ConvertTo32Bits(bitmap);
+  width = FreeImage_GetWidth(image);
+  height = FreeImage_GetHeight(image);
+  bytes = 4;
   if (width == 0 or height == 0 or bytes == 0) {
     tex->failed = true;
     Util::Log(Debug, "GlGwenRenderer") << "LoadTexture: loading " << tex->name.c_str() << " failed";
@@ -222,13 +225,15 @@ void GlGwenRenderer::LoadTexture(Gwen::Texture *tex) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   if (bytes == 3) {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, (void*) FreeImage_GetBits(image));
   } else if (bytes == 4) {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*) FreeImage_GetBits(image));
   } else {
     Util::Log(Debug, "GlGwenRenderer") << "LoadTexture: unsupported byte depth " << bytes;
   }
-  stbi_image_free(data);
+  //stbi_image_free(data);
+  FreeImage_Unload(image);
+  FreeImage_Unload(bitmap);
   Util::Log(Debug, "GlGwenRenderer") << "LoadTexture " << tex->name.c_str() << ", id " << *glTex;
 }
 
