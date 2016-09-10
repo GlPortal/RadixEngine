@@ -54,7 +54,7 @@ public:
 
   ~CallbackHolder() {
     if (dispatcher) {
-      dispatcher->unobserve(*this);
+      dispatcher->removeObserver(*this);
     }
   }
 };
@@ -73,9 +73,9 @@ public:
 
   void removeObserver(const CallbackPointer &ptr);
   template<class... CPTypes>
-  void unobserve(CallbackPointer cb0, const CPTypes & ...cbN) {
-    unobserve(cb0);
-    unobserve(cbN...);
+  void removeObserver(CallbackPointer cb0, const CPTypes & ...cbN) {
+    removeObserver(cb0);
+    removeObserver(cbN...);
   }
 
 
