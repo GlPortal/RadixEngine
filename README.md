@@ -11,7 +11,7 @@ Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec
 For instructions on how to compile the game please [read COMPILE.md](COMPILE.md).
 
 ## Join the team
-Chat with us at irc.freenode.org in the channel [##glportal](http://webchat.freenode.net/?channels=%23%23glportal&uio=d4)
+Chat with us at irc.freenode.org in the channel [#glportal](http://webchat.freenode.net/?channels=%23glportal&uio=d4)
 for questions and discussions about the development of the game.
 Report Issues to http://bugs.glportal.de .
 
