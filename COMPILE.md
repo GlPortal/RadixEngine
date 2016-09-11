@@ -10,6 +10,7 @@ Make sure to check CMakeLists.txt if it is something missing.
 You will need very recent versions of all the dependencies. So please upgrade your OS before proceeding.
 - [Upgrade Ubuntu](http://www.ubuntu.com/download/desktop/upgrade)
 - [Upgrade Arch](https://wiki.archlinux.org/index.php/Pacman#Upgrading_packages)
+
 ## List of dependencies
 - assimp
 - epoxy
