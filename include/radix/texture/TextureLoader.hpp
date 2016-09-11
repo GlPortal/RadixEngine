@@ -11,7 +11,7 @@ namespace radix {
 class TextureLoader {
 public:
   static Texture getEmptyTexture(const std::string &name,
-    const char *pixel = "\xFF\xFF\xFF", int pxDepth = 3);
+    const char *pixel = "\xFF\xFF\xFF");
   static Texture getEmptyDiffuse();
   static Texture getEmptyNormal();
   static Texture getEmptySpecular();
@@ -21,7 +21,7 @@ public:
     return textureCache;
   }
 private:
-  static Texture uploadTexture(const unsigned char *data, int width, int height, int bytes);
+  static Texture uploadTexture(const unsigned char *data, int width, int height);
   static std::map<std::string, Texture> textureCache;
 };
 
