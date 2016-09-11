@@ -227,7 +227,7 @@ void GlGwenRenderer::LoadTexture(Gwen::Texture *tex) {
   if (bytes == 3) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, (void*) FreeImage_GetBits(image));
   } else if (bytes == 4) {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*) FreeImage_GetBits(image));
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, (void*) FreeImage_GetBits(image));
   } else {
     Util::Log(Debug, "GlGwenRenderer") << "LoadTexture: unsupported byte depth " << bytes;
   }
