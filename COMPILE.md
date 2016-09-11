@@ -19,6 +19,7 @@ You will need very recent versions of all the dependencies. So please upgrade yo
 - bullet *>=2.82+*
 - tinyxml2
 - libgl
+- freeimg
 - cmake *>=2.8 (make)*
 - make *(make)*
 - gcc *(make)*
