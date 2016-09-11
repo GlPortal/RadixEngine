@@ -31,7 +31,7 @@ Remember, you have to be root, so you might want to prefix `sudo`.
 ### Windows
 [Install msys2](http://msys2.github.io/), then launch the *Mingw-w64 Win64 shell* from the start menu. In it, type:
 ```bash
-pacman -S mingw-w64-x86_64-{cmake,make,gcc,pkg-config,assimp,libepoxy,SDL2,SDL2_mixer,bullet,tinyxml2}
+pacman -S mingw-w64-x86_64-{cmake,make,gcc,pkg-config,assimp,libepoxy,SDL2,SDL2_mixer,bullet,tinyxml2,freeimage}
 ```
 
 If you do not already have `git` installed, please also install it with:
@@ -43,12 +43,12 @@ pacman -S git
 ### Arch Linux
 **Note:** Package `tinyxml2` can be found in AUR.
 ```bash
-pacman -S cmake make gcc pkg-config assimp libepoxy sdl2 sdl2_mixer bullet mesa unittestpp
+pacman -S cmake make gcc pkg-config assimp libepoxy sdl2 sdl2_mixer bullet mesa unittestpp freeimage
 ```
 
 ### Debian 8 / Ubuntu 14.04 / Linux Mint 17.x
 ```bash
-apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2,sdl2-mixer,bullet,tinyxml2,gl1-mesa,unittest++}-dev
+apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2,sdl2-mixer,bullet,tinyxml2,gl1-mesa,unittest++,freeimage}-dev
 ```
 
 ### Others
