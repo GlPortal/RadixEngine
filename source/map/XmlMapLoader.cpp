@@ -251,7 +251,7 @@ void XmlMapLoader::extractModels() {
       MeshDrawable &m = model.addComponent<MeshDrawable>();
       m.material = world.materials[mid];
       m.mesh = MeshLoader::getMesh(mesh);
-    } while ((modelElement = modelElement->NextSiblingElement("object")) != nullptr);
+    } while ((modelElement = modelElement->NextSiblingElement("model")) != nullptr);
   }
 }
 } /* namespace radix */
