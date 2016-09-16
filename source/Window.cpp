@@ -194,68 +194,187 @@ void Window::processEvents() {
     // int selection_len = event.edit.length;
 
     switch (event.type) {
-    case SDL_TEXTINPUT:
-      addToBuffer(event.text.text);
-      break;
-    case SDL_TEXTEDITING:
+     case SDL_TEXTINPUT: {
+       addToBuffer(event.text.text);
+       break;
+      }
+      case SDL_TEXTEDITING: {
 
-      break;
-    case SDL_KEYDOWN:
-      if (sym == SDLK_BACKSPACE) {
-        truncateCharBuffer();
-      }
+       break;
+     }
+     case SDL_KEYDOWN: {
+       if (sym == SDLK_BACKSPACE) {
+         truncateCharBuffer();
+       }
 
-      if (sym == SDLK_RETURN) {
-        clearBuffer();
-      }
-      
-      keyPressed(key, mod);
-      break;
-    case SDL_KEYUP:
-      keyReleased(key, mod);
-      break;
-    case SDL_MOUSEBUTTONDOWN:
-    case SDL_MOUSEBUTTONUP:
-      MouseButton button;
-      switch (event.button.button) {
-        case SDL_BUTTON_LEFT:
-          button = MouseButton::Left;
-          break;
-        case SDL_BUTTON_MIDDLE:
-          button = MouseButton::Middle;
-          break;
-        case SDL_BUTTON_RIGHT:
-          button = MouseButton::Right;
-          break;
-        case SDL_BUTTON_X1:
-          button = MouseButton::Aux1;
-          break;
-        case SDL_BUTTON_X2:
-          button = MouseButton::Aux2;
-          break;
-        default:
-          button = MouseButton::Unknown;
-          break;
-      }
-      if (event.type == SDL_MOUSEBUTTONDOWN) {
-        const MouseButtonPressedEvent mbpe(*this, button);
-        for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
-          d.get().dispatch(mbpe);
+       if (sym == SDLK_RETURN) {
+         clearBuffer();
+       }
+
+        keyPressed(key, mod);
+       break;
+     }
+     case SDL_KEYUP: {
+       keyReleased(key, mod);
+       break;
+     }
+     case SDL_MOUSEBUTTONDOWN: {
+       case SDL_MOUSEBUTTONUP: {
+         MouseButton button;
+         switch (event.button.button) {
+           case SDL_BUTTON_LEFT: {
+             button = MouseButton::Left;
+             break;
+           }
+           case SDL_BUTTON_MIDDLE: {
+             button = MouseButton::Middle;
+             break;
+           }
+           case SDL_BUTTON_RIGHT: {
+             button = MouseButton::Right;
+             break;
+           }
+           case SDL_BUTTON_X1: {
+             button = MouseButton::Aux1;
+             break;
+           }
+           case SDL_BUTTON_X2: {
+             button = MouseButton::Aux2;
+             break;
+           }
+           default: {
+             button = MouseButton::Unknown;
+             break;
+           }
+         }
+         if (event.type == SDL_MOUSEBUTTONDOWN) {
+           const MouseButtonPressedEvent mbpe(*this, button);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(mbpe);
+           }
+         } else {
+           const MouseButtonReleasedEvent mbre(*this, button);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(mbre);
+           }
+         }
+         break;
+         case SDL_MOUSEWHEEL: {
+           const int dirmult = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) ? -1 : 1;
+           const MouseWheelScrolledEvent mwse(*this, event.wheel.x * dirmult, event.wheel.y * dirmult);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(mwse);
+           }
+           break;
+         }
+       }
+     }
+     case SDL_WINDOWEVENT: {
+       switch (event.window.event) {
+         case SDL_WINDOWEVENT_SHOWN: {
+           const WindowShownEvent wse(*this, event.window.windowID);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wse);
+           }
+           break;
+         }
+         case SDL_WINDOWEVENT_HIDDEN: {
+           const WindowHiddenEvent whe(*this, event.window.windowID);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(whe);
+           }
+           break;
+         }
+         case SDL_WINDOWEVENT_EXPOSED: {
+           const WindowExposedEvent wee(*this, event.window.windowID);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wee);
+           }
+           break;
+         }
+         case SDL_WINDOWEVENT_MOVED: {
+           const WindowMovedEvent wme(*this, event.window.windowID, event.window.data1, event.window.data2);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wme);
+           }
+           break;
+         }
+         case SDL_WINDOWEVENT_RESIZED: {
+           const WindowResizedEvent wre(*this, event.window.windowID, event.window.data1, event.window.data2);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wre);
+           }
+           break;
+          }
+          case SDL_WINDOWEVENT_SIZE_CHANGED: {
+            const WindowSizeChangedEvent wsce(*this, event.window.windowID);
+            for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+              d.get().dispatch(wsce);
+            }
+           break;
+          }
+         case SDL_WINDOWEVENT_MINIMIZED: {
+           const WindowMinimizedEvent wmie(*this, event.window.windowID);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wmie);
+           }
+           break;
+         }
+         case SDL_WINDOWEVENT_MAXIMIZED: {
+           const WindowMaximizedEvent wmae(*this, event.window.windowID);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wmae);
+           }
+           break;
+          }
+         case SDL_WINDOWEVENT_RESTORED: {
+           const WindowRestoredEvent wree(*this, event.window.windowID); //REEEE
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wree);
+           }
+            break;
+         }
+         case SDL_WINDOWEVENT_ENTER: {
+           const WindowEnterEvent wene(*this, event.window.windowID);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wene);
+           }
+           break;
+          }
+          case SDL_WINDOWEVENT_LEAVE: {
+           const WindowLeaveEvent wle(*this, event.window.windowID);
+           for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+             d.get().dispatch(wle);
+            }
+            break;
+         }
+         case SDL_WINDOWEVENT_FOCUS_GAINED: {
+           const WindowFocusGainedEvent wfge(*this, event.window.windowID);
+            for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+              d.get().dispatch(wfge);
+           }
+           break;
+         }
+          case SDL_WINDOWEVENT_FOCUS_LOST: {
+            const WindowFocusLostEvent wfle(*this, event.window.windowID);
+            for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+              d.get().dispatch(wfle);
+            }
+            break;
+          }
+          case SDL_WINDOWEVENT_CLOSE: {
+            const WindowCloseEvent wce(*this, event.window.windowID);
+            for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+              d.get().dispatch(wce);
+            }
+            break;
+          }
+          default: {
+            Util::Log(Verbose, "Window") << "Unknown window event type!";
+            break;
+          }
         }
-      } else {
-        const MouseButtonReleasedEvent mbre(*this, button);
-        for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
-          d.get().dispatch(mbre);
-        }
       }
-      break;
-      case SDL_MOUSEWHEEL:
-        const int dirmult = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) ? -1 : 1;
-        const MouseWheelScrolledEvent mwse(*this, event.wheel.x * dirmult, event.wheel.y * dirmult);
-        for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
-          d.get().dispatch(mwse);
-        }
-        break;
     }
   }
 }
