@@ -48,6 +48,8 @@ public:
   void clear();
   
 private:
+	void processMouseButtonEvents(SDL_Event &event);
+	void processWindowEvents(SDL_Event &event);
   void initEpoxy();
   int width;
   int height;
