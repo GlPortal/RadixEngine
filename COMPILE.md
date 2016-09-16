@@ -10,6 +10,7 @@ Make sure to check CMakeLists.txt if it is something missing.
 You will need very recent versions of all the dependencies. So please upgrade your OS before proceeding.
 - [Upgrade Ubuntu](http://www.ubuntu.com/download/desktop/upgrade)
 - [Upgrade Arch](https://wiki.archlinux.org/index.php/Pacman#Upgrading_packages)
+
 ## List of dependencies
 - assimp
 - epoxy
@@ -18,6 +19,7 @@ You will need very recent versions of all the dependencies. So please upgrade yo
 - bullet *>=2.82+*
 - tinyxml2
 - libgl
+- freeimg
 - cmake *>=2.8 (make)*
 - make *(make)*
 - gcc *(make)*
@@ -31,7 +33,7 @@ Remember, you have to be root, so you might want to prefix `sudo`.
 ### Windows
 [Install msys2](http://msys2.github.io/), then launch the *Mingw-w64 Win64 shell* from the start menu. In it, type:
 ```bash
-pacman -S mingw-w64-x86_64-{cmake,make,gcc,pkg-config,assimp,libepoxy,SDL2,SDL2_mixer,bullet,tinyxml2}
+pacman -S mingw-w64-x86_64-{cmake,make,gcc,pkg-config,assimp,libepoxy,SDL2,SDL2_mixer,bullet,tinyxml2,freeimage}
 ```
 
 If you do not already have `git` installed, please also install it with:
@@ -43,12 +45,12 @@ pacman -S git
 ### Arch Linux
 **Note:** Package `tinyxml2` can be found in AUR.
 ```bash
-pacman -S cmake make gcc pkg-config assimp libepoxy sdl2 sdl2_mixer bullet mesa unittestpp
+pacman -S cmake make gcc pkg-config assimp libepoxy sdl2 sdl2_mixer bullet mesa unittestpp freeimage
 ```
 
 ### Debian 8 / Ubuntu 14.04 / Linux Mint 17.x
 ```bash
-apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2,sdl2-mixer,bullet,tinyxml2,gl1-mesa,unittest++}-dev
+apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2,sdl2-mixer,bullet,tinyxml2,gl1-mesa,unittest++,freeimage}-dev
 ```
 
 ### Others
