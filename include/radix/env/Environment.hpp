@@ -7,6 +7,11 @@
 
 namespace radix {
 
+/** @brief Manager for config
+ *
+ *  Manages the configuration of the the game
+ */
+
 class Environment {
 private:
   static Config config;

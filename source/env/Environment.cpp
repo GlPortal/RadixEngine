@@ -14,12 +14,6 @@ Config Environment::config;
 
 std::string Environment::dataDir = "";
 
-/** @class Environment
-    @brief Manager for environment and config
-
-    Manages environment variables and configuration data. Get an instance of ConfigFileParser.
-*/
-
 void Environment::init() {
   // default installation dir
   if (dataDir.empty()) {
