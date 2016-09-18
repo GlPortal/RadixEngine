@@ -7,6 +7,7 @@
 
 #include <radix/core/file/Path.hpp>
 #include <radix/env/Util.hpp>
+#include <radix/env/OperatingSystem.hpp>
 
 namespace radix {
 
@@ -15,19 +16,15 @@ Config Environment::config;
 std::string Environment::dataDir = "";
 
 void Environment::init() {
-  // default installation dir
   if (dataDir.empty()) {
-#ifndef _WIN32
-    std::vector<std::string> dataDirPaths = {
-      "data",
-      "/usr/local/share/glportal/data",
-      "/usr/share/glportal/data"
-    };
-#else
     std::vector<std::string> dataDirPaths = {
       "data"
     };
-#endif
+
+    if(OperatingSystem::IsLinux()){
+      dataDirPaths.push_back("/usr/local/share/glportal/data");
+      dataDirPaths.push_back("/usr/share/glportal/data");
+    }
 
     for (std::vector<std::string>::iterator it = dataDirPaths.begin(); it != dataDirPaths.end(); ++it) {
       if (Path::DirectoryExist(*it)) {
