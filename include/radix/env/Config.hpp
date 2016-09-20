@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include <json11/json11.hpp>
+using namespace json11;
+
 namespace radix {
 
 class Config {
@@ -22,6 +25,9 @@ public:
   std::string mapPath;
   bool cursorVisibility;
 private:
+  void loadVideoSettings(Json json);
+  void loadSoundSettings(Json json);
+  void loadMouseSettings(Json json);
   unsigned int width;
   unsigned int height;
   float sensitivity;
