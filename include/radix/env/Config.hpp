@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include <json11/json11.hpp>
+using namespace json11;
+
 namespace radix {
 
 class Config {
@@ -13,24 +16,27 @@ public:
   float getSensitivity() { return sensitivity; }
   bool isFullscreen() { return fullscreen; }
   int getAntialiasLevel() { return antialiasing; }
-  int getRecursionLevel() { return recursive_portal; }
+  int getRecursionLevel() { return recursivePortal; }
   bool hasSound() { return sound; }
   bool hasVsync() { return vsync; }
-  bool isHidePortalsByClick() { return hide_portals_by_click; }
-  
+  bool isHidePortalsByClick() { return hidePortalsByClick; }
+
   std::string map;
   std::string mapPath;
   bool cursorVisibility;
 private:
+  void loadVideoSettings(Json json);
+  void loadSoundSettings(Json json);
+  void loadMouseSettings(Json json);
   unsigned int width;
   unsigned int height;
   float sensitivity;
   int antialiasing;
-  int recursive_portal;
+  int recursivePortal;
   bool fullscreen;
   bool sound;
   bool vsync;
-  bool hide_portals_by_click;
+  bool hidePortalsByClick;
 };
 
 } /* namespace radix */
