@@ -26,15 +26,14 @@ void Environment::init() {
       dataDirPaths.push_back("/usr/share/glportal/data");
     }
 
-    for (std::vector<std::string>::iterator it = dataDirPaths.begin(); it != dataDirPaths.end(); ++it) {
-      if (Path::DirectoryExist(*it)) {
-        dataDir = *it;
-        Util::Log(Info, "DataDir") << *it;
+    for (auto & path : dataDirPaths) {
+      if (Path::DirectoryExist(path)) {
+        dataDir = path;
+        Util::Log(Info, "DataDir") << path;
 
         break;
       }
     }
-
   }
   initializeConfig();
 }

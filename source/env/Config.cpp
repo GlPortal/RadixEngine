@@ -5,11 +5,7 @@
 #include <fstream>
 #include <stdexcept>
 
-#include <json11/json11.hpp>
-
 #include <radix/env/Environment.hpp>
-
-using namespace json11;
 
 namespace radix {
 
@@ -29,24 +25,35 @@ void Config::load() {
                              templatePath + ": " +
                              std::strerror(errno));
   }
-  Json templateJson = Json::parse(templateTxt, err);
-  Json videoJson = templateJson["video"];
-  fullscreen   = videoJson["fullscreen"].bool_value();
-  antialiasing = videoJson["antialiasing"].number_value();
-  vsync        = videoJson["vsync"].bool_value();
-  width        = videoJson["width"].number_value();
-  height       = videoJson["height"].number_value();
-  recursive_portal = videoJson["recursive_portal"].number_value();
+  Json configJson = Json::parse(templateTxt, err);
 
-  sound        = templateJson["sound"]["enabled"].bool_value();
+  this->loadVideoSettings(configJson["video"]);
+  this->loadSoundSettings(configJson["sound"]);
+  this->loadMouseSettings(configJson["mouse"]);
 
-  sensitivity  = templateJson["mouse"]["sensitivity"].number_value();
-  hide_portals_by_click = templateJson["mouse"]["hide_portals_by_click"].bool_value();
-  cursorVisibility = templateJson["mouse"]["cursor_visibility"].bool_value();
-
-  // TODO: get rid of this. Default map isn't part of the whole game config,
-  // it's part of a mappack config.
+  // Misc
   map = "n1";
+}
+
+void Config::loadVideoSettings(Json json){
+  fullscreen      = json["fullscreen"].bool_value();
+  antialiasing    = json["antialiasing"].number_value();
+  vsync           = json["vsync"].bool_value();
+  width           = json["width"].number_value();
+  height          = json["height"].number_value();
+  recursivePortal = json["recursive_portal"].number_value();
+
+}
+
+void Config::loadSoundSettings(Json json){
+  sound = json["enabled"].bool_value();
+
+}
+
+void Config::loadMouseSettings(Json json){
+  sensitivity        = json["sensitivity"].number_value();
+  hidePortalsByClick = json["hide_portals_by_click"].bool_value();
+  cursorVisibility   = json["cursor_visibility"].bool_value();
 }
 
 } /* namespace radix */
