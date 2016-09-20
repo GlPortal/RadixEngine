@@ -44,8 +44,6 @@ void Config::load() {
   hidePortalsByClick = templateJson["mouse"]["hide_portals_by_click"].bool_value();
   cursorVisibility = templateJson["mouse"]["cursor_visibility"].bool_value();
 
-  // TODO: get rid of this. Default map isn't part of the whole game config,
-  // it's part of a mappack config.
   map = "n1";
 }
 
