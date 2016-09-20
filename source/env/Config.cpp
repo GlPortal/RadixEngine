@@ -37,13 +37,10 @@ void Config::load() {
   width        = videoJson["width"].number_value();
   height       = videoJson["height"].number_value();
   recursivePortal = videoJson["recursive_portal"].number_value();
-
   sound        = templateJson["sound"]["enabled"].bool_value();
-
   sensitivity  = templateJson["mouse"]["sensitivity"].number_value();
   hidePortalsByClick = templateJson["mouse"]["hide_portals_by_click"].bool_value();
   cursorVisibility = templateJson["mouse"]["cursor_visibility"].bool_value();
-
   map = "n1";
 }
 
