@@ -414,7 +414,7 @@ void World::update(TDelta dtime) {
 }
 
 #if 0
-// TODO: move elsewhere. World is world, not renderer.
+
 void World::render(double dtime) {
   renderer->render(dtime, scene->camera);
   if (isPhysicsDebugEnabled) {
