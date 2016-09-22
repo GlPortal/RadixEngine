@@ -15,8 +15,8 @@ public:
   };
 
   Shader(int handle) : handle(handle) { }
-  void bind();
-  void release();
+  void bind() const;
+  void release() const;
 
   int uni(const std::string&);
   int att(const std::string&);

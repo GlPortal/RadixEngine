@@ -190,7 +190,7 @@ void XmlMapLoader::extractWalls() {
 
 void XmlMapLoader::extractAcids() {
   XMLElement *acidElement = rootHandle.FirstChildElement("acid").ToElement();
-  
+
   if (acidElement) {
     do {
       Entity &acid = world.entities.create();
@@ -224,7 +224,7 @@ void XmlMapLoader::extractTriggers() {
       Vector3f scale;
       XmlHelper::extractScale(triggerElement, scale);
       t.setScale(scale);
-      
+
       Trigger &tgr = trigger.addComponent<Trigger>();
       tgr.type = triggerElement->Attribute("type");
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);

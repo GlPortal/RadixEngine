@@ -44,6 +44,13 @@ public:
     return viewport;
   }
 
+  void init();
+
+  /**
+   * Initializes the lights in the world on the given shader
+   */
+  void updateLights(Shader& shader);
+
   /**
    * Main scene rendering method. To be called only once per frame.
    * @param dtime Time delta since last frame, in seconds

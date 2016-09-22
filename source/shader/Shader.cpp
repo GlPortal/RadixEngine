@@ -4,11 +4,11 @@
 
 namespace radix {
 
-void Shader::bind() {
+void Shader::bind() const {
     glUseProgram(handle);
 }
 
-void Shader::release() {
+void Shader::release() const {
     glUseProgram(0);
 }
 
