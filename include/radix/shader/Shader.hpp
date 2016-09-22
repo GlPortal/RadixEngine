@@ -14,10 +14,14 @@ public:
     Geometry
   };
 
-  int handle;
+  Shader(int handle) : handle(handle) { }
+  void bind();
+  void release();
+
   int uni(const std::string&);
   int att(const std::string&);
 private:
+  int handle;
   std::map<std::string, int> locationMap;
 };
 

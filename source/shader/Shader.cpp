@@ -4,6 +4,14 @@
 
 namespace radix {
 
+void Shader::bind() {
+    glUseProgram(handle);
+}
+
+void Shader::release() {
+    glUseProgram(0);
+}
+
 int Shader::uni(const std::string &name) {
   // Check if the uniform name is already in our map
   auto it = locationMap.find(name);

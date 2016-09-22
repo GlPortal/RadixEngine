@@ -70,7 +70,7 @@ int Renderer::getTextWidth(std::string text) {
 void Renderer::render(double dtime, const Camera &cam) {
   time += dtime;
   viewport->getSize(&vpWidth, &vpHeight);
- 
+
   glDepthMask(GL_TRUE);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
@@ -106,83 +106,85 @@ void Renderer::render(double dtime, const Camera &cam) {
   Shader &metal = ShaderLoader::getShader("metal.frag");
   Shader *const shaders[] = { &diffuse, &metal };
   static int numLights = 0;
+
   for (uint i = 0; i < sizeof(shaders)/sizeof(*shaders); ++i) {
-    glUseProgram(shaders[i]->handle);
-    if (support.uniformBuffers) {
-      glGetError();
-      GLuint lightsUBindex = glGetUniformBlockIndex(diffuse.handle, "lightsUB");
-      if (glGetError() == GL_INVALID_OPERATION) {
-        Util::Log(Debug, "Renderer") << "Uploading lights: bad shader handle";
-      } else if (lightsUBindex == GL_INVALID_INDEX) {
-        Util::Log(Debug, "Renderer") << "Uniform Block lightsUB not found";
-      }
-      GLuint lightsUBbinding = 0;
-      glUniformBlockBinding(shaders[i]->handle, lightsUBindex, lightsUBbinding);
-
-      if (lightsUBO == 0) {
-        GLint lightsUBsize;
-        glGetActiveUniformBlockiv(shaders[i]->handle, lightsUBindex,
-          GL_UNIFORM_BLOCK_DATA_SIZE, &lightsUBsize);
-        struct {
-          uint position;
-          uint color;
-          uint distance;
-          uint energy;
-          uint specular;
-        } lightStructOffsets;
-        uint lightStructSize;
-        {
-          constexpr const GLchar *const names[] = {"lights[0].position", "lights[0].color", "lights[0].distance",
-          "lights[0].energy", "lights[0].specular", "lights[1].position"};
-          constexpr uint namesCount = sizeof(names)/sizeof(*names);
-          GLuint indices[namesCount];
-          glGetUniformIndices(shaders[i]->handle, namesCount, names, indices);
-          GLint offsets[namesCount];
-          glGetActiveUniformsiv(shaders[i]->handle, namesCount, indices, GL_UNIFORM_OFFSET, offsets);
-          lightStructOffsets.position = offsets[0];
-          lightStructOffsets.color = offsets[1];
-          lightStructOffsets.distance = offsets[2];
-          lightStructOffsets.energy = offsets[3];
-          lightStructOffsets.specular = offsets[4];
-          lightStructSize = offsets[5] - offsets[0];
-        }
-        Util::Log(Debug, "Renderer") << "struct Light {\n"
-          "  position : " << lightStructOffsets.position << '\n' <<
-          "  distance : " << lightStructOffsets.distance << '\n' <<
-          "  color : " << lightStructOffsets.color << '\n' <<
-          "  energy : " << lightStructOffsets.energy << '\n' <<
-          "  specular : " << lightStructOffsets.specular << '\n' <<
-          "} : " << lightStructSize;
-        std::unique_ptr<uint8_t[]> buf(new uint8_t[lightsUBsize]);
-        for (const Entity &e : world.entities) {
-          if (not e.hasComponent<LightSource>()) {
-            continue;
-          }
-
-          LightSource &ls = e.getComponent<LightSource>();
-          const Transform &t = e.getComponent<Transform>();
-          const Vector3f &tposition = t.getPosition();
-          const uint baseAddr = numLights * lightStructSize;
-          memcpy(&buf[baseAddr + lightStructOffsets.position],
-                &tposition.x, sizeof(tposition.x)*3);
-          memcpy(&buf[baseAddr + lightStructOffsets.color],
-                &ls.color.r, sizeof(ls.color.r)*3);
-          memcpy(&buf[baseAddr + lightStructOffsets.distance],
-                &ls.distance, sizeof(ls.distance));
-          memcpy(&buf[baseAddr + lightStructOffsets.energy],
-                &ls.energy, sizeof(ls.energy));
-          memcpy(&buf[baseAddr + lightStructOffsets.specular],
-                &ls.specular, sizeof(ls.specular));
-
-          ++numLights;
-        }
-
-        glGenBuffers(1, &lightsUBO);
-        glBindBuffer(GL_UNIFORM_BUFFER, lightsUBO);
-        glBufferData(GL_UNIFORM_BUFFER, lightsUBsize, buf.get(), GL_DYNAMIC_DRAW);
-        Util::Log(Debug, "Renderer") << "Uploading lights: UBO id=" << lightsUBO << " size=" << lightsUBsize;
-      }
-    } else {
+    shaders[i]->bind();
+    // if (support.uniformBuffers) {
+    //   glGetError();
+    //   GLuint lightsUBindex = glGetUniformBlockIndex(diffuse.handle, "lightsUB");
+    //   if (glGetError() == GL_INVALID_OPERATION) {
+    //     Util::Log(Debug, "Renderer") << "Uploading lights: bad shader handle";
+    //   } else if (lightsUBindex == GL_INVALID_INDEX) {
+    //     Util::Log(Debug, "Renderer") << "Uniform Block lightsUB not found";
+    //   }
+    //   GLuint lightsUBbinding = 0;
+    //   glUniformBlockBinding(shaders[i]->handle, lightsUBindex, lightsUBbinding);
+    //
+    //   if (lightsUBO == 0) {
+    //     GLint lightsUBsize;
+    //     glGetActiveUniformBlockiv(shaders[i]->handle, lightsUBindex,
+    //       GL_UNIFORM_BLOCK_DATA_SIZE, &lightsUBsize);
+    //     struct {
+    //       uint position;
+    //       uint color;
+    //       uint distance;
+    //       uint energy;
+    //       uint specular;
+    //     } lightStructOffsets;
+    //     uint lightStructSize;
+    //     {
+    //       constexpr const GLchar *const names[] = {"lights[0].position", "lights[0].color", "lights[0].distance",
+    //       "lights[0].energy", "lights[0].specular", "lights[1].position"};
+    //       constexpr uint namesCount = sizeof(names)/sizeof(*names);
+    //       GLuint indices[namesCount];
+    //       glGetUniformIndices(shaders[i]->handle, namesCount, names, indices);
+    //       GLint offsets[namesCount];
+    //       glGetActiveUniformsiv(shaders[i]->handle, namesCount, indices, GL_UNIFORM_OFFSET, offsets);
+    //       lightStructOffsets.position = offsets[0];
+    //       lightStructOffsets.color = offsets[1];
+    //       lightStructOffsets.distance = offsets[2];
+    //       lightStructOffsets.energy = offsets[3];
+    //       lightStructOffsets.specular = offsets[4];
+    //       lightStructSize = offsets[5] - offsets[0];
+    //     }
+    //     Util::Log(Debug, "Renderer") << "struct Light {\n"
+    //       "  position : " << lightStructOffsets.position << '\n' <<
+    //       "  distance : " << lightStructOffsets.distance << '\n' <<
+    //       "  color : " << lightStructOffsets.color << '\n' <<
+    //       "  energy : " << lightStructOffsets.energy << '\n' <<
+    //       "  specular : " << lightStructOffsets.specular << '\n' <<
+    //       "} : " << lightStructSize;
+    //     std::unique_ptr<uint8_t[]> buf(new uint8_t[lightsUBsize]);
+    //     for (const Entity &e : world.entities) {
+    //       if (not e.hasComponent<LightSource>()) {
+    //         continue;
+    //       }
+    //
+    //       LightSource &ls = e.getComponent<LightSource>();
+    //       const Transform &t = e.getComponent<Transform>();
+    //       const Vector3f &tposition = t.getPosition();
+    //       const uint baseAddr = numLights * lightStructSize;
+    //       memcpy(&buf[baseAddr + lightStructOffsets.position],
+    //             &tposition.x, sizeof(tposition.x)*3);
+    //       memcpy(&buf[baseAddr + lightStructOffsets.color],
+    //             &ls.color.r, sizeof(ls.color.r)*3);
+    //       memcpy(&buf[baseAddr + lightStructOffsets.distance],
+    //             &ls.distance, sizeof(ls.distance));
+    //       memcpy(&buf[baseAddr + lightStructOffsets.energy],
+    //             &ls.energy, sizeof(ls.energy));
+    //       memcpy(&buf[baseAddr + lightStructOffsets.specular],
+    //             &ls.specular, sizeof(ls.specular));
+    //
+    //       ++numLights;
+    //     }
+    //
+    //     glGenBuffers(1, &lightsUBO);
+    //     glBindBuffer(GL_UNIFORM_BUFFER, lightsUBO);
+    //     glBufferData(GL_UNIFORM_BUFFER, lightsUBsize, buf.get(), GL_DYNAMIC_DRAW);
+    //     Util::Log(Debug, "Renderer") << "Uploading lights: UBO id=" << lightsUBO << " size=" << lightsUBsize;
+    //   }
+    // } else
+    {
       numLights = 0;
       for (const Entity &e : world.entities) {
         if (not e.hasComponent<LightSource>()) {
@@ -393,7 +395,7 @@ void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f v
 
 void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
                           const Mesh &mesh, const Material *mat) {
-  glUseProgram(shader.handle);
+  shader.bind();
 
   glUniformMatrix4fv(shader.uni("projectionMatrix"), 1, false, rc.getProj().toArray());
   glUniformMatrix4fv(shader.uni("viewMatrix"), 1, false, rc.getView().toArray());
