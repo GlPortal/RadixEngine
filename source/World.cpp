@@ -151,7 +151,7 @@ static bool isReachableBySuccessors(const SystemGraphNode &start, SystemTypeId t
   const SystemGraphNodeVector &sinfo, std::stack<SystemTypeId> &path) {
   auto search = start.successors.find(targetstid);
   if (search != start.successors.end()) {
-    path.push(targetstid);  
+    path.push(targetstid);
     return true;
   } else {
     for (SystemTypeId stid : start.successors) {
