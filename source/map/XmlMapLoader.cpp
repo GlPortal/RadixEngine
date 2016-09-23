@@ -83,9 +83,6 @@ void XmlMapLoader::extractMaterials() {
   }
 }
 
-/**
- * Extract a spawn element containing its rotation and position elements
- */
 void XmlMapLoader::extractSpawn() {
   XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
 

@@ -26,6 +26,9 @@ public:
 
 private:
   void extractMaterials();
+  /**
+   * Extract a spawn element containing its rotation and position elements
+   */
   void extractSpawn();
   void extractLights();
   void extractDoor();
