@@ -75,7 +75,7 @@ void XmlMapLoader::extractMaterials() {
         if (name.length() > 0) {
           world.materials[mid] = MaterialLoader::getMaterial(name);
         } else {
-          Util::Log(Error) << "Name is mandatory for mat tag.";
+          Util::Log(Error) << "Name is mandatory for material tag.";
           continue;
         }
       } while ((matElm = matElm->NextSiblingElement("material")) != nullptr);
