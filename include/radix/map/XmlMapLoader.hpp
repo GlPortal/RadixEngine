@@ -19,7 +19,9 @@ private:
 
 public:
   XmlMapLoader(World&);
-  
+  /**
+   * Load data from XML into World.
+   */
   void load(const std::string &path);
 
 private:

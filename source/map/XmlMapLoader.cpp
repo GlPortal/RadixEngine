@@ -34,9 +34,6 @@ XmlMapLoader::XmlMapLoader(World &w) :
   rootHandle(nullptr) {
 }
 
-/**
- * Get a scene from a map file in XML format.
- */
 void XmlMapLoader::load(const std::string &path) {
   XMLDocument doc;
   XMLError error = doc.LoadFile(path.c_str());
