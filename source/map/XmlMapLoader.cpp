@@ -141,16 +141,16 @@ void XmlMapLoader::extractDoor() {
 
   if (endElement) {
     Entity &door = world.entities.create();
-    Transform &t = door.addComponent<Transform>();
+    Transform &transform = door.addComponent<Transform>();
     Vector3f position;
     XmlHelper::extractPosition(endElement, position);
-    t.setPosition(position);
+    transform.setPosition(position);
     Vector3f angles;
     XmlHelper::extractRotation(endElement, angles);
-    t.setOrientation(Quaternion().fromAero(angles));
-    MeshDrawable &m = door.addComponent<MeshDrawable>();
-    m.material = MaterialLoader::loadFromXML("door/door");
-    m.mesh = MeshLoader::getMesh("Door.obj");
+    transform.setOrientation(Quaternion().fromAero(angles));
+    MeshDrawable &mesh = door.addComponent<MeshDrawable>();
+    mesh.material = MaterialLoader::loadFromXML("door/door");
+    mesh.mesh = MeshLoader::getMesh("Door.obj");
   }
 }
 
