@@ -16,7 +16,7 @@
 namespace radix {
 
 class GlGwenRenderer;
-class GWENInput;  
+class GWENInput;
 
 class Window : public Viewport, public InputSource {
 public:
@@ -46,13 +46,13 @@ public:
   void clearBuffer();
   void truncateCharBuffer();
   void clear();
-  
+
 private:
 	void processMouseButtonEvents(SDL_Event &event);
 	void processWindowEvents(SDL_Event &event);
   void initEpoxy();
-  int width;
-  int height;
+  unsigned int width;
+  unsigned int height;
   SDL_Window *window;
   SDL_GLContext context;
 
@@ -60,7 +60,7 @@ private:
   std::string charbuffer;
 
   static const char* DEFAULT_TITLE;
-  static const int DEFAULT_WIDTH, DEFAULT_HEIGHT;
+  static const unsigned int DEFAULT_WIDTH, DEFAULT_HEIGHT;
 };
 
 } /* namespace radix */
