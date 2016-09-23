@@ -114,25 +114,25 @@ void XmlMapLoader::extractLights() {
   XMLElement* lightElement = rootHandle.FirstChildElement("light").ToElement();
 
   if (lightElement){
-  do {
-    XmlHelper::extractPosition(lightElement, lightPos);
-    XmlHelper::extractColor(lightElement, lightColor);
+    do {
+      XmlHelper::extractPosition(lightElement, lightPos);
+      XmlHelper::extractColor(lightElement, lightColor);
 
-    lightElement->QueryFloatAttribute("distance", &distance);
-    lightElement->QueryFloatAttribute("energy", &energy);
-    if (lightElement->QueryFloatAttribute("specular", &specular) == XML_NO_ATTRIBUTE) {
-      specular = 0;
-    }
+      lightElement->QueryFloatAttribute("distance", &distance);
+      lightElement->QueryFloatAttribute("energy", &energy);
+      if (lightElement->QueryFloatAttribute("specular", &specular) == XML_NO_ATTRIBUTE) {
+        specular = 0;
+      }
 
-    Entity &light = world.entities.create();
-    Transform &t = light.addComponent<Transform>();
-    t.setPosition(lightPos);
-    LightSource &ls = light.addComponent<LightSource>();
-    ls.color = lightColor;
-    ls.distance = distance;
-    ls.energy = energy;
-    ls.specular = specular;
-  } while ((lightElement = lightElement->NextSiblingElement("light")) != nullptr);
+      Entity &light = world.entities.create();
+      Transform &t = light.addComponent<Transform>();
+      t.setPosition(lightPos);
+      LightSource &ls = light.addComponent<LightSource>();
+      ls.color = lightColor;
+      ls.distance = distance;
+      ls.energy = energy;
+      ls.specular = specular;
+    } while ((lightElement = lightElement->NextSiblingElement("light")) != nullptr);
   }
 }
 
