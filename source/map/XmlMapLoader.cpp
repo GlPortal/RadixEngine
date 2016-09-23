@@ -91,14 +91,14 @@ void XmlMapLoader::extractSpawn() {
 
   if (spawnElement) {
     Entity &start = world.entities.create();
-    Transform &t = start.addComponent<Transform>();
+    Transform &transform = start.addComponent<Transform>();
     Vector3f position;
     XmlHelper::extractPosition(spawnElement, position);
-    t.setPosition(position);
-    Player &p = world.getPlayer().getComponent<Player>();
-    XmlHelper::extractRotation(spawnElement, p.headAngle);
-    Transform &pt = world.getPlayer().getComponent<Transform>();
-    pt.setPosition(position);
+    transform.setPosition(position);
+    Player &player = world.getPlayer().getComponent<Player>();
+    XmlHelper::extractRotation(spawnElement, player.headAngle);
+    Transform &playerTransform = world.getPlayer().getComponent<Transform>();
+    playerTransform.setPosition(position);
   } else {
     throw std::runtime_error("No spawn position defined.");
   }
