@@ -59,35 +59,6 @@ public:
   void render(double dtime, const Camera &cam);
 
   /**
-   * Renders the scene with provided camera parameters
-   * @param cam The camera from which we look at the scene
-   */
-  void renderScene(RenderContext &rc);
-
-  void renderViewFrames(RenderContext &rc);
-  void renderViewFrameStencil(RenderContext &rc);
-
-  /**
-   * Renders all the entities in the scene regardless of shading
-   * @param cam The camera from which we look at the scene
-   */
-  void renderEntities(RenderContext &rc);
-
-  /**
-   * Renders a single entity regardless of shading
-   * @param cam The camera from which we look at the entity
-   * @param e   The entity to render
-   */
-  void renderEntity(RenderContext &rc, const Entity &e);
-
-  /**
-   * Renders the player character using ambient shading
-   * @param cam The camera from which we look at the player
-   */
-  void renderPlayer(RenderContext &rc);
-
-
-  /**
    * Renders a string to the screen using signed-distance field text rendering.
    * The text is rendered in the font that is currently set with setFont().
    * @param cam  The camera from which we look at the text
@@ -115,15 +86,7 @@ public:
     return renderMesh(rc, shader, mdlMtx, mesh, &mat);
   }
 
-  /**
-   * Set the camera in the portal so rendering from that portal is possible
-   * @param cam         The camera from which we look at the portal
-   * @param dest        The camera to move inside the portal and point in the right direction
-   * @param portal      The portal in which to place the camera
-   * @param otherPortal The counterpart of the portal
-   */
-  static void setCameraInPortal(const Camera &cam, Camera &dest, const Entity &portal,
-                         const Entity &otherPortal);
+
   static Matrix4f getFrameView(const Matrix4f &src, const Matrix4f &in, const Matrix4f &out);
   static Matrix4f getFrameView(const Matrix4f &src, const Transform &in, const Transform &out) {
     Matrix4f inMat;
