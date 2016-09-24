@@ -26,7 +26,7 @@ GlGwenRenderer::GlGwenRenderer() :
   fontSpacing(0xFF) {
   vertNum = 0;
   fontScale[0] = fontScale[1] = 1.5f;
-  
+
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
   vbo = std::make_unique<VBO>(MaxVerts*sizeof(Vertex), VBO::Dynamic | VBO::Draw);
@@ -100,7 +100,7 @@ void GlGwenRenderer::flush() {
   vbo->update(vertices, vertNum);
 
   glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertNum);
-  
+
   vertNum = 0;
 }
 
