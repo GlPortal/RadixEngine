@@ -70,7 +70,7 @@ int Renderer::getTextWidth(std::string text) {
 void Renderer::render(double dtime, const Camera &cam) {
   time += dtime;
   viewport->getSize(&vpWidth, &vpHeight);
- 
+
   glDepthMask(GL_TRUE);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
