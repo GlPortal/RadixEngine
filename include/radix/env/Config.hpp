@@ -8,6 +8,10 @@ using namespace json11;
 
 namespace radix {
 
+/** @brief Configuration class
+ *
+ *  Load and represent the configuration
+ */
 class Config {
 public:
   Config();
