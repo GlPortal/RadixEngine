@@ -22,19 +22,23 @@
 #include <radix/material/Material.hpp>
 #include <radix/system/System.hpp>
 #include <radix/input/InputSource.hpp>
+#include <radix/env/Config.hpp>
 
 namespace radix {
 
 typedef std::pair<Entity*, Entity*> EntityPair;
 
 class World {
+private:
+  radix::Config config;
 protected:
   Entity *player;
 
 public:
   InputSource &input;
-
   World(InputSource &input);
+  void setConfig(radix::Config &config);
+  radix::Config &getConfig();
   ~World();
   void create();
   void destroy();

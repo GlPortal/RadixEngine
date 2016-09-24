@@ -9,6 +9,10 @@
 
 namespace radix {
 
+Config::Config() : loaded(false) {
+}
+
+
 void Config::load() {
   std::string err;
   std::string templateTxt;
@@ -33,9 +37,14 @@ void Config::load() {
 
   // Misc
   map = "n1";
+  loaded = true;
 }
 
-void Config::loadVideoSettings(Json json){
+bool Config::isLoaded() {
+  return loaded;
+}
+
+void Config::loadVideoSettings(Json json) {
   fullscreen      = json["fullscreen"].bool_value();
   antialiasing    = json["antialiasing"].number_value();
   vsync           = json["vsync"].bool_value();
@@ -45,12 +54,12 @@ void Config::loadVideoSettings(Json json){
 
 }
 
-void Config::loadSoundSettings(Json json){
+void Config::loadSoundSettings(Json json) {
   sound = json["enabled"].bool_value();
 
 }
 
-void Config::loadMouseSettings(Json json){
+void Config::loadMouseSettings(Json json) {
   sensitivity        = json["sensitivity"].number_value();
   hidePortalsByClick = json["hide_portals_by_click"].bool_value();
   cursorVisibility   = json["cursor_visibility"].bool_value();

@@ -106,6 +106,14 @@ World::~World() {
   input.removeDispatcher(event);
 }
 
+void World::setConfig(radix::Config &config){
+  this->config = config;
+}
+
+radix::Config &World::getConfig(){
+  return this->config;
+}
+
 using SystemGraphNode = World::SystemGraphNode;
 using SystemGraphNodeVector = World::SystemGraphNodeVector;
 
@@ -151,7 +159,7 @@ static bool isReachableBySuccessors(const SystemGraphNode &start, SystemTypeId t
   const SystemGraphNodeVector &sinfo, std::stack<SystemTypeId> &path) {
   auto search = start.successors.find(targetstid);
   if (search != start.successors.end()) {
-    path.push(targetstid);  
+    path.push(targetstid);
     return true;
   } else {
     for (SystemTypeId stid : start.successors) {
@@ -414,7 +422,7 @@ void World::update(TDelta dtime) {
 }
 
 #if 0
-// TODO: move elsewhere. World is world, not renderer.
+
 void World::render(double dtime) {
   renderer->render(dtime, scene->camera);
   if (isPhysicsDebugEnabled) {

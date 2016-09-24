@@ -34,9 +34,6 @@ XmlMapLoader::XmlMapLoader(World &w) :
   rootHandle(nullptr) {
 }
 
-/**
- * Get a scene from a map file in XML format.
- */
 void XmlMapLoader::load(const std::string &path) {
   XMLDocument doc;
   XMLError error = doc.LoadFile(path.c_str());
@@ -78,7 +75,7 @@ void XmlMapLoader::extractMaterials() {
         if (name.length() > 0) {
           world.materials[mid] = MaterialLoader::getMaterial(name);
         } else {
-          Util::Log(Error) << "Name is mandatory for mat tag.";
+          Util::Log(Error) << "Name is mandatory for material tag.";
           continue;
         }
       } while ((matElm = matElm->NextSiblingElement("material")) != nullptr);
@@ -86,22 +83,19 @@ void XmlMapLoader::extractMaterials() {
   }
 }
 
-/**
- * Extract a spawn element containing its rotation and position elements
- */
 void XmlMapLoader::extractSpawn() {
   XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
 
   if (spawnElement) {
     Entity &start = world.entities.create();
-    Transform &t = start.addComponent<Transform>();
+    Transform &transform = start.addComponent<Transform>();
     Vector3f position;
     XmlHelper::extractPosition(spawnElement, position);
-    t.setPosition(position);
-    Player &p = world.getPlayer().getComponent<Player>();
-    XmlHelper::extractRotation(spawnElement, p.headAngle);
-    Transform &pt = world.getPlayer().getComponent<Transform>();
-    pt.setPosition(position);
+    transform.setPosition(position);
+    Player &player = world.getPlayer().getComponent<Player>();
+    XmlHelper::extractRotation(spawnElement, player.headAngle);
+    Transform &playerTransform = world.getPlayer().getComponent<Transform>();
+    playerTransform.setPosition(position);
   } else {
     throw std::runtime_error("No spawn position defined.");
   }
@@ -117,25 +111,25 @@ void XmlMapLoader::extractLights() {
   XMLElement* lightElement = rootHandle.FirstChildElement("light").ToElement();
 
   if (lightElement){
-  do {
-    XmlHelper::extractPosition(lightElement, lightPos);
-    XmlHelper::extractColor(lightElement, lightColor);
+    do {
+      XmlHelper::extractPosition(lightElement, lightPos);
+      XmlHelper::extractColor(lightElement, lightColor);
 
-    lightElement->QueryFloatAttribute("distance", &distance);
-    lightElement->QueryFloatAttribute("energy", &energy);
-    if (lightElement->QueryFloatAttribute("specular", &specular) == XML_NO_ATTRIBUTE) {
-      specular = 0;
-    }
+      lightElement->QueryFloatAttribute("distance", &distance);
+      lightElement->QueryFloatAttribute("energy", &energy);
+      if (lightElement->QueryFloatAttribute("specular", &specular) == XML_NO_ATTRIBUTE) {
+        specular = 0;
+      }
 
-    Entity &light = world.entities.create();
-    Transform &t = light.addComponent<Transform>();
-    t.setPosition(lightPos);
-    LightSource &ls = light.addComponent<LightSource>();
-    ls.color = lightColor;
-    ls.distance = distance;
-    ls.energy = energy;
-    ls.specular = specular;
-  } while ((lightElement = lightElement->NextSiblingElement("light")) != nullptr);
+      Entity &light = world.entities.create();
+      Transform &t = light.addComponent<Transform>();
+      t.setPosition(lightPos);
+      LightSource &ls = light.addComponent<LightSource>();
+      ls.color = lightColor;
+      ls.distance = distance;
+      ls.energy = energy;
+      ls.specular = specular;
+    } while ((lightElement = lightElement->NextSiblingElement("light")) != nullptr);
   }
 }
 
@@ -144,16 +138,16 @@ void XmlMapLoader::extractDoor() {
 
   if (endElement) {
     Entity &door = world.entities.create();
-    Transform &t = door.addComponent<Transform>();
+    Transform &transform = door.addComponent<Transform>();
     Vector3f position;
     XmlHelper::extractPosition(endElement, position);
-    t.setPosition(position);
+    transform.setPosition(position);
     Vector3f angles;
     XmlHelper::extractRotation(endElement, angles);
-    t.setOrientation(Quaternion().fromAero(angles));
-    MeshDrawable &m = door.addComponent<MeshDrawable>();
-    m.material = MaterialLoader::loadFromXML("door/door");
-    m.mesh = MeshLoader::getMesh("Door.obj");
+    transform.setOrientation(Quaternion().fromAero(angles));
+    MeshDrawable &mesh = door.addComponent<MeshDrawable>();
+    mesh.material = MaterialLoader::loadFromXML("door/door");
+    mesh.mesh = MeshLoader::getMesh("Door.obj");
   }
 }
 

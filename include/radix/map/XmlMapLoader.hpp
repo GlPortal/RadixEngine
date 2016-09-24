@@ -19,11 +19,16 @@ private:
 
 public:
   XmlMapLoader(World&);
-  
+  /**
+   * Load data from XML into World.
+   */
   void load(const std::string &path);
 
 private:
   void extractMaterials();
+  /**
+   * Extract a spawn element containing its rotation and position elements
+   */
   void extractSpawn();
   void extractLights();
   void extractDoor();
