@@ -61,8 +61,13 @@ void PlayerSystem::mouseLook(Entity &entity) {
 
   // Apply mouse movement to view
   //Vector3f &rotation = entity.getComponent<Transform>().rotation;
-  plr.headAngle.attitude -= rad(mousedy * Environment::getConfig().getSensitivity());
-  plr.headAngle.heading  -= rad(mousedx * Environment::getConfig().getSensitivity());
+  if (world.getConfig().isLoaded()) {
+    plr.headAngle.attitude -= rad(mousedy * world.getConfig().getSensitivity());
+    plr.headAngle.heading  -= rad(mousedx * world.getConfig().getSensitivity());
+  } else {
+    plr.headAngle.attitude -= rad(mousedy * 0.30);
+    plr.headAngle.heading  -= rad(mousedx * 0.30);
+  }
   plr.headAngle.tilt *= 0.8;
 
   // Restrict rotation in horizontal axis

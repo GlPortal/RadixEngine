@@ -13,7 +13,6 @@ class PlayerSystem : public System {
 protected:
   void mouseLook(Entity &entity);
   void move(Entity &entity, TDelta dtime);
-
 public:
   PlayerSystem(World&);
   ~PlayerSystem();

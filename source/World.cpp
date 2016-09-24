@@ -106,6 +106,14 @@ World::~World() {
   input.removeDispatcher(event);
 }
 
+void World::setConfig(radix::Config &config){
+  this->config = config;
+}
+
+radix::Config &World::getConfig(){
+  return this->config;
+}
+
 using SystemGraphNode = World::SystemGraphNode;
 using SystemGraphNodeVector = World::SystemGraphNodeVector;
 
