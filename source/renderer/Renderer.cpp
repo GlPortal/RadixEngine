@@ -149,8 +149,8 @@ void Renderer::render(double dtime, const Camera &cam) {
         Util::Log(Debug, "Renderer") << "struct Light {\n"
           "  position : " << lightStructOffsets.position << '\n' <<
           "  distance : " << lightStructOffsets.distance << '\n' <<
-          "  color : " << lightStructOffsets.color << '\n' <<
-          "  energy : " << lightStructOffsets.energy << '\n' <<
+          "  color : "    << lightStructOffsets.color << '\n' <<
+          "  energy : "   << lightStructOffsets.energy << '\n' <<
           "  specular : " << lightStructOffsets.specular << '\n' <<
           "} : " << lightStructSize;
         std::unique_ptr<uint8_t[]> buf(new uint8_t[lightsUBsize]);
