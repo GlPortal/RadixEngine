@@ -32,6 +32,7 @@ const unsigned int Window::DEFAULT_HEIGHT = 600;
 const char* Window::DEFAULT_TITLE = "Radix Engine";
 
 Window::Window() :
+  config(),
   width(0),
   height(0),
   window(nullptr),
@@ -39,6 +40,10 @@ Window::Window() :
 }
 
 Window::~Window() = default;
+
+void Window::setConfig(radix::Config &config){
+  this->config = config;
+}
 
 void Window::initEpoxy() {
   const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
@@ -55,30 +60,41 @@ void Window::create(const char *title) {
 
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-  Config &config = Environment::getConfig();
-
-  if (config.getAntialiasLevel() > 0) {
+  if (config.isLoaded() && config.getAntialiasLevel() > 0) {
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config.getAntialiasLevel());
   }
 
   int flags = SDL_WINDOW_OPENGL;
-  if (config.isFullscreen()) {
+
+  if (config.isLoaded() && config.isFullscreen()) {
     flags |= SDL_WINDOW_BORDERLESS;
   }
 
   SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
   SDL_GetDesktopDisplayMode(0, &dispMode);
 
-  int width = config.getWidth();
-  int height = config.getHeight();
+  if (config.isLoaded()) {
+    unsigned int widthConfig, heightConfig;
+    widthConfig  = config.getWidth();
+    heightConfig = config.getHeight();
 
-  if (width == 0) {
+    width  = widthConfig;
+    height = heightConfig;
+
+    if (widthConfig == 0) {
+      width = dispMode.w;
+    }
+    if (heightConfig == 0) {
+      height = dispMode.h;
+    }
+  } else {
     width = dispMode.w;
-  }
-  if (height == 0) {
     height = dispMode.h;
+    Util::Log(Verbose, "Window") << "W  " << width;
+     //exit (EXIT_FAILURE);
   }
+
 
   // Explicitly request an OpenGL 3.2 Core context
   // i.e. enforce using non-deprecated functions
@@ -99,7 +115,11 @@ void Window::create(const char *title) {
   glViewport(0, 0, width, height);
 
   // Allows unbound framerate if vsync is disabled
-  SDL_GL_SetSwapInterval(config.hasVsync() ? 1 : 0);
+  if (config.isLoaded()) {
+    SDL_GL_SetSwapInterval(config.hasVsync() ? 1 : 0);
+  } else {
+    SDL_GL_SetSwapInterval(1);
+  }
 
   // Lock cursor in the middle of the screen
   lockMouse();

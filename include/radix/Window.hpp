@@ -12,6 +12,7 @@
 
 #include <radix/input/InputSource.hpp>
 #include <radix/Viewport.hpp>
+#include <radix/env/Config.hpp>
 
 namespace radix {
 
@@ -24,6 +25,7 @@ public:
   ~Window();
   void create(const char*);
   void setFullscreen();
+  void setConfig(radix::Config &config);
   void swapBuffers();
   void getSize(int *width, int *height) const;
   void close();
@@ -35,6 +37,7 @@ public:
   std::unique_ptr<Gwen::Skin::TexturedBase> gwenSkin;
   std::unique_ptr<Gwen::Controls::Canvas> gwenCanvas;
   std::unique_ptr<radix::GWENInput> gwenInput;
+  radix::Config config;
 
   void processEvents();
 

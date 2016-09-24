@@ -10,7 +10,9 @@ namespace radix {
 
 class Config {
 public:
+  Config();
   void load();
+  bool isLoaded();
   unsigned int getWidth() { return width; }
   unsigned int getHeight() { return height; }
   float getSensitivity() { return sensitivity; }
@@ -28,6 +30,7 @@ private:
   void loadVideoSettings(Json json);
   void loadSoundSettings(Json json);
   void loadMouseSettings(Json json);
+  bool loaded;
   unsigned int width;
   unsigned int height;
   float sensitivity;
