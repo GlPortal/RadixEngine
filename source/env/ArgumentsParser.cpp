@@ -91,8 +91,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   }
 }
 
-void ArgumentsParser::populateConfig() {
-  Config &config = Environment::getConfig();
+void ArgumentsParser::populateConfig(radix::Config &config) {
   if (not mapName.empty()) {
     config.map = mapName;
   }
