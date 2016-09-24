@@ -193,9 +193,9 @@ void Renderer::render(double dtime, const Camera &cam) {
         const Transform &t = e.getComponent<Transform>();
         std::string index = std::to_string(numLights);
         std::string position = "lights[" + index + "].position";
-        std::string color = "lights[" + index + "].color";
+        std::string color    = "lights[" + index + "].color";
         std::string distance = "lights[" + index + "].distance";
-        std::string energy = "lights[" + index + "].energy";
+        std::string energy   = "lights[" + index + "].energy";
         std::string specular = "lights[" + index + "].specular";
         const Vector3f &tposition = t.getPosition();
         glUniform3f(shaders[i]->uni(position.c_str()), tposition.x, tposition.y, tposition.z);
