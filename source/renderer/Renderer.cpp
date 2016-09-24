@@ -352,15 +352,15 @@ void Renderer::renderEntity(RenderContext &rc, const Entity &e) {
 }
 
 void Renderer::renderPlayer(RenderContext &rc) {
-  const Transform &t = world.getPlayer().getComponent<Transform>();
-  Matrix4f mtx;
-  mtx.translate(t.getPosition() + Vector3f(0, -.5f, 0));
-  mtx.rotate(t.getOrientation());
-  mtx.scale(Vector3f(1.3f, 1.3f, 1.3f));
+  const Transform &transform = world.getPlayer().getComponent<Transform>();
+  Matrix4f matrix;
+  matrix.translate(transform.getPosition() + Vector3f(0, -.5f, 0));
+  matrix.rotate(transform.getOrientation());
+  matrix.scale(Vector3f(1.3f, 1.3f, 1.3f));
   const Mesh &dummy = MeshLoader::getMesh("HumanToken.obj");
   const Material &mat = MaterialLoader::fromTexture("HumanToken.png");
 
-  renderMesh(rc, ShaderLoader::getShader("diffuse.frag"), mtx, dummy, mat);
+  renderMesh(rc, ShaderLoader::getShader("diffuse.frag"), matrix, dummy, mat);
 }
 
 void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f vector) {
