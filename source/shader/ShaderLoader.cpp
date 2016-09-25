@@ -36,43 +36,42 @@ Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &
   int fragShader = loadShader(fpath, Shader::Fragment);
 
   // Create a program and attach both shaders
-  int shader = glCreateProgram();
-  glAttachShader(shader, vertShader);
-  glAttachShader(shader, fragShader);
+  int program = glCreateProgram();
+  glAttachShader(program, vertShader);
+  glAttachShader(program, fragShader);
 
-  glLinkProgram(shader);
+  glLinkProgram(program);
 
   // Error checking
   GLint success = 0;
-  glGetProgramiv(shader, GL_LINK_STATUS, &success);
+  glGetProgramiv(program, GL_LINK_STATUS, &success);
   if (success == GL_TRUE) {
     Util::Log(Debug, "ShaderLoader") << fpath << ": program linked";
   } else {
     GLint logSize = 0;
-    glGetProgramiv(shader, GL_INFO_LOG_LENGTH, &logSize);
+    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
     std::unique_ptr<char> log(new char[logSize]);
-    glGetProgramInfoLog(shader, logSize, NULL, log.get());
+    glGetProgramInfoLog(program, logSize, NULL, log.get());
     Util::Log(Error, "ShaderLoader") << fpath << ": linking failed:\n" << log.get();
   }
 
-  glValidateProgram(shader);
+  glValidateProgram(program);
 
   // Error checking
-  glGetProgramiv(shader, GL_VALIDATE_STATUS, &success);
+  glGetProgramiv(program, GL_VALIDATE_STATUS, &success);
   if (success == GL_TRUE) {
     Util::Log(Debug, "ShaderLoader") << fpath << ": progam validated";
   } else {
     GLint logSize = 0;
-    glGetProgramiv(shader, GL_INFO_LOG_LENGTH, &logSize);
+    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
     std::unique_ptr<char> log(new char[logSize]);
-    glGetProgramInfoLog(shader, logSize, NULL, log.get());
+    glGetProgramInfoLog(program, logSize, NULL, log.get());
     Util::Log(Error, "ShaderLoader") << fpath << ": validation failed:\n" << log.get();
   }
 
-  Shader s;
-  s.handle = shader;
+  Shader shader(program);
   auto inserted = shaderCache.insert(std::pair<std::pair<std::string, std::string>, Shader>(
-    std::pair<std::string, std::string>(fragpath, vertpath), s));
+    std::pair<std::string, std::string>(fragpath, vertpath), shader));
   // Return reference to newly inserted Shader
   return inserted.first->second;
 }
