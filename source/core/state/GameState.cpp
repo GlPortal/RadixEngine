@@ -2,7 +2,7 @@
 // Created by geert on 9/25/16.
 //
 
-#include "../../../include/radix/core/state/GameState.hpp"
+#include <radix/core/state/GameState.hpp>
 
 namespace radix {
 
@@ -20,4 +20,5 @@ void GameState::handleMenu(Game &game) { }
 void GameState::handleGameOverScreen(Game &game) { }
 
 void GameState::handleWinScreen(Game &game) { }
+
 } /* namespace radix */

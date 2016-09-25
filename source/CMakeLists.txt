@@ -60,5 +60,6 @@ set(RADIX_SOURCES
   ${D}/SoundManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
+  ${D}/util/sdl/Fps.cpp
   PARENT_SCOPE
 )
