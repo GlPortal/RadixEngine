@@ -82,7 +82,7 @@ include_directories(${RADIX_INCLUDE_DIRS})
 
 add_subdirectory(source)
 
-add_library(${RADIX_LIBRARY} ${RADIX_SOURCES} include/radix/BaseGame.hpp)
+add_library(${RADIX_LIBRARY} ${RADIX_SOURCES})
 target_link_libraries(${RADIX_LIBRARY} ${RADIX_LIBRARIES})
 
 # Export
