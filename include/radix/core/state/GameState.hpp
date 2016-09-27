@@ -5,20 +5,20 @@
 #ifndef GAMESTATE_HPP
 #define GAMESTATE_HPP
 
-class Game;
+#include <radix/BaseGame.hpp>
 
 namespace radix {
 
 class GameState {
 
 public:
-  void handleInput(Game &game);
-  static void handleRunning(Game &game);
-  static void handlePaused(Game &game);
-  static void handleSplash(Game &game);
-  static void handleMenu(Game &game);
-  static void handleGameOverScreen(Game &game);
-  static void handleWinScreen(Game &game);
+  void handleInput(BaseGame &game);
+  static void handleRunning(BaseGame &game);
+  static void handlePaused(BaseGame &game);
+  static void handleSplash(BaseGame &game);
+  static void handleMenu(BaseGame &game);
+  static void handleGameOverScreen(BaseGame &game);
+  static void handleWinScreen(BaseGame &game);
 };
 } /* namespace radix */
 
