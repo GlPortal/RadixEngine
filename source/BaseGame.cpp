@@ -1,13 +1,10 @@
-//
-// Created by geert on 9/25/16.
-//
+
 #include <radix/BaseGame.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/SoundManager.hpp>
 #include <radix/system/PlayerSystem.hpp>
 #include <radix/system/PhysicsSystem.hpp>
 #include <radix/component/Player.hpp>
-#include <radix/env/ArgumentsParser.hpp>
 
 namespace radix {
 
@@ -18,18 +15,6 @@ BaseGame::BaseGame() :
     closed(false),
     config(Environment::getConfig()){
   radix::Environment::init();
-  config = radix::Environment::getConfig();
-  radix::ArgumentsParser::populateConfig(config);
-  window.setConfig(config);
-  window.create("GlPortal");
-
-  try {
-    SoundManager::init();
-    init();
-    renderer->init();
-  } catch (std::runtime_error &e) {
-    Util::Log(Error) << "Runtime Error: " << e.what();
-  }
 }
 
 void BaseGame::init() {
