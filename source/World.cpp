@@ -438,4 +438,4 @@ Entity& World::getPlayer() {
   return *player;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */
