@@ -1,7 +1,3 @@
-//
-// Created by geert on 9/25/16.
-//
-
 #ifndef RADIX_HANDLEGAMEFUNCTION_HPP
 #define RADIX_HANDLEGAMEFUNCTION_HPP
 

@@ -1,7 +1,3 @@
-//
-// Created by geert on 9/25/16.
-//
-
 #include <radix/core/state/GameState.hpp>
 
 namespace radix {

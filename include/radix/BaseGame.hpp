@@ -1,7 +1,3 @@
-//
-// Created by geert on 9/25/16.
-//
-
 #ifndef RADIX_BASEGAME_HPP
 #define RADIX_BASEGAME_HPP
 
