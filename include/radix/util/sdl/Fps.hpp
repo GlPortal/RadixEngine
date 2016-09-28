@@ -2,8 +2,8 @@
 // Created by geert on 9/25/16.
 //
 
-#ifndef GLPORTAL_FPS_HPP
-#define GLPORTAL_FPS_HPP
+#ifndef RADIX_FPS_HPP
+#define RADIX_FPS_HPP
 
 namespace radix {
 
@@ -20,4 +20,4 @@ private:
 };
 } /* namespace radix */
 
-#endif //GLPORTAL_FPS_HPP
+#endif /* RADIX_FPS_HPP */

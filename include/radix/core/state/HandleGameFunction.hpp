@@ -2,8 +2,8 @@
 // Created by geert on 9/25/16.
 //
 
-#ifndef HANDLEGAMEFUNCTION_HPP
-#define HANDLEGAMEFUNCTION_HPP
+#ifndef RADIX_HANDLEGAMEFUNCTION_HPP
+#define RADIX_HANDLEGAMEFUNCTION_HPP
 
 namespace radix {
 
@@ -13,4 +13,4 @@ typedef std::function<void (BaseGame &game)> HandleGameFunction;
 
 } /* namespace radix */
 
-#endif //GLPORTAL_HANDLEGAMEFUNCTION_HPP
+#endif /* RADIX_HANDLEGAMEFUNCTION_HPP */

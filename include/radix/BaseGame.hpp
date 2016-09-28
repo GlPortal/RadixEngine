@@ -2,8 +2,8 @@
 // Created by geert on 9/25/16.
 //
 
-#ifndef GLPORTAL_BASEGAME_HPP
-#define GLPORTAL_BASEGAME_HPP
+#ifndef RADIX_BASEGAME_HPP
+#define RADIX_BASEGAME_HPP
 
 #include <radix/util/sdl/Fps.hpp>
 #include <radix/World.hpp>
@@ -47,4 +47,4 @@ protected:
 };
 } /* namespace radix */
 
-#endif //GLPORTAL_BASEGAME_HPP
+#endif /* RADIX_BASEGAME_HPP */

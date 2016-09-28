@@ -2,8 +2,8 @@
 // Created by geert on 9/25/16.
 //
 
-#ifndef GAMESTATE_HPP
-#define GAMESTATE_HPP
+#ifndef RADIX_GAMESTATE_HPP
+#define RADIX_GAMESTATE_HPP
 
 #include <radix/BaseGame.hpp>
 
@@ -22,4 +22,4 @@ public:
 };
 } /* namespace radix */
 
-#endif //GAMESTATE_HPP
+#endif /* GAMESTATE_HPP */
