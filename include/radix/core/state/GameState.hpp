@@ -22,4 +22,4 @@ public:
 };
 } /* namespace radix */
 
-#endif /* GAMESTATE_HPP */
+#endif /* RADIX_GAMESTATE_HPP */
