@@ -18,6 +18,7 @@ private:
   int skipped;
   int rendered;
 };
+
 } /* namespace radix */
 
 #endif /* RADIX_FPS_HPP */

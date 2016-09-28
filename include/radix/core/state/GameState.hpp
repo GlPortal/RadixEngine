@@ -20,6 +20,7 @@ public:
   static void handleGameOverScreen(BaseGame &game);
   static void handleWinScreen(BaseGame &game);
 };
+
 } /* namespace radix */
 
 #endif /* RADIX_GAMESTATE_HPP */

@@ -45,6 +45,7 @@ protected:
   virtual void init();
   Config &config;
 };
+
 } /* namespace radix */
 
 #endif /* RADIX_BASEGAME_HPP */
