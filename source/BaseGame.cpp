@@ -57,12 +57,7 @@ void BaseGame::update() {
   lastUpdate = currentTime;
 }
 
-void BaseGame::processInput() {
-  window.processEvents();
-  if (window.isKeyDown(SDL_SCANCODE_Q)) {
-    close();
-  }
-}
+void BaseGame::processInput() { } /* to avoid pure virtual function */
 
 void BaseGame::cleanUp() {
   world.destroy();
