@@ -109,9 +109,6 @@ void Window::create(const char *title) {
 
   initEpoxy();
 
-  this->width = width;
-  this->height = height;
-
   glViewport(0, 0, width, height);
 
   // Allows unbound framerate if vsync is disabled
