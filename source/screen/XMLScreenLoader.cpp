@@ -5,8 +5,8 @@ using namespace tinyxml2;
 
 namespace radix {
 
-std::unique_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
-  std::unique_ptr<Screen> screen = std::make_unique<Screen>(); //setup screen pointer
+std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
+  std::shared_ptr<Screen> screen = std::make_shared<Screen>(); //setup screen pointer
 
   XMLDocument doc;
   XMLError error = doc.LoadFile(path.c_str()); //load in XML document
