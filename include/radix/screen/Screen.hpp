@@ -16,7 +16,7 @@ struct Text {
 struct Screen {
 
   std::vector<Text> text;
-  float alpha;
+  float alpha = 0;
   /* Color is stored in RGBA format
    * Thus x= r, y = g, etc.. */
   Vector4f bgColor;

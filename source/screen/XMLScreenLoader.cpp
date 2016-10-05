@@ -13,13 +13,15 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
 
   if (error){
     XMLHandle docHandle(&doc);
-    XMLElement *element = docHandle.FirstChildElement().ToElement();
+    XMLElement *element = docHandle.FirstChildElement("Screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
 
+    element->QueryFloatAttribute("alpha", &screen->alpha);
     screen->text = loadText(rootHandle);
     screen->textColor = loadTextColor(rootHandle);
     screen->bgColor = loadbgColor(rootHandle);
 
+    if (screen->alpha == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find alpha attribute in " << path;
     if (screen->text.empty()) Util::Log(Error, "XMLScreenLoader") << "Failed to find text element in " << path;
     if (screen->textColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find text color element in " << path;
     if (screen->bgColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find background color element in " << path;
