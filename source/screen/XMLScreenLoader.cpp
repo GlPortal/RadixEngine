@@ -14,18 +14,16 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
 
   if (error == 0){
     XMLHandle docHandle(&doc);
-    XMLElement *element = docHandle.FirstChildElement("Screen").ToElement();
+    XMLElement *element = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
 
-    element->QueryFloatAttribute("alpha", &screen->alpha);
     screen->text = loadText(rootHandle);
-    screen->textColor = loadTextColor(rootHandle);
-    screen->bgColor = loadbgColor(rootHandle);
+    //screen->textColor = loadTextColor(rootHandle);
+    //screen->bgColor = loadbgColor(rootHandle);
 
-    if (screen->alpha == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find alpha attribute in " << path;
     if (screen->text.empty()) Util::Log(Error, "XMLScreenLoader") << "Failed to find text element in " << path;
-    if (screen->textColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find text color element in " << path;
-    if (screen->bgColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find background color element in " << path;
+    //if (screen->textColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find text color element in " << path;
+    //if (screen->bgColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find background color element in " << path;
 
     Util::Log(Debug, "XMLScreenLoader") << "Screen " << path << " loaded";
 
@@ -38,24 +36,26 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
 
 std::vector<Text> XMLScreenLoader::loadText(XMLHandle &rootHandle) {
   std::vector<Text> text;
-  XMLElement *currElement = rootHandle.FirstChildElement("TextSection").FirstChildElement("Text").ToElement(); //grab the first element under the text section
+  XMLElement *currElement = rootHandle.FirstChildElement("text").ToElement(); //grab the first element under the text section
   if (currElement){
     do {
       Text tempText{};
 
-      currElement->QueryFloatAttribute("x", &tempText.position.x);
-      currElement->QueryFloatAttribute("y", &tempText.position.y);
-      currElement->QueryFloatAttribute("z", &tempText.position.z);
+      currElement->QueryFloatAttribute("z", &tempText.z);
+      currElement->QueryFloatAttribute("top", &tempText.top);
       currElement->QueryFloatAttribute("size", &tempText.size);
+      tempText.align = currElement->Attribute("align");
       tempText.text = currElement->GetText();
 
+      Util::Log(Debug, "XMLScreenLoader") << tempText.align;
+
       text.push_back(tempText);
-    } while((currElement = currElement->NextSiblingElement()) != nullptr);
+    } while((currElement = currElement->NextSiblingElement("text")) != nullptr);
   }
 
   return text;
 }
-
+/* Color will be done later
 Vector4f XMLScreenLoader::loadTextColor(tinyxml2::XMLHandle &rootHandle) {
   Vector4f color;
   XMLElement *currElement = rootHandle.FirstChildElement("ColorSection").FirstChildElement("TextColor").ToElement();
@@ -82,5 +82,5 @@ Vector4f XMLScreenLoader::loadbgColor(tinyxml2::XMLHandle &rootHandle) {
   }
 
   return color;
-}
+} */
 }
