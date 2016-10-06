@@ -57,10 +57,12 @@ set(RADIX_SOURCES
   ${D}/physics/PhysicsHelper.cpp
   ${D}/physics/Uncollider.cpp
   ${D}/renderer/GlGwenRenderer.cpp
+  ${D}/renderer/ScreenRenderer.cpp
   ${D}/renderer/Renderer.cpp
   ${D}/SoundManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
+  ${D}/screen/XMLScreenLoader.cpp
   ${D}/util/sdl/Fps.cpp
   PARENT_SCOPE
 )
