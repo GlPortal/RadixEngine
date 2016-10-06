@@ -9,7 +9,7 @@ namespace radix {
 
 struct Text {
   std::string text;
-  int x, y;
+  Vector3f position;
   float size;
 };
 

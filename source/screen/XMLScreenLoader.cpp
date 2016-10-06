@@ -1,5 +1,6 @@
 #include <radix/screen/XMLScreenLoader.hpp>
 #include <radix/env/Util.hpp>
+#include <radix/core/math/Vector3f.hpp>
 
 using namespace tinyxml2;
 
@@ -40,8 +41,9 @@ std::vector<Text> XMLScreenLoader::loadText(XMLHandle &rootHandle) {
     do {
       Text tempText{};
 
-      currElement->QueryIntAttribute("x", &tempText.x);
-      currElement->QueryIntAttribute("y", &tempText.y);
+      currElement->QueryFloatAttribute("x", &tempText.position.x);
+      currElement->QueryFloatAttribute("y", &tempText.position.y);
+      currElement->QueryFloatAttribute("z", &tempText.position.z);
       currElement->QueryFloatAttribute("size", &tempText.size);
       tempText.text = currElement->GetText();
 
