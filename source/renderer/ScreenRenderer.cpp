@@ -24,7 +24,7 @@ void ScreenRenderer::renderScreen(std::shared_ptr<Screen> screen) {
 
     if (screen->text[i].align == "centered"){
       position.x = (viewportWidth/2) - (renderer.getTextWidth(screen->text[i].text)/2);
-      position.y = (viewportHeight/2) + screen->text[i].top;
+      position.y = viewportHeight - screen->text[i].top;
     }
 
     renderer.renderText(*renderContext, screen->text[i].text, position);
