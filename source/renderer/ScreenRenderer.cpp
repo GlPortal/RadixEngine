@@ -16,11 +16,18 @@ void ScreenRenderer::renderScreen(std::shared_ptr<Screen> screen) {
   initCamera();
 
   renderer.setFont("Pacaya", 2.5f);
-  renderer.setFontColor(screen->textColor);
+  renderer.setFontColor(Vector4f(1, 1, 1, 1));
 
   for (unsigned int i = 0; i < screen->text.size(); i++){ // render text
     renderer.setFontSize(screen->text[i].size);
-    renderer.renderText(*renderContext, screen->text[i].text, screen->text[i].position);
+    Vector3f position(0, 0, screen->text[i].z);
+
+    if (screen->text[i].align == "centered"){
+      position.x = (viewportWidth/2) - (renderer.getTextWidth(screen->text[i].text)/2);
+      position.y = (viewportHeight/2) + screen->text[i].top;
+    }
+
+    renderer.renderText(*renderContext, screen->text[i].text, position);
   }
 }
 
