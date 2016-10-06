@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Vector4f.hpp>
 
 namespace radix {

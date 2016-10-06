@@ -12,7 +12,7 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
   XMLDocument doc;
   XMLError error = doc.LoadFile(path.c_str()); //load in XML document
 
-  if (error){
+  if (error == 0){
     XMLHandle docHandle(&doc);
     XMLElement *element = docHandle.FirstChildElement("Screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
@@ -27,6 +27,8 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
     if (screen->textColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find text color element in " << path;
     if (screen->bgColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find background color element in " << path;
 
+    Util::Log(Debug, "XMLScreenLoader") << "Screen " << path << " loaded";
+
     return screen;
   } else {
     Util::Log(Error, "XMLScreenLoader") << "Failed to load screen " << path;
@@ -36,7 +38,7 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
 
 std::vector<Text> XMLScreenLoader::loadText(XMLHandle &rootHandle) {
   std::vector<Text> text;
-  XMLElement *currElement = rootHandle.FirstChildElement("TextSection").FirstChildElement().ToElement(); //grab the first element under the text section
+  XMLElement *currElement = rootHandle.FirstChildElement("TextSection").FirstChildElement("Text").ToElement(); //grab the first element under the text section
   if (currElement){
     do {
       Text tempText{};
