@@ -4,7 +4,8 @@
 
 namespace radix {
 
-ScreenRenderer::ScreenRenderer(World &w, Renderer &ren) : world(w), renderer(ren), camera(nullptr), viewportWidth(0), viewportHeight(0) {
+ScreenRenderer::ScreenRenderer(World &w, Renderer &ren) :
+  world(w), renderer(ren), camera(nullptr), viewportWidth(0), viewportHeight(0) {
   renderContext = std::make_unique<RenderContext>(ren);
 }
 
