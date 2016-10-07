@@ -17,11 +17,10 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
     XMLElement *element = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
 
-    screen->text = loadText(rootHandle);
     //screen->textColor = loadTextColor(rootHandle);
     //screen->bgColor = loadbgColor(rootHandle);
 
-    if (screen->text.empty()) Util::Log(Error, "XMLScreenLoader") << "Failed to find text element in " << path;
+    if (!loadText(rootHandle, &screen->text)) Util::Log(Error, "XMLScreenLoader") << "Failed to find text element in " << path;
     //if (screen->textColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find text color element in " << path;
     //if (screen->bgColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find background color element in " << path;
 
@@ -34,8 +33,7 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
   }
 }
 
-std::vector<Text> XMLScreenLoader::loadText(XMLHandle &rootHandle) {
-  std::vector<Text> text;
+bool XMLScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
   XMLElement *currElement = rootHandle.FirstChildElement("text").ToElement(); //grab the first element under the text section
   if (currElement){
     do {
@@ -49,11 +47,11 @@ std::vector<Text> XMLScreenLoader::loadText(XMLHandle &rootHandle) {
 
       Util::Log(Debug, "XMLScreenLoader") << tempText.align;
 
-      text.push_back(tempText);
+      text->push_back(tempText);
     } while((currElement = currElement->NextSiblingElement("text")) != nullptr);
-  }
+  } else return false;
 
-  return text;
+  return true;
 }
 /* Color will be done later
 Vector4f XMLScreenLoader::loadTextColor(tinyxml2::XMLHandle &rootHandle) {
