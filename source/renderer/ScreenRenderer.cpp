@@ -1,6 +1,8 @@
 #include <radix/renderer/ScreenRenderer.hpp>
 #include <radix/Viewport.hpp>
-#include <SDL_opengl.h>
+#include <epoxy/gl.h>
+#include <radix/model/MeshLoader.hpp>
+#include <radix/shader/ShaderLoader.hpp>
 
 namespace radix {
 
@@ -14,6 +16,18 @@ void ScreenRenderer::renderScreen(std::shared_ptr<Screen> screen) {
   renderer.getViewport()->getSize(&viewportWidth, &viewportHeight);
 
   initCamera();
+
+  Matrix4f widget;
+  widget.translate(Vector3f((viewportWidth/2), (viewportHeight/2), -18));
+  widget.scale(Vector3f(viewportWidth, viewportHeight, 1));
+
+  const Mesh &mesh = MeshLoader::getMesh("GUIElement.obj");
+  Shader &sh = ShaderLoader::getShader("color.frag");
+  Vector4f bg(1,1,1,0.2f);
+
+  sh.bind();
+  glUniform4f(sh.uni("color"), bg.r, bg.g, bg.b, bg.a);
+  renderer.renderMesh(*renderContext, sh, widget, mesh);
 
   renderer.setFont("Pacaya", 2.5f);
   renderer.setFontColor(Vector4f(1, 1, 1, 1));
