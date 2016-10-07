@@ -43,11 +43,12 @@ bool XMLScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
       currElement->QueryFloatAttribute("top", &tempText.top);
       currElement->QueryFloatAttribute("size", &tempText.size);
       tempText.align = currElement->Attribute("align");
-      if (tempText.align != "centered" or tempText.align != "left" or tempText.align != "right")
-        Util::Log(Error, "XMLScreenLoader") << "Alignment " << tempText.align << " is not supported!";
-      tempText.text = currElement->GetText();
 
-      Util::Log(Debug, "XMLScreenLoader") << tempText.align;
+      if (tempText.align != "centered" and tempText.align != "left" and tempText.align != "right") {
+        Util::Log(Error, "XMLScreenLoader") << "Alignment " << tempText.align << " is not supported!";
+      }
+
+      tempText.text = currElement->GetText();
 
       text->push_back(tempText);
     } while((currElement = currElement->NextSiblingElement("text")) != nullptr);
