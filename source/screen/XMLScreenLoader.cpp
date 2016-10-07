@@ -45,7 +45,8 @@ bool XMLScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
       tempText.align = currElement->Attribute("align");
 
       if (tempText.align != "centered" and tempText.align != "left" and tempText.align != "right") {
-        Util::Log(Error, "XMLScreenLoader") << "Alignment " << tempText.align << " is not supported!";
+        Util::Log(Error, "XMLScreenLoader") << "Alignment \"" << tempText.align << "\" is not supported!";
+        continue;
       }
 
       tempText.text = currElement->GetText();
