@@ -20,7 +20,7 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
     //screen->textColor = loadTextColor(rootHandle);
     //screen->bgColor = loadbgColor(rootHandle);
 
-    if (!loadText(rootHandle, &screen->text)) Util::Log(Error, "XMLScreenLoader") << "Failed to find text element in " << path;
+    if (!loadText(rootHandle, &screen->text)) Util::Log(Error, "XMLScreenLoader") << "Failed to load text in " << path;
     //if (screen->textColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find text color element in " << path;
     //if (screen->bgColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find background color element in " << path;
 
@@ -43,9 +43,12 @@ bool XMLScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
       currElement->QueryFloatAttribute("top", &tempText.top);
       currElement->QueryFloatAttribute("size", &tempText.size);
       tempText.align = currElement->Attribute("align");
-      tempText.text = currElement->GetText();
 
-      Util::Log(Debug, "XMLScreenLoader") << tempText.align;
+      if (tempText.align != "centered" and tempText.align != "left" and tempText.align != "right") {
+        Util::Log(Error, "XMLScreenLoader") << "Alignment " << tempText.align << " is not supported!";
+      }
+
+      tempText.text = currElement->GetText();
 
       text->push_back(tempText);
     } while((currElement = currElement->NextSiblingElement("text")) != nullptr);

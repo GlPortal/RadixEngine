@@ -36,6 +36,8 @@ void ScreenRenderer::renderScreen(std::shared_ptr<Screen> screen) {
 
     renderer.renderText(*renderContext, screen->text[i].text, position);
   }
+
+  glDepthMask(GL_TRUE);
 }
 
 void ScreenRenderer::initCamera() {
