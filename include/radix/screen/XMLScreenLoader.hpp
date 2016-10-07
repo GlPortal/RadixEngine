@@ -11,7 +11,7 @@ class XMLScreenLoader {
 public:
   static std::shared_ptr<Screen> loadScreen(const std::string &path);
 private:
-  static std::vector<Text> loadText(tinyxml2::XMLHandle &rootHandle);
+  static bool loadText(tinyxml2::XMLHandle &rootHandle, std::vector<Text>* text);
   static Vector4f loadTextColor(tinyxml2::XMLHandle &rootHandle);
   static Vector4f loadbgColor(tinyxml2::XMLHandle &rootHandle);
 };
