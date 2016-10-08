@@ -417,7 +417,7 @@ void Window::keyPressed(KeyboardKey key, KeyboardModifier mod) {
 
 void Window::keyReleased(KeyboardKey key, KeyboardModifier mod) {
   keystates[key] = false;
-  const KeyPressedEvent kre(*this, key, mod);
+  const KeyReleasedEvent kre(*this, key, mod);
   for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
     d.get().dispatch(kre);
   }
