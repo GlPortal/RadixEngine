@@ -36,6 +36,7 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/component/ViewFrame.hpp>
 #include <radix/env/Environment.hpp>
+#include <malloc.h>
 
 namespace radix {
 
@@ -112,6 +113,9 @@ void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f v
   const Material &mat = MaterialLoader::fromTexture("Pacaya.png");
   Shader &shader = ShaderLoader::getShader("text.frag");
   glUniform4f(shader.uni("color"), fontColor.x, fontColor.y, fontColor.z, fontColor.w);
+  float* uniform = (float*)malloc(sizeof(Vector4f));
+  glGetUniformfv(shader.handle, shader.uni("color"), uniform);
+  Util::Log(Debug, "Renderer") << uniform[0] << uniform[1] << uniform[2] << uniform[3] << text;
   Vector2f position(vector.x, vector.y);
   Matrix4f mtx;
 

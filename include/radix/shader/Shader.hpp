@@ -18,10 +18,11 @@ public:
   void bind() const;
   void release() const;
 
+  int handle;
   int uni(const std::string&);
   int att(const std::string&);
 private:
-  int handle;
+
   std::map<std::string, int> locationMap;
 };
 

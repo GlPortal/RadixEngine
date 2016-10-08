@@ -30,7 +30,7 @@ void ScreenRenderer::renderScreen(std::shared_ptr<Screen> screen) {
   renderer.renderMesh(*renderContext, sh, widget, mesh);
 
   renderer.setFont("Pacaya", 2.5f);
-  renderer.setFontColor(Vector4f(1, 1, 1, 1));
+  renderer.setFontColor(Vector4f(1, 1, 1, 0.2f));
 
   for (unsigned int i = 0; i < screen->text.size(); i++){ // render text
     renderer.setFontSize(screen->text[i].size);
