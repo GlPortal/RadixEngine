@@ -204,10 +204,6 @@ void Window::unlockMouse() {
 void Window::processEvents() {
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
-    if (event.type == SDL_QUIT) {
-      // TODO
-    }
-
     int key = event.key.keysym.scancode;
     int mod = event.key.keysym.mod;
     int sym = event.key.keysym.sym;
