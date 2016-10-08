@@ -417,7 +417,7 @@ void Window::keyPressed(KeyboardKey key, KeyboardModifier mod) {
 
 void Window::keyReleased(KeyboardKey key, KeyboardModifier mod) {
   keystates[key] = false;
-  const KeyPressedEvent kre(*this, key, mod);
+  const KeyReleasedEvent kre(*this, key, mod);
   for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
     d.get().dispatch(kre);
   }
@@ -449,4 +449,38 @@ void Window::clear() {
   keystates.clear();
 }
 
+void Window::printScreenToFile(std::string fileName) {
+  Util::Log(Verbose, "Window") << "Taking screenshot";
+  SDL_Surface * image =
+    SDL_CreateRGBSurface(SDL_SWSURFACE,
+                         width, height,
+                         24, 0x000000FF,
+                         0x0000FF00,
+                         0x00FF0000, 0);
+
+  glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+  SDL_Surface * flippedImage = flipVertical(image);
+  SDL_SaveBMP(flippedImage, fileName.c_str());
+  SDL_FreeSurface(flippedImage);
+  SDL_FreeSurface(image);
+}
+
+SDL_Surface* Window::flipVertical(SDL_Surface* sfc) {
+  SDL_Surface* result =
+    SDL_CreateRGBSurface(sfc->flags, sfc->w, sfc->h,
+                         sfc->format->BytesPerPixel * 8,
+                         sfc->format->Rmask, sfc->format->Gmask,
+                         sfc->format->Bmask, sfc->format->Amask);
+  const auto pitch = sfc->pitch;
+  const auto pxlength = pitch*sfc->h;
+  auto pixels = static_cast<unsigned char*>(sfc->pixels) + pxlength;
+  auto rpixels = static_cast<unsigned char*>(result->pixels) ;
+  for(auto line = 0; line < sfc->h; ++line) {
+    memcpy(rpixels,pixels,pitch);
+    pixels -= pitch;
+    rpixels += pitch;
+  }
+
+  return result;
+}
 } /* namespace radix */
