@@ -116,6 +116,7 @@ void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f v
   float* uniform = (float*)malloc(sizeof(Vector4f));
   glGetUniformfv(shader.handle, shader.uni("color"), uniform);
   Util::Log(Debug, "Renderer") << uniform[0] << uniform[1] << uniform[2] << uniform[3] << text << glGetError();
+  free(uniform);
   Vector2f position(vector.x, vector.y);
   Matrix4f mtx;
 
