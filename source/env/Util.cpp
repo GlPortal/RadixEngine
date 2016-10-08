@@ -19,7 +19,7 @@
     DWORD dwFlags; // Reserved for future use, must be zero.
   } THREADNAME_INFO;
   #pragma pack(pop)
-#else
+#elif __linux__
   #include <sys/prctl.h>
 #endif
 

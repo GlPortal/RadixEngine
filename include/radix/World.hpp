@@ -14,10 +14,12 @@
 #include <thread>
 #include <utility>
 #include <vector>
+#include <stack>
 
 #include <radix/Camera.hpp>
 #include <radix/EntityManager.hpp>
 #include <radix/core/types/TimeDelta.hpp>
+#include <radix/core/state/HandleGameFunction.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/material/Material.hpp>
 #include <radix/system/System.hpp>
@@ -61,6 +63,9 @@ public:
   std::map<std::string, Entity*> entityAliases;
   std::map<std::string, std::vector<Entity*>> entityGroups;
   std::map<std::string, std::vector<EntityPair>> entityPairs;
+
+  // Game States
+  std::stack<HandleGameFunction> stateFunctionStack;
 
   /**
    * Gets the reference to the entity with specified ID.
