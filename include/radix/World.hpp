@@ -205,7 +205,7 @@ public:
         std::forward_as_tuple(sys));
       w.event.dispatch(SystemAddedEvent(w, *w.systems.at(System::getTypeId<T>())));
     }
-    
+
     template<class T> void removeSystem() {
       System &sys = *w.systems.at(System::getTypeId<T>());
       w.event.dispatch(SystemRemovedEvent(w, sys));
