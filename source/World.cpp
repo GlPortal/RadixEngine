@@ -92,7 +92,8 @@ World::World(InputSource &input) :
   entities(*this),
   systemRun(*this),
   gameTime(0),
-  lastUpdateTime(0) {
+  lastUpdateTime(0),
+  screenVisible(true) {
   input.addDispatcher(event);
   player = &entities.create();
   player->addComponent<Transform>().setPosition(Vector3f(2.5, 1, 5));
@@ -108,6 +109,18 @@ World::~World() {
 
 void World::setConfig(radix::Config &config){
   this->config = config;
+}
+
+void World::showScreen() {
+  screenVisible = true;
+}
+
+void World::hideScreen() {
+  screenVisible = false;
+}
+
+bool World::isScreenVisible() {
+  return screenVisible;
 }
 
 radix::Config &World::getConfig(){
