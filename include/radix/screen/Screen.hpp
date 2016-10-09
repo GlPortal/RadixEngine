@@ -9,6 +9,7 @@
 namespace radix {
 
 struct Text {
+  Vector4f color;
   std::string text;
   std::string align;
   float z;
@@ -17,6 +18,7 @@ struct Text {
 };
 
 struct Screen {
+  Vector4f color;
   std::vector<Text> text;
 };
 } /* namespace radix */
