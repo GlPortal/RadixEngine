@@ -44,10 +44,6 @@ public:
   ~World();
   void create();
   void destroy();
-  void showScreen();
-  void hideScreen();
-  bool isScreenVisible();
-
 
   inline double getTime() const {
     return gameTime;
@@ -238,7 +234,6 @@ public:
 private:
   double gameTime;
   uint32_t lastUpdateTime;
-  bool screenVisible;
 };
 
 } /* namespace glPortal */

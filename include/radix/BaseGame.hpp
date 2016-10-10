@@ -3,6 +3,7 @@
 
 #include <radix/util/sdl/Fps.hpp>
 #include <radix/World.hpp>
+#include <radix/GameWorld.hpp>
 #include <radix/Window.hpp>
 #include <radix/renderer/Renderer.hpp>
 
@@ -26,6 +27,7 @@ public:
   virtual void close();
   virtual void render();
   World* getWorld();
+  GameWorld* getGameWorld();
   inline Window& getWindow() {
     return window;
   }
@@ -34,6 +36,7 @@ protected:
   unsigned int currentTime = 0, nextUpdate = 0, lastUpdate = 0, lastRender = 0;
   Window window;
   World world;
+  GameWorld gameWorld;
   std::unique_ptr<Renderer> renderer;
   std::unique_ptr<Camera> camera;
   bool closed;
