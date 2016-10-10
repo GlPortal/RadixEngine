@@ -112,6 +112,7 @@ void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f v
   // FIXME This should be determined by the currently set font
   const Material &mat = MaterialLoader::fromTexture("Pacaya.png");
   Shader &shader = ShaderLoader::getShader("text.frag");
+  shader.bind();
   glUniform4f(shader.uni("color"), fontColor.x, fontColor.y, fontColor.z, fontColor.w);
   float* uniform = (float*)malloc(sizeof(Vector4f));
   glGetUniformfv(shader.handle, shader.uni("color"), uniform);
@@ -138,6 +139,7 @@ void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f v
     renderMesh(rc, shader, mtx, mesh, mat);
     position.x += letter.advance * font->size;
   }
+  shader.release();
 }
 
 void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
