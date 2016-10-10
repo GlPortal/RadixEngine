@@ -158,7 +158,9 @@ void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
   glUniformMatrix4fv(shader.uni("modelMatrix"), 1, false, mdlMtx.toArray());
 
   // Per-vertex color multiplier
-  glVertexAttrib4f(shader.att("color"), 1, 1, 1, 1);
+  if (shader.att("color") > -1) {
+    glVertexAttrib4f(shader.att("color"), 1, 1, 1, 1);
+  }
 
   glBindVertexArray(mesh.handle);
   if (mat) {
