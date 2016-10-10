@@ -24,16 +24,17 @@ void ScreenRenderer::renderScreen(std::shared_ptr<Screen> screen) {
 
   const Mesh &mesh = MeshLoader::getMesh("GUIElement.obj");
   Shader &sh = ShaderLoader::getShader("color.frag");
-  Vector4f bg(1,1,1,0.2f);
 
   sh.bind();
-  glUniform4f(sh.uni("color"), bg.r, bg.g, bg.b, bg.a);
+  glUniform4f(sh.uni("color"), screen->color.r, screen->color.g, screen->color.b, screen->color.a);
   renderer.renderMesh(*renderContext, sh, widget, mesh);
 
+  sh.release();
+
   renderer.setFont("Pacaya", 2.5f);
-  renderer.setFontColor(Vector4f(1, 1, 1, 1));
 
   for (unsigned int i = 0; i < screen->text.size(); i++){ // render text
+    renderer.setFontColor(screen->text[i].color);
     renderer.setFontSize(screen->text[i].size);
     Vector3f position(0, 0, screen->text[i].z);
 
