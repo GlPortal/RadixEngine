@@ -43,6 +43,14 @@ World* BaseGame::getWorld() {
   return &world;
 }
 
+ScreenRenderer* BaseGame::getScreenRenderer() {
+  return screenRenderer.get();
+}
+
+void BaseGame::addScreen(Screen &screen) {
+  screens.push_back(&screen);
+}
+
 void BaseGame::update() {
   int skipped = 0;
   currentTime = SDL_GetTicks();

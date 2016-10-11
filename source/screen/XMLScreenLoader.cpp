@@ -1,10 +1,22 @@
 #include <radix/screen/XMLScreenLoader.hpp>
 #include <radix/env/Util.hpp>
-#include <radix/core/math/Vector3f.hpp>
 
 using namespace tinyxml2;
 
 namespace radix {
+
+std::map<std::string, std::shared_ptr<Screen>> XMLScreenLoader::screenCache = { };
+
+Screen& XMLScreenLoader::getScreen(const std::string &path) {
+  auto it = screenCache.find(path);
+  if(it != screenCache.end()){
+    return *it->second;
+   }
+
+  std::shared_ptr<Screen> screen = loadScreen(path);
+  screenCache.insert(std::make_pair(path, screen));
+  return *screen;
+}
 
 std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
   std::shared_ptr<Screen> screen = std::make_shared<Screen>(); //setup screen pointer
@@ -21,7 +33,7 @@ std::shared_ptr<Screen> XMLScreenLoader::loadScreen(const std::string &path) {
     //screen->bgColor = loadbgColor(rootHandle);
 
     if (!loadText(rootHandle, &screen->text)) Util::Log(Error, "XMLScreenLoader") << "Failed to load text in " << path;
-    if  (!extractColor(element, &screen->color)) Util::Log(Error, "XMLScreenLoader") << "Failed to load color in " << path;
+    if (!extractColor(element, &screen->color)) Util::Log(Error, "XMLScreenLoader") << "Failed to load color in " << path;
     //if (screen->bgColor.x == 0) Util::Log(Error, "XMLScreenLoader") << "Failed to find background color element in " << path;
 
     Util::Log(Debug, "XMLScreenLoader") << "Screen " << path << " loaded";

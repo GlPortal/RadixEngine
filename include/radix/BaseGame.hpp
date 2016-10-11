@@ -5,6 +5,7 @@
 #include <radix/World.hpp>
 #include <radix/Window.hpp>
 #include <radix/renderer/Renderer.hpp>
+#include <radix/renderer/ScreenRenderer.hpp>
 
 namespace radix {
 
@@ -20,12 +21,14 @@ public:
   BaseGame(BaseGame&) = delete;
   BaseGame(BaseGame&&) = delete;
   bool isRunning();
+  void addScreen(Screen& screen);
   virtual void processInput();
   virtual void update();
   virtual void cleanUp();
   virtual void close();
   virtual void render();
   World* getWorld();
+  ScreenRenderer* getScreenRenderer();
   inline Window& getWindow() {
     return window;
   }
@@ -34,8 +37,10 @@ protected:
   unsigned int currentTime = 0, nextUpdate = 0, lastUpdate = 0, lastRender = 0;
   Window window;
   World world;
+  std::shared_ptr<ScreenRenderer> screenRenderer;
   std::unique_ptr<Renderer> renderer;
   std::unique_ptr<Camera> camera;
+  std::list<Screen*> screens;
   bool closed;
   virtual void prepareCamera();
   virtual void init();

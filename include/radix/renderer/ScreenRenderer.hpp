@@ -14,12 +14,12 @@ class ScreenRenderer {
 public:
   ScreenRenderer(World& w, Renderer& ren);
 
-  void renderScreen(std::shared_ptr<Screen> screen);
+  void renderScreen(Screen& screen);
 
   void initCamera();
 private:
-  World &world;
-  Renderer &renderer;
+  World& world;
+  Renderer& renderer;
   std::unique_ptr<Camera> camera;
   std::unique_ptr<RenderContext> renderContext;
   int viewportWidth, viewportHeight;

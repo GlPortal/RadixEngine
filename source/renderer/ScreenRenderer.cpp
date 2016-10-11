@@ -11,7 +11,7 @@ ScreenRenderer::ScreenRenderer(World &w, Renderer &ren) :
   renderContext = std::make_unique<RenderContext>(ren);
 }
 
-void ScreenRenderer::renderScreen(std::shared_ptr<Screen> screen) {
+void ScreenRenderer::renderScreen(Screen& screen) {
   glDepthMask(GL_FALSE);
 
   renderer.getViewport()->getSize(&viewportWidth, &viewportHeight);
@@ -26,30 +26,30 @@ void ScreenRenderer::renderScreen(std::shared_ptr<Screen> screen) {
   Shader &sh = ShaderLoader::getShader("color.frag");
 
   sh.bind();
-  glUniform4f(sh.uni("color"), screen->color.r, screen->color.g, screen->color.b, screen->color.a);
+  glUniform4f(sh.uni("color"), screen.color.r, screen.color.g, screen.color.b, screen.color.a);
   renderer.renderMesh(*renderContext, sh, widget, mesh);
 
   sh.release();
 
   renderer.setFont("Pacaya", 2.5f);
 
-  for (unsigned int i = 0; i < screen->text.size(); i++){ // render text
-    renderer.setFontColor(screen->text[i].color);
-    renderer.setFontSize(screen->text[i].size);
-    Vector3f position(0, 0, screen->text[i].z);
+  for (unsigned int i = 0; i < screen.text.size(); i++){ // render text
+    renderer.setFontColor(screen.text[i].color);
+    renderer.setFontSize(screen.text[i].size);
+    Vector3f position(0, 0, screen.text[i].z);
 
-    if (screen->text[i].align == "centered"){
-      position.x = (viewportWidth/2) - (renderer.getTextWidth(screen->text[i].text)/2);
-      position.y = viewportHeight - screen->text[i].top;
-    } else if (screen->text[i].align == "left"){
-      position.x = ((viewportWidth/2) - viewportWidth/4) - (renderer.getTextWidth(screen->text[i].text)/2);
-      position.y = viewportHeight - screen->text[i].top;
-    } else if (screen->text[i].align == "right"){
-      position.x = ((viewportWidth/2) + viewportWidth/4) - (renderer.getTextWidth(screen->text[i].text)/2);
-      position.y = viewportHeight - screen->text[i].top;
+    if (screen.text[i].align == "centered"){
+      position.x = (viewportWidth/2) - (renderer.getTextWidth(screen.text[i].text)/2);
+      position.y = viewportHeight - screen.text[i].top;
+    } else if (screen.text[i].align == "left"){
+      position.x = ((viewportWidth/2) - viewportWidth/4) - (renderer.getTextWidth(screen.text[i].text)/2);
+      position.y = viewportHeight - screen.text[i].top;
+    } else if (screen.text[i].align == "right"){
+      position.x = ((viewportWidth/2) + viewportWidth/4) - (renderer.getTextWidth(screen.text[i].text)/2);
+      position.y = viewportHeight - screen.text[i].top;
     }
 
-    renderer.renderText(*renderContext, screen->text[i].text, position);
+    renderer.renderText(*renderContext, screen.text[i].text, position);
   }
 
   glDepthMask(GL_TRUE);

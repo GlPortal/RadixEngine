@@ -111,18 +111,6 @@ void World::setConfig(radix::Config &config){
   this->config = config;
 }
 
-void World::showScreen() {
-  screenVisible = true;
-}
-
-void World::hideScreen() {
-  screenVisible = false;
-}
-
-bool World::isScreenVisible() {
-  return screenVisible;
-}
-
 radix::Config &World::getConfig(){
   return this->config;
 }

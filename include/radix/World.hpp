@@ -44,10 +44,6 @@ public:
   ~World();
   void create();
   void destroy();
-  void showScreen();
-  void hideScreen();
-  bool isScreenVisible();
-
 
   inline double getTime() const {
     return gameTime;
