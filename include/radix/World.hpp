@@ -234,7 +234,6 @@ public:
 private:
   double gameTime;
   uint32_t lastUpdateTime;
-  bool screenVisible;
 };
 
 } /* namespace glPortal */

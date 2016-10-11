@@ -3,6 +3,7 @@
 
 #include <radix/util/sdl/Fps.hpp>
 #include <radix/World.hpp>
+#include <radix/GameWorld.hpp>
 #include <radix/Window.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/renderer/ScreenRenderer.hpp>
@@ -29,6 +30,7 @@ public:
   virtual void render();
   World* getWorld();
   ScreenRenderer* getScreenRenderer();
+  GameWorld* getGameWorld();
   inline Window& getWindow() {
     return window;
   }
@@ -38,6 +40,7 @@ protected:
   Window window;
   World world;
   std::shared_ptr<ScreenRenderer> screenRenderer;
+  GameWorld gameWorld;
   std::unique_ptr<Renderer> renderer;
   std::unique_ptr<Camera> camera;
   std::list<Screen*> screens;
