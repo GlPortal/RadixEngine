@@ -1,6 +1,8 @@
 #ifndef RADIX_GAME_WORLD_HPP
 #define RADIX_GAME_WORLD_HPP
+#include <list>
 #include <radix/input/InputSource.hpp>
+#include <radix/screen/Screen.hpp>
 
 namespace radix {
 
@@ -8,11 +10,10 @@ class GameWorld {
 public:
   InputSource &input;
   GameWorld(InputSource &input);
-  void showScreen();
-  void hideScreen();
-  bool isScreenVisible();
+  void addScreen(Screen& screen);
+  std::list<Screen*>* getScreens();
 private:
-  bool screenVisible;
+  std::list<Screen*> screens;
 };
 } /* namespace radix */
 

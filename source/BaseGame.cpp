@@ -48,10 +48,6 @@ ScreenRenderer* BaseGame::getScreenRenderer() {
   return screenRenderer.get();
 }
 
-void BaseGame::addScreen(Screen &screen) {
-  screens.push_back(&screen);
-}
-
 GameWorld* BaseGame::getGameWorld() {
   return &gameWorld;
 }

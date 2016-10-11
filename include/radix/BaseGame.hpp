@@ -22,7 +22,6 @@ public:
   BaseGame(BaseGame&) = delete;
   BaseGame(BaseGame&&) = delete;
   bool isRunning();
-  void addScreen(Screen& screen);
   virtual void processInput();
   virtual void update();
   virtual void cleanUp();
@@ -43,7 +42,6 @@ protected:
   GameWorld gameWorld;
   std::unique_ptr<Renderer> renderer;
   std::unique_ptr<Camera> camera;
-  std::list<Screen*> screens;
   bool closed;
   virtual void prepareCamera();
   virtual void init();

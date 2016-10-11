@@ -2,19 +2,14 @@
 
 namespace radix {
 GameWorld::GameWorld(InputSource &input) :
-  input(input),
-  screenVisible(true){
+  input(input){
 }
 
-void GameWorld::showScreen() {
-  screenVisible = true;
+void GameWorld::addScreen(Screen &screen) {
+  screens.push_back(&screen);
 }
 
-void GameWorld::hideScreen() {
-  screenVisible = false;
-}
-
-bool GameWorld::isScreenVisible() {
-  return screenVisible;
+std::list<Screen*>* GameWorld::getScreens() {
+  return &screens;
 }
 } /* namespace radix */
