@@ -36,6 +36,7 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/component/ViewFrame.hpp>
 #include <radix/env/Environment.hpp>
+#include <malloc.h>
 
 namespace radix {
 
@@ -111,7 +112,12 @@ void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f v
   // FIXME This should be determined by the currently set font
   const Material &mat = MaterialLoader::fromTexture("Pacaya.png");
   Shader &shader = ShaderLoader::getShader("text.frag");
+  shader.bind();
   glUniform4f(shader.uni("color"), fontColor.x, fontColor.y, fontColor.z, fontColor.w);
+  float* uniform = (float*)malloc(sizeof(Vector4f));
+  glGetUniformfv(shader.handle, shader.uni("color"), uniform);
+  Util::Log(Debug, "Renderer") << uniform[0] << " " << uniform[1] << " " << uniform[2] << " " << uniform[3] << " " << text << " " << glGetError();
+  free(uniform);
   Vector2f position(vector.x, vector.y);
   Matrix4f mtx;
 
@@ -133,6 +139,7 @@ void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f v
     renderMesh(rc, shader, mtx, mesh, mat);
     position.x += letter.advance * font->size;
   }
+  shader.release();
 }
 
 void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
@@ -151,7 +158,9 @@ void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
   glUniformMatrix4fv(shader.uni("modelMatrix"), 1, false, mdlMtx.toArray());
 
   // Per-vertex color multiplier
-  glVertexAttrib4f(shader.att("color"), 1, 1, 1, 1);
+  if (shader.att("color") > -1) {
+    glVertexAttrib4f(shader.att("color"), 1, 1, 1, 1);
+  }
 
   glBindVertexArray(mesh.handle);
   if (mat) {
