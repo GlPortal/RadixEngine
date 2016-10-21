@@ -9,19 +9,17 @@
 namespace radix {
 
 struct Text {
+  Vector4f color;
   std::string text;
-  Vector3f position;
+  std::string align;
+  float z;
+  float top;
   float size;
 };
 
 struct Screen {
-
+  Vector4f color;
   std::vector<Text> text;
-  float alpha = 0;
-  /* Color is stored in RGBA format
-   * Thus x= r, y = g, etc.. */
-  Vector4f bgColor;
-  Vector4f textColor;
 };
 } /* namespace radix */
 

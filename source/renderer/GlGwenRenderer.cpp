@@ -101,6 +101,8 @@ void GlGwenRenderer::flush() {
 
   glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertNum);
 
+  sh.release();
+
   vertNum = 0;
 }
 

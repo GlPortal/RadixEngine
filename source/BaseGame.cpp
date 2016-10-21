@@ -12,6 +12,7 @@ Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
     world(window),
+    gameWorld(window),
     closed(false),
     config(Environment::getConfig()){
   radix::Environment::init();
@@ -41,6 +42,14 @@ bool BaseGame::isRunning() {
 
 World* BaseGame::getWorld() {
   return &world;
+}
+
+ScreenRenderer* BaseGame::getScreenRenderer() {
+  return screenRenderer.get();
+}
+
+GameWorld* BaseGame::getGameWorld() {
+  return &gameWorld;
 }
 
 void BaseGame::update() {

@@ -19,6 +19,7 @@ set(RADIX_SOURCES
   ${D}/Entity.cpp
   ${D}/Window.cpp
   ${D}/World.cpp
+  ${D}/GameWorld.cpp
   ${D}/BaseGame.cpp
   ${D}/component/Health.cpp
   ${D}/component/Player.cpp

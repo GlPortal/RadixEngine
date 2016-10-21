@@ -92,7 +92,7 @@ World::World(InputSource &input) :
   entities(*this),
   systemRun(*this),
   gameTime(0),
-  lastUpdateTime(0) {
+  lastUpdateTime(0){
   input.addDispatcher(event);
   player = &entities.create();
   player->addComponent<Transform>().setPosition(Vector3f(2.5, 1, 5));
@@ -438,4 +438,4 @@ Entity& World::getPlayer() {
   return *player;
 }
 
-} /* namespace glPortal */
+} /* namespace radix */

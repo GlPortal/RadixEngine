@@ -78,6 +78,7 @@ void PhysicsDebugDraw::render(const Camera &cam) {
   glEnableVertexAttribArray(4);
   glDrawArrays(GL_LINES, 0, points.size());
   points.clear();
+  sh.release();
 }
 
 } /* namespace radix */
