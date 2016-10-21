@@ -124,7 +124,7 @@ private:
   struct Support {
     bool uniformBuffers;
   } support;
-  uint lightsUBO;
+  unsigned int lightsUBO;
   World &world;
   Viewport *viewport;
   int vpWidth, vpHeight;
