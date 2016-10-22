@@ -64,7 +64,7 @@ set(RADIX_SOURCES
   ${D}/SoundManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
-  ${D}/screen/XMLScreenLoader.cpp
+  ${D}/screen/XmlScreenLoader.cpp
   ${D}/util/sdl/Fps.cpp
   PARENT_SCOPE
 )

@@ -1,5 +1,5 @@
-#ifndef RADIX_XMLSCREENLOADER_HPP
-#define RADIX_XMLSCREENLOADER_HPP
+#ifndef RADIX_XML_SCREEN_LOADER_HPP
+#define RADIX_XML_SCREEN_LOADER_HPP
 
 #include <memory>
 #include <map>
@@ -8,7 +8,7 @@
 
 namespace radix {
 
-class XMLScreenLoader {
+class XmlScreenLoader {
 public:
   static Screen& getScreen(const std::string& path);
 private:
@@ -19,4 +19,4 @@ private:
 };
 } /* namespace radix */
 
-#endif //RADIX_XMLSCREENLOADER_HPP
+#endif //RADIX_XML_SCREEN_LOADER_HPP
