@@ -213,11 +213,6 @@ bool Renderer::clipViewFrame(const RenderContext &rc, const Mesh &frame,
   return true;
 }
 
-
-
-/**
- * TODO Documentation required.
- */
 /*
 Matrix4f Renderer::clipProjMat(const Entity &ent,
                                const Matrix4f &view, const Matrix4f &proj) {
