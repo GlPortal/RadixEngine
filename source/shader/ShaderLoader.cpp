@@ -60,7 +60,7 @@ Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &
   // Error checking
   glGetProgramiv(program, GL_VALIDATE_STATUS, &success);
   if (success == GL_TRUE) {
-    Util::Log(Debug, "ShaderLoader") << fpath << ": progam validated";
+    Util::Log(Debug, "ShaderLoader") << fpath << ": program validated";
   } else {
     GLint logSize = 0;
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
