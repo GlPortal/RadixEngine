@@ -7,6 +7,7 @@
 #include <radix/Window.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/renderer/ScreenRenderer.hpp>
+#include <radix/core/event/EventDispatcher.hpp>
 
 namespace radix {
 
@@ -46,6 +47,7 @@ protected:
   virtual void prepareCamera();
   virtual void init();
   Config &config;
+  radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
 };
 
 } /* namespace radix */

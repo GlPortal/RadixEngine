@@ -32,6 +32,15 @@ void BaseGame::init() {
   systemTransaction.addSystem<PlayerSystem>();
   systemTransaction.addSystem<PhysicsSystem>();
 
+  screenshotCallbackHolder =
+    world.event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
+        const int key =  ((InputSource::KeyReleasedEvent &) event).key;
+        if (key == SDL_SCANCODE_G) {
+          this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");
+        }
+      });
+
+
   nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
 
   renderer->setViewport(&window);
