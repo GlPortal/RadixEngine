@@ -8,7 +8,7 @@ namespace radix {
 class GameState {
 
 public:
-  void process(BaseGame &game);
+  void handleInput(BaseGame &game);
 };
 
 } /* namespace radix */

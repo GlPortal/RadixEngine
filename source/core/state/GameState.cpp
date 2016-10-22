@@ -2,7 +2,7 @@
 
 namespace radix {
 
-void GameState::process(BaseGame &game) {
+void GameState::handleInput(BaseGame &game) {
   HandleGameFunction stateFunction = game.getWorld()->stateFunctionStack.top();
   stateFunction(game);
 }
