@@ -63,7 +63,7 @@ bool XMLScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
         continue;
       }
 
-      tempText.text = currElement->GetText();
+      tempText.content = currElement->GetText();
 
       text->push_back(tempText);
     } while((currElement = currElement->NextSiblingElement("text")) != nullptr);

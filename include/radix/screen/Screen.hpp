@@ -10,7 +10,11 @@ namespace radix {
 
 struct Text {
   Vector4f color;
-  std::string text;
+  Vector3f position;
+  std::string id; //for styling and scripting
+  std::string type; //for styling
+  std::string font;
+  std::string content;
   std::string align;
   float z;
   float top;

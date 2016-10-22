@@ -12,6 +12,7 @@
 #include <radix/core/math/Rectangle.hpp>
 #include <radix/renderer/RenderContext.hpp>
 #include <radix/component/Transform.hpp>
+#include <radix/renderer/TextRenderer.hpp>
 
 namespace radix {
 
@@ -60,13 +61,9 @@ public:
 
   /**
    * Renders a string to the screen using signed-distance field text rendering.
-   * The text is rendered in the font that is currently set with setFont().
-   * @param cam  The camera from which we look at the text
    * @param text The text to render
-   * @param x    The x-coordinate of the top left corner of the text in window coordinates
-   * @param y    The y-coordinate of the top left corner of the text in window coordinates
    */
-  void renderText(RenderContext &rc, const std::string &text, Vector3f vector);
+   void renderText(RenderContext &rc, Text text);
 
 
   /**
@@ -100,18 +97,6 @@ public:
   static bool clipViewFrame(const RenderContext &rc, const Mesh &frame,
     const Transform &frameTform, RectangleI &scissor);
 
-
-  /**
-   * Sets the font to use for all future text drawing until changed again
-   * @param font Name of the font
-   * @param size Size of the text drawn with this font
-   */
-  void setFont(const std::string &font, float size);
-
-  void setFontSize(float size);
-
-  void setFontColor(const Vector4f color);
-
   /**
    * Meassures the width of text respecting the current font
    * @param text
@@ -126,6 +111,7 @@ private:
   } support;
   uint lightsUBO;
   World &world;
+  TextRenderer textRenderer;
   Viewport *viewport;
   int vpWidth, vpHeight;
   double time;

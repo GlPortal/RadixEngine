@@ -59,6 +59,7 @@ set(RADIX_SOURCES
   ${D}/physics/Uncollider.cpp
   ${D}/renderer/GlGwenRenderer.cpp
   ${D}/renderer/ScreenRenderer.cpp
+  ${D}/renderer/TextRenderer.cpp
   ${D}/renderer/Renderer.cpp
   ${D}/SoundManager.cpp
   ${D}/system/PhysicsSystem.cpp

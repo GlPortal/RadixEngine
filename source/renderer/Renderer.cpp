@@ -43,6 +43,7 @@ namespace radix {
 Renderer::Renderer(World &w) :
   lightsUBO(0),
   world(w),
+  textRenderer(w, *this),
   viewport(nullptr),
   vpWidth(0), vpHeight(0),
   fontColor(1, 1, 1, 1),
@@ -91,54 +92,8 @@ void Renderer::updateLights(Shader& shader) {
   shader.release();
 }
 
-void Renderer::setFont(const std::string &font, float size) {
-  this->font = &FontLoader::getFont(font);
-  this->font->size = size;
-}
-
-void Renderer::setFontSize(float size) {
-  this->font->size = size;
-}
-
-void Renderer::setFontColor(const Vector4f color) {
-  this->fontColor = color;
-}
-
-int Renderer::getTextWidth(std::string text) {
-  return this->font->getStringLength(text);
-}
-
-void Renderer::renderText(RenderContext &rc, const std::string &text, Vector3f vector) {
-  // FIXME This should be determined by the currently set font
-  const Material &mat = MaterialLoader::fromTexture("Pacaya.png");
-  Shader &shader = ShaderLoader::getShader("text.frag");
-  shader.bind();
-  glUniform4f(shader.uni("color"), fontColor.x, fontColor.y, fontColor.z, fontColor.w);
-  float* uniform = (float*)malloc(sizeof(Vector4f));
-  glGetUniformfv(shader.handle, shader.uni("color"), uniform);
-  free(uniform);
-  Vector2f position(vector.x, vector.y);
-  Matrix4f mtx;
-
-  const char *array = text.c_str();
-  for (unsigned int i = 0; i < text.length(); i++) {
-    char c = array[i];
-
-    const Glyph &letter = font->getGlyph(c);
-    const Mesh &mesh = letter.mesh;
-
-    mtx.setIdentity();
-    mtx.translate(Vector3f(position.x + letter.xOffset * font->size,
-                  position.y + letter.yOffset * font->size,
-                  vector.z));
-
-    mtx.scale(Vector3f(letter.width * font->size,
-                      letter.height * font->size, 1));
-
-    renderMesh(rc, shader, mtx, mesh, mat);
-    position.x += letter.advance * font->size;
-  }
-  shader.release();
+void Renderer::renderText(RenderContext &rc, Text text) {
+  textRenderer.renderText(rc, text);
 }
 
 void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,

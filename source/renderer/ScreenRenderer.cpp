@@ -3,11 +3,14 @@
 #include <epoxy/gl.h>
 #include <radix/model/MeshLoader.hpp>
 #include <radix/shader/ShaderLoader.hpp>
+#include <radix/text/FontLoader.hpp>
 
 namespace radix {
 
 ScreenRenderer::ScreenRenderer(World &w, Renderer &ren) :
-  world(w), renderer(ren), camera(nullptr), viewportWidth(0), viewportHeight(0) {
+  world(w), renderer(ren),
+  camera(nullptr),
+  viewportWidth(0), viewportHeight(0) {
   renderContext = std::make_unique<RenderContext>(ren);
 }
 
@@ -31,25 +34,28 @@ void ScreenRenderer::renderScreen(Screen& screen) {
 
   sh.release();
 
-  renderer.setFont("Pacaya", 2.5f);
 
   for (unsigned int i = 0; i < screen.text.size(); i++){ // render text
-    renderer.setFontColor(screen.text[i].color);
-    renderer.setFontSize(screen.text[i].size);
+    screen.text[i].font     = "Pacaya";
+    Font font = FontLoader::getFont(screen.text[i].font);
+    font.size = screen.text[i].size;
+    int textWidth =  font.getStringLength(screen.text[i].content);
     Vector3f position(0, 0, screen.text[i].z);
 
     if (screen.text[i].align == "centered"){
-      position.x = (viewportWidth/2) - (renderer.getTextWidth(screen.text[i].text)/2);
+      position.x = (viewportWidth/2) - (textWidth/2);
       position.y = viewportHeight - screen.text[i].top;
     } else if (screen.text[i].align == "left"){
-      position.x = ((viewportWidth/2) - viewportWidth/4) - (renderer.getTextWidth(screen.text[i].text)/2);
+      position.x = ((viewportWidth/2) - viewportWidth/4) - (textWidth/2);
       position.y = viewportHeight - screen.text[i].top;
     } else if (screen.text[i].align == "right"){
-      position.x = ((viewportWidth/2) + viewportWidth/4) - (renderer.getTextWidth(screen.text[i].text)/2);
+      position.x = ((viewportWidth/2) + viewportWidth/4) - (textWidth/2);
       position.y = viewportHeight - screen.text[i].top;
     }
 
-    renderer.renderText(*renderContext, screen.text[i].text, position);
+    screen.text[i].position = position;
+
+    renderer.renderText(*renderContext, screen.text[i]);
   }
 
   glDepthMask(GL_TRUE);
