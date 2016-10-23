@@ -21,6 +21,7 @@ BaseGame::BaseGame() :
   config = Environment::getConfig();
   window.setConfig(config);
   windowTitle = "RadixEngine";
+  defaultMap = "/maps/n1.xml";
 }
 
 void BaseGame::init() {
@@ -111,6 +112,16 @@ void BaseGame::prepareCamera() {
 
 void BaseGame::close() {
   closed = true;
+}
+
+void BaseGame::loadMap() {
+  XmlMapLoader mapLoader(world);
+  std::string mapPath = config.mapPath;
+  if (mapPath.length() > 0) {
+    mapLoader.load(mapPath);
+  } else {
+    mapLoader.load(Environment::getDataDir() + defaultMap);
+  }
 }
 
 } /* namespace radix */

@@ -9,6 +9,7 @@
 #include <radix/renderer/ScreenRenderer.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/env/Config.hpp>
+#include <radix/map/XmlMapLoader.hpp>
 
 namespace radix {
 
@@ -48,8 +49,10 @@ protected:
   virtual void prepareCamera();
   virtual void init();
   Config config;
+  std::string defaultMap;
   radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
   std::string windowTitle;
+  void loadMap();
 };
 
 } /* namespace radix */
