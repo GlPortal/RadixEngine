@@ -5,6 +5,7 @@
 #include <radix/system/PlayerSystem.hpp>
 #include <radix/system/PhysicsSystem.hpp>
 #include <radix/component/Player.hpp>
+#include <radix/env/ArgumentsParser.hpp>
 
 namespace radix {
 
@@ -14,8 +15,10 @@ BaseGame::BaseGame() :
     world(window),
     gameWorld(window),
     closed(false),
-    config(Environment::getConfig()){
+    config() {
   radix::Environment::init();
+  radix::ArgumentsParser::populateConfig(config);
+  config = Environment::getConfig();
 }
 
 void BaseGame::init() {
