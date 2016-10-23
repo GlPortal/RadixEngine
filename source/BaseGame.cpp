@@ -20,8 +20,6 @@ BaseGame::BaseGame() :
   radix::ArgumentsParser::populateConfig(config);
   config = Environment::getConfig();
   window.setConfig(config);
-  windowTitle = "RadixEngine";
-  defaultMap = "/maps/n1.xml";
 }
 
 void BaseGame::init() {

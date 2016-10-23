@@ -49,9 +49,9 @@ protected:
   virtual void prepareCamera();
   virtual void init();
   Config config;
-  std::string defaultMap;
+  std::string defaultMap  = "/maps/n1.xml";
+  std::string windowTitle = "RadixEngine";
   radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
-  std::string windowTitle;
   void loadMap();
 };
 
