@@ -49,6 +49,7 @@ protected:
   virtual void init();
   Config config;
   radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
+  std::string windowTitle;
 };
 
 } /* namespace radix */

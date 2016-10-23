@@ -19,6 +19,8 @@ BaseGame::BaseGame() :
   radix::Environment::init();
   radix::ArgumentsParser::populateConfig(config);
   config = Environment::getConfig();
+  window.setConfig(config);
+  windowTitle = "RadixEngine";
 }
 
 void BaseGame::init() {
@@ -27,6 +29,7 @@ void BaseGame::init() {
   } else {
     window.lockMouse();
   }
+  window.create(windowTitle.c_str());
   world.setConfig(config);
   world.create();
   renderer = std::make_unique<Renderer>(world);
