@@ -49,6 +49,7 @@ void BaseGame::init() {
   nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
 
   renderer->setViewport(&window);
+  screenRenderer = std::make_unique<radix::ScreenRenderer>(world, *renderer.get());
 }
 
 bool BaseGame::isRunning() {
@@ -93,6 +94,10 @@ void BaseGame::cleanUp() {
 void BaseGame::render() {
   prepareCamera();
   renderHook();
+  for (radix::Screen* screen : *gameWorld.getScreens()) {
+    screenRenderer->renderScreen(*screen);
+  }
+  gameWorld.getScreens()->clear();
   fps.countCycle();
   window.swapBuffers();
   lastRender = currentTime;

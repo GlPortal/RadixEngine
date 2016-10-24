@@ -10,6 +10,8 @@
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/map/XmlMapLoader.hpp>
+#include <radix/screen/Screen.hpp>
+#include <radix/renderer/ScreenRenderer.hpp>
 
 namespace radix {
 
@@ -54,6 +56,7 @@ protected:
   radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
   void loadMap();
   virtual void renderHook();
+  std::shared_ptr<radix::Screen> screen;
 };
 
 } /* namespace radix */
