@@ -83,6 +83,8 @@ void BaseGame::update() {
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
 
+void BaseGame::renderHook() { }
+
 void BaseGame::cleanUp() {
   world.destroy();
   window.close();
@@ -90,7 +92,7 @@ void BaseGame::cleanUp() {
 
 void BaseGame::render() {
   prepareCamera();
-
+  renderHook();
   fps.countCycle();
   window.swapBuffers();
   lastRender = currentTime;

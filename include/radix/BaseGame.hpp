@@ -53,6 +53,7 @@ protected:
   std::string windowTitle = "RadixEngine";
   radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
   void loadMap();
+  virtual void renderHook();
 };
 
 } /* namespace radix */
