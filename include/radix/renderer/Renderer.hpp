@@ -26,9 +26,9 @@ struct Viewport;
 class Renderer {
 public:
   /**
-   * @param w The world to render
+   * @param world The world to render
    */
-  Renderer(World& w);
+  Renderer(World& world);
 
   // TODO: possibly remove to make rendering viewport-stateless
   void setViewport(Viewport *vp) {

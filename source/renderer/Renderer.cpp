@@ -17,10 +17,10 @@
 
 namespace radix {
 
-Renderer::Renderer(World &w) :
+Renderer::Renderer(World &world) :
   lightsUBO(0),
-  world(w),
-  textRenderer(w, *this),
+  world(world),
+  textRenderer(world, *this),
   viewport(nullptr),
   vpWidth(0), vpHeight(0),
   rc(*this) {
