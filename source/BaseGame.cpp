@@ -23,12 +23,14 @@ BaseGame::BaseGame() :
 }
 
 void BaseGame::init() {
+  window.create(windowTitle.c_str());
+
   if(config.cursorVisibility) {
     window.unlockMouse();
   } else {
     window.lockMouse();
   }
-  window.create(windowTitle.c_str());
+
   world.setConfig(config);
   world.create();
   renderer = std::make_unique<Renderer>(world);
