@@ -14,6 +14,7 @@ namespace radix {
 std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";
 bool ArgumentsParser::showCursor = false;
+bool ArgumentsParser::ignoreGlVersion = false;
 
 void ArgumentsParser::showUsage(char **argv) {
   std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
@@ -32,6 +33,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     {"version",          no_argument,       0, 'v'},
     {"help",             no_argument,       0, 'h'},
     {"showcursor",       no_argument,       0, 'c'},
+    {"ignoreGlVersion",  no_argument,       0, 'G'},
     {"datadir",          required_argument, 0, 'd'},
     {"map",              required_argument, 0, 'm'},
     {"mapfrompath",      required_argument, 0, 'M'},
@@ -41,7 +43,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   while (1) {
     int option_index = 0;
     int argument;
-    argument = getopt_long (argc, argv, "cvhd:m:M:", long_options, &option_index);
+    argument = getopt_long (argc, argv, "cvhd:m:M:G", long_options, &option_index);
 
     if (argument == -1) {
       break;
@@ -85,6 +87,11 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       /// getopt has already shown an error message.
       showUsage(argv);
       exit(1);
+    case 'G':
+      /// - ignoreGlVersion \n
+      /// Disable OpenGl version check
+      ignoreGlVersion = true;
+      break;
     default:
       break;
     }
@@ -101,6 +108,9 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
 
   if (showCursor) {
     config.cursorVisibility = showCursor;
+  }
+  if (ignoreGlVersion) {
+    config.ignoreGlVersion = ignoreGlVersion;
   }
 }
 

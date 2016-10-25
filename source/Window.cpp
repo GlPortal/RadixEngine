@@ -49,9 +49,13 @@ void Window::initEpoxy() {
   const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
   const std::string verstr = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << verstr;
-  if (glver < 32) {
-    throw Exception::Error("Window", std::string("OpenGL Version ") + verstr + " is unsupported, "
-      "required minimum is 3.2");
+  if (config.ignoreGlVersion) {
+    Util::Log(Warning, "Window") << "Ignore OpenGl version";
+  } else {
+    if (glver < 32) {
+      throw Exception::Error("Window", std::string("OpenGL Version ") + verstr + " is unsupported, "
+        "required minimum is 3.2");
+    }
   }
 }
 

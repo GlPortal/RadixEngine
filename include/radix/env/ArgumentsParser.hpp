@@ -11,6 +11,7 @@ private:
   static std::string mapName;
   static std::string mapPath;
   static bool showCursor;
+  static bool ignoreGlVersion;
 public:
   static void showUsage(char **argv);
   static void setEnvironmentFromArgs(const int argc, char **argv);

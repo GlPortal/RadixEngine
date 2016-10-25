@@ -9,7 +9,7 @@
 
 namespace radix {
 
-Config::Config() : loaded(false) {
+Config::Config() : ignoreGlVersion(false), loaded(false) {
 }
 
 

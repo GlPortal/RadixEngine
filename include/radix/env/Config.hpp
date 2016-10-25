@@ -30,10 +30,12 @@ public:
   std::string map;
   std::string mapPath;
   bool cursorVisibility;
+  bool ignoreGlVersion;
 private:
   void loadVideoSettings(Json json);
   void loadSoundSettings(Json json);
   void loadMouseSettings(Json json);
+
   bool loaded;
   unsigned int width;
   unsigned int height;
