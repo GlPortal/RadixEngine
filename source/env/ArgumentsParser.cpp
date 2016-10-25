@@ -26,6 +26,7 @@ void ArgumentsParser::showUsage(char **argv) {
   std::cout << "  -m, --map NAME           Specify map name to load" << std::endl;
   std::cout << "  -M, --mapfrompath FILE   Load the specified map file" << std::endl;
   std::cout << "  -c, --showcursor         Forces to draw os mouse cursor" << std::endl;
+  std::cout << "  -G, --ignoreGlVersion    Disable OpenGl version check" << std::endl;
 }
 
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
