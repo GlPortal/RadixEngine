@@ -28,9 +28,6 @@ void TextRenderer::renderText(RenderContext &rc, Text text) {
   shader.bind();
   Vector4f color = text.color;
   glUniform4f(shader.uni("color"), color.x, color.y, color.z, color.w);
-  float* uniform = (float*)malloc(sizeof(Vector4f));
-  glGetUniformfv(shader.handle, shader.uni("color"), uniform);
-  free(uniform);
   Vector2f position(text.position.x, text.position.y);
   Matrix4f mtx;
 
