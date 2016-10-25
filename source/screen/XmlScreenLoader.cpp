@@ -29,12 +29,8 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
     XMLElement *element = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
 
-    //screen->textColor = loadTextColor(rootHandle);
-    //screen->bgColor = loadbgColor(rootHandle);
-
     if (!loadText(rootHandle, &screen->text)) Util::Log(Error, "XmlScreenLoader") << "Failed to load text in " << path;
     if (!extractColor(element, &screen->color)) Util::Log(Error, "XmlScreenLoader") << "Failed to load color in " << path;
-    //if (screen->bgColor.x == 0) Util::Log(Error, "XmlScreenLoader") << "Failed to find background color element in " << path;
 
     Util::Log(Debug, "XmlScreenLoader") << "Screen " << path << " loaded";
 
