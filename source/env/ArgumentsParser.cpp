@@ -15,6 +15,7 @@ std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";
 bool ArgumentsParser::showCursor = false;
 bool ArgumentsParser::ignoreGlVersion = false;
+bool ArgumentsParser::debugMode = false;
 
 void ArgumentsParser::showUsage(char **argv) {
   std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
@@ -27,6 +28,7 @@ void ArgumentsParser::showUsage(char **argv) {
   std::cout << "  -M, --mapfrompath FILE   Load the specified map file" << std::endl;
   std::cout << "  -c, --showcursor         Forces to draw os mouse cursor" << std::endl;
   std::cout << "  -G, --ignoreGlVersion    Disable OpenGl version check" << std::endl;
+  std::cout << "  -D, --debugMode          Run game in debug mode" << std::endl;
 }
 
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
@@ -35,6 +37,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     {"help",             no_argument,       0, 'h'},
     {"showcursor",       no_argument,       0, 'c'},
     {"ignoreGlVersion",  no_argument,       0, 'G'},
+    {"debugMode",        no_argument,       0, 'D'},
     {"datadir",          required_argument, 0, 'd'},
     {"map",              required_argument, 0, 'm'},
     {"mapfrompath",      required_argument, 0, 'M'},
@@ -44,7 +47,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   while (1) {
     int option_index = 0;
     int argument;
-    argument = getopt_long (argc, argv, "cvhd:m:M:G", long_options, &option_index);
+    argument = getopt_long (argc, argv, "cvhd:m:M:GD", long_options, &option_index);
 
     if (argument == -1) {
       break;
@@ -93,6 +96,13 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       /// Disable OpenGl version check
       ignoreGlVersion = true;
       break;
+    case 'D':
+      /// - debugMode \n
+      /// Run game in debug mode
+      debugMode = true;
+      showCursor = true;
+      ignoreGlVersion = true;
+      break;
     default:
       break;
     }
@@ -112,6 +122,10 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
   }
   if (ignoreGlVersion) {
     config.ignoreGlVersion = ignoreGlVersion;
+  }
+  if (debugMode) {
+    config.width = 800;
+    config.height = 600;
   }
 }
 
