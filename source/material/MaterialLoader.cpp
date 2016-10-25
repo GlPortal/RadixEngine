@@ -1,7 +1,5 @@
 #include <radix/material/MaterialLoader.hpp>
 
-#include <cstdio>
-
 #include <tinyxml2.h>
 
 #include <radix/texture/TextureLoader.hpp>

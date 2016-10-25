@@ -26,10 +26,7 @@ what we need.
 #include <bullet/LinearMath/btIDebugDraw.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <bullet/BulletCollision/CollisionShapes/btMultiSphereShape.h>
-#include <bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h>
 #include <bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
-#include <bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
-#include <bullet/LinearMath/btDefaultMotionState.h>
 
 #include <radix/physics/KinematicCharacterController.hpp>
 #include <radix/physics/Uncollider.hpp>

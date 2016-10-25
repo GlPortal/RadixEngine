@@ -2,7 +2,6 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
-
 #include <radix/component/Player.hpp>
 #include <radix/component/RigidBody.hpp>
 #include <radix/physics/CollisionDispatcher.hpp>

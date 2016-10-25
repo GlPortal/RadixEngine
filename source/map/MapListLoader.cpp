@@ -1,10 +1,7 @@
 #include <radix/map/MapListLoader.hpp>
-
+#include <radix/env/Environment.hpp>
 #include <fstream>
 #include <iostream>
-#include <stdexcept>
-
-#include <radix/env/Environment.hpp>
 
 using namespace std;
 

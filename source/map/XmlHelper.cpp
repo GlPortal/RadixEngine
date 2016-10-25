@@ -1,8 +1,4 @@
 #include <radix/map/XmlHelper.hpp>
-
-#include <stdexcept>
-#include <vector>
-
 #include <radix/core/math/Math.hpp>
 
 using namespace std;

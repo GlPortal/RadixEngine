@@ -1,19 +1,9 @@
 #include <radix/renderer/Renderer.hpp>
-
-#include <epoxy/gl.h>
-
 #include <radix/shader/ShaderLoader.hpp>
-
-#include <radix/model/Mesh.hpp>
-
 #include <radix/Viewport.hpp>
-
 #include <radix/core/math/Matrix3f.hpp>
-#include <radix/core/math/Vector3f.hpp>
-#include <radix/core/math/Vector4f.hpp>
-
-#include <radix/component/Transform.hpp>
 #include <radix/component/LightSource.hpp>
+#include <epoxy/gl.h>
 
 namespace radix {
 

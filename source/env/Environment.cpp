@@ -1,9 +1,6 @@
 #include <radix/env/Environment.hpp>
 
-#include <stdexcept>
-#include <getopt.h>
 #include <iostream>
-#include <vector>
 
 #include <radix/core/file/Path.hpp>
 #include <radix/env/Util.hpp>

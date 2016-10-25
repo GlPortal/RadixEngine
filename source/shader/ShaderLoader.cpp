@@ -1,12 +1,8 @@
-#include <radix/shader/ShaderLoader.hpp>
-
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <memory>
-
 #include <epoxy/gl.h>
-
+#include <radix/shader/ShaderLoader.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
 

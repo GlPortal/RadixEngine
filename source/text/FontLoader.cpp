@@ -2,9 +2,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <cstdlib>
-#include <cstdio>
-#include <string>
 
 #include <radix/model/MeshLoader.hpp>
 #include <radix/texture/TextureLoader.hpp>

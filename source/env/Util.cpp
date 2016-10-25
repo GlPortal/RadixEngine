@@ -2,7 +2,6 @@
 
 #include <thread>
 
-#include <SDL2/SDL_platform.h>
 #include <radix/env/OperatingSystem.hpp>
 #include <radix/core/diag/AnsiConsoleLogger.hpp>
 #include <radix/core/diag/StdoutLogger.hpp>

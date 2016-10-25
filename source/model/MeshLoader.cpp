@@ -1,20 +1,13 @@
 #include <radix/model/MeshLoader.hpp>
 
-#include <stdlib.h>
-#include <utility>
-#include <vector>
-
 #include <assimp/Importer.hpp>
 #include <assimp/mesh.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <assimp/vector3.h>
 #include <epoxy/gl.h>
 
 #include <radix/env/Environment.hpp>
 #include <radix/Entity.hpp>
-#include <radix/core/math/Vector2f.hpp>
-#include <radix/core/math/Vector3f.hpp>
 #include <radix/core/gl/TightDataPacker.hpp>
 #include <radix/component/Transform.hpp>
 

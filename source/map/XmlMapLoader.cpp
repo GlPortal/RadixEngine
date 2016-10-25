@@ -1,27 +1,20 @@
 #include <radix/map/XmlMapLoader.hpp>
 
 #include <iostream>
-#include <cstdio>
-#include <stdexcept>
 #include <vector>
 
 #include <radix/map/XmlHelper.hpp>
 #include <radix/env/Environment.hpp>
-#include <radix/core/math/Vector3f.hpp>
 
 #include <radix/component/Transform.hpp>
 #include <radix/component/MeshDrawable.hpp>
 #include <radix/component/Trigger.hpp>
-#include <radix/component/SoundSource.hpp>
 #include <radix/component/LightSource.hpp>
 #include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
 
 #include <radix/World.hpp>
-#include <radix/model/Mesh.hpp>
-#include <radix/texture/Texture.hpp>
 #include <radix/model/MeshLoader.hpp>
-#include <radix/texture/TextureLoader.hpp>
 #include <radix/material/MaterialLoader.hpp>
 
 using namespace std;

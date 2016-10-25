@@ -4,10 +4,6 @@
 #include <fstream>
 #include <iterator>
 
-#include <epoxy/gl.h>
-
-#include <Gwen/Utility.h>
-#include <Gwen/Font.h>
 #include <Gwen/Texture.h>
 #include <Gwen/WindowProvider.h>
 

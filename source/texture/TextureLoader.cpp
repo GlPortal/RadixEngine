@@ -1,8 +1,5 @@
 #include <radix/texture/TextureLoader.hpp>
 
-#include <cstdio>
-#include <utility>
-
 #include <epoxy/gl.h>
 
 #include <radix/env/Environment.hpp>

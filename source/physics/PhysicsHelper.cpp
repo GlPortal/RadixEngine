@@ -1,7 +1,5 @@
 #include <radix/physics/PhysicsHelper.hpp>
 
-#include <cmath>
-
 #include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
 #include <bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h>
 
