@@ -49,7 +49,7 @@ void Window::initEpoxy() {
   const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
   const std::string verstr = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << verstr;
-  if (config.ignoreGlVersion) {
+  if (config.getIgnoreGlVersion()) {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
   } else {
     if (glver < 32) {

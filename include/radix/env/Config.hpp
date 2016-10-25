@@ -8,11 +8,15 @@ using namespace json11;
 
 namespace radix {
 
+class ArgumentsParser;
+
 /** @brief Configuration class
  *
  *  Load and represent the configuration
  */
 class Config {
+friend class ArgumentsParser;
+
 public:
   Config();
   void load();
@@ -26,11 +30,11 @@ public:
   bool hasSound() { return sound; }
   bool hasVsync() { return vsync; }
   bool isHidePortalsByClick() { return hidePortalsByClick; }
+  bool getCursorVisibility() { return cursorVisibility; }
+  bool getIgnoreGlVersion() { return ignoreGlVersion; }
+  std::string getMap() { return map; }
+  std::string getMapPath() { return mapPath; }
 
-  std::string map;
-  std::string mapPath;
-  bool cursorVisibility;
-  bool ignoreGlVersion;
 private:
   void loadVideoSettings(Json json);
   void loadSoundSettings(Json json);
@@ -46,6 +50,10 @@ private:
   bool sound;
   bool vsync;
   bool hidePortalsByClick;
+  bool cursorVisibility;
+  bool ignoreGlVersion;
+  std::string map;
+  std::string mapPath;
 };
 
 } /* namespace radix */

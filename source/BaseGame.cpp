@@ -25,7 +25,7 @@ BaseGame::BaseGame() :
 void BaseGame::init() {
   window.create(windowTitle.c_str());
 
-  if(config.cursorVisibility) {
+  if(config.getCursorVisibility()) {
     window.unlockMouse();
   } else {
     window.lockMouse();
@@ -123,7 +123,7 @@ void BaseGame::close() {
 
 void BaseGame::loadMap() {
   XmlMapLoader mapLoader(world);
-  std::string mapPath = config.mapPath;
+  std::string mapPath = config.getMapPath();
   if (mapPath.length() > 0) {
     mapLoader.load(mapPath);
   } else {
