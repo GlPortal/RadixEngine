@@ -1,42 +1,19 @@
 #include <radix/renderer/Renderer.hpp>
 
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
-#include <string>
-#include <vector>
-
 #include <epoxy/gl.h>
 
-#include <SDL2/SDL_timer.h>
-
-#include <radix/model/MeshLoader.hpp>
-#include <radix/texture/TextureLoader.hpp>
-#include <radix/text/FontLoader.hpp>
 #include <radix/shader/ShaderLoader.hpp>
 
-#include <radix/World.hpp>
 #include <radix/model/Mesh.hpp>
-#include <radix/texture/Texture.hpp>
-#include <radix/text/Font.hpp>
-#include <radix/text/Glyph.hpp>
-#include <radix/material/MaterialLoader.hpp>
 
-#include <radix/Camera.hpp>
 #include <radix/Viewport.hpp>
 
-#include <radix/core/math/Math.hpp>
 #include <radix/core/math/Matrix3f.hpp>
-#include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Vector4f.hpp>
 
 #include <radix/component/Transform.hpp>
-#include <radix/component/MeshDrawable.hpp>
 #include <radix/component/LightSource.hpp>
-#include <radix/component/ViewFrame.hpp>
-#include <radix/env/Environment.hpp>
-#include <malloc.h>
 
 namespace radix {
 
@@ -46,8 +23,6 @@ Renderer::Renderer(World &w) :
   textRenderer(w, *this),
   viewport(nullptr),
   vpWidth(0), vpHeight(0),
-  fontColor(1, 1, 1, 1),
-  font(nullptr),
   rc(*this) {
   support.uniformBuffers = epoxy_has_gl_extension("GL_ARB_uniform_buffer_object");
 }

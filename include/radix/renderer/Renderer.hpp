@@ -6,21 +6,14 @@
 #include <radix/World.hpp>
 #include <radix/material/Material.hpp>
 #include <radix/shader/Shader.hpp>
-#include <radix/text/Font.hpp>
 #include <radix/core/math/Matrix4f.hpp>
-#include <radix/core/math/Vector4f.hpp>
-#include <radix/core/math/Rectangle.hpp>
 #include <radix/renderer/RenderContext.hpp>
 #include <radix/component/Transform.hpp>
 #include <radix/renderer/TextRenderer.hpp>
 
 namespace radix {
 
-class Camera;
 class Entity;
-class Portal;
-struct Texture;
-class Font;
 struct Viewport;
 
 /** @class Renderer
@@ -33,9 +26,9 @@ struct Viewport;
 class Renderer {
 public:
   /**
-   * @param World The world to render
+   * @param w The world to render
    */
-  Renderer(World&);
+  Renderer(World& w);
 
   // TODO: possibly remove to make rendering viewport-stateless
   void setViewport(Viewport *vp) {
@@ -53,13 +46,6 @@ public:
   void updateLights(Shader& shader);
 
   /**
-   * Main scene rendering method. To be called only once per frame.
-   * @param dtime Time delta since last frame, in seconds
-   * @param cam The camera from which we look at the scene
-   */
-  void render(double dtime, const Camera &cam);
-
-  /**
    * Renders a string to the screen using signed-distance field text rendering.
    * @param text The text to render
    */
@@ -69,7 +55,7 @@ public:
   /**
    * Renders a mesh with the specified material and transform determined by the
    * given modelMatrix.
-   * @param cam    The camera from which we look at the mesh
+   * @param rc     RenderContext
    * @param shader Shader to use to render the mesh
    * @param mdlMtx The model matrix determining the position, rotation and scale of the mesh
    * @param mesh   The mesh to render
@@ -97,12 +83,6 @@ public:
   static bool clipViewFrame(const RenderContext &rc, const Mesh &frame,
     const Transform &frameTform, RectangleI &scissor);
 
-  /**
-   * Meassures the width of text respecting the current font
-   * @param text
-   * @return Width in pixels
-   */
-  int getTextWidth(std::string text);
   static Matrix4f clipProjMat(const Entity &ent, const Matrix4f &view, const Matrix4f &proj);
 
 private:
@@ -114,9 +94,6 @@ private:
   TextRenderer textRenderer;
   Viewport *viewport;
   int vpWidth, vpHeight;
-  double time;
-  Vector4f fontColor;
-  Font *font;
   RenderContext rc;
 };
 
