@@ -126,6 +126,7 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
   if (debugMode) {
     config.width = 800;
     config.height = 600;
+    config.fullscreen = false;
   }
 }
 
