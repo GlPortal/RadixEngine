@@ -59,7 +59,6 @@ void XmlHelper::extractRotation(XMLElement *xmlElement, Vector3f &rotation) {
 void XmlHelper::extractColor(XMLElement *xmlElement, Vector3f &color) {
   XMLElement *elm = xmlElement->FirstChildElement("color");
   if (elm) {
-    Vector3f tmpColor;
     elm->QueryFloatAttribute("r", &color.x);
     elm->QueryFloatAttribute("g", &color.y);
     elm->QueryFloatAttribute("b", &color.z);
