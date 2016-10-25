@@ -17,8 +17,8 @@ BaseGame::BaseGame() :
     closed(false),
     config() {
   radix::Environment::init();
-  radix::ArgumentsParser::populateConfig(config);
   config = Environment::getConfig();
+  radix::ArgumentsParser::populateConfig(config);
   window.setConfig(config);
 }
 
