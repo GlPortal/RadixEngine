@@ -7,7 +7,8 @@ using namespace tinyxml2;
 namespace radix {
 
 std::string XmlHelper::mandatoryAttributeMessage("Mandatory attribute has not been defined.");
-std::string XmlHelper::invalidElementMessage("pushAttributeToVector received an invalid XML-Element.");
+std::string XmlHelper::invalidElementMessage("pushAttributeToVector received an invalid "
+                                                 "XML-Element.");
 /**
   * Pushes vector coordinates from an XML-element to a Vector3f.
   * Trying to pull attributes from a non-existing element is considered an exception.
