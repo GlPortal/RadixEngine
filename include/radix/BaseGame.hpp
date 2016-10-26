@@ -32,6 +32,7 @@ public:
   virtual void cleanUp();
   virtual void close();
   virtual void render();
+  virtual void setup();
   World* getWorld();
   ScreenRenderer* getScreenRenderer();
   GameWorld* getGameWorld();

@@ -88,8 +88,8 @@ void BaseGame::update() {
 }
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
-
 void BaseGame::renderHook() { }
+void BaseGame::setup() { }
 void BaseGame::initHook() { }
 
 void BaseGame::cleanUp() {
