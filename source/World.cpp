@@ -11,8 +11,6 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/component/Player.hpp>
 
-#include <radix/core/math/Vector3f.hpp>
-
 namespace radix {
 
 World::SystemRunner::SystemRunner(World &w) :
