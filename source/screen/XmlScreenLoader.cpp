@@ -47,15 +47,22 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
     do {
 
       Text tempText{};
+      std::string align;
 
       currElement->QueryFloatAttribute("z", &tempText.z);
       currElement->QueryFloatAttribute("top", &tempText.top);
       currElement->QueryFloatAttribute("size", &tempText.size);
       if(!extractColor(currElement, &tempText.color)) return false;
-      tempText.align = currElement->Attribute("align");
+      align = currElement->Attribute("align");
 
-      if (tempText.align != "centered" and tempText.align != "left" and tempText.align != "right") {
-        Util::Log(Error, "XmlScreenLoader") << "Alignment \"" << tempText.align << "\" is not supported!";
+      if (align == "center") {
+        tempText.align = Center;
+      } else if (align == "left") {
+        tempText.align = Left;
+      } else if (align == "right") {
+        tempText.align = Right;
+      } else {
+        Util::Log(Error, "XmlScreenLoader") << "Alignment \"" << align << "\" is not supported!";
         continue;
       }
 

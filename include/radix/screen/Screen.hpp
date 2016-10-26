@@ -8,6 +8,12 @@
 
 namespace radix {
 
+enum Align {
+  Left,
+  Right,
+  Center
+};
+
 struct Text {
   Vector4f color;
   Vector3f position;
@@ -15,7 +21,7 @@ struct Text {
   std::string type; //for styling
   std::string font;
   std::string content;
-  std::string align;
+  Align align;
   float z;
   float top;
   float size;

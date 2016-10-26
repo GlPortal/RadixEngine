@@ -42,13 +42,13 @@ void ScreenRenderer::renderScreen(Screen& screen) {
     int textWidth =  font.getStringLength(screen.text[i].content);
     Vector3f position(0, 0, screen.text[i].z);
 
-    if (screen.text[i].align == "centered"){
+    if (screen.text[i].align == Center){
       position.x = (viewportWidth/2) - (textWidth/2);
       position.y = viewportHeight - screen.text[i].top;
-    } else if (screen.text[i].align == "left"){
+    } else if (screen.text[i].align == Left){
       position.x = ((viewportWidth/2) - viewportWidth/4) - (textWidth/2);
       position.y = viewportHeight - screen.text[i].top;
-    } else if (screen.text[i].align == "right"){
+    } else if (screen.text[i].align == Right){
       position.x = ((viewportWidth/2) + viewportWidth/4) - (textWidth/2);
       position.y = viewportHeight - screen.text[i].top;
     }
