@@ -10,6 +10,7 @@
 #include <radix/renderer/RenderContext.hpp>
 #include <radix/component/Transform.hpp>
 #include <radix/renderer/TextRenderer.hpp>
+#include <radix/renderer/SubRenderer.hpp>
 
 namespace radix {
 
@@ -17,11 +18,18 @@ class Entity;
 struct Viewport;
 
 /** @class Renderer
- * @brief Low level graphics renderer.
+ * @brief Main renderer - handles sub-renderers and provides low level render functions.
  *
- * This is the low level graphics renderer
- * it is highly encouraged to move all
- * specialized code into sub-renderers.
+ * This class is responsible
+ * for all rendering. You push
+ * all of your sub-renderers
+ * into a renderer stack, and those
+ * sub-renderers then get invoked
+ * by one main render function.
+ *
+ * As well as that, it also provides
+ * low-level render functions to be
+ * used by specific renderers.
  */
 class Renderer {
 public:
@@ -69,6 +77,9 @@ public:
     return renderMesh(rc, shader, mdlMtx, mesh, &mat);
   }
 
+  void addRenderer(SubRenderer& subRenderer);
+
+  void removeRenderer(SubRenderer& subRenderer);
 
   static Matrix4f getFrameView(const Matrix4f &src, const Matrix4f &in, const Matrix4f &out);
   static Matrix4f getFrameView(const Matrix4f &src, const Transform &in, const Transform &out) {
@@ -95,6 +106,7 @@ private:
   Viewport *viewport;
   int vpWidth, vpHeight;
   RenderContext rc;
+  std::vector<SubRenderer*> subRenderers;
 };
 
 } /* namespace radix */
