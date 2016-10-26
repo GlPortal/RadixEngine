@@ -32,7 +32,7 @@ public:
   virtual void cleanUp();
   virtual void close();
   virtual void render();
-  virtual void setup();
+  void setup();
   World* getWorld();
   ScreenRenderer* getScreenRenderer();
   GameWorld* getGameWorld();
@@ -50,7 +50,6 @@ protected:
   std::unique_ptr<Camera> camera;
   bool closed;
   virtual void prepareCamera();
-  virtual void init();
   virtual void initHook();
   Config config;
   std::string defaultMap  = "/maps/n1.xml";

@@ -22,7 +22,7 @@ BaseGame::BaseGame() :
   window.setConfig(config);
 }
 
-void BaseGame::init() {
+void BaseGame::setup() {
   SoundManager::init();
   window.create(windowTitle.c_str());
   if(config.getCursorVisibility()) {
@@ -89,7 +89,6 @@ void BaseGame::update() {
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
 void BaseGame::renderHook() { }
-void BaseGame::setup() { }
 void BaseGame::initHook() { }
 
 void BaseGame::cleanUp() {
