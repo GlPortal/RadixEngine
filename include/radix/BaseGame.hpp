@@ -41,23 +41,27 @@ public:
   }
 
 protected:
-  unsigned int currentTime = 0, nextUpdate = 0, lastUpdate = 0, lastRender = 0;
-  Window window;
-  World world;
-  std::shared_ptr<ScreenRenderer> screenRenderer;
-  GameWorld gameWorld;
-  std::unique_ptr<Renderer> renderer;
-  std::unique_ptr<Camera> camera;
-  bool closed;
   virtual void prepareCamera();
   virtual void initHook();
-  Config config;
-  std::string defaultMap  = "/maps/n1.xml";
-  std::string windowTitle = "RadixEngine";
-  radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
   void loadMap();
   virtual void renderHook();
+  
+  Window window;
+  World world;
+  Config config;
+  GameWorld gameWorld;
+
+  std::shared_ptr<ScreenRenderer> screenRenderer;
+  std::unique_ptr<Renderer> renderer;
+  std::unique_ptr<Camera> camera;
   std::shared_ptr<radix::Screen> screen;
+  radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
+
+  std::string defaultMap  = "/maps/n1.xml";
+  std::string windowTitle = "RadixEngine";
+
+  bool closed;
+  unsigned int currentTime = 0, nextUpdate = 0, lastUpdate = 0, lastRender = 0;
 };
 
 } /* namespace radix */
