@@ -1,7 +1,5 @@
 #include <radix/SoundManager.hpp>
 
-#include <cstdio>
-
 #include <SDL2/SDL.h>
 
 namespace radix {

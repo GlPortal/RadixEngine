@@ -1,21 +1,10 @@
 #include <radix/World.hpp>
 
-#include <climits>
-#include <cstdio>
-#include <cmath>
-#include <limits>
-
-#include <SDL2/SDL_timer.h>
-
 #include <radix/map/MapLoader.hpp>
 #include <radix/map/MapListLoader.hpp>
-
 #include <radix/renderer/Renderer.hpp>
 #include <radix/env/Environment.hpp>
-#include <radix/Camera.hpp>
-
 #include <radix/component/Health.hpp>
-#include <radix/component/Transform.hpp>
 #include <radix/component/Trigger.hpp>
 #include <radix/component/SoundSource.hpp>
 #include <radix/component/SoundListener.hpp>

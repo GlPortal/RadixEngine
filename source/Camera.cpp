@@ -2,8 +2,6 @@
 
 #include <cmath>
 
-#include <radix/core/math/Quaternion.hpp>
-
 namespace radix {
 
 Camera::Camera(float fovy, float aspect, float zNear, float zFar) {

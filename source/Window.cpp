@@ -1,21 +1,13 @@
 #include <radix/Window.hpp>
 
-#include <cstdio>
-#include <cstdlib>
-#include <stdexcept>
 #include <iostream>
-
+#include <chrono>
+#include <thread>
 #include <epoxy/gl.h>
-
-#include <SDL2/SDL.h>
-
 #include <Gwen/Controls/WindowControl.h>
-#include <Gwen/Controls/Button.h>
 #include <Gwen/Controls/CheckBox.h>
 #include <Gwen/Controls/TextBox.h>
 #include <Gwen/Controls/TreeControl.h>
-#include <chrono>
-#include <thread>
 
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/texture/TextureLoader.hpp>

@@ -1,7 +1,5 @@
 #include <radix/EntityManager.hpp>
 
-#include <stdexcept>
-
 #include <radix/World.hpp>
 
 namespace radix {
