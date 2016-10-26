@@ -50,6 +50,7 @@ protected:
   bool closed;
   virtual void prepareCamera();
   virtual void init();
+  virtual void initHook();
   Config config;
   std::string defaultMap  = "/maps/n1.xml";
   std::string windowTitle = "RadixEngine";

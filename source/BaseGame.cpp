@@ -23,8 +23,8 @@ BaseGame::BaseGame() :
 }
 
 void BaseGame::init() {
+  SoundManager::init();
   window.create(windowTitle.c_str());
-
   if(config.getCursorVisibility()) {
     window.unlockMouse();
   } else {
@@ -52,6 +52,9 @@ void BaseGame::init() {
 
   renderer->setViewport(&window);
   screenRenderer = std::make_unique<radix::ScreenRenderer>(world, *renderer.get());
+  initHook();
+  loadMap();
+  renderer->init();
 }
 
 bool BaseGame::isRunning() {
@@ -87,6 +90,7 @@ void BaseGame::update() {
 void BaseGame::processInput() { } /* to avoid pure virtual function */
 
 void BaseGame::renderHook() { }
+void BaseGame::initHook() { }
 
 void BaseGame::cleanUp() {
   world.destroy();
