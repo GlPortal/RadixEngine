@@ -9,9 +9,9 @@ std::map<std::string, std::shared_ptr<Screen>> XmlScreenLoader::screenCache = { 
 
 Screen& XmlScreenLoader::getScreen(const std::string &path) {
   auto it = screenCache.find(path);
-  if(it != screenCache.end()){
+  if (it != screenCache.end()) {
     return *it->second;
-   }
+  }
 
   std::shared_ptr<Screen> screen = loadScreen(path);
   screenCache.insert(std::make_pair(path, screen));
@@ -24,13 +24,17 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
   XMLDocument doc;
   XMLError error = doc.LoadFile(path.c_str()); //load in XML document
 
-  if (error == 0){
+  if (error == 0) {
     XMLHandle docHandle(&doc);
     XMLElement *element = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
 
-    if (!loadText(rootHandle, &screen->text)) Util::Log(Error, "XmlScreenLoader") << "Failed to load text in " << path;
-    if (!extractColor(element, &screen->color)) Util::Log(Error, "XmlScreenLoader") << "Failed to load color in " << path;
+    if (not loadText(rootHandle, &screen->text)) {
+      Util::Log(Error, "XmlScreenLoader") << "Failed to load text in " << path;
+    }
+    if (not extractColor(element, &screen->color)) {
+      Util::Log(Error, "XmlScreenLoader") << "Failed to load color in " << path;
+    }
 
     Util::Log(Debug, "XmlScreenLoader") << "Screen " << path << " loaded";
 
@@ -42,17 +46,19 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
 }
 
 bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
-  XMLElement *currElement = rootHandle.FirstChildElement("text").ToElement(); //grab the first element under the text section
-  if (currElement){
+  //grab the first element under the text section
+  XMLElement *currElement = rootHandle.FirstChildElement("text").ToElement();
+  if (currElement) {
     do {
-
       Text tempText{};
       std::string align;
 
       currElement->QueryFloatAttribute("z", &tempText.z);
       currElement->QueryFloatAttribute("top", &tempText.top);
       currElement->QueryFloatAttribute("size", &tempText.size);
-      if(!extractColor(currElement, &tempText.color)) return false;
+      if (not extractColor(currElement, &tempText.color)) {
+        return false;
+      }
       align = currElement->Attribute("align");
 
       if (align == "center") {
@@ -69,8 +75,10 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
       tempText.content = currElement->GetText();
 
       text->push_back(tempText);
-    } while((currElement = currElement->NextSiblingElement("text")) != nullptr);
-  } else return false;
+    } while ((currElement = currElement->NextSiblingElement("text")) != nullptr);
+  } else {
+    return false;
+  }
 
   return true;
 }
@@ -85,4 +93,5 @@ bool XmlScreenLoader::extractColor(XMLElement* currElement, Vector4f* color) {
   }
   return false;
 }
-}
+
+} /* namespace radix */
