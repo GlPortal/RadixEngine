@@ -52,8 +52,8 @@ public:
   void printScreenToFile(std::string fileName);
   SDL_Surface* flipVertical(SDL_Surface* sfc);
 private:
-	void processMouseButtonEvents(SDL_Event &event);
-	void processWindowEvents(SDL_Event &event);
+  void processMouseButtonEvents(SDL_Event &event);
+  void processWindowEvents(SDL_Event &event);
   void initEpoxy();
   unsigned int width;
   unsigned int height;

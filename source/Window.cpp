@@ -238,7 +238,7 @@ void Window::processEvents() {
     case SDL_MOUSEBUTTONDOWN:
       case SDL_MOUSEBUTTONUP: {
         processMouseButtonEvents(event);
-	      break;
+        break;
     }
     case SDL_MOUSEWHEEL: {
       const int dirmult = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) ? -1 : 1;
@@ -249,52 +249,52 @@ void Window::processEvents() {
       break;
     }
     case SDL_WINDOWEVENT: {
-	    processWindowEvents(event);
-	    break;
+      processWindowEvents(event);
+      break;
     }
     }
   }
 }
 
 void Window::processMouseButtonEvents(SDL_Event &event) {
-	MouseButton button;
-	switch (event.button.button) {
-		case SDL_BUTTON_LEFT: {
-			button = MouseButton::Left;
-			break;
-		}
-		case SDL_BUTTON_MIDDLE: {
-			button = MouseButton::Middle;
-			break;
-		}
-		case SDL_BUTTON_RIGHT: {
-			button = MouseButton::Right;
-			break;
-		}
-		case SDL_BUTTON_X1: {
-			button = MouseButton::Aux1;
-			break;
-		}
-		case SDL_BUTTON_X2: {
-			button = MouseButton::Aux2;
-			break;
-		}
-		default: {
-			button = MouseButton::Unknown;
-			break;
-		}
-	}
-	if (event.type == SDL_MOUSEBUTTONDOWN) {
-		const MouseButtonPressedEvent mbpe(*this, button);
-		for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
-			d.get().dispatch(mbpe);
-		}
-	} else {
-		const MouseButtonReleasedEvent mbre(*this, button);
-		for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
-			d.get().dispatch(mbre);
-		}
-	}
+  MouseButton button;
+  switch (event.button.button) {
+    case SDL_BUTTON_LEFT: {
+      button = MouseButton::Left;
+      break;
+    }
+    case SDL_BUTTON_MIDDLE: {
+      button = MouseButton::Middle;
+      break;
+    }
+    case SDL_BUTTON_RIGHT: {
+      button = MouseButton::Right;
+      break;
+    }
+    case SDL_BUTTON_X1: {
+      button = MouseButton::Aux1;
+      break;
+    }
+    case SDL_BUTTON_X2: {
+      button = MouseButton::Aux2;
+      break;
+    }
+    default: {
+      button = MouseButton::Unknown;
+      break;
+    }
+  }
+  if (event.type == SDL_MOUSEBUTTONDOWN) {
+    const MouseButtonPressedEvent mbpe(*this, button);
+    for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+      d.get().dispatch(mbpe);
+    }
+  } else {
+    const MouseButtonReleasedEvent mbre(*this, button);
+    for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+      d.get().dispatch(mbre);
+    }
+  }
 }
 
 void Window::processWindowEvents(SDL_Event &event) {
@@ -471,9 +471,9 @@ SDL_Surface* Window::flipVertical(SDL_Surface* sfc) {
   const auto pitch = sfc->pitch;
   const auto pxlength = pitch*sfc->h;
   auto pixels = static_cast<unsigned char*>(sfc->pixels) + pxlength;
-  auto rpixels = static_cast<unsigned char*>(result->pixels) ;
-  for(auto line = 0; line < sfc->h; ++line) {
-    memcpy(rpixels,pixels,pitch);
+  auto rpixels = static_cast<unsigned char*>(result->pixels);
+  for (auto line = 0; line < sfc->h; ++line) {
+    memcpy(rpixels, pixels, pitch);
     pixels -= pitch;
     rpixels += pitch;
   }
