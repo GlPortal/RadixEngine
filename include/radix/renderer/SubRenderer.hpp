@@ -3,16 +3,23 @@
 
 namespace radix {
 
+class World;
+class Renderer;
+
 class SubRenderer {
 public:
-  SubRenderer();
+  SubRenderer(World &w, Renderer& ren);
 
-  virtual void render() = 0;
+  virtual void render(...) = 0;
 protected:
+  void initCamera();
+
   World &world;
   Renderer &renderer;
+
   std::unique_ptr<Camera> camera;
   std::unique_ptr<RenderContext> renderContext;
+
   int viewportWidth, viewportHeight;
 };
 

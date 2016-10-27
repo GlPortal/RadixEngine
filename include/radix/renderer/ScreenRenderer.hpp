@@ -7,22 +7,15 @@
 #include <radix/screen/Screen.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/renderer/RenderContext.hpp>
+#include <radix/renderer/SubRenderer.hpp>
 
 namespace radix {
 
-class ScreenRenderer {
+class ScreenRenderer : public SubRenderer{
 public:
   ScreenRenderer(World& w, Renderer& ren);
 
-  void renderScreen(Screen& screen);
-
-  void initCamera();
-private:
-  World& world;
-  Renderer& renderer;
-  std::unique_ptr<Camera> camera;
-  std::unique_ptr<RenderContext> renderContext;
-  int viewportWidth, viewportHeight;
+  void render(Screen& screen);
 };
 } /* namespace radix */
 

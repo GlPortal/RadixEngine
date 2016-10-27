@@ -57,6 +57,7 @@ set(RADIX_SOURCES
   ${D}/physics/PhysicsDebugDraw.cpp
   ${D}/physics/PhysicsHelper.cpp
   ${D}/physics/Uncollider.cpp
+  ${D}/renderer/SubRenderer.cpp
   ${D}/renderer/GlGwenRenderer.cpp
   ${D}/renderer/ScreenRenderer.cpp
   ${D}/renderer/TextRenderer.cpp
