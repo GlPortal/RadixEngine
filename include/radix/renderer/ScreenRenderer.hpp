@@ -24,6 +24,7 @@ private:
   std::unique_ptr<RenderContext> renderContext;
   int viewportWidth, viewportHeight;
 };
+
 } /* namespace radix */
 
 #endif /* RADIX_SCREENRENDERER_HPP */
