@@ -4,7 +4,8 @@
 #include <memory>
 #include <map>
 #include <tinyxml2.h>
-#include "Screen.hpp"
+
+#include <radix/screen/Screen.hpp>
 
 namespace radix {
 
