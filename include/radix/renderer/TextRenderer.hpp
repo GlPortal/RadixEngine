@@ -4,14 +4,10 @@
 #include <string>
 
 #include <radix/World.hpp>
-#include <radix/material/Material.hpp>
-#include <radix/shader/Shader.hpp>
 #include <radix/text/Font.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/core/math/Vector4f.hpp>
-#include <radix/core/math/Rectangle.hpp>
 #include <radix/renderer/RenderContext.hpp>
-#include <radix/component/Transform.hpp>
 #include <radix/screen/Screen.hpp>
 
 namespace radix {
