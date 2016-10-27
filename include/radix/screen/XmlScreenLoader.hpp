@@ -6,6 +6,7 @@
 #include <tinyxml2.h>
 
 #include <radix/screen/Screen.hpp>
+#include <radix/text/Text.hpp>
 
 namespace radix {
 
