@@ -41,9 +41,9 @@ public:
   }
 
 protected:
+  void loadMap();
   virtual void prepareCamera();
   virtual void initHook();
-  void loadMap();
   virtual void renderHook();
 
   Window window;
