@@ -19,6 +19,7 @@ private:
   static bool loadText(tinyxml2::XMLHandle &rootHandle, std::vector<Text>* text);
   static bool extractColor(tinyxml2::XMLElement* currElement, Vector4f* color);
 };
+
 } /* namespace radix */
 
-#endif //RADIX_XML_SCREEN_LOADER_HPP
+#endif /* RADIX_XML_SCREEN_LOADER_HPP */
