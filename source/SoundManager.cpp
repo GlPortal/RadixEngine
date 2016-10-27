@@ -149,4 +149,4 @@ void SoundManager::reload() {
   SoundManager::init();
 }
 
-}
+} /* namespace radix */
