@@ -7,6 +7,7 @@
 #include <radix/screen/Screen.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/renderer/SubRenderer.hpp>
+#include <radix/GameWorld.hpp>
 
 namespace radix {
 

@@ -51,7 +51,7 @@ void BaseGame::setup() {
   nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
 
   renderer->setViewport(&window);
-  screenRenderer = std::make_unique<radix::ScreenRenderer>(world, *renderer.get(), gameWorld);
+  screenRenderer = std::make_unique<ScreenRenderer>(world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
   initHook();
   loadMap();

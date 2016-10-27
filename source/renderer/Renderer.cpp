@@ -223,7 +223,7 @@ void Renderer::addRenderer(SubRenderer &subRenderer) {
 }
 
 void Renderer::removeRenderer(SubRenderer &subRenderer) {
-  subRenderers.erase(std::remove(subRenderers.begin(), subRenderers.end(), subRenderer), subRenderers.end());
+  subRenderers.erase(std::remove(subRenderers.begin(), subRenderers.end(), &subRenderer), subRenderers.end());
 }
 
 } /* namespace radix */
