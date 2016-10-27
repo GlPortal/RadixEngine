@@ -7,6 +7,7 @@
 #include <radix/material/Material.hpp>
 #include <radix/shader/Shader.hpp>
 #include <radix/core/math/Matrix4f.hpp>
+#include <radix/core/math/Rectangle.hpp>
 #include <radix/renderer/RenderContext.hpp>
 #include <radix/component/Transform.hpp>
 #include <radix/renderer/TextRenderer.hpp>
