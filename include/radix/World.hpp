@@ -14,7 +14,6 @@
 #include <thread>
 #include <utility>
 #include <vector>
-#include <stack>
 
 #include <radix/Camera.hpp>
 #include <radix/EntityManager.hpp>
