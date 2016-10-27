@@ -13,6 +13,7 @@ struct Screen {
   Vector4f color;
   std::vector<Text> text;
 };
+
 } /* namespace radix */
 
-#endif //RADIX_SCREEN_HPP
+#endif /* RADIX_SCREEN_HPP */
