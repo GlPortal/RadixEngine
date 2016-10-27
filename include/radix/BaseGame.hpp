@@ -45,7 +45,7 @@ protected:
   virtual void initHook();
   void loadMap();
   virtual void renderHook();
-  
+
   Window window;
   World world;
   Config config;
