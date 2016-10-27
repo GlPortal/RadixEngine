@@ -1,6 +1,11 @@
 #ifndef RADIX_SUB_RENDERER_HPP
 #define RADIX_SUB_RENDERER_HPP
 
+#include <memory>
+
+#include <radix/Camera.hpp>
+#include <radix/renderer/RenderContext.hpp>
+
 namespace radix {
 
 class World;
@@ -10,7 +15,7 @@ class SubRenderer {
 public:
   SubRenderer(World &w, Renderer& ren);
 
-  virtual void render(...) = 0;
+  virtual void render() = 0;
 protected:
   void initCamera();
 

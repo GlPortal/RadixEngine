@@ -6,16 +6,18 @@
 #include <radix/Camera.hpp>
 #include <radix/screen/Screen.hpp>
 #include <radix/renderer/Renderer.hpp>
-#include <radix/renderer/RenderContext.hpp>
 #include <radix/renderer/SubRenderer.hpp>
 
 namespace radix {
 
 class ScreenRenderer : public SubRenderer{
 public:
-  ScreenRenderer(World& w, Renderer& ren);
+  ScreenRenderer(World& w, Renderer& ren, GameWorld& gw);
 
-  void render(Screen& screen);
+  void render();
+
+private:
+  GameWorld &gameWorld;
 };
 } /* namespace radix */
 

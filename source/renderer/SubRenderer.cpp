@@ -1,9 +1,5 @@
 #include <radix/renderer/SubRenderer.hpp>
 
-#include <memory>
-
-#include <radix/renderer/RenderContext.hpp>
-
 namespace radix {
 
 SubRenderer::SubRenderer(World &w, Renderer &ren) :

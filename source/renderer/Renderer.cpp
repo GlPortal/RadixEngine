@@ -27,6 +27,12 @@ void Renderer::init() {
   updateLights(metal);
 }
 
+void Renderer::render() {
+  for (SubRenderer *e : subRenderers) {
+    e->render();
+  }
+}
+
 void Renderer::updateLights(Shader& shader) {
   shader.bind();
 

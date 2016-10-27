@@ -54,6 +54,11 @@ public:
   void updateLights(Shader& shader);
 
   /**
+   * Cycles through all the sub-renderers and calls their render function
+   */
+  void render();
+
+  /**
    * Renders a string to the screen using signed-distance field text rendering.
    * @param text The text to render
    */
@@ -77,8 +82,14 @@ public:
     return renderMesh(rc, shader, mdlMtx, mesh, &mat);
   }
 
+  /**
+   * Add a renderer to the render queue
+   */
   void addRenderer(SubRenderer& subRenderer);
 
+  /**
+   * Remove a renderer from the render queue
+   */
   void removeRenderer(SubRenderer& subRenderer);
 
   static Matrix4f getFrameView(const Matrix4f &src, const Matrix4f &in, const Matrix4f &out);
@@ -106,7 +117,7 @@ private:
   Viewport *viewport;
   int vpWidth, vpHeight;
   RenderContext rc;
-  std::vector<SubRenderer*> subRenderers;
+  std::vector<SubRenderer*> subRenderers; //TODO: Profile lists vs vectors to see which works best in our use case.
 };
 
 } /* namespace radix */
