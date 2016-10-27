@@ -5,6 +5,7 @@
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/material/MaterialLoader.hpp>
 #include <radix/core/math/Vector2f.hpp>
+#include <radix/core/math/Vector4f.hpp>
 
 namespace radix {
 
