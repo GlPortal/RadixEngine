@@ -1,7 +1,6 @@
 #ifndef RADIX_SCREEN_HPP
 #define RADIX_SCREEN_HPP
 
-#include <string>
 #include <vector>
 
 #include <radix/text/Text.hpp>
