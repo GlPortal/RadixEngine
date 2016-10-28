@@ -8,13 +8,13 @@
 
 namespace radix {
 
-enum Align {
-  Left,
-  Right,
-  Center
-};
-
 struct Text {
+  enum Align {
+    Left,
+    Right,
+    Center
+  };
+
   Vector4f color;
   Vector3f position;
   std::string id; //for styling and scripting
