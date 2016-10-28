@@ -160,7 +160,7 @@ constexpr inline float length2(const Vector4f &v) {
   return v.x*v.x + v.y*v.y + v.z*v.z + v.d*v.d;
 }
 
-constexpr inline float length(const Vector4f &v) {
+inline float length(const Vector4f &v) {
   return std::sqrt(v.x*v.x + v.y*v.y + v.z*v.z + v.d*v.d);
 }
 
@@ -172,7 +172,7 @@ inline Vector4f normalize(const Vector4f &v) {
   return v / length(v);
 }
 
-constexpr inline Quaternion normalize(const Quaternion &q) {
+inline Quaternion normalize(const Quaternion &q) {
   const float l = length(q);
   return Quaternion(q.x/l, q.y/l, q.z/l, q.w/l);
 }
