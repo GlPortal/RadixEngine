@@ -4,12 +4,9 @@
 #include <string>
 #include <memory>
 #include <random>
+#include <thread>
 
 #include <radix/core/diag/LogInput.hpp>
-
-namespace std {
-  class thread;
-}
 
 namespace radix {
 
