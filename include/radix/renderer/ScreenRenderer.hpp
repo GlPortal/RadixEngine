@@ -18,6 +18,8 @@ public:
   void render();
 
 private:
+  void renderScreen(Screen* screen);
+
   GameWorld &gameWorld;
 };
 } /* namespace radix */
