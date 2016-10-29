@@ -35,18 +35,17 @@ void BaseGame::setup() {
   world.create();
   renderer = std::make_unique<Renderer>(world);
   camera = std::make_unique<Camera>();
-  World::SystemTransaction systemTransaction = world.systemTransact();
+  SystemManager::Transaction systemTransaction = world.systems.transact();
   systemTransaction.addSystem<PlayerSystem>();
   systemTransaction.addSystem<PhysicsSystem>();
 
   screenshotCallbackHolder =
     world.event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
-        const int key =  ((InputSource::KeyReleasedEvent &) event).key;
-        if (key == SDL_SCANCODE_G) {
-          this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");
-        }
-      });
-
+      const int key =  ((InputSource::KeyReleasedEvent &) event).key;
+      if (key == SDL_SCANCODE_G) {
+        this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");
+      }
+    });
 
   nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
 
