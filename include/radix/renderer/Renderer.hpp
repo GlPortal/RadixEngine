@@ -117,7 +117,7 @@ private:
   Viewport *viewport;
   int vpWidth, vpHeight;
   RenderContext rc;
-  std::vector<SubRenderer*> subRenderers; //TODO: Profile lists vs vectors to see which works best in our use case.
+  std::vector<SubRenderer*> subRenderers;
 };
 
 } /* namespace radix */
