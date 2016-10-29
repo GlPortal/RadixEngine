@@ -4,6 +4,8 @@
 namespace radix {
 
 struct Viewport {
+  virtual ~Viewport() {}
+
   virtual void getSize(int *w, int *h) const = 0;
 };
 

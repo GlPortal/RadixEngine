@@ -19,13 +19,21 @@ const int UPDATE_RATE = 60;
 const int SKIP_TIME = 1000 / UPDATE_RATE;
 const int MAX_SKIP = 5;
 
-class BaseGame{
+class BaseGame {
 public:
   static Fps fps;
 
   BaseGame();
-  BaseGame(BaseGame&) = delete;
+  virtual ~BaseGame();
+
+  // No copy
+  BaseGame(const BaseGame&) = delete;
+  BaseGame operator=(const BaseGame&) = delete;
+
+  // No movement
   BaseGame(BaseGame&&) = delete;
+  BaseGame operator=(BaseGame&&) = delete;
+
   bool isRunning();
   virtual void processInput();
   virtual void update();

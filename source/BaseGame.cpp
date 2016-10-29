@@ -22,6 +22,9 @@ BaseGame::BaseGame() :
   window.setConfig(config);
 }
 
+BaseGame::~BaseGame() {
+}
+
 void BaseGame::setup() {
   SoundManager::init();
   window.create(windowTitle.c_str());
