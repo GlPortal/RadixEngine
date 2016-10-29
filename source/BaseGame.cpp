@@ -52,10 +52,10 @@ void BaseGame::setup() {
 
   renderer->setViewport(&window);
   screenRenderer = std::make_unique<ScreenRenderer>(world, *renderer.get(), gameWorld);
-  renderer->addRenderer(*screenRenderer);
   initHook();
   loadMap();
   renderer->init();
+  renderer->addRenderer(*screenRenderer);
 }
 
 bool BaseGame::isRunning() {
