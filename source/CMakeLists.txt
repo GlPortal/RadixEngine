@@ -65,6 +65,7 @@ set(RADIX_SOURCES
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
   ${D}/screen/XmlScreenLoader.cpp
+  ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp
   PARENT_SCOPE
 )
