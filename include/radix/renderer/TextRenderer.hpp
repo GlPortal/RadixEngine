@@ -34,7 +34,7 @@ public:
 private:
   World &world;
   Renderer& renderer;
-  
+
   std::unique_ptr<RenderContext> renderContext;
 
   double time;
