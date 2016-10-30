@@ -44,7 +44,6 @@ protected:
   void loadMap();
   virtual void prepareCamera();
   virtual void initHook();
-  virtual void renderHook();
 
   Window window;
   World world;
