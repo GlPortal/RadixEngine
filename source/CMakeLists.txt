@@ -6,21 +6,8 @@ set(D ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(RADIX_SOURCES
   ${RADIX_SOURCES}
-  ${D}/map/MapListLoader.cpp
-  ${D}/map/MapLoader.cpp
-  ${D}/map/XmlHelper.cpp
-  ${D}/material/MaterialLoader.cpp
-  ${D}/model/MeshLoader.cpp
-  ${D}/shader/Shader.cpp
-  ${D}/shader/ShaderLoader.cpp
-  ${D}/text/FontLoader.cpp
-  ${D}/texture/TextureLoader.cpp
-  ${D}/Camera.cpp
-  ${D}/Entity.cpp
-  ${D}/Window.cpp
-  ${D}/World.cpp
-  ${D}/GameWorld.cpp
   ${D}/BaseGame.cpp
+  ${D}/Camera.cpp
   ${D}/component/Health.cpp
   ${D}/component/Player.cpp
   ${D}/component/RigidBody.cpp
@@ -41,17 +28,24 @@ set(RADIX_SOURCES
   ${D}/core/math/Vector3f.cpp
   ${D}/core/math/Vector4f.cpp
   ${D}/core/state/GameState.cpp
+  ${D}/Entity.cpp
   ${D}/EntityManager.cpp
   ${D}/env/ArgumentsParser.cpp
   ${D}/env/Config.cpp
   ${D}/env/Environment.cpp
   ${D}/env/OperatingSystem.cpp
   ${D}/env/Util.cpp
+  ${D}/GameWorld.cpp
   ${D}/input/InputSource.cpp
   ${D}/map/MapListLoader.cpp
+  ${D}/map/MapListLoader.cpp
+  ${D}/map/MapLoader.cpp
   ${D}/map/MapLoader.cpp
   ${D}/map/XmlHelper.cpp
+  ${D}/map/XmlHelper.cpp
   ${D}/map/XmlMapLoader.cpp
+  ${D}/material/MaterialLoader.cpp
+  ${D}/model/MeshLoader.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/KinematicCharacterController.cpp
   ${D}/physics/PhysicsDebugDraw.cpp
@@ -59,13 +53,21 @@ set(RADIX_SOURCES
   ${D}/physics/Uncollider.cpp
   ${D}/renderer/SubRenderer.cpp
   ${D}/renderer/GlGwenRenderer.cpp
+  ${D}/renderer/Renderer.cpp
   ${D}/renderer/ScreenRenderer.cpp
   ${D}/renderer/TextRenderer.cpp
-  ${D}/renderer/Renderer.cpp
+  ${D}/screen/XmlScreenLoader.cpp
+  ${D}/shader/Shader.cpp
+  ${D}/shader/ShaderLoader.cpp
   ${D}/SoundManager.cpp
+  ${D}/SystemManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
-  ${D}/screen/XmlScreenLoader.cpp
+  ${D}/text/FontLoader.cpp
+  ${D}/texture/TextureLoader.cpp
+  ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp
+  ${D}/Window.cpp
+  ${D}/World.cpp
   PARENT_SCOPE
 )

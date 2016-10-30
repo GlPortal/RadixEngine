@@ -1,5 +1,6 @@
 #ifndef RADIX_GAME_WORLD_HPP
 #define RADIX_GAME_WORLD_HPP
+
 #include <list>
 #include <radix/input/InputSource.hpp>
 #include <radix/screen/Screen.hpp>
@@ -15,6 +16,7 @@ public:
 private:
   std::list<Screen*> screens;
 };
+
 } /* namespace radix */
 
 #endif /* RADIX_GAME_WORLD_HPP */

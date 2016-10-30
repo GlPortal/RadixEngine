@@ -24,3 +24,13 @@ struct Event {
 } /* namespace radix */
 
 #endif /* EVENT_HPP */
+
+/*
+ * constexpr static EventType TypeNameHash(StaticEventTypeName etn) {
+    return static_cast<EventType>(Hash32(etn));
+  }
+
+  virtual ~Event();
+
+  virtual EventType getType() const = 0;
+  virtual const EventTypeName getTypeName() const = 0;*/

@@ -6,9 +6,8 @@
 #include <radix/World.hpp>
 #include <radix/text/Font.hpp>
 #include <radix/core/math/Matrix4f.hpp>
-#include <radix/core/math/Vector4f.hpp>
 #include <radix/renderer/RenderContext.hpp>
-#include <radix/screen/Screen.hpp>
+#include <radix/text/Text.hpp>
 
 namespace radix {
 

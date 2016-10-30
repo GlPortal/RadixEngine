@@ -1,11 +1,13 @@
 #ifndef RADIX_HANDLEGAMEFUNCTION_HPP
 #define RADIX_HANDLEGAMEFUNCTION_HPP
 
+#include <functional>
+
 namespace radix {
 
 class BaseGame;
 
-typedef std::function<void (BaseGame &game)> HandleGameFunction;
+using HandleGameFunction = std::function<void (BaseGame &game)>;
 
 } /* namespace radix */
 

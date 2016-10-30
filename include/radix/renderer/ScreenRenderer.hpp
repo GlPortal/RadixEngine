@@ -22,6 +22,7 @@ private:
 
   GameWorld &gameWorld;
 };
+
 } /* namespace radix */
 
 #endif /* RADIX_SCREENRENDERER_HPP */

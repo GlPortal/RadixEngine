@@ -21,7 +21,7 @@ public:
     Read,
     Copy
   };
-  constexpr static Usage DefaultUsage = (Usage)(Static | Draw);
+  constexpr static Usage DefaultUsage = static_cast<Usage>(Static | Draw);
 
   // Ctor / dtor
   VBO();

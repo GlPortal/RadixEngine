@@ -37,7 +37,6 @@ void ScreenRenderer::renderScreen(Screen *screen) {
 
   sh.release();
 
-
   for (unsigned int i = 0; i < screen->text.size(); i++) { // render text
     screen->text[i].font = "Pacaya";
     Font font = FontLoader::getFont(screen->text[i].font);
@@ -45,13 +44,13 @@ void ScreenRenderer::renderScreen(Screen *screen) {
     int textWidth = font.getStringLength(screen->text[i].content);
     Vector3f position(0, 0, screen->text[i].z);
 
-    if (screen->text[i].align == Center) {
+    if (screen->text[i].align == Text::Center) {
       position.x = (viewportWidth / 2) - (textWidth / 2);
       position.y = viewportHeight - screen->text[i].top;
-    } else if (screen->text[i].align == Left) {
+    } else if (screen->text[i].align == Text::Left) {
       position.x = ((viewportWidth / 2) - viewportWidth / 4) - (textWidth / 2);
       position.y = viewportHeight - screen->text[i].top;
-    } else if (screen->text[i].align == Right) {
+    } else if (screen->text[i].align == Text::Right) {
       position.x = ((viewportWidth / 2) + viewportWidth / 4) - (textWidth / 2);
       position.y = viewportHeight - screen->text[i].top;
     }

@@ -62,11 +62,11 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
       align = currElement->Attribute("align");
 
       if (align == "center") {
-        tempText.align = Center;
+        tempText.align = Text::Center;
       } else if (align == "left") {
-        tempText.align = Left;
+        tempText.align = Text::Left;
       } else if (align == "right") {
-        tempText.align = Right;
+        tempText.align = Text::Right;
       } else {
         Util::Log(Error, "XmlScreenLoader") << "Alignment \"" << align << "\" is not supported!";
         continue;

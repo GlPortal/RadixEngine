@@ -33,7 +33,7 @@ public:
     return strcmp(s.getName(), "TestSystem2") == 0;
   }*/
 
-  void update(float dtime) {
+  void update(radix::TDelta dtime) {
     // std::cout << "run TestSystem" << std::endl;
   }
 };
@@ -55,7 +55,7 @@ public:
     return s.getTypeId() == System::getTypeId<TestSystem>();
   }
 
-  void update(float dtime) {
+  void update(radix::TDelta dtime) {
     // std::cout << "run TestSystem2" << std::endl;
   }
 };
@@ -80,7 +80,7 @@ public:
     return strcmp(s.getName(), "TestSystem") == 0;
   }*/
 
-  void update(float dtime) {
+  void update(radix::TDelta dtime) {
     // std::cout << "run RunBeforeSystem" << std::endl;
   }
 };
@@ -106,18 +106,18 @@ public:
            atoi(s.getName() + 10) > I;
   }
 
-  void update(float dtime) {
+  void update(radix::TDelta dtime) {
     // std::cout << "run TinySystem" << I << std::endl;
   }
 };
 
 template<int I> void add(radix::World &wld) {
-  wld.addSystem<TinySystem<I>>();
+  wld.systems.add<TinySystem<I>>();
   add<I-1>(wld);
 }
 
 template<> void add<1>(radix::World &wld) {
-  wld.addSystem<TinySystem<1>>();
+  wld.systems.add<TinySystem<1>>();
 }
 
 int main(const int argc, char *argv[]) {
@@ -129,12 +129,12 @@ int main(const int argc, char *argv[]) {
   radix::NullInputSource nis;
   radix::World wld(nis);
   std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
-  { radix::World::SystemTransaction st = wld.systemTransact();
-    wld.addSystem<radix::PlayerSystem>();
-    wld.addSystem<radix::PhysicsSystem>();
-    wld.addSystem<TestSystem>();
-    wld.addSystem<TestSystem2>();
-    wld.addSystem<RunBeforeSystem>();
+  { radix::SystemManager::Transaction st = wld.systems.transact();
+    st.addSystem<radix::PlayerSystem>();
+    st.addSystem<radix::PhysicsSystem>();
+    st.addSystem<TestSystem>();
+    st.addSystem<TestSystem2>();
+    st.addSystem<RunBeforeSystem>();
     add<10>(wld);
     start = std::chrono::high_resolution_clock::now();
     // Here, st gets destructed, changes committed (i.e. system graph recomputed)
@@ -146,7 +146,7 @@ int main(const int argc, char *argv[]) {
   constexpr int runs = 10000;
   start = std::chrono::high_resolution_clock::now();
   for (int i = 0; i < runs; ++i) {
-    wld.update(0.016);
+    wld.update(radix::TDelta::sec(0.016));
   }
   end = std::chrono::high_resolution_clock::now();
   diff = end-start;

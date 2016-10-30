@@ -3,7 +3,6 @@
 
 #include <map>
 #include <string>
-#include <vector>
 
 #include <SDL2/SDL_mixer.h>
 
@@ -20,10 +19,10 @@ public:
   static void init();
   static void reload();
   static void destroy();
-  
+
   static void playMusic(const std::string &filename);
   static void playSound(const std::string &filename, const Entity &source);
-  
+
   static void update(const Entity &listener);
 
 private:
