@@ -112,13 +112,16 @@ private:
   struct Support {
     bool uniformBuffers;
   } support;
+
   uint lightsUBO;
+
   World &world;
-  TextRenderer textRenderer;
   Viewport *viewport;
-  int vpWidth, vpHeight;
   RenderContext rc;
+  TextRenderer textRenderer;
+
   std::vector<SubRenderer*> subRenderers;
+  int vpWidth, vpHeight;
 };
 
 } /* namespace radix */

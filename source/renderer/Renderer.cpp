@@ -13,10 +13,10 @@ namespace radix {
 Renderer::Renderer(World &world) :
   lightsUBO(0),
   world(world),
-  textRenderer(world, *this),
   viewport(nullptr),
-  vpWidth(0), vpHeight(0),
-  rc(*this) {
+  rc(*this),
+  textRenderer(world, *this),
+  vpWidth(0), vpHeight(0) {
   support.uniformBuffers = epoxy_has_gl_extension("GL_ARB_uniform_buffer_object");
 }
 
