@@ -62,7 +62,7 @@ protected:
   std::unique_ptr<Renderer> renderer;
   std::unique_ptr<Camera> camera;
   std::shared_ptr<radix::Screen> screen;
-  radix::EventDispatcher::CallbackHolder screenshotCallbackHolder;
+  EventDispatcher::CallbackHolder screenshotCallbackHolder;
 
   std::string defaultMap  = "/maps/n1.xml";
   std::string windowTitle = "RadixEngine";
