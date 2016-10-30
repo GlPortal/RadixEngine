@@ -34,8 +34,10 @@ public:
 private:
   World &world;
   Renderer& renderer;
-  double time;
+  
   std::unique_ptr<RenderContext> renderContext;
+
+  double time;
 };
 
 } /* namespace radix */
