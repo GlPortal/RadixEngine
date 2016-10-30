@@ -1,9 +1,12 @@
 #include <radix/renderer/Renderer.hpp>
+
+#include <algorithm>
+#include <epoxy/gl.h>
+
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Matrix3f.hpp>
 #include <radix/component/LightSource.hpp>
-#include <epoxy/gl.h>
 
 namespace radix {
 
@@ -22,6 +25,12 @@ void Renderer::init() {
   updateLights(diffuse);
   Shader &metal = ShaderLoader::getShader("metal.frag");
   updateLights(metal);
+}
+
+void Renderer::render() {
+  for (SubRenderer *e : subRenderers) {
+    e->render();
+  }
 }
 
 void Renderer::updateLights(Shader& shader) {
@@ -208,5 +217,13 @@ Matrix4f Renderer::clipProjMat(const Entity &ent,
   return newProj;
 }
 */
+
+void Renderer::addRenderer(SubRenderer &subRenderer) {
+  subRenderers.push_back(&subRenderer);
+}
+
+void Renderer::removeRenderer(SubRenderer &subRenderer) {
+  subRenderers.erase(std::remove(subRenderers.begin(), subRenderers.end(), &subRenderer), subRenderers.end());
+}
 
 } /* namespace radix */

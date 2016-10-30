@@ -51,10 +51,11 @@ void BaseGame::setup() {
   nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
 
   renderer->setViewport(&window);
-  screenRenderer = std::make_unique<radix::ScreenRenderer>(world, *renderer.get());
+  screenRenderer = std::make_unique<ScreenRenderer>(world, *renderer.get(), gameWorld);
   initHook();
   loadMap();
   renderer->init();
+  renderer->addRenderer(*screenRenderer);
 }
 
 bool BaseGame::isRunning() {
@@ -88,7 +89,6 @@ void BaseGame::update() {
 }
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
-void BaseGame::renderHook() { }
 void BaseGame::initHook() { }
 
 void BaseGame::cleanUp() {
@@ -98,10 +98,7 @@ void BaseGame::cleanUp() {
 
 void BaseGame::render() {
   prepareCamera();
-  renderHook();
-  for (radix::Screen* screen : *gameWorld.getScreens()) {
-    screenRenderer->renderScreen(*screen);
-  }
+  renderer->render();
   gameWorld.getScreens()->clear();
   fps.countCycle();
   window.swapBuffers();
