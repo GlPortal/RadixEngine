@@ -50,8 +50,8 @@ PlayerSystem::~PlayerSystem() {
 }
 
 void PlayerSystem::mouseLook(Entity &entity) {
-  Player &plr = entity.getComponent<Player>();
-  if (plr.frozen) {
+  Player &player = entity.getComponent<Player>();
+  if (player.frozen) {
     return;
   }
   int mousedx, mousedy;
@@ -60,22 +60,22 @@ void PlayerSystem::mouseLook(Entity &entity) {
   // Apply mouse movement to view
   //Vector3f &rotation = entity.getComponent<Transform>().rotation;
   if (world.getConfig().isLoaded()) {
-    plr.headAngle.attitude -= rad(mousedy * world.getConfig().getSensitivity());
-    plr.headAngle.heading  -= rad(mousedx * world.getConfig().getSensitivity());
+    player.headAngle.attitude -= rad(mousedy * world.getConfig().getSensitivity());
+    player.headAngle.heading  -= rad(mousedx * world.getConfig().getSensitivity());
   } else {
-    plr.headAngle.attitude -= rad(mousedy * 0.30);
-    plr.headAngle.heading  -= rad(mousedx * 0.30);
+    player.headAngle.attitude -= rad(mousedy * 0.30);
+    player.headAngle.heading  -= rad(mousedx * 0.30);
   }
-  plr.headAngle.tilt *= 0.8;
+  player.headAngle.tilt *= 0.8;
 
   // Restrict rotation in horizontal axis
-  plr.headAngle.attitude = Math::clamp(plr.headAngle.attitude, rad(-89.99), rad(89.99));
+  player.headAngle.attitude = Math::clamp(player.headAngle.attitude, rad(-89.99), rad(89.99));
 }
 
 void PlayerSystem::move(Entity &entity, TDelta dtime) {
   (void) dtime;
-  Player &plr = entity.getComponent<Player>();
-  if (plr.frozen) {
+  Player &player = entity.getComponent<Player>();
+  if (player.frozen) {
     return;
   }
   InputSource &input = world.input;
@@ -85,17 +85,17 @@ void PlayerSystem::move(Entity &entity, TDelta dtime) {
        strafingRight = input.isKeyDown(SDL_SCANCODE_D) or input.isKeyDown(SDL_SCANCODE_RIGHT),
        jumping       = input.isKeyDown(SDL_SCANCODE_SPACE) or
                        input.isKeyDown(SDL_SCANCODE_BACKSPACE);
-  float rot = plr.headAngle.heading;
+  float rot = player.headAngle.heading;
   Vector3f movement;
-  KinematicCharacterController &ctrl = *entity.getComponent<Player>().controller;
+  KinematicCharacterController &controller = *entity.getComponent<Player>().controller;
   Transform &plrTform = entity.getComponent<Transform>();
   plrTform.privSetPosition(entity.getComponent<Player>().obj->getWorldTransform().getOrigin());
 
-  if (jumping and ctrl.canJump()) {
+  if (jumping and controller.canJump()) {
     std::uniform_int_distribution<> dis(0, PLAYER_JUMP_SOUND.size()-1);
       entity.getComponent<SoundSource>().playSound(
         Environment::getDataDir() + PLAYER_JUMP_SOUND[dis(Util::Rand)]);
-    ctrl.jump();
+    controller.jump();
   }
   if (movingFwd) {
     movement.x += -sin(rot);
@@ -115,16 +115,16 @@ void PlayerSystem::move(Entity &entity, TDelta dtime) {
   }
 
   movement *= RUNNING_SPEED;
-  ctrl.setWalkDirection(movement);
+  controller.setWalkDirection(movement);
 
-  if (ctrl.onGround()) {
-    plr.stepCounter += std::sqrt(movement.x*movement.x + movement.z*movement.z);
+  if (controller.onGround()) {
+    player.stepCounter += std::sqrt(movement.x*movement.x + movement.z*movement.z);
 
-    if (plr.stepCounter >= 2.5f) {
-      std::uniform_int_distribution<> dis(0, PLAYER_FOOT_SOUND.size()-1);
+    if (player.stepCounter >= 2.5f) {
+      std::uniform_int_distribution<> distribution(0, PLAYER_FOOT_SOUND.size()-1);
       entity.getComponent<SoundSource>().playSound(
-        Environment::getDataDir() + PLAYER_FOOT_SOUND[dis(Util::Rand)]);
-      plr.stepCounter -= 2.5f;
+        Environment::getDataDir() + PLAYER_FOOT_SOUND[distribution(Util::Rand)]);
+      player.stepCounter -= 2.5f;
     }
   }
 #if 0
