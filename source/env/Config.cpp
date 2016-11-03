@@ -78,6 +78,8 @@ void Config::loadLoglevelSettings(Json json) {
     loglevel = LogLevel::Error;
   } else if (value == "failure") {
     loglevel = LogLevel::Failure;
+  } else {
+    loglevel = LogLevel::Debug;
   }
 }
 

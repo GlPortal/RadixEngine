@@ -20,6 +20,8 @@
   #pragma pack(pop)
 #elif __linux__
   #include <sys/prctl.h>
+#include <radix/env/Environment.hpp>
+
 #endif
 
 namespace radix {
@@ -39,7 +41,7 @@ void Util::Init() {
 }
 
 LogInput Util::_Log::operator()() {
-  return LogInput(*Util::logger, LogLevel::Debug);
+  return LogInput(*Util::logger, Environment::getConfig().getLoglevel());
 }
 
 LogInput Util::_Log::operator()(LogLevel lvl) {
