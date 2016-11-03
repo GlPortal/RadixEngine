@@ -4,6 +4,8 @@
 #include <string>
 
 #include <json11/json11.hpp>
+
+#include <radix/core/diag/Logger.hpp>
 using namespace json11;
 
 namespace radix {
@@ -32,6 +34,7 @@ public:
   bool isHidePortalsByClick() { return hidePortalsByClick; }
   bool getCursorVisibility() { return cursorVisibility; }
   bool getIgnoreGlVersion() { return ignoreGlVersion; }
+  LogLevel getLoglevel() { return loglevel; }
   std::string getMap() { return map; }
   std::string getMapPath() { return mapPath; }
 
@@ -39,6 +42,7 @@ private:
   void loadVideoSettings(Json json);
   void loadSoundSettings(Json json);
   void loadMouseSettings(Json json);
+  void loadLoglevelSettings(Json json);
 
   bool loaded;
   unsigned int width;
@@ -52,6 +56,7 @@ private:
   bool hidePortalsByClick;
   bool cursorVisibility;
   bool ignoreGlVersion;
+  LogLevel loglevel;
   std::string map;
   std::string mapPath;
 };

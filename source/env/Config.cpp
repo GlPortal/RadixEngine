@@ -32,6 +32,7 @@ void Config::load() {
   this->loadVideoSettings(configJson["video"]);
   this->loadSoundSettings(configJson["sound"]);
   this->loadMouseSettings(configJson["mouse"]);
+  this->loadLoglevelSettings(configJson["logging"]);
 
   // Misc
   map = "n1";
@@ -61,6 +62,23 @@ void Config::loadMouseSettings(Json json) {
   sensitivity        = json["sensitivity"].number_value();
   hidePortalsByClick = json["hide_portals_by_click"].bool_value();
   cursorVisibility   = json["cursor_visibility"].bool_value();
+}
+
+void Config::loadLoglevelSettings(Json json) {
+  std::string value = json["loglevel"].string_value();
+  if (value == "verbose") {
+    loglevel = LogLevel::Verbose;
+  } else if (value == "debug") {
+    loglevel = LogLevel::Debug;
+  } else if (value == "info") {
+    loglevel = LogLevel::Info;
+  } else if (value == "warning") {
+    loglevel = LogLevel::Warning;
+  } else if (value == "error") {
+    loglevel = LogLevel::Error;
+  } else if (value == "failure") {
+    loglevel = LogLevel::Failure;
+  }
 }
 
 } /* namespace radix */
