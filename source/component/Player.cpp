@@ -23,6 +23,7 @@ Player::Player(Entity &ent) :
   shape = std::make_shared<btCapsuleShape>(.4, 1);
   obj->setCollisionShape(shape.get());
   obj->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
+  obj->setUserPointer(&entity);
   controller = new KinematicCharacterController(obj, shape.get(), 0.35);
 }
 

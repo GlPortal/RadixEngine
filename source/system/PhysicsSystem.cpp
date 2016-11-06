@@ -37,6 +37,9 @@ PhysicsSystem::PhysicsSystem(World &world) :
                                                btBroadphaseProxy::CharacterFilter,
                                                btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
         this->physicsWorld->addAction(p.controller);
+      } else if (componentId == Component::getTypeId<Trigger>()) {
+        Trigger &t = (Trigger&) component;
+        this->physicsWorld->addCollisionObject(t.obj);
       }
     });
   cbCompRem = world.event.addObserver(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &event) {

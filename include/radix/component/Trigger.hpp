@@ -3,8 +3,11 @@
 
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
+#include <radix/Entity.hpp>
 
+#include <memory>
 #include <functional>
+#include <BulletCollision/CollisionShapes/btCapsuleShape.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 
 namespace radix {
@@ -14,11 +17,12 @@ public:
   using Action = std::function<void()>;
 
   btGhostObject *obj;
+  std::shared_ptr<btConvexShape> shape;
   // duk_c_function script;
   // TODO: EntityFilter filter;
 
-  Trigger(Entity &ent) :
-    Component(ent) {}
+  Trigger(Entity &ent);
+  ~Trigger();
 
   const char* getName() const {
     return "Trigger";

@@ -10,6 +10,7 @@
 
 #include <radix/component/Component.hpp>
 #include <radix/component/Transform.hpp>
+#include <radix/component/Trigger.hpp>
 #include <radix/Entity.hpp>
 #include <radix/EntityManager.hpp>
 #include <radix/physics/KinematicCharacterController.hpp>
@@ -22,7 +23,12 @@ public:
 
   virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
            int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
-    Util::Log() << "It works!";
+    Entity* entity = (Entity*) colObj1Wrap->getCollisionObject()->getUserPointer(); //extract the second object since we don't care about the first
+
+    if (entity->hasComponent<Trigger>()){
+      Util::Log() << "Wooh";
+    }
+
     return 0;
   };
 };

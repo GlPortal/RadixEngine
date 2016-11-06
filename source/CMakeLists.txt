@@ -13,6 +13,7 @@ set(RADIX_SOURCES
   ${D}/component/RigidBody.cpp
   ${D}/component/SoundSource.cpp
   ${D}/component/Transform.cpp
+  ${D}/component/Trigger.cpp
   ${D}/core/diag/AnsiConsoleLogger.cpp
   ${D}/core/diag/Logger.cpp
   ${D}/core/diag/LogInput.cpp
