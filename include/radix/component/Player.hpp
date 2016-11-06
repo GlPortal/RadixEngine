@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <bullet/btBulletDynamicsCommon.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <bullet/BulletDynamics/Character/btKinematicCharacterController.h>
 
@@ -14,6 +15,17 @@
 #include <radix/physics/KinematicCharacterController.hpp>
 
 namespace radix {
+
+class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
+public:
+  ContactPlayerCallback() : btCollisionWorld::ContactResultCallback() { };
+
+  virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
+           int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
+    Util::Log() << "It works!";
+    return 0;
+  };
+};
 
 class Player : public Component {
 public:

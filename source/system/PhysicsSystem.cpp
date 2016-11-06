@@ -81,5 +81,7 @@ void PhysicsSystem::update(TDelta timeDelta) {
       }
     }
   }
+  ContactPlayerCallback callback;
+  physicsWorld->contactTest(world.getPlayer().getComponent<Player>().obj, callback);
 }
 } /* namespace radix */

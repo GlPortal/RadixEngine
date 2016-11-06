@@ -213,7 +213,7 @@ void XmlMapLoader::extractTriggers() {
       t.setScale(scale);
 
       Trigger &tgr = trigger.addComponent<Trigger>();
-      tgr.type = triggerElement->Attribute("type");
+      //tgr.type = triggerElement->Attribute("type");
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);
   }
 }

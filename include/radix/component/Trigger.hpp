@@ -4,12 +4,16 @@
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
 
+#include <functional>
+#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+
 namespace radix {
 
 class Trigger : public Component {
 public:
-  // FIXME: no types, scripts
-  std::string type;
+  using Action = std::function<void()>;
+
+  btGhostObject *obj;
   // duk_c_function script;
   // TODO: EntityFilter filter;
 
@@ -28,13 +32,7 @@ public:
     // ...
   }
 
-  void onEnter(Entity&);
-  void onMove(Entity&);
-  void onExit(Entity&);
-  void onTouchStart(Entity&);
-  void onTouchEnd(Entity&);
-  void onUseStart(Entity&);
-  void onUseEnd(Entity&);
+  void execute() { Action(); };
 };
 
 } /* namespace radix */
