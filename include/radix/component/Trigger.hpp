@@ -1,6 +1,7 @@
 #ifndef RADIX_COMPONENT_TRIGGER_HPP
 #define RADIX_COMPONENT_TRIGGER_HPP
 
+#include <radix/BaseGame.hpp>
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
@@ -14,14 +15,15 @@ namespace radix {
 
 class Trigger : public Component {
 public:
-  using Action = std::function<void()>;
+  using Action = std::function<void(BaseGame*)>;
 
+  Action action;
   btGhostObject *obj;
   std::shared_ptr<btConvexShape> shape;
   // duk_c_function script;
   // TODO: EntityFilter filter;
 
-  Trigger(Entity &ent);
+  Trigger(Entity &ent, Action paction);
   ~Trigger();
 
   const char* getName() const {
@@ -36,7 +38,7 @@ public:
     // ...
   }
 
-  void execute() { Action(); };
+  void execute(BaseGame* game) { action(game); };
 };
 
 } /* namespace radix */

@@ -131,7 +131,7 @@ int main(const int argc, char *argv[]) {
   std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
   { radix::SystemManager::Transaction st = wld.systems.transact();
     st.addSystem<radix::PlayerSystem>();
-    st.addSystem<radix::PhysicsSystem>();
+    st.addSystem<radix::PhysicsSystem>(nullptr);
     st.addSystem<TestSystem>();
     st.addSystem<TestSystem2>();
     st.addSystem<RunBeforeSystem>();

@@ -10,7 +10,7 @@
 
 namespace radix {
 
-PhysicsSystem::PhysicsSystem(World &world) :
+PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   System(world),
   filterCallback(nullptr),
   broadphase(new btDbvtBroadphase),
@@ -18,7 +18,8 @@ PhysicsSystem::PhysicsSystem(World &world) :
   dispatcher(new CollisionDispatcher(collisionConfiguration)),
   solver(new btSequentialImpulseConstraintSolver),
   physicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
-  gpCallback(new btGhostPairCallback) {
+  gpCallback(new btGhostPairCallback),
+  game(game) {
   broadphase->getOverlappingPairCache()->setInternalGhostPairCallback(gpCallback);
   filterCallback = new Uncollider(world);
   //physWorld->getPairCache()->setOverlapFilterCallback(filterCallback);
@@ -84,7 +85,7 @@ void PhysicsSystem::update(TDelta timeDelta) {
       }
     }
   }
-  ContactPlayerCallback callback;
+  ContactPlayerCallback callback(game);
   physicsWorld->contactTest(world.getPlayer().getComponent<Player>().obj, callback);
 }
 } /* namespace radix */

@@ -14,6 +14,7 @@ namespace radix {
 
 class CollisionDispatcher;
 class Uncollider;
+class BaseGame;
 
 class PhysicsSystem : public System {
 private:
@@ -21,6 +22,7 @@ private:
 
   friend class Uncollider;
   Uncollider *filterCallback;
+  BaseGame* game;
 
   btBroadphaseInterface *broadphase;
   btDefaultCollisionConfiguration *collisionConfiguration;
@@ -30,7 +32,7 @@ private:
   btGhostPairCallback *gpCallback;
 
 public:
-  PhysicsSystem(World&);
+  PhysicsSystem(World&, BaseGame* game);
   ~PhysicsSystem();
 
   const char* getName() const {

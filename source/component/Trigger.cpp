@@ -1,9 +1,8 @@
 #include <radix/component/Trigger.hpp>
-#include <radix/component/Transform.hpp>
 
 namespace radix {
 
-Trigger::Trigger(Entity &ent) : Component(ent) {
+Trigger::Trigger(Entity &ent, Action paction) : Component(ent), action(paction) {
   obj = new btGhostObject;
   Transform& tform = entity.getComponent<Transform>();
   obj->setWorldTransform(btTransform(tform.getOrientation(), tform.getPosition()));
