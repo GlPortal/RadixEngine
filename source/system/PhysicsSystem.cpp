@@ -13,13 +13,13 @@ namespace radix {
 PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   System(world),
   filterCallback(nullptr),
+  game(game),
   broadphase(new btDbvtBroadphase),
   collisionConfiguration(new btDefaultCollisionConfiguration()),
   dispatcher(new CollisionDispatcher(collisionConfiguration)),
   solver(new btSequentialImpulseConstraintSolver),
   physicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
-  gpCallback(new btGhostPairCallback),
-  game(game) {
+  gpCallback(new btGhostPairCallback) {
   broadphase->getOverlappingPairCache()->setInternalGhostPairCallback(gpCallback);
   filterCallback = new Uncollider(world);
   //physWorld->getPairCache()->setOverlapFilterCallback(filterCallback);
