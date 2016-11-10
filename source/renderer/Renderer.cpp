@@ -187,37 +187,6 @@ bool Renderer::clipViewFrame(const RenderContext &rc, const Mesh &frame,
   return true;
 }
 
-/*
-Matrix4f Renderer::clipProjMat(const Entity &ent,
-                               const Matrix4f &view, const Matrix4f &proj) {
-  const Transform &t = ent.getComponent<Transform>();
-  Vector4f clipPlane(Math::toDirection(t.rotation),
-                     -dot(Math::toDirection(t.rotation),
-                          t.position));
-  clipPlane = inverse(transpose(view)) * clipPlane;
-
-  if (clipPlane.w > 0.f){
-    return proj;
-  }
-
-  Vector4f q = inverse(proj) * Vector4f(
-    sign(clipPlane.x),
-    sign(clipPlane.y),
-    1.0f,
-    1.0f
-  );
-
-  Vector4f c = clipPlane * (2.0f / dot(clipPlane, q));
-
-  Matrix4f newProj = proj;
-  newProj[2] = c.x - newProj[3];
-  newProj[6] = c.y - newProj[7];
-  newProj[10] = c.z - newProj[11];
-  newProj[14] = c.w - newProj[15];
-  return newProj;
-}
-*/
-
 void Renderer::addRenderer(SubRenderer &subRenderer) {
   subRenderers.push_back(&subRenderer);
 }
