@@ -2,6 +2,7 @@
 #define RADIX_COMPONENT_PLAYER_HPP
 
 #include <memory>
+#include <functional>
 
 #include <bullet/btBulletDynamicsCommon.h>
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
@@ -17,6 +18,19 @@
 #include <radix/physics/KinematicCharacterController.hpp>
 
 namespace radix {
+
+struct PlayerTask {
+  using Task = std::function<void()>;
+
+  Task task;
+  int id;
+  std::list<PlayerTask> blackList;
+
+  PlayerTask(Task ptask, int pid) {
+    task = ptask;
+    id = pid;
+  };
+};
 
 class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
 public:
@@ -39,6 +53,7 @@ public:
 
 class Player : public Component {
 public:
+  std::map<int, PlayerTask> tasks;
   std::shared_ptr<btConvexShape> shape;
   btPairCachingGhostObject *obj;
   KinematicCharacterController *controller;
@@ -60,6 +75,9 @@ public:
   }
 
   void serialize(serine::Archiver&);
+
+  void addTask(std::function<void()> task);
+  void removeTask(int id);
 
   Quaternion getBaseHeadOrientation() const;
   Quaternion getHeadOrientation() const;

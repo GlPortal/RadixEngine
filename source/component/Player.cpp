@@ -36,6 +36,15 @@ void Player::serialize(serine::Archiver &ar) {
 
 }
 
+void Player::addTask(std::function<void()> task) {
+  tasks.insert(std::make_pair<int, PlayerTask>(
+      (tasks.rbegin()->first + 1), PlayerTask(task, (tasks.rbegin()->first + 1))));
+}
+
+void Player::removeTask(int id) {
+  tasks.erase(id);
+}
+
 Quaternion Player::getBaseHeadOrientation() const {
   return Quaternion().fromAero(headAngle);
 }
