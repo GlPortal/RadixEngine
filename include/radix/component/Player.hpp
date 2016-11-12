@@ -9,6 +9,7 @@
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <bullet/BulletDynamics/Character/btKinematicCharacterController.h>
 
+#include <radix/PlayerTask.hpp>
 #include <radix/BaseGame.hpp>
 #include <radix/component/Component.hpp>
 #include <radix/component/Transform.hpp>
@@ -18,19 +19,6 @@
 #include <radix/physics/KinematicCharacterController.hpp>
 
 namespace radix {
-
-struct PlayerTask {
-  using Task = std::function<void()>;
-
-  Task task;
-  int id;
-  std::list<PlayerTask> blackList;
-
-  PlayerTask(Task ptask, int pid) {
-    task = ptask;
-    id = pid;
-  };
-};
 
 class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
 public:
@@ -53,7 +41,7 @@ public:
 
 class Player : public Component {
 public:
-  std::map<int, PlayerTask> tasks;
+  std::map<int, PlayerTask*> tasks;
   std::shared_ptr<btConvexShape> shape;
   btPairCachingGhostObject *obj;
   KinematicCharacterController *controller;
@@ -76,7 +64,20 @@ public:
 
   void serialize(serine::Archiver&);
 
-  void addTask(std::function<void()> task);
+  template<typename T>
+  inline T& addTask() {
+    static_assert(std::is_base_of<PlayerTask, T>::value, "T must be a PlayerTask");
+    T *result = new T;
+    if (!tasks.empty()) {
+      int id = tasks.rbegin()->first + 1;
+      result->id = id;
+      tasks.insert(std::make_pair(id, result));
+    } else {
+      result->id = 0;
+      tasks.insert(std::make_pair(0, result));
+    }
+    return *result;
+  }
   void removeTask(int id);
 
   Quaternion getBaseHeadOrientation() const;

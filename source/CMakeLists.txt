@@ -8,6 +8,7 @@ set(RADIX_SOURCES
   ${RADIX_SOURCES}
   ${D}/BaseGame.cpp
   ${D}/Camera.cpp
+  ${D}/PlayerTask.cpp
   ${D}/component/Health.cpp
   ${D}/component/Player.cpp
   ${D}/component/RigidBody.cpp

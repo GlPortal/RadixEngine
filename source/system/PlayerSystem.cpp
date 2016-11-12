@@ -10,7 +10,6 @@
 #include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
 #include <radix/system/PhysicsSystem.hpp>
-#include <radix/World.hpp>
 
 namespace radix {
 
@@ -149,6 +148,16 @@ void PlayerSystem::move(Entity &entity, TDelta dtime) {
 #endif
 }
 
+void PlayerSystem::runTasks(Entity &entity) {
+  Player &player = entity.getComponent<Player>();
+  auto it = player.tasks.begin();
+  while (it != player.tasks.end()) {
+    PlayerTask* task = it->second;
+    task->task();
+    it++;
+  }
+}
+
 bool PlayerSystem::runsBefore(const System &sys) {
   return sys.getTypeId() == System::getTypeId<PhysicsSystem>();
 }
@@ -156,6 +165,7 @@ bool PlayerSystem::runsBefore(const System &sys) {
 void PlayerSystem::update(TDelta dtime) {
   mouseLook(world.getPlayer());
   move(world.getPlayer(), dtime);
+  runTasks(world.getPlayer());
 }
 
 } /* namespace radix */

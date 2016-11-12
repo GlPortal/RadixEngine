@@ -30,18 +30,18 @@ Player::Player(Entity &ent) :
 Player::~Player() {
   delete controller;
   delete obj;
+
+  for (std::pair<int, PlayerTask*> pairs : tasks) {
+    delete pairs.second;
+  }
 }
 
 void Player::serialize(serine::Archiver &ar) {
 
 }
 
-void Player::addTask(std::function<void()> task) {
-  tasks.insert(std::make_pair<int, PlayerTask>(
-      (tasks.rbegin()->first + 1), PlayerTask(task, (tasks.rbegin()->first + 1))));
-}
-
 void Player::removeTask(int id) {
+  delete tasks.at(id);
   tasks.erase(id);
 }
 
