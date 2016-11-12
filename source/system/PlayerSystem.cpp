@@ -171,7 +171,7 @@ bool PlayerSystem::allowedToRun(std::list<PlayerTask*> &blackList, PlayerTask *t
       return true;
     }
   }
-  return true;
+  return false;
 }
 
 bool PlayerSystem::runsBefore(const System &sys) {
