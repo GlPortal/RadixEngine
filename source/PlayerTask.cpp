@@ -9,4 +9,8 @@ PlayerTestTask::PlayerTestTask() {
   };
 }
 
+std::string PlayerTestTask::getName() {
+  return "PlayerTestTask";
+}
+
 } /* namespace radix */

@@ -150,12 +150,28 @@ void PlayerSystem::move(Entity &entity, TDelta dtime) {
 
 void PlayerSystem::runTasks(Entity &entity) {
   Player &player = entity.getComponent<Player>();
+  std::list<PlayerTask*> blackList;
+
   auto it = player.tasks.begin();
   while (it != player.tasks.end()) {
     PlayerTask* task = it->second;
-    task->task();
+
+    if (allowedToRun(blackList, task)) {
+      task->task();
+      blackList.insert(blackList.end(), task->blackList.begin(), task->blackList.end());
+    }
+
     it++;
   }
+}
+
+bool PlayerSystem::allowedToRun(std::list<PlayerTask*> &blackList, PlayerTask *task) {
+  for (PlayerTask* blackTask : blackList) {
+    if (task->getName() != blackTask->getName()) {
+      return true;
+    }
+  }
+  return true;
 }
 
 bool PlayerSystem::runsBefore(const System &sys) {

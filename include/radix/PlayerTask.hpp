@@ -2,7 +2,9 @@
 #define RADIX_PLAYERTASK_HPP
 
 #include <functional>
+#include <string>
 #include <list>
+
 
 namespace radix {
 
@@ -11,6 +13,7 @@ public:
   using Task = std::function<void()>;
 
   PlayerTask() {};
+  virtual ~PlayerTask() {};
 
   int id;
   Task task;
@@ -22,11 +25,14 @@ public:
     T *result = new T;
     blackList.push_back(result);
   }
+
+  virtual std::string getName() = 0;
 };
 
 class PlayerTestTask : public PlayerTask {
 public:
   PlayerTestTask();
+  std::string getName();
 };
 
 } /* namespace radix */

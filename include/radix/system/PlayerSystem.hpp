@@ -4,6 +4,7 @@
 #include <random>
 
 #include <radix/system/System.hpp>
+#include <radix/PlayerTask.hpp>
 
 namespace radix {
 
@@ -14,6 +15,7 @@ protected:
   void mouseLook(Entity &entity);
   void move(Entity &entity, TDelta dtime);
   void runTasks(Entity &entity);
+  bool allowedToRun(std::list<PlayerTask*> &blackList, PlayerTask *task);
 public:
   PlayerSystem(World&);
   ~PlayerSystem();
