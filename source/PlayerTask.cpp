@@ -1,10 +1,9 @@
 #include <radix/PlayerTask.hpp>
-#include <radix/env/Util.hpp>
 
 namespace radix {
 
 PlayerTestTask::PlayerTestTask() {
-  task = [] () {
+  task = [] (World &world) {
     Util::Log() << "Test";
   };
 }

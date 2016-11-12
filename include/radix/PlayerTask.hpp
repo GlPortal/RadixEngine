@@ -5,12 +5,13 @@
 #include <string>
 #include <list>
 
+#include <radix/World.hpp>
 
 namespace radix {
 
 class PlayerTask {
 public:
-  using Task = std::function<void()>;
+  using Task = std::function<void(World &world)>;
 
   PlayerTask() {};
   virtual ~PlayerTask() {};

@@ -157,7 +157,7 @@ void PlayerSystem::runTasks(Entity &entity) {
     PlayerTask* task = it->second;
 
     if (allowedToRun(blackList, task)) {
-      task->task();
+      task->task(world);
       blackList.insert(blackList.end(), task->blackList.begin(), task->blackList.end());
     }
 
