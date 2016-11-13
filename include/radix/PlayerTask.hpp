@@ -7,11 +7,12 @@
 
 #include <radix/World.hpp>
 
+
 namespace radix {
 
 class PlayerTask {
 public:
-  using Task = std::function<void(World &world)>;
+  using Task = std::function<void(World &world, TDelta dtime)>;
 
   PlayerTask() {};
   virtual ~PlayerTask() {};
@@ -33,6 +34,12 @@ public:
 class PlayerTestTask : public PlayerTask {
 public:
   PlayerTestTask();
+  std::string getName();
+};
+
+class PlayerMoveTask : public PlayerTask {
+public:
+  PlayerMoveTask();
   std::string getName();
 };
 
