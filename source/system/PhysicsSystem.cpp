@@ -40,6 +40,7 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
         this->physicsWorld->addAction(p.controller);
       } else if (componentId == Component::getTypeId<Trigger>()) {
         Trigger &t = (Trigger&) component;
+        t.obj->setCollisionFlags(t.obj->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
         this->physicsWorld->addCollisionObject(t.obj);
       }
     });
