@@ -2,6 +2,7 @@
 #define RADIX_PLAYER_SYSTEM_HPP
 
 #include <random>
+#include <unordered_set>
 
 #include <radix/system/System.hpp>
 #include <radix/PlayerTask.hpp>
@@ -42,7 +43,7 @@ class PlayerSystem : public System {
 protected:
   void mouseLook(Entity &entity);
   void runTasks(Entity &entity, TDelta dtime);
-  bool allowedToRun(std::list<PlayerTask*> &blackList, PlayerTask *task);
+  bool allowedToRun(std::unordered_set<PlayerTask*> &blackList, PlayerTask *task);
 public:
   PlayerSystem(World&);
   ~PlayerSystem();

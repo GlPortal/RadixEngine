@@ -1,12 +1,7 @@
 #include <radix/system/PlayerSystem.hpp>
 
 #include <iostream>
-#include <SDL2/SDL_mouse.h>
-#include <SDL2/SDL_keyboard.h>
-#include <radix/core/math/Math.hpp>
-#include <radix/env/Environment.hpp>
-#include <radix/component/Health.hpp>
-#include <radix/component/SoundSource.hpp>
+
 #include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
 #include <radix/system/PhysicsSystem.hpp>
@@ -45,7 +40,7 @@ void PlayerSystem::mouseLook(Entity &entity) {
 
 void PlayerSystem::runTasks(Entity &entity, TDelta dtime) {
   Player &player = entity.getComponent<Player>();
-  std::list<PlayerTask *> blackList;
+  std::unordered_set<PlayerTask *> blackList;
 
   auto it = player.tasks.begin();
   while (it != player.tasks.end()) {
@@ -53,24 +48,24 @@ void PlayerSystem::runTasks(Entity &entity, TDelta dtime) {
 
     if (allowedToRun(blackList, task)) {
       task->task(world, dtime);
-      blackList.insert(blackList.end(), task->blackList.begin(), task->blackList.end());
+      blackList.insert(task->blackList.begin(), task->blackList.end());
     }
 
     it++;
   }
 }
 
-bool PlayerSystem::allowedToRun(std::list<PlayerTask *> &blackList, PlayerTask *task) {
+bool PlayerSystem::allowedToRun(std::unordered_set<PlayerTask *> &blackList, PlayerTask *task) {
   if (blackList.empty()) {
     return true;
   }
 
-  for (PlayerTask *blackTask : blackList) {
-    if (task->getName() != blackTask->getName()) {
-      return true;
-    }
+  auto found = blackList.find(task);
+  if (found == blackList.end()) {
+    return true;
+  } else {
+    return false;
   }
-  return false;
 }
 
 bool PlayerSystem::runsBefore(const System &sys) {
