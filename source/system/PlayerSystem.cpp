@@ -46,8 +46,10 @@ void PlayerSystem::runTasks(Entity &entity, TDelta dtime) {
     PlayerTask *task = it->second;
 
     if (allowedToRun(blackList, task)) {
-      task->task(game, dtime);
-      blackList.insert(task->blackList.begin(), task->blackList.end());
+      if (game) {
+        task->task(game, dtime);
+        blackList.insert(task->blackList.begin(), task->blackList.end());
+      }
     }
 
     it++;
