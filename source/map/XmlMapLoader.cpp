@@ -212,9 +212,9 @@ void XmlMapLoader::extractTriggers() {
       XmlHelper::extractScale(triggerElement, scale);
       t.setScale(scale);
 
-      trigger.addComponent<Trigger>([] (BaseGame* game) {
-        Util::Log() << "wooh";
-      });
+      trigger.addComponent<Trigger>([] (BaseGame* game) {}, [] (BaseGame* game) {},
+                                    [] (BaseGame* game) {}, [] (BaseGame* game) {
+        Util::Log() << "wooh"; });
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);
   }
 }

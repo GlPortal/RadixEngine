@@ -17,13 +17,18 @@ class Trigger : public Component {
 public:
   using Action = std::function<void(BaseGame*)>;
 
-  Action action;
+  Action actionOnEnter;
+  Action actionOnExit;
+  Action actionOnMove;
+  Action actionOnUpdate;
+
   btGhostObject *obj;
   std::shared_ptr<btConvexShape> shape;
   // duk_c_function script;
   // TODO: EntityFilter filter;
 
-  Trigger(Entity &ent, Action paction);
+  Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
+          Action actionOnMove, Action actionOnUpdate);
   ~Trigger();
 
   const char* getName() const {
@@ -38,7 +43,10 @@ public:
     // ...
   }
 
-  void execute(BaseGame* game) { action(game); };
+  void onEnter(BaseGame* game) { actionOnEnter(game); };
+  void onExit(BaseGame* game) { actionOnExit(game); };
+  void onMove(BaseGame* game) { actionOnMove(game); };
+  void onUpdate(BaseGame* game) { actionOnUpdate(game); };
 };
 
 } /* namespace radix */

@@ -2,7 +2,13 @@
 
 namespace radix {
 
-Trigger::Trigger(Entity &ent, Action paction) : Component(ent), action(paction) {
+Trigger::Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
+                 Action actionOnMove, Action actionOnUpdate)
+  : Component(ent),
+  actionOnEnter(actionOnEnter),
+  actionOnExit(actionOnExit),
+  actionOnMove(actionOnMove),
+  actionOnUpdate(actionOnUpdate) {
   obj = new btGhostObject;
   Transform& tform = entity.getComponent<Transform>();
   obj->setWorldTransform(btTransform(tform.getOrientation(), tform.getPosition()));

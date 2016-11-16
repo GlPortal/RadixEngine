@@ -32,7 +32,7 @@ public:
 
     if (entity->hasComponent<Trigger>()){
       Trigger& trigger = entity->getComponent<Trigger>();
-      trigger.execute(game);
+      trigger.onUpdate(game);
     }
 
     return 0;
