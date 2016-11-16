@@ -2,14 +2,13 @@
 
 #include <iostream>
 
-#include <radix/component/RigidBody.hpp>
 #include <radix/component/Player.hpp>
 #include <radix/system/PhysicsSystem.hpp>
 
 namespace radix {
 
-PlayerSystem::PlayerSystem(World &w) :
-  System(w) {
+PlayerSystem::PlayerSystem(World &w,BaseGame *game) :
+  System(w), game(game) {
 }
 
 PlayerSystem::~PlayerSystem() {
@@ -47,7 +46,7 @@ void PlayerSystem::runTasks(Entity &entity, TDelta dtime) {
     PlayerTask *task = it->second;
 
     if (allowedToRun(blackList, task)) {
-      task->task(world, dtime);
+      task->task(game, dtime);
       blackList.insert(task->blackList.begin(), task->blackList.end());
     }
 

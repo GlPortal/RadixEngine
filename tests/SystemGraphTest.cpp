@@ -130,7 +130,7 @@ int main(const int argc, char *argv[]) {
   radix::World wld(nis);
   std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
   { radix::SystemManager::Transaction st = wld.systems.transact();
-    st.addSystem<radix::PlayerSystem>();
+    st.addSystem<radix::PlayerSystem>(nullptr);
     st.addSystem<radix::PhysicsSystem>(nullptr);
     st.addSystem<TestSystem>();
     st.addSystem<TestSystem2>();

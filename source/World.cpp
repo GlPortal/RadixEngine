@@ -27,6 +27,7 @@ World::World(InputSource &input) :
   player->addComponent<SoundListener>();
   player->addComponent<Player>();
   player->getComponent<Player>().addTask<PlayerMoveTask>();
+  player->getComponent<Player>().addTask<PlayerTriggerTask>();
 }
 
 World::~World() {

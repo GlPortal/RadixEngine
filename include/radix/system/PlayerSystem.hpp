@@ -44,8 +44,10 @@ protected:
   void mouseLook(Entity &entity);
   void runTasks(Entity &entity, TDelta dtime);
   bool allowedToRun(std::unordered_set<PlayerTask*> &blackList, PlayerTask *task);
+
+  BaseGame *game;
 public:
-  PlayerSystem(World&);
+  PlayerSystem(World&, BaseGame*);
   ~PlayerSystem();
 
   const char* getName() const {

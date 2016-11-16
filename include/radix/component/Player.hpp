@@ -20,31 +20,13 @@
 
 namespace radix {
 
-class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
-public:
-  ContactPlayerCallback(BaseGame* game) : btCollisionWorld::ContactResultCallback(), game(game) { };
-
-  BaseGame* game;
-
-  virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
-           int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
-    Entity* entity = (Entity*) colObj1Wrap->getCollisionObject()->getUserPointer(); //extract the second object since we don't care about the first
-
-    if (entity->hasComponent<Trigger>()){
-      Trigger& trigger = entity->getComponent<Trigger>();
-      trigger.onUpdate(game);
-    }
-
-    return 0;
-  };
-};
-
 class Player : public Component {
 public:
   std::map<int, PlayerTask*> tasks;
   std::shared_ptr<btConvexShape> shape;
   btPairCachingGhostObject *obj;
   KinematicCharacterController *controller;
+  Trigger* trigger;
 
   Vector3f velocity, headAngle;
   bool flying, noclip, frozen;
@@ -82,6 +64,30 @@ public:
 
   Quaternion getBaseHeadOrientation() const;
   Quaternion getHeadOrientation() const;
+};
+
+class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
+public:
+  ContactPlayerCallback(BaseGame* game) : btCollisionWorld::ContactResultCallback(), game(game) { };
+
+  BaseGame* game;
+
+  virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
+                                   int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
+    Entity* playerEntity = (Entity*) colObj0Wrap->getCollisionObject()->getUserPointer();
+    Entity* triggerEntity = (Entity*) colObj1Wrap->getCollisionObject()->getUserPointer();
+
+    if (triggerEntity->hasComponent<Trigger>()) {
+      Trigger &trigger = triggerEntity->getComponent<Trigger>();
+      trigger.onUpdate(game);
+
+      if (playerEntity->hasComponent<Player>()) {
+        Player &player = playerEntity->getComponent<Player>();
+        player.trigger = &trigger;
+      }
+    }
+    return 0;
+  };
 };
 
 } /* namespace radix */

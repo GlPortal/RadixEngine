@@ -5,14 +5,14 @@
 #include <string>
 #include <list>
 
-#include <radix/World.hpp>
+#include <radix/BaseGame.hpp>
 
 
 namespace radix {
 
 class PlayerTask {
 public:
-  using Task = std::function<void(World &world, TDelta dtime)>;
+  using Task = std::function<void(BaseGame *game, TDelta dtime)>;
 
   PlayerTask() {};
   virtual ~PlayerTask() {};
@@ -31,9 +31,9 @@ public:
   virtual std::string getName() = 0;
 };
 
-class PlayerTestTask : public PlayerTask {
+class PlayerTriggerTask : public PlayerTask {
 public:
-  PlayerTestTask();
+  PlayerTriggerTask();
   std::string getName();
 };
 
