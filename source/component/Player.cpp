@@ -23,16 +23,26 @@ Player::Player(Entity &ent) :
   shape = std::make_shared<btCapsuleShape>(.4, 1);
   obj->setCollisionShape(shape.get());
   obj->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
+  obj->setUserPointer(&entity);
   controller = new KinematicCharacterController(obj, shape.get(), 0.35);
 }
 
 Player::~Player() {
   delete controller;
   delete obj;
+
+  for (std::pair<int, PlayerTask*> pairs : tasks) {
+    delete pairs.second;
+  }
 }
 
 void Player::serialize(serine::Archiver &ar) {
 
+}
+
+void Player::removeTask(int id) {
+  delete tasks.at(id);
+  tasks.erase(id);
 }
 
 Quaternion Player::getBaseHeadOrientation() const {

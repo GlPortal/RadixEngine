@@ -10,9 +10,10 @@
 
 namespace radix {
 
-PhysicsSystem::PhysicsSystem(World &world) :
+PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   System(world),
   filterCallback(nullptr),
+  game(game),
   broadphase(new btDbvtBroadphase),
   collisionConfiguration(new btDefaultCollisionConfiguration()),
   dispatcher(new CollisionDispatcher(collisionConfiguration)),
@@ -37,6 +38,10 @@ PhysicsSystem::PhysicsSystem(World &world) :
                                                btBroadphaseProxy::CharacterFilter,
                                                btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
         this->physicsWorld->addAction(p.controller);
+      } else if (componentId == Component::getTypeId<Trigger>()) {
+        Trigger &t = (Trigger&) component;
+        t.obj->setCollisionFlags(t.obj->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+        this->physicsWorld->addCollisionObject(t.obj);
       }
     });
   cbCompRem = world.event.addObserver(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &event) {
@@ -81,5 +86,7 @@ void PhysicsSystem::update(TDelta timeDelta) {
       }
     }
   }
+  ContactPlayerCallback callback(game);
+  physicsWorld->contactTest(world.getPlayer().getComponent<Player>().obj, callback);
 }
 } /* namespace radix */

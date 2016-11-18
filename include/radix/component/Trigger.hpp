@@ -1,20 +1,35 @@
 #ifndef RADIX_COMPONENT_TRIGGER_HPP
 #define RADIX_COMPONENT_TRIGGER_HPP
 
+#include <radix/BaseGame.hpp>
 #include <radix/component/Component.hpp>
 #include <radix/core/math/Vector3f.hpp>
+#include <radix/Entity.hpp>
+
+#include <memory>
+#include <functional>
+#include <BulletCollision/CollisionShapes/btCapsuleShape.h>
+#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 
 namespace radix {
 
 class Trigger : public Component {
 public:
-  // FIXME: no types, scripts
-  std::string type;
+  using Action = std::function<void(BaseGame*)>;
+
+  Action actionOnEnter;
+  Action actionOnExit;
+  Action actionOnMove;
+  Action actionOnUpdate;
+
+  btGhostObject *obj;
+  std::shared_ptr<btConvexShape> shape;
   // duk_c_function script;
   // TODO: EntityFilter filter;
 
-  Trigger(Entity &ent) :
-    Component(ent) {}
+  Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
+          Action actionOnMove, Action actionOnUpdate);
+  ~Trigger();
 
   const char* getName() const {
     return "Trigger";
@@ -28,13 +43,10 @@ public:
     // ...
   }
 
-  void onEnter(Entity&);
-  void onMove(Entity&);
-  void onExit(Entity&);
-  void onTouchStart(Entity&);
-  void onTouchEnd(Entity&);
-  void onUseStart(Entity&);
-  void onUseEnd(Entity&);
+  void onEnter(BaseGame* game) { actionOnEnter(game); };
+  void onExit(BaseGame* game) { actionOnExit(game); };
+  void onMove(BaseGame* game) { actionOnMove(game); };
+  void onUpdate(BaseGame* game) { actionOnUpdate(game); };
 };
 
 } /* namespace radix */

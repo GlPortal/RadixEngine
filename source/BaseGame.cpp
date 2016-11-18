@@ -39,8 +39,8 @@ void BaseGame::setup() {
   renderer = std::make_unique<Renderer>(world);
   camera = std::make_unique<Camera>();
   SystemManager::Transaction systemTransaction = world.systems.transact();
-  systemTransaction.addSystem<PlayerSystem>();
-  systemTransaction.addSystem<PhysicsSystem>();
+  systemTransaction.addSystem<PlayerSystem>(this);
+  systemTransaction.addSystem<PhysicsSystem>(this);
 
   screenshotCallbackHolder =
     world.event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
