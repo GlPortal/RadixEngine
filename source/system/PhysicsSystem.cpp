@@ -10,6 +10,8 @@
 
 namespace radix {
 
+std::unordered_set<CollisionInfo, CollisionInfoHash, CollisionInfoEqual> PhysicsSystem::collisions;
+
 PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   System(world),
   filterCallback(nullptr),
@@ -25,6 +27,9 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   //physWorld->getPairCache()->setOverlapFilterCallback(filterCallback);
   dispatcher->setNearCallback(Uncollider::nearCallback);
   physicsWorld->setGravity(btVector3(0, -9.8, 0));
+
+  gContactProcessedCallback = reinterpret_cast<ContactProcessedCallback>(&PhysicsSystem::contactProcessedCallback);
+  gContactDestroyedCallback = reinterpret_cast<ContactDestroyedCallback>(&PhysicsSystem::contactDestroyedCallback);
 
   cbCompAdd = world.event.addObserver(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e) {
       Component &component = ((Entity::ComponentAddedEvent &) e).component;
@@ -89,4 +94,33 @@ void PhysicsSystem::update(TDelta timeDelta) {
   ContactPlayerCallback callback(game);
   physicsWorld->contactTest(world.getPlayer().getComponent<Player>().obj, callback);
 }
+
+bool PhysicsSystem::contactProcessedCallback(btManifoldPoint &cp, void *body0, void *body1) {
+  CollisionInfo *pair = new CollisionInfo ((btCollisionObject*) body0, (btCollisionObject*) body1);
+  if (!collisions.empty()) {
+    auto found = collisions.find(*pair);
+    if (found == collisions.end()) {
+      collisions.insert(*pair);
+      Util::Log(Debug, "PhysicsSystem") << "Inserted!";
+    }
+  } else {
+    collisions.insert(*pair);
+    Util::Log(Debug, "PhysicsSystem") << "Inserted!";
+  }
+  cp.m_userPersistentData = pair;
+  return  true; /* the return value is ignored */
+}
+
+bool PhysicsSystem::contactDestroyedCallback(void *userPersistentData) {
+  CollisionInfo *pair = (CollisionInfo*) userPersistentData;
+  if (!collisions.empty()) {
+    auto found = collisions.find(*pair);
+    if (found != collisions.end()) {
+      collisions.erase(*pair);
+      Util::Log(Debug, "PhysicsSystem") << "Removed!";
+    }
+  }
+  return true; /* the return value is ignored */
+}
+
 } /* namespace radix */
