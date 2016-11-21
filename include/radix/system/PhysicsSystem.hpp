@@ -3,16 +3,11 @@
 
 #include <unordered_set>
 
+#include <bullet/btBulletDynamicsCommon.h>
+#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/system/System.hpp>
-
-class btBroadphaseInterface;
-class btDefaultCollisionConfiguration;
-class btSequentialImpulseConstraintSolver;
-class btDiscreteDynamicsWorld;
-class btGhostPairCallback;
-class btManifoldPoint;
-class btCollisionObject;
 
 namespace radix {
 
@@ -23,7 +18,8 @@ class BaseGame;
 struct CollisionInfo {
   btCollisionObject *body0;
   btCollisionObject *body1;
-  CollisionInfo(btCollisionObject* body0, btCollisionObject* body1) : body0(body0), body1(body1) {}
+  CollisionInfo(btCollisionObject* body0, btCollisionObject* body1)
+    : body0(body0), body1(body1) {}
 };
 
 class CollisionInfoHash {
@@ -36,7 +32,9 @@ public:
 class CollisionInfoEqual {
 public:
   bool operator()(const CollisionInfo& info0, const CollisionInfo& info1) const {
-    return (info0.body0 == info1.body0) && (info0.body1 == info1.body1);
+    return (info0.body0 == info1.body0) && (info0.body1 == info1.body1) &&
+      (info0.body0->getUserPointer() == info1.body0->getUserPointer()) &&
+      (info0.body1->getUserPointer() == info1.body1->getUserPointer());
   }
 };
 
@@ -72,9 +70,10 @@ public:
 
   void update(TDelta timeDelta);
 
-  static std::unordered_set<CollisionInfo, CollisionInfoHash, CollisionInfoEqual> collisions;
+  static std::unordered_set<CollisionInfo, CollisionInfoHash,
+    CollisionInfoEqual> collisions;
 
-  static bool contactProcessedCallback(btManifoldPoint& cp, void* body0,void* body1);
+  static bool contactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1);
 
   static bool contactDestroyedCallback(void* userPersistentData);
 };

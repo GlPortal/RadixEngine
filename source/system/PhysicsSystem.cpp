@@ -1,12 +1,9 @@
 #include <radix/system/PhysicsSystem.hpp>
 
-#include <bullet/btBulletDynamicsCommon.h>
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <radix/component/Player.hpp>
 #include <radix/component/RigidBody.hpp>
 #include <radix/physics/CollisionDispatcher.hpp>
 #include <radix/physics/Uncollider.hpp>
-#include <radix/World.hpp>
 
 namespace radix {
 
@@ -20,7 +17,8 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   collisionConfiguration(new btDefaultCollisionConfiguration()),
   dispatcher(new CollisionDispatcher(collisionConfiguration)),
   solver(new btSequentialImpulseConstraintSolver),
-  physicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
+  physicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver,
+                                           collisionConfiguration)),
   gpCallback(new btGhostPairCallback) {
   broadphase->getOverlappingPairCache()->setInternalGhostPairCallback(gpCallback);
   filterCallback = new Uncollider(world);
@@ -28,10 +26,13 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   dispatcher->setNearCallback(Uncollider::nearCallback);
   physicsWorld->setGravity(btVector3(0, -9.8, 0));
 
-  gContactProcessedCallback = reinterpret_cast<ContactProcessedCallback>(&PhysicsSystem::contactProcessedCallback);
-  gContactDestroyedCallback = reinterpret_cast<ContactDestroyedCallback>(&PhysicsSystem::contactDestroyedCallback);
+  gContactProcessedCallback = reinterpret_cast<ContactProcessedCallback>
+  (&PhysicsSystem::contactProcessedCallback);
+  gContactDestroyedCallback = reinterpret_cast<ContactDestroyedCallback>
+  (&PhysicsSystem::contactDestroyedCallback);
 
-  cbCompAdd = world.event.addObserver(Entity::ComponentAddedEvent::Type, [this](const radix::Event &e) {
+  cbCompAdd = world.event.addObserver(Entity::ComponentAddedEvent::Type,
+                                      [this](const radix::Event &e) {
       Component &component = ((Entity::ComponentAddedEvent &) e).component;
       auto componentId = component.getTypeId();
       if (componentId == Component::getTypeId<RigidBody>()) {
@@ -41,15 +42,18 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
         Player &p = (Player &) component;
         this->physicsWorld->addCollisionObject(p.obj,
                                                btBroadphaseProxy::CharacterFilter,
-                                               btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
+                                               btBroadphaseProxy::StaticFilter |
+                                               btBroadphaseProxy::DefaultFilter);
         this->physicsWorld->addAction(p.controller);
       } else if (componentId == Component::getTypeId<Trigger>()) {
         Trigger &t = (Trigger&) component;
-        t.obj->setCollisionFlags(t.obj->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+        t.obj->setCollisionFlags(t.obj->getCollisionFlags() |
+                                   btCollisionObject::CF_NO_CONTACT_RESPONSE);
         this->physicsWorld->addCollisionObject(t.obj);
       }
     });
-  cbCompRem = world.event.addObserver(Entity::ComponentRemovedEvent::Type, [this](const radix::Event &event) {
+  cbCompRem = world.event.addObserver(Entity::ComponentRemovedEvent::Type,
+                                      [this](const radix::Event &event) {
       Component &component = ((Entity::ComponentAddedEvent &) event).component;
       auto componentId = component.getTypeId();
       if (componentId == Component::getTypeId<RigidBody>()) {
@@ -96,18 +100,18 @@ void PhysicsSystem::update(TDelta timeDelta) {
 }
 
 bool PhysicsSystem::contactProcessedCallback(btManifoldPoint &cp, void *body0, void *body1) {
-  CollisionInfo *pair = new CollisionInfo ((btCollisionObject*) body0, (btCollisionObject*) body1);
+  CollisionInfo pair((btCollisionObject*) body0, (btCollisionObject*) body1);
   if (!collisions.empty()) {
-    auto found = collisions.find(*pair);
+    auto found = collisions.find(pair);
     if (found == collisions.end()) {
-      collisions.insert(*pair);
+      collisions.insert(pair);
       Util::Log(Debug, "PhysicsSystem") << "Inserted!";
     }
   } else {
-    collisions.insert(*pair);
+    collisions.insert(pair);
     Util::Log(Debug, "PhysicsSystem") << "Inserted!";
   }
-  cp.m_userPersistentData = pair;
+  cp.m_userPersistentData = (void*) &*collisions.find(pair);
   return  true; /* the return value is ignored */
 }
 
