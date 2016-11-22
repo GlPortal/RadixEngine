@@ -13,12 +13,12 @@ using ms = std::chrono::milliseconds;
 std::string Profiler::dump() const {
   std::ostringstream oss;
   std::stack<std::reference_wrapper<const Profiler>> profstack;
-  std::stack<uint> depthstack;
+  std::stack<unsigned int> depthstack;
   profstack.push(std::cref(*this));
   depthstack.push(0);
   while (not profstack.empty()) {
     const Profiler &prof = profstack.top().get();
-    uint depth = depthstack.top();
+    unsigned int depth = depthstack.top();
     profstack.pop();
     depthstack.pop();
     decltype(m_subprofilers)::const_reverse_iterator rit = prof.m_subprofilers.crbegin();

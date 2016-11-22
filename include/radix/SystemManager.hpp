@@ -50,7 +50,7 @@ public:
     static constexpr decltype(lowlink) lowlinkUndef = std::numeric_limits<decltype(lowlink)>::max();
 
     /* System execution variables */
-    uint counter;
+    unsigned int counter;
     std::mutex counterMut;
 
     SystemGraphNode(SystemTypeId system, SystemPtrVector &systems, SystemGraphNodeVector &graph);

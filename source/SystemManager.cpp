@@ -283,7 +283,7 @@ void SystemManager::run(TDelta dtime) {
   // Count the Systems so we know when all of them were run. Also count the ones without
   // predecessors, i.e. the ones that runs first, to know how many threads to notify.
   SystemTypeId targetRunCount = 0;
-  uint startCount = 0;
+  unsigned int startCount = 0;
   { std::unique_lock<std::mutex> qlk(systemRun.queueMutex);
     for (std::unique_ptr<SystemGraphNode> &sgn : systemGraph) {
       if (sgn) {
