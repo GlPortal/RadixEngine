@@ -2,6 +2,7 @@
 
 #include <thread>
 
+#include <radix/env/Environment.hpp>
 #include <radix/env/OperatingSystem.hpp>
 #include <radix/core/diag/AnsiConsoleLogger.hpp>
 #include <radix/core/diag/StdoutLogger.hpp>
@@ -20,8 +21,6 @@
   #pragma pack(pop)
 #elif __linux__
   #include <sys/prctl.h>
-#include <radix/env/Environment.hpp>
-
 #endif
 
 namespace radix {
