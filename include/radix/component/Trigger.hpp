@@ -24,8 +24,6 @@ public:
 
   btGhostObject *obj;
   std::shared_ptr<btConvexShape> shape;
-  // duk_c_function script;
-  // TODO: EntityFilter filter;
 
   Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
           Action actionOnMove, Action actionOnUpdate);
