@@ -38,7 +38,6 @@ public:
   }
 
   void serialize(serine::Archiver &ar) {
-    // ...
   }
 
   void onEnter(BaseGame* game) { actionOnEnter(game); };
