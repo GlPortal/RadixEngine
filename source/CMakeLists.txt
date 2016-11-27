@@ -57,6 +57,7 @@ set(RADIX_SOURCES
   ${D}/renderer/GlGwenRenderer.cpp
   ${D}/renderer/Renderer.cpp
   ${D}/renderer/ScreenRenderer.cpp
+  ${D}/renderer/PortalRenderer.cpp
   ${D}/renderer/TextRenderer.cpp
   ${D}/screen/XmlScreenLoader.cpp
   ${D}/shader/Shader.cpp
