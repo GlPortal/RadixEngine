@@ -44,15 +44,13 @@ void ScreenRenderer::renderScreen(Screen *screen) {
     int textWidth = font.getStringLength(screen->text[i].content);
     Vector3f position(0, 0, screen->text[i].z);
 
+    position.y = viewportHeight - screen->text[i].top;
     if (screen->text[i].align == Text::Center) {
       position.x = (viewportWidth / 2) - (textWidth / 2);
-      position.y = viewportHeight - screen->text[i].top;
     } else if (screen->text[i].align == Text::Left) {
       position.x = ((viewportWidth / 2) - viewportWidth / 4) - (textWidth / 2);
-      position.y = viewportHeight - screen->text[i].top;
     } else if (screen->text[i].align == Text::Right) {
       position.x = ((viewportWidth / 2) + viewportWidth / 4) - (textWidth / 2);
-      position.y = viewportHeight - screen->text[i].top;
     }
 
     screen->text[i].position = position;
