@@ -47,11 +47,12 @@ void ScreenRenderer::renderScreen(Screen *screen) {
     Vector3f position(0, 0, screen->text[i].z);
 
     position.y = viewportHeight - screen->text[i].top;
-    if (screen->text[i].align == Text::Center) {
+    Text::Align textAlign = screen->text[i].align;
+    if (textAlign == Text::Center) {
       position.x = xAxisViewportCenter - (textWidth / 2);
-    } else if (screen->text[i].align == Text::Left) {
+    } else if (textAlign == Text::Left) {
       position.x = (xAxisViewportCenter - viewportWidth / 4) - (textWidth / 2);
-    } else if (screen->text[i].align == Text::Right) {
+    } else if (textAlign == Text::Right) {
       position.x = (xAxisViewportCenter + viewportWidth / 4) - (textWidth / 2);
     }
 
