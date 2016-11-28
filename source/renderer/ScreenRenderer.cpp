@@ -25,7 +25,9 @@ void ScreenRenderer::renderScreen(Screen *screen) {
   initCamera();
 
   Matrix4f widget;
-  widget.translate(Vector3f((viewportWidth / 2), (viewportHeight / 2), -18));
+  int xAxisViewportCenter = viewportWidth / 2;
+  int yAxisViewportCenter = viewportHeight / 2;
+  widget.translate(Vector3f(xAxisViewportCenter, yAxisViewportCenter, -18));
   widget.scale(Vector3f(viewportWidth, viewportHeight, 1));
 
   const Mesh &mesh = MeshLoader::getMesh("GUIElement.obj");
@@ -46,11 +48,11 @@ void ScreenRenderer::renderScreen(Screen *screen) {
 
     position.y = viewportHeight - screen->text[i].top;
     if (screen->text[i].align == Text::Center) {
-      position.x = (viewportWidth / 2) - (textWidth / 2);
+      position.x = xAxisViewportCenter - (textWidth / 2);
     } else if (screen->text[i].align == Text::Left) {
-      position.x = ((viewportWidth / 2) - viewportWidth / 4) - (textWidth / 2);
+      position.x = (xAxisViewportCenter - viewportWidth / 4) - (textWidth / 2);
     } else if (screen->text[i].align == Text::Right) {
-      position.x = ((viewportWidth / 2) + viewportWidth / 4) - (textWidth / 2);
+      position.x = (xAxisViewportCenter + viewportWidth / 4) - (textWidth / 2);
     }
 
     screen->text[i].position = position;
