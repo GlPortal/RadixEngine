@@ -31,13 +31,13 @@ void ScreenRenderer::renderScreen(Screen *screen) {
   widget.scale(Vector3f(viewportWidth, viewportHeight, 1));
 
   const Mesh &mesh = MeshLoader::getMesh("GUIElement.obj");
-  Shader &sh = ShaderLoader::getShader("color.frag");
+  Shader &shader = ShaderLoader::getShader("color.frag");
 
-  sh.bind();
-  glUniform4f(sh.uni("color"), screen->color.r, screen->color.g, screen->color.b, screen->color.a);
-  renderer.renderMesh(*renderContext, sh, widget, mesh);
+  shader.bind();
+  glUniform4f(shader.uni("color"), screen->color.r, screen->color.g, screen->color.b, screen->color.a);
+  renderer.renderMesh(*renderContext, shader, widget, mesh);
 
-  sh.release();
+  shader.release();
 
   for (unsigned int i = 0; i < screen->text.size(); i++) { // render text
     screen->text[i].font = "Pacaya";
