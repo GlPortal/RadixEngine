@@ -39,7 +39,7 @@ void ScreenRenderer::renderScreen(Screen *screen) {
 
   shader.release();
 
-  for (unsigned int i = 0; i < screen->text.size(); i++) { // render text
+  for (unsigned int i = 0; i < screen->text.size(); i++) {
     screen->text[i].font = "Pacaya";
     Font font = FontLoader::getFont(screen->text[i].font);
     font.size = screen->text[i].size;
