@@ -54,7 +54,7 @@ class PhysicsSystem : public System {
 private:
   static PhysicsSystem *instance;
 
-  EventDispatcher::CallbackHolder cbCompAdd, cbCompRem, insertTest, removeTest;
+  EventDispatcher::CallbackHolder cbCompAdd, cbCompRem;
 
   friend class Uncollider;
   Uncollider *filterCallback;
@@ -102,7 +102,8 @@ public:
     }
 
     CollisionInfo &info;
-    CollisionAddedEvent(CollisionInfo &info) : info(info) { };
+    BaseGame *game;
+    CollisionAddedEvent(CollisionInfo &info, BaseGame *game) : info(info) { };
   };
 
   struct CollisionRemovedEvent : public Event {
@@ -116,7 +117,8 @@ public:
     }
 
     CollisionInfo &info;
-    CollisionRemovedEvent(CollisionInfo &info) : info(info) { };
+    BaseGame *game;
+    CollisionRemovedEvent(CollisionInfo &info, BaseGame *game) : info(info) { };
   };
 };
 

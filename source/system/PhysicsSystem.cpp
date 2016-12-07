@@ -64,7 +64,7 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
         this->physicsWorld->removeCollisionObject(player.obj);
       }
     });
-  
+
   for (Entity &entity : world.entities) {
     if (entity.hasComponent<RigidBody>()) {
       cbCompAdd(Entity::ComponentAddedEvent(entity, entity.getComponent<RigidBody>()));
@@ -108,7 +108,7 @@ bool PhysicsSystem::contactProcessedCallback(btManifoldPoint &cp, void *body0, v
     auto found = collisions.find(pair);
     if (found == collisions.end()) {
       collisions.insert(pair);
-      instance->world.event.dispatch(CollisionAddedEvent(pair));
+      instance->world.event.dispatch(CollisionAddedEvent(pair, instance->game));
     }
   } else {
     collisions.insert(pair);
@@ -136,7 +136,7 @@ void PhysicsSystem::checkCollisions() {
     if (!toRemove.empty()) {
       for (CollisionInfo *info : toRemove) {
         collisions.erase(*info);
-        world.event.dispatch(CollisionRemovedEvent(*info));
+        world.event.dispatch(CollisionRemovedEvent(*info, game));
       }
     }
   }
