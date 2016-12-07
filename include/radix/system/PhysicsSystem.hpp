@@ -15,6 +15,18 @@ class CollisionDispatcher;
 class Uncollider;
 class BaseGame;
 
+class CheckCollisionCallback : public btCollisionWorld::ContactResultCallback {
+public:
+  bool *remove;
+  CheckCollisionCallback(bool* remove) : ContactResultCallback(), remove(remove) { };
+
+  virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
+                                   int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
+    *remove = false;
+    return 0;
+  }
+};
+
 struct CollisionInfo {
   btCollisionObject *body0;
   btCollisionObject *body1;
@@ -75,7 +87,7 @@ public:
 
   static bool contactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1);
 
-  static bool contactDestroyedCallback(void* userPersistentData);
+  void checkCollisions();
 };
 
 } /* namespace radix */
