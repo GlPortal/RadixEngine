@@ -116,7 +116,6 @@ bool PhysicsSystem::contactProcessedCallback(btManifoldPoint &cp, void *body0, v
 
 void PhysicsSystem::checkCollisions() {
   if (!collisions.empty()) {
-
     std::vector<CollisionInfo*> toRemove;
     /*vector because we need to avoid modifying a data structure when we iterate over it */
 
@@ -130,14 +129,13 @@ void PhysicsSystem::checkCollisions() {
         toRemove.push_back(&info);
       }
     }
-
+    
     if (!toRemove.empty()) {
       for (CollisionInfo *info : toRemove) {
         collisions.erase(*info);
         Util::Log(Debug, "PhysicsSystem") << "Removed!";
       }
     }
-
   }
 }
 
