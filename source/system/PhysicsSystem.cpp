@@ -8,6 +8,7 @@
 namespace radix {
 
 std::unordered_set<CollisionInfo, CollisionInfoHash, CollisionInfoEqual> PhysicsSystem::collisions;
+PhysicsSystem* PhysicsSystem::instance;
 
 PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   System(world),
@@ -63,7 +64,7 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
         this->physicsWorld->removeCollisionObject(player.obj);
       }
     });
-
+  
   for (Entity &entity : world.entities) {
     if (entity.hasComponent<RigidBody>()) {
       cbCompAdd(Entity::ComponentAddedEvent(entity, entity.getComponent<RigidBody>()));
@@ -72,6 +73,8 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
       cbCompAdd(Entity::ComponentAddedEvent(entity, entity.getComponent<Player>()));
     }
   }
+
+  instance = this;
 }
 
 PhysicsSystem::~PhysicsSystem() {
@@ -93,6 +96,7 @@ void PhysicsSystem::update(TDelta timeDelta) {
       }
     }
   }
+
   ContactPlayerCallback callback(game);
   physicsWorld->contactTest(world.getPlayer().getComponent<Player>().obj, callback);
   checkCollisions();
@@ -104,14 +108,13 @@ bool PhysicsSystem::contactProcessedCallback(btManifoldPoint &cp, void *body0, v
     auto found = collisions.find(pair);
     if (found == collisions.end()) {
       collisions.insert(pair);
-      Util::Log(Debug, "PhysicsSystem") << "Inserted!";
+      instance->world.event.dispatch(CollisionAddedEvent(pair));
     }
   } else {
     collisions.insert(pair);
-    Util::Log(Debug, "PhysicsSystem") << "Inserted!";
   }
   cp.m_userPersistentData = (void*) &*collisions.find(pair);
-  return  true; /* the return value is ignored */
+  return true; /* the return value is ignored */
 }
 
 void PhysicsSystem::checkCollisions() {
@@ -129,11 +132,11 @@ void PhysicsSystem::checkCollisions() {
         toRemove.push_back(&info);
       }
     }
-    
+
     if (!toRemove.empty()) {
       for (CollisionInfo *info : toRemove) {
         collisions.erase(*info);
-        Util::Log(Debug, "PhysicsSystem") << "Removed!";
+        world.event.dispatch(CollisionRemovedEvent(*info));
       }
     }
   }

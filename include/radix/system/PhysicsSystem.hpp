@@ -52,7 +52,9 @@ public:
 
 class PhysicsSystem : public System {
 private:
-  EventDispatcher::CallbackHolder cbCompAdd, cbCompRem;
+  static PhysicsSystem *instance;
+
+  EventDispatcher::CallbackHolder cbCompAdd, cbCompRem, insertTest, removeTest;
 
   friend class Uncollider;
   Uncollider *filterCallback;
@@ -88,6 +90,34 @@ public:
   static bool contactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1);
 
   void checkCollisions();
+
+  struct CollisionAddedEvent : public Event {
+    static constexpr StaticEventTypeName TypeName = "radix/PhysicsSystem:CollisionAdded";
+    const EventTypeName getTypeName() const {
+      return TypeName;
+    }
+    static constexpr StaticEventType Type = TypeNameHash(TypeName);
+    const EventType getType() const {
+      return Type;
+    }
+
+    CollisionInfo &info;
+    CollisionAddedEvent(CollisionInfo &info) : info(info) { };
+  };
+
+  struct CollisionRemovedEvent : public Event {
+    static constexpr StaticEventTypeName TypeName = "radix/PhysicsSystem:CollisionRemoved";
+    const EventTypeName getTypeName() const {
+      return TypeName;
+    }
+    static constexpr StaticEventType Type = TypeNameHash(TypeName);
+    const EventType getType() const {
+      return Type;
+    }
+
+    CollisionInfo &info;
+    CollisionRemovedEvent(CollisionInfo &info) : info(info) { };
+  };
 };
 
 } /* namespace radix */
