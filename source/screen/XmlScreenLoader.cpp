@@ -6,7 +6,7 @@ using namespace tinyxml2;
 namespace radix {
 
 std::map<std::string, std::shared_ptr<Screen>> XmlScreenLoader::screenCache = { };
-
+const std::string XmlScreenLoader::MODULE_NAME = "XmlScreenLoader";
 Screen& XmlScreenLoader::getScreen(const std::string &path) {
   auto it = screenCache.find(path);
   if (it != screenCache.end()) {
@@ -30,17 +30,17 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
     XMLHandle rootHandle = XMLHandle(element);
 
     if (not loadText(rootHandle, &screen->text)) {
-      Util::Log(Error, "XmlScreenLoader") << "Failed to load text in " << path;
+      Util::Log(Error, XmlScreenLoader::MODULE_NAME) << "Failed to load text in " << path;
     }
     if (not extractColor(element, &screen->color)) {
-      Util::Log(Error, "XmlScreenLoader") << "Failed to load color in " << path;
+      Util::Log(Error, XmlScreenLoader::MODULE_NAME) << "Failed to load color in " << path;
     }
 
-    Util::Log(Debug, "XmlScreenLoader") << "Screen " << path << " loaded";
+    Util::Log(Debug, XmlScreenLoader::MODULE_NAME) << "Screen " << path << " loaded";
 
     return screen;
   } else {
-    Util::Log(Error, "XmlScreenLoader") << "Failed to load screen " << path;
+    Util::Log(Error, XmlScreenLoader::MODULE_NAME) << "Failed to load screen " << path;
     return nullptr;
   }
 }
