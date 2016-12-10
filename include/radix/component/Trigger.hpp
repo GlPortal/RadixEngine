@@ -35,6 +35,8 @@ public:
     return "Trigger";
   }
 
+  void setActionOnEnter(Action action);
+
   TypeId getTypeId() const {
     return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();
   }

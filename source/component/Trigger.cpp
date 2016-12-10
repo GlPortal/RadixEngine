@@ -40,6 +40,10 @@ Trigger::Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
   });
 }
 
+void Trigger::setActionOnEnter(Action action){
+  actionOnEnter = action;
+}
+
 Trigger::~Trigger() {
   delete obj;
 }
