@@ -22,7 +22,7 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
   std::shared_ptr<Screen> screen = std::make_shared<Screen>(); //setup screen pointer
 
   XMLDocument doc(true, COLLAPSE_WHITESPACE);
-  XMLError error = doc.LoadFile(path.c_str()); //load in XML document
+  XMLError error = doc.LoadFile(path.c_str());
 
   if (error == 0) {
     XMLHandle docHandle(&doc);
