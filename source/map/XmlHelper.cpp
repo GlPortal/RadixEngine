@@ -81,22 +81,26 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
   if (type == "death") {
     trigger->addComponent<Trigger>([] (BaseGame *game) {
 
-      game->getWorld()->getPlayer().getComponent<Health>().kill();
+        game->getWorld()->getPlayer().getComponent<Health>().kill();
 
-    }, [] (BaseGame *game) { }, [] (BaseGame *game) { },[] (BaseGame *game) { } );
+      }, [] (BaseGame *game) { }, [] (BaseGame *game) { } );
   } else if (type == "win") {
     trigger->addComponent<Trigger>([] (BaseGame *game) {
 
       game->getWorld()->event.dispatch(GameState::WinEvent());
 
-    }, [] (BaseGame *game) { }, [] (BaseGame *game) { },[] (BaseGame *game) { } );
+      }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
   } else if (type == "radiation") {
     trigger->addComponent<Trigger>([] (BaseGame *game) { }, [] (BaseGame *game) { },
-                                   [] (BaseGame *game) { },
-                                   [] (BaseGame *game) {
-                                     game->getWorld()
-                                       ->getPlayer().getComponent<Health>().harm(0.1f);
-                                   });
+                                   [] (BaseGame *game) { }
+                                   );
+    trigger->getComponent<Trigger>().setActionOnUpdate
+      (
+       [] (BaseGame *game) {
+         game->getWorld()
+           ->getPlayer().getComponent<Health>().harm(0.1f);
+       }
+       );
   } else if (type == "music") {
    /*  bool loop = false;
     if (xmlElement->Attribute("loop") == "true") {
@@ -104,17 +108,17 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
     }
     looping music isn't supported */
     std::string track = xmlElement->Attribute("track");
-    trigger->addComponent<Trigger>([track] (BaseGame *game) {
-
-        SoundManager::playMusic(track);
-    }, [] (BaseGame *game) { }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+        trigger->addComponent<Trigger>([track] (BaseGame *game) {
+            SoundManager::playMusic(track);
+          }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
   } else if (type == "map") {
     std::string mapName = xmlElement->Attribute("map");
+
     trigger->addComponent<Trigger>([mapName] (BaseGame *game) {
 
-      XmlMapLoader mapLoader(*game->getWorld());
-      mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
-    }, [] (BaseGame *game) { }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+        XmlMapLoader mapLoader(*game->getWorld());
+        mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
+      }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
   } else if (type == "checkpoint") {
     XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
 
@@ -127,7 +131,7 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
 
       game->getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
       game->getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
-    }, [] (BaseGame *game) { }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+      }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
   }
 }
 

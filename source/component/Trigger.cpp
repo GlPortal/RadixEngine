@@ -4,12 +4,12 @@
 namespace radix {
 
 Trigger::Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
-                 Action actionOnMove, Action actionOnUpdate)
+                 Action actionOnMove)
   : Component(ent),
   actionOnEnter(actionOnEnter),
   actionOnExit(actionOnExit),
   actionOnMove(actionOnMove),
-  actionOnUpdate(actionOnUpdate) {
+  actionOnUpdate([] (BaseGame* game) {}) {
   obj = new btGhostObject;
   Transform& tform = entity.getComponent<Transform>();
   obj->setWorldTransform(btTransform(tform.getOrientation(), tform.getPosition()));
@@ -46,6 +46,10 @@ void Trigger::setActionOnEnter(Action action){
 
 void Trigger::setActionOnMove(Action action){
   actionOnMove = action;
+}
+
+void Trigger::setActionOnUpdate(Action action){
+  actionOnUpdate = action;
 }
 
 Trigger::~Trigger() {
