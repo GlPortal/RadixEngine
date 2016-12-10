@@ -68,7 +68,7 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
       } else if (align == "right") {
         tempText.align = Text::Right;
       } else {
-        Util::Log(Error, "XmlScreenLoader") << "Alignment \"" << align << "\" is not supported!";
+        Util::Log(Error, XmlScreenLoader::MODULE_NAME) << "Alignment \"" << align << "\" is not supported!";
         continue;
       }
 
