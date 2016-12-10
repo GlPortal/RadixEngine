@@ -36,6 +36,7 @@ public:
   }
 
   void setActionOnEnter(Action action);
+  void setActionOnMove(Action action);
 
   TypeId getTypeId() const {
     return Component::getTypeId<std::remove_reference<decltype(*this)>::type>();

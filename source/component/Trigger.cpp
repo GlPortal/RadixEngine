@@ -44,6 +44,10 @@ void Trigger::setActionOnEnter(Action action){
   actionOnEnter = action;
 }
 
+void Trigger::setActionOnMove(Action action){
+  actionOnMove = action;
+}
+
 Trigger::~Trigger() {
   delete obj;
 }
