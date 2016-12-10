@@ -45,36 +45,36 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
   }
 }
 
-bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
+bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* textVector) {
   //grab the first element under the text section
   XMLElement *currentElement = rootHandle.FirstChildElement("text").ToElement();
   if (currentElement) {
     do {
-      Text tempText{};
+      Text text{};
       std::string align;
 
-      currentElement->QueryFloatAttribute("z", &tempText.z);
-      currentElement->QueryFloatAttribute("top", &tempText.top);
-      currentElement->QueryFloatAttribute("size", &tempText.size);
-      if (not extractColor(currentElement, &tempText.color)) {
+      currentElement->QueryFloatAttribute("z", &text.z);
+      currentElement->QueryFloatAttribute("top", &text.top);
+      currentElement->QueryFloatAttribute("size", &text.size);
+      if (not extractColor(currentElement, &text.color)) {
         return false;
       }
       align = currentElement->Attribute("align");
 
       if (align == "center") {
-        tempText.align = Text::Center;
+        text.align = Text::Center;
       } else if (align == "left") {
-        tempText.align = Text::Left;
+        text.align = Text::Left;
       } else if (align == "right") {
-        tempText.align = Text::Right;
+        text.align = Text::Right;
       } else {
         Util::Log(Error, XmlScreenLoader::MODULE_NAME) << "Alignment \"" << align << "\" is not supported!";
         continue;
       }
 
-      tempText.content = currentElement->GetText();
+      text.content = currentElement->GetText();
 
-      text->push_back(tempText);
+      textVector->push_back(text);
     } while ((currentElement = currentElement->NextSiblingElement("text")) != nullptr);
   } else {
     return false;
