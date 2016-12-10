@@ -79,19 +79,23 @@ void XmlHelper::extractScale(XMLElement *xmlElement, Vector3f &scale) {
 void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
   std::string type = xmlElement->Attribute("type");
   if (type == "death") {
-    trigger->addComponent<Trigger>([] (BaseGame *game) {
-
-        game->getWorld()->getPlayer().getComponent<Health>().kill();
-
-      }, [] (BaseGame *game) { });
+    trigger->addComponent<Trigger>();
+    trigger->getComponent<Trigger>().setActionOnUpdate
+      (
+       [] (BaseGame *game) {
+         game->getWorld()->getPlayer().getComponent<Health>().kill();
+       }
+       );
   } else if (type == "win") {
-    trigger->addComponent<Trigger>([] (BaseGame *game) {
-
+    trigger->addComponent<Trigger>();
+    trigger->getComponent<Trigger>().setActionOnUpdate
+      (
+       [] (BaseGame *game) {
       game->getWorld()->event.dispatch(GameState::WinEvent());
 
-      }, [] (BaseGame *game) { });
+      });
   } else if (type == "radiation") {
-    trigger->addComponent<Trigger>([] (BaseGame *game) { }, [] (BaseGame *game) { });
+    trigger->addComponent<Trigger>();
     trigger->getComponent<Trigger>().setActionOnUpdate
       (
        [] (BaseGame *game) {
@@ -106,30 +110,41 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
     }
     looping music isn't supported */
     std::string track = xmlElement->Attribute("track");
-        trigger->addComponent<Trigger>([track] (BaseGame *game) {
-            SoundManager::playMusic(track);
-          }, [] (BaseGame *game) { });
+    trigger->addComponent<Trigger>();
+    trigger->getComponent<Trigger>().setActionOnEnter
+      (
+       [track] (BaseGame *game) {
+         SoundManager::playMusic(track);
+       }
+       );
   } else if (type == "map") {
     std::string mapName = xmlElement->Attribute("map");
+    trigger->addComponent<Trigger>();
+    trigger->getComponent<Trigger>().setActionOnEnter
+      (
+       [mapName] (BaseGame *game) {
 
-    trigger->addComponent<Trigger>([mapName] (BaseGame *game) {
+         XmlMapLoader mapLoader(*game->getWorld());
+         mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
+       }
+       );
 
-        XmlMapLoader mapLoader(*game->getWorld());
-        mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
-      }, [] (BaseGame *game) { });
   } else if (type == "checkpoint") {
     XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
+    trigger->addComponent<Trigger>();
+    trigger->getComponent<Trigger>().setActionOnEnter
+      (
+       [spawnElement] (BaseGame *game) {
+         Vector3f position;
+         Vector3f rotation;
 
-    trigger->addComponent<Trigger>([spawnElement] (BaseGame *game) {
-      Vector3f position;
-      Vector3f rotation;
+         extractPosition(spawnElement, position);
+         extractRotation(spawnElement, rotation);
 
-      extractPosition(spawnElement, position);
-      extractRotation(spawnElement, rotation);
-
-      game->getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
-      game->getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
-      }, [] (BaseGame *game) { });
+         game->getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
+         game->getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
+       }
+       );
   }
 }
 

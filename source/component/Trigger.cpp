@@ -3,10 +3,10 @@
 
 namespace radix {
 
-Trigger::Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit)
+Trigger::Trigger(Entity &ent)
   : Component(ent),
-  actionOnEnter(actionOnEnter),
-  actionOnExit(actionOnExit),
+  actionOnEnter([] (BaseGame* game) {}),
+  actionOnExit([] (BaseGame* game) {}),
   actionOnMove([] (BaseGame* game) {}),
   actionOnUpdate([] (BaseGame* game) {}) {
   obj = new btGhostObject;
@@ -49,6 +49,10 @@ void Trigger::setActionOnMove(Action action){
 
 void Trigger::setActionOnUpdate(Action action){
   actionOnUpdate = action;
+}
+
+void Trigger::setActionOnExit(Action action){
+  actionOnExit = action;
 }
 
 Trigger::~Trigger() {
