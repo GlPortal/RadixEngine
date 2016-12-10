@@ -21,7 +21,7 @@ Screen& XmlScreenLoader::getScreen(const std::string &path) {
 std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
   std::shared_ptr<Screen> screen = std::make_shared<Screen>(); //setup screen pointer
 
-  XMLDocument doc;
+  XMLDocument doc(true, COLLAPSE_WHITESPACE);
   XMLError error = doc.LoadFile(path.c_str()); //load in XML document
 
   if (error == 0) {
@@ -71,6 +71,8 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
         Util::Log(Error, "XmlScreenLoader") << "Alignment \"" << align << "\" is not supported!";
         continue;
       }
+
+      Util::Log(Debug, "XmlScreenLoader") << currElement->GetText();
 
       tempText.content = currElement->GetText();
 
