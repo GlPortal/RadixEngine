@@ -8,6 +8,7 @@
 namespace radix {
 
 std::unordered_set<CollisionInfo, CollisionInfoHash, CollisionInfoEqual> PhysicsSystem::collisions;
+PhysicsSystem* PhysicsSystem::instance;
 
 PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
   System(world),
@@ -28,8 +29,6 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
 
   gContactProcessedCallback = reinterpret_cast<ContactProcessedCallback>
   (&PhysicsSystem::contactProcessedCallback);
-  gContactDestroyedCallback = reinterpret_cast<ContactDestroyedCallback>
-  (&PhysicsSystem::contactDestroyedCallback);
 
   cbCompAdd = world.event.addObserver(Entity::ComponentAddedEvent::Type,
                                       [this](const radix::Event &e) {
@@ -74,6 +73,8 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
       cbCompAdd(Entity::ComponentAddedEvent(entity, entity.getComponent<Player>()));
     }
   }
+
+  instance = this;
 }
 
 PhysicsSystem::~PhysicsSystem() {
@@ -95,8 +96,10 @@ void PhysicsSystem::update(TDelta timeDelta) {
       }
     }
   }
+
   ContactPlayerCallback callback(game);
   physicsWorld->contactTest(world.getPlayer().getComponent<Player>().obj, callback);
+  checkCollisions();
 }
 
 bool PhysicsSystem::contactProcessedCallback(btManifoldPoint &cp, void *body0, void *body1) {
@@ -105,26 +108,38 @@ bool PhysicsSystem::contactProcessedCallback(btManifoldPoint &cp, void *body0, v
     auto found = collisions.find(pair);
     if (found == collisions.end()) {
       collisions.insert(pair);
-      Util::Log(Debug, "PhysicsSystem") << "Inserted!";
+      instance->world.event.dispatch(CollisionAddedEvent(pair, instance->game));
     }
   } else {
     collisions.insert(pair);
-    Util::Log(Debug, "PhysicsSystem") << "Inserted!";
   }
   cp.m_userPersistentData = (void*) &*collisions.find(pair);
-  return  true; /* the return value is ignored */
+  return true; /* the return value is ignored */
 }
 
-bool PhysicsSystem::contactDestroyedCallback(void *userPersistentData) {
-  CollisionInfo *pair = (CollisionInfo*) userPersistentData;
+void PhysicsSystem::checkCollisions() {
   if (!collisions.empty()) {
-    auto found = collisions.find(*pair);
-    if (found != collisions.end()) {
-      collisions.erase(*pair);
-      Util::Log(Debug, "PhysicsSystem") << "Removed!";
+    std::vector<CollisionInfo*> toRemove;
+    /*vector because we need to avoid modifying a data structure when we iterate over it */
+
+    for (CollisionInfo info : collisions) {
+      bool remove = true;
+      CheckCollisionCallback callback(&remove);
+      if (info.body0 && info.body1) {
+        physicsWorld->contactPairTest(info.body0, info.body1, callback);
+      }
+      if (remove) {
+        toRemove.push_back(&info);
+      }
+    }
+
+    if (!toRemove.empty()) {
+      for (CollisionInfo *info : toRemove) {
+        collisions.erase(*info);
+        world.event.dispatch(CollisionRemovedEvent(*info, game));
+      }
     }
   }
-  return true; /* the return value is ignored */
 }
 
 } /* namespace radix */

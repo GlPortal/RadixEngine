@@ -22,6 +22,8 @@ public:
   Action actionOnMove;
   Action actionOnUpdate;
 
+  EventDispatcher::CallbackHolder callbackOnEnter, callbackOnExit;
+
   btGhostObject *obj;
   std::shared_ptr<btConvexShape> shape;
 

@@ -15,6 +15,18 @@ class CollisionDispatcher;
 class Uncollider;
 class BaseGame;
 
+class CheckCollisionCallback : public btCollisionWorld::ContactResultCallback {
+public:
+  bool *remove;
+  CheckCollisionCallback(bool* remove) : ContactResultCallback(), remove(remove) { };
+
+  virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
+                                   int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
+    *remove = false;
+    return 0;
+  }
+};
+
 struct CollisionInfo {
   btCollisionObject *body0;
   btCollisionObject *body1;
@@ -40,6 +52,8 @@ public:
 
 class PhysicsSystem : public System {
 private:
+  static PhysicsSystem *instance;
+
   EventDispatcher::CallbackHolder cbCompAdd, cbCompRem;
 
   friend class Uncollider;
@@ -75,7 +89,37 @@ public:
 
   static bool contactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1);
 
-  static bool contactDestroyedCallback(void* userPersistentData);
+  void checkCollisions();
+
+  struct CollisionAddedEvent : public Event {
+    static constexpr StaticEventTypeName TypeName = "radix/PhysicsSystem:CollisionAdded";
+    const EventTypeName getTypeName() const {
+      return TypeName;
+    }
+    static constexpr StaticEventType Type = TypeNameHash(TypeName);
+    const EventType getType() const {
+      return Type;
+    }
+
+    CollisionInfo &info;
+    BaseGame *game;
+    CollisionAddedEvent(CollisionInfo &info, BaseGame *game) : info(info) { };
+  };
+
+  struct CollisionRemovedEvent : public Event {
+    static constexpr StaticEventTypeName TypeName = "radix/PhysicsSystem:CollisionRemoved";
+    const EventTypeName getTypeName() const {
+      return TypeName;
+    }
+    static constexpr StaticEventType Type = TypeNameHash(TypeName);
+    const EventType getType() const {
+      return Type;
+    }
+
+    CollisionInfo &info;
+    BaseGame *game;
+    CollisionRemovedEvent(CollisionInfo &info, BaseGame *game) : info(info) { };
+  };
 };
 
 } /* namespace radix */

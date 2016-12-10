@@ -211,10 +211,8 @@ void XmlMapLoader::extractTriggers() {
       Vector3f scale;
       XmlHelper::extractScale(triggerElement, scale);
       t.setScale(scale);
+      XmlHelper::extractTriggerActions(&trigger, triggerElement);
 
-      trigger.addComponent<Trigger>([] (BaseGame* game) {}, [] (BaseGame* game) {},
-                                    [] (BaseGame* game) {}, [] (BaseGame* game) {
-        Util::Log() << "wooh"; });
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);
   }
 }

@@ -1,4 +1,5 @@
 #include <radix/component/Trigger.hpp>
+#include <radix/system/PhysicsSystem.hpp>
 
 namespace radix {
 
@@ -16,6 +17,27 @@ Trigger::Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
   obj->setCollisionShape(shape.get());
   obj->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
   obj->setUserPointer(&entity);
+
+  callbackOnEnter = entity.manager.world.event.addObserver(PhysicsSystem::
+                                                           CollisionAddedEvent::Type,
+  [this](const Event &event) {
+    PhysicsSystem::CollisionAddedEvent& collisionAddedEvent
+      = (PhysicsSystem::CollisionAddedEvent&) event;
+
+    if (collisionAddedEvent.info.body1 == this->obj) {
+      this->actionOnEnter(collisionAddedEvent.game);
+    }
+  });
+  callbackOnExit = entity.manager.world.event.addObserver(PhysicsSystem::
+                                                          CollisionRemovedEvent::Type,
+  [this](const Event &event) {
+    PhysicsSystem::CollisionRemovedEvent& collisionRemovedEvent
+      = (PhysicsSystem::CollisionRemovedEvent&) event;
+
+    if (collisionRemovedEvent.info.body1 == this->obj) {
+      this->actionOnExit(collisionRemovedEvent.game);
+    }
+  });
 }
 
 Trigger::~Trigger() {

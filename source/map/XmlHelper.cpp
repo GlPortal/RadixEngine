@@ -1,5 +1,11 @@
 #include <radix/map/XmlHelper.hpp>
+#include <radix/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
+#include <radix/component/Trigger.hpp>
+#include <radix/component/Health.hpp>
+#include <radix/core/state/GameState.hpp>
+#include <radix/SoundManager.hpp>
+#include <radix/env/Environment.hpp>
 
 using namespace std;
 using namespace tinyxml2;
@@ -68,6 +74,61 @@ void XmlHelper::extractColor(XMLElement *xmlElement, Vector3f &color) {
 
 void XmlHelper::extractScale(XMLElement *xmlElement, Vector3f &scale) {
   pushAttributeVertexToVector(xmlElement->FirstChildElement("scale"), scale);
+}
+
+void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
+  std::string type = xmlElement->Attribute("type");
+  if (type == "death") {
+    trigger->addComponent<Trigger>([] (BaseGame *game) {
+
+      game->getWorld()->getPlayer().getComponent<Health>().kill();
+
+    }, [] (BaseGame *game) { }, [] (BaseGame *game) { },[] (BaseGame *game) { } );
+  } else if (type == "win") {
+    trigger->addComponent<Trigger>([] (BaseGame *game) {
+
+      game->getWorld()->event.dispatch(GameState::WinEvent());
+
+    }, [] (BaseGame *game) { }, [] (BaseGame *game) { },[] (BaseGame *game) { } );
+  } else if (type == "radiation") {
+    trigger->addComponent<Trigger>([] (BaseGame *game) { }, [] (BaseGame *game) { },
+                                   [] (BaseGame *game) { },
+                                   [] (BaseGame *game) {
+                                     game->getWorld()
+                                       ->getPlayer().getComponent<Health>().harm(0.1f);
+                                   });
+  } else if (type == "music") {
+   /*  bool loop = false;
+    if (xmlElement->Attribute("loop") == "true") {
+      loop = true;
+    }
+    looping music isn't supported */
+    std::string track = xmlElement->Attribute("track");
+    trigger->addComponent<Trigger>([track] (BaseGame *game) {
+
+        SoundManager::playMusic(track);
+    }, [] (BaseGame *game) { }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+  } else if (type == "map") {
+    std::string mapName = xmlElement->Attribute("map");
+    trigger->addComponent<Trigger>([mapName] (BaseGame *game) {
+
+      XmlMapLoader mapLoader(*game->getWorld());
+      mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
+    }, [] (BaseGame *game) { }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+  } else if (type == "checkpoint") {
+    XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
+
+    trigger->addComponent<Trigger>([spawnElement] (BaseGame *game) {
+      Vector3f position;
+      Vector3f rotation;
+
+      extractPosition(spawnElement, position);
+      extractRotation(spawnElement, rotation);
+
+      game->getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
+      game->getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
+    }, [] (BaseGame *game) { }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+  }
 }
 
 } /* namespace radix */
