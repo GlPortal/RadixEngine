@@ -47,19 +47,19 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
 
 bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
   //grab the first element under the text section
-  XMLElement *currElement = rootHandle.FirstChildElement("text").ToElement();
-  if (currElement) {
+  XMLElement *currentElement = rootHandle.FirstChildElement("text").ToElement();
+  if (currentElement) {
     do {
       Text tempText{};
       std::string align;
 
-      currElement->QueryFloatAttribute("z", &tempText.z);
-      currElement->QueryFloatAttribute("top", &tempText.top);
-      currElement->QueryFloatAttribute("size", &tempText.size);
-      if (not extractColor(currElement, &tempText.color)) {
+      currentElement->QueryFloatAttribute("z", &tempText.z);
+      currentElement->QueryFloatAttribute("top", &tempText.top);
+      currentElement->QueryFloatAttribute("size", &tempText.size);
+      if (not extractColor(currentElement, &tempText.color)) {
         return false;
       }
-      align = currElement->Attribute("align");
+      align = currentElement->Attribute("align");
 
       if (align == "center") {
         tempText.align = Text::Center;
@@ -72,10 +72,10 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
         continue;
       }
 
-      tempText.content = currElement->GetText();
+      tempText.content = currentElement->GetText();
 
       text->push_back(tempText);
-    } while ((currElement = currElement->NextSiblingElement("text")) != nullptr);
+    } while ((currentElement = currentElement->NextSiblingElement("text")) != nullptr);
   } else {
     return false;
   }
@@ -83,12 +83,12 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
   return true;
 }
 
-bool XmlScreenLoader::extractColor(XMLElement* currElement, Vector4f* color) {
-  if (currElement) {
-    currElement->QueryFloatAttribute("r", &color->x);
-    currElement->QueryFloatAttribute("g", &color->y);
-    currElement->QueryFloatAttribute("b", &color->z);
-    currElement->QueryFloatAttribute("a", &color->w);
+bool XmlScreenLoader::extractColor(XMLElement* currentElement, Vector4f* color) {
+  if (currentElement) {
+    currentElement->QueryFloatAttribute("r", &color->x);
+    currentElement->QueryFloatAttribute("g", &color->y);
+    currentElement->QueryFloatAttribute("b", &color->z);
+    currentElement->QueryFloatAttribute("a", &color->w);
     return true;
   }
   return false;
