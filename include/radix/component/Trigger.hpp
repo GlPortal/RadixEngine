@@ -27,8 +27,7 @@ public:
   btGhostObject *obj;
   std::shared_ptr<btConvexShape> shape;
 
-  Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
-          Action actionOnMove);
+  Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit);
   ~Trigger();
 
   const char* getName() const {

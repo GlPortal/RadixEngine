@@ -83,17 +83,15 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
 
         game->getWorld()->getPlayer().getComponent<Health>().kill();
 
-      }, [] (BaseGame *game) { }, [] (BaseGame *game) { } );
+      }, [] (BaseGame *game) { });
   } else if (type == "win") {
     trigger->addComponent<Trigger>([] (BaseGame *game) {
 
       game->getWorld()->event.dispatch(GameState::WinEvent());
 
-      }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+      }, [] (BaseGame *game) { });
   } else if (type == "radiation") {
-    trigger->addComponent<Trigger>([] (BaseGame *game) { }, [] (BaseGame *game) { },
-                                   [] (BaseGame *game) { }
-                                   );
+    trigger->addComponent<Trigger>([] (BaseGame *game) { }, [] (BaseGame *game) { });
     trigger->getComponent<Trigger>().setActionOnUpdate
       (
        [] (BaseGame *game) {
@@ -110,7 +108,7 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
     std::string track = xmlElement->Attribute("track");
         trigger->addComponent<Trigger>([track] (BaseGame *game) {
             SoundManager::playMusic(track);
-          }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+          }, [] (BaseGame *game) { });
   } else if (type == "map") {
     std::string mapName = xmlElement->Attribute("map");
 
@@ -118,7 +116,7 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
 
         XmlMapLoader mapLoader(*game->getWorld());
         mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
-      }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+      }, [] (BaseGame *game) { });
   } else if (type == "checkpoint") {
     XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
 
@@ -131,7 +129,7 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
 
       game->getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
       game->getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
-      }, [] (BaseGame *game) { }, [] (BaseGame *game) { });
+      }, [] (BaseGame *game) { });
   }
 }
 

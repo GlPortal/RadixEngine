@@ -3,12 +3,11 @@
 
 namespace radix {
 
-Trigger::Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit,
-                 Action actionOnMove)
+Trigger::Trigger(Entity &ent, Action actionOnEnter, Action actionOnExit)
   : Component(ent),
   actionOnEnter(actionOnEnter),
   actionOnExit(actionOnExit),
-  actionOnMove(actionOnMove),
+  actionOnMove([] (BaseGame* game) {}),
   actionOnUpdate([] (BaseGame* game) {}) {
   obj = new btGhostObject;
   Transform& tform = entity.getComponent<Transform>();
