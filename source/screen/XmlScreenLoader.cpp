@@ -72,8 +72,6 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* text) {
         continue;
       }
 
-      Util::Log(Debug, "XmlScreenLoader") << currElement->GetText();
-
       tempText.content = currElement->GetText();
 
       text->push_back(tempText);
