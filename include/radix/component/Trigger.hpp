@@ -14,7 +14,10 @@
 namespace radix {
 
 class Trigger : public Component {
+private:
+  btGhostObject *ghostObject;
 public:
+  btGhostObject *getBulletGhostObject();
   using Action = std::function<void(BaseGame*)>;
 
   Action actionOnEnter;
@@ -24,7 +27,6 @@ public:
 
   EventDispatcher::CallbackHolder callbackOnEnter, callbackOnExit;
 
-  btGhostObject *obj;
   std::shared_ptr<btConvexShape> shape;
 
   Trigger(Entity &ent);
