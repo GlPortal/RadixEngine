@@ -38,17 +38,20 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
         RigidBody &rb = (RigidBody &) component;
         this->physicsWorld->addRigidBody(rb.body);
       } else if (componentId == Component::getTypeId<Player>()) {
-        Player &p = (Player &) component;
-        this->physicsWorld->addCollisionObject(p.obj,
+        Player &player = (Player &) component;
+        this->physicsWorld->addCollisionObject(player.obj,
                                                btBroadphaseProxy::CharacterFilter,
                                                btBroadphaseProxy::StaticFilter |
                                                btBroadphaseProxy::DefaultFilter);
-        this->physicsWorld->addAction(p.controller);
+        this->physicsWorld->addAction(player.controller);
       } else if (componentId == Component::getTypeId<Trigger>()) {
-        Trigger &t = (Trigger&) component;
-        t.getBulletGhostObject()->setCollisionFlags(t.getBulletGhostObject()->getCollisionFlags() |
-                                   btCollisionObject::CF_NO_CONTACT_RESPONSE);
-        this->physicsWorld->addCollisionObject(t.getBulletGhostObject());
+        Trigger &trigger = (Trigger&) component;
+        trigger.getBulletGhostObject()->setCollisionFlags
+        (
+         trigger.getBulletGhostObject()->getCollisionFlags() |
+         btCollisionObject::CF_NO_CONTACT_RESPONSE
+         );
+        this->physicsWorld->addCollisionObject(trigger.getBulletGhostObject());
       }
     });
   cbCompRem = world.event.addObserver(Entity::ComponentRemovedEvent::Type,
