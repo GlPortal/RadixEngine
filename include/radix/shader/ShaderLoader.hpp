@@ -11,7 +11,7 @@ namespace radix {
 class ShaderLoader {
 public:
   static Shader& getShader(const std::string &fragpath, const std::string &vertpath = "");
-  static int loadShader(const std::string &path, Shader::Type type);
+  static uint loadShader(const std::string &path, Shader::Type type);
 private:
   static std::map<std::pair<std::string, std::string>, Shader> shaderCache;
 };

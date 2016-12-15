@@ -14,11 +14,12 @@ public:
     Geometry
   };
 
-  Shader(int handle) : handle(handle) { }
+  Shader(uint handle) : handle(handle) { }
   void bind() const;
   void release() const;
 
-  int handle;
+  uint handle;
+
   int uni(const std::string&);
   int att(const std::string&);
 private:
