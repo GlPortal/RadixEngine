@@ -4,7 +4,8 @@
 #include <functional>
 #include <string>
 #include <vector>
-#include "SDL2/SDL.h"
+
+#include <SDL2/SDL.h>
 
 #include <radix/core/event/Event.hpp>
 
