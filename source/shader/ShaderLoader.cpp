@@ -91,7 +91,7 @@ constexpr static GLenum getGlShaderType(const Shader::Type type) {
   return 0;
 }
 
-uint ShaderLoader::loadShader(const std::string &path, Shader::Type type) {
+unsigned int ShaderLoader::loadShader(const std::string &path, Shader::Type type) {
   std::ifstream file(path);
   if (not file.is_open()) {
     Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
