@@ -12,7 +12,7 @@ Trigger::Trigger(Entity &ent)
   ghostObject = new btGhostObject;
   Transform& tform = entity.getComponent<Transform>();
   ghostObject->setWorldTransform(btTransform(tform.getOrientation(), tform.getPosition()));
-  shape = std::make_shared<btCapsuleShape>(.4, 1);
+  shape = std::make_shared<btBoxShape>(btVector3(tform.getScale().x, tform.getScale().y, tform.getScale().z));
   ghostObject->setCollisionShape(shape.get());
   ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
   ghostObject->setUserPointer(&entity);
