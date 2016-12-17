@@ -76,27 +76,27 @@ void XmlHelper::extractScale(XMLElement *xmlElement, Vector3f &scale) {
   pushAttributeVertexToVector(xmlElement->FirstChildElement("scale"), scale);
 }
 
-void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
+void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
   std::string type = xmlElement->Attribute("type");
   if (type == "death") {
-    trigger->addComponent<Trigger>();
-    trigger->getComponent<Trigger>().setActionOnUpdate
+    trigger.addComponent<Trigger>();
+    trigger.getComponent<Trigger>().setActionOnUpdate
       (
        [] (BaseGame *game) {
          game->getWorld()->getPlayer().getComponent<Health>().kill();
        }
        );
   } else if (type == "win") {
-    trigger->addComponent<Trigger>();
-    trigger->getComponent<Trigger>().setActionOnUpdate
+    trigger.addComponent<Trigger>();
+    trigger.getComponent<Trigger>().setActionOnUpdate
       (
        [] (BaseGame *game) {
       game->getWorld()->event.dispatch(GameState::WinEvent());
 
       });
   } else if (type == "radiation") {
-    trigger->addComponent<Trigger>();
-    trigger->getComponent<Trigger>().setActionOnUpdate
+    trigger.addComponent<Trigger>();
+    trigger.getComponent<Trigger>().setActionOnUpdate
       (
        [] (BaseGame *game) {
          game->getWorld()
@@ -110,8 +110,8 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
     }
     looping music isn't supported */
     std::string track = xmlElement->Attribute("track");
-    trigger->addComponent<Trigger>();
-    trigger->getComponent<Trigger>().setActionOnEnter
+    trigger.addComponent<Trigger>();
+    trigger.getComponent<Trigger>().setActionOnEnter
       (
        [track] (BaseGame *game) {
          SoundManager::playMusic(track);
@@ -119,8 +119,8 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
        );
   } else if (type == "map") {
     std::string mapName = xmlElement->Attribute("map");
-    trigger->addComponent<Trigger>();
-    trigger->getComponent<Trigger>().setActionOnEnter
+    trigger.addComponent<Trigger>();
+    trigger.getComponent<Trigger>().setActionOnEnter
       (
        [mapName] (BaseGame *game) {
 
@@ -131,8 +131,8 @@ void XmlHelper::extractTriggerActions(Entity *trigger, XMLElement *xmlElement) {
 
   } else if (type == "checkpoint") {
     XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
-    trigger->addComponent<Trigger>();
-    trigger->getComponent<Trigger>().setActionOnEnter
+    trigger.addComponent<Trigger>();
+    trigger.getComponent<Trigger>().setActionOnEnter
       (
        [spawnElement] (BaseGame *game) {
          Vector3f position;

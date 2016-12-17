@@ -217,7 +217,7 @@ void XmlMapLoader::extractTriggers() {
       Vector3f scale;
       XmlHelper::extractScale(triggerElement, scale);
       t.setScale(scale);
-      XmlHelper::extractTriggerActions(&trigger, triggerElement);
+      XmlHelper::extractTriggerActions(trigger, triggerElement);
 
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);
   }
