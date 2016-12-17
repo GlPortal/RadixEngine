@@ -186,6 +186,9 @@ void XmlMapLoader::extractAcids() {
       Vector3f position;
       XmlHelper::extractPosition(acidElement, position);
       t.setPosition(position);
+      Vector3f angles;
+      XmlHelper::extractRotation(acidElement, angles);
+      t.setOrientation(Quaternion().fromAero(angles));
       Vector3f scale;
       XmlHelper::extractScale(acidElement, scale);
       t.setScale(scale);
@@ -208,6 +211,9 @@ void XmlMapLoader::extractTriggers() {
       Vector3f position;
       XmlHelper::extractPosition(triggerElement, position);
       t.setPosition(position);
+      Vector3f angles;
+      XmlHelper::extractRotation(triggerElement, angles);
+      t.setOrientation(Quaternion().fromAero(angles));
       Vector3f scale;
       XmlHelper::extractScale(triggerElement, scale);
       t.setScale(scale);
