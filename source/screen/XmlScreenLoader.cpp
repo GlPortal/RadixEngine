@@ -7,6 +7,7 @@ namespace radix {
 
 std::map<std::string, std::shared_ptr<Screen>> XmlScreenLoader::screenCache = { };
 const std::string XmlScreenLoader::MODULE_NAME = "XmlScreenLoader";
+
 Screen& XmlScreenLoader::getScreen(const std::string &path) {
   auto it = screenCache.find(path);
   if (it != screenCache.end()) {
