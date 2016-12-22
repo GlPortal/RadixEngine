@@ -1,4 +1,4 @@
-#include <radix/map/material/MaterialLoader.hpp>
+#include <radix/material/MaterialLoader.hpp>
 
 #include <tinyxml2.h>
 

@@ -20,7 +20,7 @@
 #include <radix/core/types/TimeDelta.hpp>
 #include <radix/core/state/HandleGameFunction.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
-#include <radix/map/material/Material.hpp>
+#include <radix/material/Material.hpp>
 #include <radix/SystemManager.hpp>
 #include <radix/input/InputSource.hpp>
 #include <radix/env/Config.hpp>
