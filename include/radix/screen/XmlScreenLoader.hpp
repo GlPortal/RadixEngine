@@ -6,11 +6,12 @@
 #include <tinyxml2.h>
 
 #include <radix/screen/Screen.hpp>
+#include <radix/util/XmlLoader.hpp>
 #include <radix/text/Text.hpp>
 
 namespace radix {
 
-class XmlScreenLoader {
+class XmlScreenLoader : public XmlLoader {
 public:
   static Screen& getScreen(const std::string& path);
 private:
@@ -18,7 +19,6 @@ private:
   static std::shared_ptr<Screen> loadScreen(const std::string& path);
   static const std::string MODULE_NAME;
   static bool loadText(tinyxml2::XMLHandle &rootHandle, std::vector<Text>* text);
-  static bool extractColor(tinyxml2::XMLElement* currElement, Vector4f* color);
 };
 
 } /* namespace radix */
