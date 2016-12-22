@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include <radix/screen/text/Font.hpp>
+#include <radix/text/Font.hpp>
 
 namespace radix {
 

@@ -7,7 +7,7 @@
 
 #include <radix/screen/Screen.hpp>
 #include <radix/util/XmlLoader.hpp>
-#include <radix/screen/text/Text.hpp>
+#include <radix/text/Text.hpp>
 
 namespace radix {
 

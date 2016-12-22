@@ -3,7 +3,7 @@
 #include <epoxy/gl.h>
 #include <radix/map/model/MeshLoader.hpp>
 #include <radix/shader/ShaderLoader.hpp>
-#include <radix/screen/text/FontLoader.hpp>
+#include <radix/text/FontLoader.hpp>
 
 namespace radix {
 

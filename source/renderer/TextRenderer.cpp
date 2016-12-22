@@ -1,7 +1,7 @@
 #include <epoxy/gl.h>
 #include <radix/renderer/TextRenderer.hpp>
 #include <radix/renderer/Renderer.hpp>
-#include <radix/screen/text/FontLoader.hpp>
+#include <radix/text/FontLoader.hpp>
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/map/material/MaterialLoader.hpp>
 #include <radix/core/math/Vector2f.hpp>

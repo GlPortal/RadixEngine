@@ -1,4 +1,4 @@
-
+#include <radix/text/FontLoader.hpp>
 
 #include <fstream>
 #include <sstream>
@@ -6,7 +6,6 @@
 #include <radix/map/model/MeshLoader.hpp>
 #include <radix/texture/TextureLoader.hpp>
 #include <radix/env/Environment.hpp>
-#include <radix/screen/text/FontLoader.hpp>
 
 namespace radix {
 
