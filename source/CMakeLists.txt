@@ -66,7 +66,7 @@ set(RADIX_SOURCES
   ${D}/SystemManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
-  ${D}/text/FontLoader.cpp
+  ${D}/screen/text/FontLoader.cpp
   ${D}/texture/TextureLoader.cpp
   ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp

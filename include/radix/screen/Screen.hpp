@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include <radix/text/Text.hpp>
+#include <radix/screen/text/Text.hpp>
 #include <radix/core/math/Vector4f.hpp>
 
 namespace radix {

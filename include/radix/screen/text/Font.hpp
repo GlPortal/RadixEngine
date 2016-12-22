@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include <radix/text/Glyph.hpp>
+#include <radix/screen/text/Glyph.hpp>
 
 namespace radix {
 
