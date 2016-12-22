@@ -3,7 +3,7 @@
 
 #include <list>
 #include <radix/input/InputSource.hpp>
-#include <radix/screen/Screen.hpp>
+#include <radix/data/screen/Screen.hpp>
 
 namespace radix {
 

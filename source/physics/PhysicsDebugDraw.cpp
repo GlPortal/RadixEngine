@@ -1,7 +1,7 @@
 #include <radix/physics/PhysicsDebugDraw.hpp>
 
-#include <radix/shader/ShaderLoader.hpp>
-#include <radix/texture/TextureLoader.hpp>
+#include <radix/data/shader/ShaderLoader.hpp>
+#include <radix/data/texture/TextureLoader.hpp>
 #include <radix/env/Util.hpp>
 
 namespace radix {

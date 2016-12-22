@@ -39,15 +39,20 @@ set(RADIX_SOURCES
   ${D}/env/Util.cpp
   ${D}/GameWorld.cpp
   ${D}/input/InputSource.cpp
-  ${D}/map/MapListLoader.cpp
-  ${D}/map/MapListLoader.cpp
-  ${D}/map/MapLoader.cpp
-  ${D}/map/MapLoader.cpp
-  ${D}/map/XmlHelper.cpp
-  ${D}/map/XmlHelper.cpp
-  ${D}/map/XmlMapLoader.cpp
-  ${D}/material/MaterialLoader.cpp
-  ${D}/model/MeshLoader.cpp
+  ${D}/data/map/MapListLoader.cpp
+  ${D}/data/map/MapListLoader.cpp
+  ${D}/data/map/MapLoader.cpp
+  ${D}/data/map/MapLoader.cpp
+  ${D}/data/map/XmlHelper.cpp
+  ${D}/data/map/XmlHelper.cpp
+  ${D}/data/map/XmlMapLoader.cpp
+  ${D}/data/material/MaterialLoader.cpp
+  ${D}/data/model/MeshLoader.cpp
+  ${D}/data/text/FontLoader.cpp
+  ${D}/data/texture/TextureLoader.cpp
+  ${D}/data/screen/XmlScreenLoader.cpp
+  ${D}/data/shader/Shader.cpp
+  ${D}/data/shader/ShaderLoader.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/KinematicCharacterController.cpp
   ${D}/physics/PhysicsDebugDraw.cpp
@@ -59,15 +64,10 @@ set(RADIX_SOURCES
   ${D}/renderer/ScreenRenderer.cpp
   ${D}/renderer/PortalRenderer.cpp
   ${D}/renderer/TextRenderer.cpp
-  ${D}/screen/XmlScreenLoader.cpp
-  ${D}/shader/Shader.cpp
-  ${D}/shader/ShaderLoader.cpp
   ${D}/SoundManager.cpp
   ${D}/SystemManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
-  ${D}/text/FontLoader.cpp
-  ${D}/texture/TextureLoader.cpp
   ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp
   ${D}/util/XmlLoader.cpp

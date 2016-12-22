@@ -10,7 +10,7 @@
 #include <Gwen/Controls/TreeControl.h>
 
 #include <radix/core/event/EventDispatcher.hpp>
-#include <radix/texture/TextureLoader.hpp>
+#include <radix/data/texture/TextureLoader.hpp>
 #include <radix/core/diag/Throwables.hpp>
 #include <radix/input/GWENInput.hpp>
 #include <radix/renderer/GlGwenRenderer.hpp>

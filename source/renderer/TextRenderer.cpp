@@ -1,9 +1,9 @@
 #include <epoxy/gl.h>
 #include <radix/renderer/TextRenderer.hpp>
 #include <radix/renderer/Renderer.hpp>
-#include <radix/text/FontLoader.hpp>
-#include <radix/shader/ShaderLoader.hpp>
-#include <radix/material/MaterialLoader.hpp>
+#include <radix/data/text/FontLoader.hpp>
+#include <radix/data/shader/ShaderLoader.hpp>
+#include <radix/data/material/MaterialLoader.hpp>
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector4f.hpp>
 

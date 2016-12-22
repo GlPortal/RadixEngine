@@ -9,8 +9,8 @@
 #include <radix/renderer/ScreenRenderer.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/env/Config.hpp>
-#include <radix/map/XmlMapLoader.hpp>
-#include <radix/screen/Screen.hpp>
+#include <radix/data/map/XmlMapLoader.hpp>
+#include <radix/data/screen/Screen.hpp>
 #include <radix/renderer/ScreenRenderer.hpp>
 
 namespace radix {

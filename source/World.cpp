@@ -1,7 +1,7 @@
 #include <radix/World.hpp>
 
-#include <radix/map/MapLoader.hpp>
-#include <radix/map/MapListLoader.hpp>
+#include <radix/data/map/MapLoader.hpp>
+#include <radix/data/map/MapListLoader.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/component/Health.hpp>

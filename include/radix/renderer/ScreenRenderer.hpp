@@ -4,7 +4,7 @@
 #include <memory>
 #include <radix/World.hpp>
 #include <radix/Camera.hpp>
-#include <radix/screen/Screen.hpp>
+#include <radix/data/screen/Screen.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/renderer/SubRenderer.hpp>
 #include <radix/GameWorld.hpp>

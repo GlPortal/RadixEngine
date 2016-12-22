@@ -12,8 +12,8 @@
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/env/Util.hpp>
 #include <radix/env/Environment.hpp>
-#include <radix/shader/ShaderLoader.hpp>
-#include <radix/texture/TextureLoader.hpp>
+#include <radix/data/shader/ShaderLoader.hpp>
+#include <radix/data/texture/TextureLoader.hpp>
 
 namespace radix {
 

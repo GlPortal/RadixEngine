@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <epoxy/gl.h>
 
-#include <radix/shader/ShaderLoader.hpp>
+#include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Matrix3f.hpp>
 #include <radix/component/LightSource.hpp>

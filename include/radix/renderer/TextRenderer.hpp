@@ -4,10 +4,10 @@
 #include <string>
 
 #include <radix/World.hpp>
-#include <radix/text/Font.hpp>
+#include <radix/data/text/Font.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/renderer/RenderContext.hpp>
-#include <radix/text/Text.hpp>
+#include <radix/data/text/Text.hpp>
 
 namespace radix {
 
