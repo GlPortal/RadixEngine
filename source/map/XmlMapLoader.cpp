@@ -14,7 +14,7 @@
 #include <radix/component/Player.hpp>
 
 #include <radix/World.hpp>
-#include <radix/model/MeshLoader.hpp>
+#include <radix/map/model/MeshLoader.hpp>
 #include <radix/map/material/MaterialLoader.hpp>
 
 using namespace std;

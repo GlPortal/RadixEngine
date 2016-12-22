@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-#include <radix/model/Mesh.hpp>
+#include <radix/map/model/Mesh.hpp>
 
 struct aiMesh;
 

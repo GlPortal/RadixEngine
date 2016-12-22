@@ -1,7 +1,7 @@
 #ifndef RADIX_GLYPH_HPP
 #define RADIX_GLYPH_HPP
 
-#include <radix/model/Mesh.hpp>
+#include <radix/map/model/Mesh.hpp>
 
 namespace radix {
 
