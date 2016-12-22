@@ -46,7 +46,7 @@ set(RADIX_SOURCES
   ${D}/map/XmlHelper.cpp
   ${D}/map/XmlHelper.cpp
   ${D}/map/XmlMapLoader.cpp
-  ${D}/material/MaterialLoader.cpp
+  ${D}/map/material/MaterialLoader.cpp
   ${D}/model/MeshLoader.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/KinematicCharacterController.cpp

@@ -4,7 +4,7 @@
 #include <string>
 
 #include <radix/World.hpp>
-#include <radix/material/Material.hpp>
+#include <radix/map/material/Material.hpp>
 #include <radix/shader/Shader.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/core/math/Rectangle.hpp>

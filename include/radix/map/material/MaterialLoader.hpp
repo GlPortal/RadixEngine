@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-#include <radix/material/Material.hpp>
+#include <radix/map/material/Material.hpp>
 
 namespace radix {
 
