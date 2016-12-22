@@ -2,7 +2,7 @@
 #define RADIX_COMPONENT_VIEW_FRAME_HPP
 
 #include <radix/component/Component.hpp>
-#include <radix/map/model/Mesh.hpp>
+#include <radix/model/Mesh.hpp>
 #include <radix/Camera.hpp>
 
 namespace radix {

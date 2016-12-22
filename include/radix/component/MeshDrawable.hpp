@@ -3,7 +3,7 @@
 
 #include <radix/component/Component.hpp>
 #include <radix/map/material/Material.hpp>
-#include <radix/map/model/Mesh.hpp>
+#include <radix/model/Mesh.hpp>
 
 namespace radix {
 

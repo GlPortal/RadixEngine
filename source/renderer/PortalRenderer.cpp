@@ -1,7 +1,7 @@
 #include <radix/renderer/PortalRenderer.hpp>
 #include <radix/Viewport.hpp>
 #include <epoxy/gl.h>
-#include <radix/map/model/MeshLoader.hpp>
+#include <radix/model/MeshLoader.hpp>
 #include <radix/shader/ShaderLoader.hpp>
 #include <radix/text/FontLoader.hpp>
 

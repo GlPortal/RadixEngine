@@ -1,3 +1,5 @@
+#include <radix/model/MeshLoader.hpp>
+
 #include <assimp/Importer.hpp>
 #include <assimp/mesh.h>
 #include <assimp/postprocess.h>
@@ -8,7 +10,6 @@
 #include <radix/Entity.hpp>
 #include <radix/core/gl/TightDataPacker.hpp>
 #include <radix/component/Transform.hpp>
-#include <radix/map/model/MeshLoader.hpp>
 
 namespace radix {
 
