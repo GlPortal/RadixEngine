@@ -24,7 +24,7 @@ set(CMAKE_CXX_FLAGS "${CXX14_FLAGS} ${CMAKE_CXX_FLAGS}")
 
 find_package(OpenGL REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${OPENGL_INCLUDE_DIR})
-# Don't load libGLU, that's old GL1.0 crap.
+
 set(RADIX_LIBRARIES ${OPENGL_gl_LIBRARY})
 
 find_package(PkgConfig REQUIRED)
