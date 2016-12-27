@@ -22,11 +22,11 @@ struct XmlReadingFixtures
     lightElement->SetAttribute("y", sourceVector.y);
     lightElement->SetAttribute("z", sourceVector.z);
   }
-  
+
   ~XmlReadingFixtures() {}
-  
+
 };
- 
+
 
 SUITE(XmlReading)
 {
