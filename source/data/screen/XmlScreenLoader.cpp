@@ -27,21 +27,23 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
 
   if (error == 0) {
     XMLHandle docHandle(&doc);
-    XMLElement *element = docHandle.FirstChildElement("screen").ToElement();
+    XMLElement *element  = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
+    std::string module   = XmlScreenLoader::MODULE_NAME;
 
     if (not loadText(rootHandle, &screen->text)) {
-      Util::Log(Error, XmlScreenLoader::MODULE_NAME) << "Failed to load text in " << path;
+      XmlScreenLoader::handleFailureForElement(module, std::string("text"), path);
     }
     if (not extractColor(element, &screen->color)) {
-      Util::Log(Error, XmlScreenLoader::MODULE_NAME) << "Failed to load color in " << path;
+      XmlScreenLoader::handleFailureForElement(module, std::string("color"), path);
     }
 
-    Util::Log(Debug, XmlScreenLoader::MODULE_NAME) << "Screen " << path << " loaded";
+    Util::Log(Debug, module) << "Screen " << path << " loaded";
 
     return screen;
   } else {
-    Util::Log(Error, XmlScreenLoader::MODULE_NAME) << "Failed to load screen " << path;
+    XmlScreenLoader::handleFailureForElement(module, std::string("screen"), path);
+
     return nullptr;
   }
 }
