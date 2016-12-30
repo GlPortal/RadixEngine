@@ -205,9 +205,11 @@ void XmlMapLoader::extractTriggers() {
 
   if (triggerElement) {
     do {
+      //! [Creating an Entity.]
       Entity &trigger = world.entities.create();
 
       Transform &t = trigger.addComponent<Transform>();
+      //! [Creating an Entity.]
       Vector3f position;
       XmlHelper::extractPosition(triggerElement, position);
       t.setPosition(position);

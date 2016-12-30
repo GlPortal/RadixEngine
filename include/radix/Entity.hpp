@@ -17,6 +17,8 @@ using EntityId = uint32_t;
 
 /** \class Entity
  * @brief ECS entity, Component container
+ * It is created like this:
+ * @snippet source/data/map/XmlMapLoader.cpp Creating an Entity
  */
 class Entity {
 private:
