@@ -80,7 +80,7 @@ void XmlMapLoader::extractSpawn() {
   XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
 
   if (spawnElement) {
-    Entity &start = world.entities.create();
+    Entity &start = world.entityManager.create();
     Transform &transform = start.addComponent<Transform>();
     Vector3f position;
     XmlHelper::extractPosition(spawnElement, position);
@@ -114,7 +114,7 @@ void XmlMapLoader::extractLights() {
         specular = 0;
       }
 
-      Entity &light = world.entities.create();
+      Entity &light = world.entityManager.create();
       Transform &t = light.addComponent<Transform>();
       t.setPosition(lightPos);
       LightSource &ls = light.addComponent<LightSource>();
@@ -130,7 +130,7 @@ void XmlMapLoader::extractDoor() {
   XMLElement *endElement = rootHandle.FirstChildElement("end").ToElement();
 
   if (endElement) {
-    Entity &door = world.entities.create();
+    Entity &door = world.entityManager.create();
     Transform &transform = door.addComponent<Transform>();
     Vector3f position;
     XmlHelper::extractPosition(endElement, position);
@@ -149,7 +149,7 @@ void XmlMapLoader::extractWalls() {
 
   if (wallBoxElement) {
     do {
-      Entity &wall = world.entities.create();
+      Entity &wall = world.entityManager.create();
 
       Transform &t = wall.addComponent<Transform>();
       Vector3f position;
@@ -180,7 +180,7 @@ void XmlMapLoader::extractAcids() {
 
   if (acidElement) {
     do {
-      Entity &acid = world.entities.create();
+      Entity &acid = world.entityManager.create();
 
       Transform &t = acid.addComponent<Transform>();
       Vector3f position;
@@ -206,7 +206,7 @@ void XmlMapLoader::extractTriggers() {
   if (triggerElement) {
     do {
       //! [Creating an Entity.]
-      Entity &trigger = world.entities.create();
+      Entity &trigger = world.entityManager.create();
 
       Transform &t = trigger.addComponent<Transform>();
       //! [Creating an Entity.]
@@ -234,7 +234,7 @@ void XmlMapLoader::extractModels() {
       modelElement->QueryIntAttribute("material", &mid);
       mesh = modelElement->Attribute("mesh");
 
-      Entity &model = world.entities.create();
+      Entity &model = world.entityManager.create();
       Transform &t = model.addComponent<Transform>();
       Vector3f position;
       XmlHelper::extractPosition(modelElement, position);

@@ -37,7 +37,7 @@ void Renderer::updateLights(Shader& shader) {
   shader.bind();
 
   int numLights = 0;
-  for (const Entity &e : world.entities) {
+  for (const Entity &e : world.entityManager) {
     if (not e.hasComponent<LightSource>()) {
       continue;
     }

@@ -68,7 +68,7 @@ PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
       }
     });
 
-  for (Entity &entity : world.entities) {
+  for (Entity &entity : world.entityManager) {
     if (entity.hasComponent<RigidBody>()) {
       cbCompAdd(Entity::ComponentAddedEvent(entity, entity.getComponent<RigidBody>()));
     }
@@ -87,7 +87,7 @@ PhysicsSystem::~PhysicsSystem() {
 void PhysicsSystem::update(TDelta timeDelta) {
   filterCallback->beforePhysicsStep();
   physicsWorld->stepSimulation(timeDelta.sec_d(), 10);
-  for (Entity &entity : world.entities) {
+  for (Entity &entity : world.entityManager) {
     if (entity.hasComponent<RigidBody>()) {
       RigidBody &rigidBody = entity.getComponent<RigidBody>();
       if (not rigidBody.body->isStaticObject()) {

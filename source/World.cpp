@@ -16,11 +16,11 @@ namespace radix {
 World::World(InputSource &input) :
   input(input),
   systems(*this),
-  entities(*this),
+  entityManager(*this),
   gameTime(0),
   lastUpdateTime(0){
   input.addDispatcher(event);
-  player = &entities.create();
+  player = &entityManager.create();
   player->addComponent<Transform>().setPosition(Vector3f(2.5, 1, 5));
   player->addComponent<Health>();
   player->addComponent<SoundSource>();

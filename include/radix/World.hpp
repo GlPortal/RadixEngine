@@ -58,7 +58,7 @@ public:
 
   SystemManager systems;
 
-  EntityManager entities;
+  EntityManager entityManager;
 
   // Convenience
   std::map<std::string, Entity*> entityAliases;
@@ -73,7 +73,7 @@ public:
    * @throws std::out_of_range if no entity with this ID is found.
    */
   inline Entity& getEntityById(EntityId id) {
-    return entities.getById(id);
+    return entityManager.getById(id);
   }
 
   /**
@@ -81,7 +81,7 @@ public:
    * @throws std::out_of_range if no entity with this name is found.
    */
   inline Entity& getEntityByName(const std::string &name) {
-    return entities.getByName(name);
+    return entityManager.getByName(name);
   }
 
 private:
