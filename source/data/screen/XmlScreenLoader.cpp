@@ -24,12 +24,12 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
 
   XMLDocument doc(true, COLLAPSE_WHITESPACE);
   XMLError error = doc.LoadFile(path.c_str());
-
+  std::string module   = XmlScreenLoader::MODULE_NAME;
+  
   if (error == 0) {
     XMLHandle docHandle(&doc);
     XMLElement *element  = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
-    std::string module   = XmlScreenLoader::MODULE_NAME;
 
     if (not loadText(rootHandle, &screen->text)) {
       XmlScreenLoader::handleFailureForElement(module, std::string("text"), path);
