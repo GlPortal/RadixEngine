@@ -17,14 +17,17 @@ enum AlignMode {
   center
 };
 
+/**
+ * Represents a screen element in the DOM
+ */
 struct Element {
   std::vector<Element> elements;
   Vector4f color;
-  unsigned int zIndex;
-  Vector4f position;
+  Vector3f position;
   Vector4f margin;
   Vector4f padding;
-
+  AlignMode alignMode;
+  PositionMode positionMode;
 };
 } /* namespace radix */
 
