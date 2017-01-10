@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <radix/core/math/Vector4f.hpp>
+#include <radix/core/math/Vector4i.hpp>
 
 namespace radix {
 enum PositionMode {
@@ -23,9 +24,9 @@ enum AlignMode {
 struct Element {
   std::vector<Element> elements;
   Vector4f color;
-  Vector3f position;
-  Vector4f margin;
-  Vector4f padding;
+  Vector4i position;
+  Vector4i margin;
+  Vector4i padding;
   AlignMode alignMode;
   PositionMode positionMode;
 };
