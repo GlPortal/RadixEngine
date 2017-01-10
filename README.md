@@ -1,3 +1,5 @@
+[![Contributors](https://img.shields.io/badge/contributors-stats-brightgreen.svg)](http://stats.glportal.de/)
+
 #![RadixEngine](https://raw.githubusercontent.com/GlPortal/glportal_raw_data/master/graphics/logo/radix/RadixEngine.png "RadixEngine")
 
 Radix is a modern, free and open-source 3D game engine with an Entity Component System and physics simulation.
