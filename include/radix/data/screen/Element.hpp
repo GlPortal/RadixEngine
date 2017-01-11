@@ -2,33 +2,21 @@
 #define RADIX_ELEMENT_HPP
 
 #include <vector>
-
-#include <radix/core/math/Vector4f.hpp>
-#include <radix/core/math/Vector4i.hpp>
+#include <radix/data/screen/Style.hpp>
 
 namespace radix {
-enum PositionMode {
-  absolute,
-  relative
-};
-
-enum AlignMode {
-  left,
-  right,
-  center
-};
-
 /**
  * Represents a screen element in the DOM
  */
-struct Element {
+class Element {
+public:
   std::vector<Element> elements;
-  Vector4f color;
-  Vector4i position;
-  Vector4i margin;
-  Vector4i padding;
-  AlignMode alignMode;
-  PositionMode positionMode;
+  std::vector<std::reference_wrapper<Style>> styleReferences;
+  Style style;
+  void computeStyle();
+  Style getComputedStyle();
+private:
+  Style computedStyle;
 };
 } /* namespace radix */
 
