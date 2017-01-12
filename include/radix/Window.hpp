@@ -13,6 +13,7 @@
 #include <radix/input/InputSource.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/env/Config.hpp>
+#include <radix/core/math/Vector2i.hpp>
 
 namespace radix {
 
@@ -52,6 +53,7 @@ public:
   void printScreenToFile(std::string fileName);
   SDL_Surface* flipVertical(SDL_Surface* sfc);
 private:
+  Vector2i getWindowDimensions();
   void processMouseButtonEvents(SDL_Event &event);
   void processWindowEvents(SDL_Event &event);
   void initEpoxy();

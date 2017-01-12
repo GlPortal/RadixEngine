@@ -67,27 +67,9 @@ void Window::create(const char *title) {
     flags |= SDL_WINDOW_BORDERLESS;
   }
 
-  SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
-  SDL_GetDesktopDisplayMode(0, &dispMode);
-
-  if (config.isLoaded()) {
-    unsigned int widthConfig, heightConfig;
-    widthConfig  = config.getWidth();
-    heightConfig = config.getHeight();
-
-    width  = widthConfig;
-    height = heightConfig;
-
-    if (widthConfig == 0) {
-      width = dispMode.w;
-    }
-    if (heightConfig == 0) {
-      height = dispMode.h;
-    }
-  } else {
-    width = dispMode.w;
-    height = dispMode.h;
-  }
+  Vector2i windowDimensions = getWindowDimensions();
+  width  = windowDimensions.width;
+  height = windowDimensions.height;
 
   // Explicitly request an OpenGL 3.2 Core context
   // i.e. enforce using non-deprecated functions
@@ -152,6 +134,32 @@ void Window::create(const char *title) {
     thr.detach();
   }
 #endif
+}
+
+Vector2i Window::getWindowDimensions() {
+  SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
+  SDL_GetDesktopDisplayMode(0, &dispMode);
+
+  if (config.isLoaded()) {
+    unsigned int widthConfig, heightConfig;
+    widthConfig  = config.getWidth();
+    heightConfig = config.getHeight();
+
+    width  = widthConfig;
+    height = heightConfig;
+
+    if (widthConfig == 0) {
+      width = dispMode.w;
+    }
+    if (heightConfig == 0) {
+      height = dispMode.h;
+    }
+  } else {
+    width = dispMode.w;
+    height = dispMode.h;
+  }
+
+  return Vector2i(width, height);
 }
 
 void Window::setFullscreen() {
