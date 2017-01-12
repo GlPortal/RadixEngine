@@ -87,10 +87,7 @@ void Window::create(const char *title) {
   } else {
     width = dispMode.w;
     height = dispMode.h;
-    Util::Log(Verbose, "Window") << "W  " << width;
-     //exit (EXIT_FAILURE);
   }
-
 
   // Explicitly request an OpenGL 3.2 Core context
   // i.e. enforce using non-deprecated functions
