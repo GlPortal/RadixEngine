@@ -5,7 +5,8 @@ namespace radix {
 void Element::computeStyle() {
 }
 
-Style Element::getComputedStyle() {
+Style Element::getStyle() {
+  computeStyle();
   return computedStyle;
 }
 
