@@ -10,13 +10,14 @@ namespace radix {
  */
 class Element {
 public:
+  Element();
   Style style;
-  Style getStyle(); 
+  Style getStyle();
   std::vector<Element> getSubElements();
 private:
-  bool changeFlag;
+  bool needsRecomputation;
   std::vector<Element> elements;
-  std::vector<std::reference_wrapper<Style>> styleReferences;
+  std::vector<Style> styles;
   void computeStyle();
   Style computedStyle;
 };

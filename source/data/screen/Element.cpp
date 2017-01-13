@@ -2,11 +2,17 @@
 
 namespace radix {
 
+Element::Element():needsRecomputation(true) {
+}
+
 void Element::computeStyle() {
 }
 
 Style Element::getStyle() {
-  computeStyle();
+  if (needsRecomputation) {
+    computeStyle();
+  }
+
   return computedStyle;
 }
 
