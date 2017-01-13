@@ -10,7 +10,7 @@ namespace radix {
 std::unordered_set<CollisionInfo, CollisionInfoHash, CollisionInfoEqual> PhysicsSystem::collisions;
 PhysicsSystem* PhysicsSystem::instance;
 
-PhysicsSystem::PhysicsSystem(World &world, BaseGame* game) :
+PhysicsSystem::PhysicsSystem(World &world, BaseGame *game) :
   System(world),
   filterCallback(nullptr),
   game(game),
@@ -100,7 +100,7 @@ void PhysicsSystem::update(TDelta timeDelta) {
     }
   }
 
-  ContactPlayerCallback callback(game);
+  ContactPlayerCallback callback(*game);
   physicsWorld->contactTest(world.getPlayer().getComponent<Player>().obj, callback);
   checkCollisions();
 }
@@ -111,7 +111,7 @@ bool PhysicsSystem::contactProcessedCallback(btManifoldPoint &cp, void *body0, v
     auto found = collisions.find(pair);
     if (found == collisions.end()) {
       collisions.insert(pair);
-      instance->world.event.dispatch(CollisionAddedEvent(pair, instance->game));
+      instance->world.event.dispatch(CollisionAddedEvent(pair, *instance->game));
     }
   } else {
     collisions.insert(pair);
@@ -139,7 +139,7 @@ void PhysicsSystem::checkCollisions() {
     if (!toRemove.empty()) {
       for (CollisionInfo *info : toRemove) {
         collisions.erase(*info);
-        world.event.dispatch(CollisionRemovedEvent(*info, game));
+        world.event.dispatch(CollisionRemovedEvent(*info, *game));
       }
     }
   }

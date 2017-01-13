@@ -7,7 +7,7 @@
 
 namespace radix {
 
-PlayerSystem::PlayerSystem(World &w,BaseGame *game) :
+PlayerSystem::PlayerSystem(World &w, BaseGame *game) :
   System(w), game(game) {
 }
 
@@ -47,7 +47,7 @@ void PlayerSystem::runTasks(Entity &entity, TDelta dtime) {
 
     if (allowedToRun(blackList, task)) {
       if (game) {
-        task->task(game, dtime);
+        task->task(*game, dtime);
         blackList.insert(task->blackList.begin(), task->blackList.end());
       }
     }

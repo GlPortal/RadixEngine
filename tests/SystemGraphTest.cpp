@@ -12,6 +12,12 @@
 #include <radix/system/PhysicsSystem.hpp>
 #include <radix/input/NullInputSource.hpp>
 
+namespace radix {
+
+class BaseGame;
+
+} /*namespace radix */
+
 class TestSystem : public radix::System {
 public:
   TestSystem(radix::World &w) : radix::System(w) {}

@@ -18,7 +18,7 @@ private:
   btGhostObject *ghostObject;
 public:
   btGhostObject *getBulletGhostObject();
-  using Action = std::function<void(BaseGame*)>;
+  using Action = std::function<void(BaseGame&)>;
 
   Action actionOnEnter;
   Action actionOnExit;
@@ -48,10 +48,10 @@ public:
   void serialize(serine::Archiver &ar) {
   }
 
-  void onEnter(BaseGame* game) { actionOnEnter(game); };
-  void onExit(BaseGame* game) { actionOnExit(game); };
-  void onMove(BaseGame* game) { actionOnMove(game); };
-  void onUpdate(BaseGame* game) { actionOnUpdate(game); };
+  void onEnter(BaseGame& game) { actionOnEnter(game); };
+  void onExit(BaseGame& game) { actionOnExit(game); };
+  void onMove(BaseGame& game) { actionOnMove(game); };
+  void onUpdate(BaseGame& game) { actionOnUpdate(game); };
 };
 
 } /* namespace radix */

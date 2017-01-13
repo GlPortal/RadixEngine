@@ -5,10 +5,10 @@ namespace radix {
 
 Trigger::Trigger(Entity &ent)
   : Component(ent),
-  actionOnEnter([] (BaseGame* game) {}),
-  actionOnExit([] (BaseGame* game) {}),
-  actionOnMove([] (BaseGame* game) {}),
-  actionOnUpdate([] (BaseGame* game) {}) {
+  actionOnEnter([] (BaseGame& game) {}),
+  actionOnExit([] (BaseGame& game) {}),
+  actionOnMove([] (BaseGame& game) {}),
+  actionOnUpdate([] (BaseGame& game) {}) {
   ghostObject = new btGhostObject;
   Transform& tform = entity.getComponent<Transform>();
   ghostObject->setWorldTransform(btTransform(tform.getOrientation(), tform.getPosition()));
