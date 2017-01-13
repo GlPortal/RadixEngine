@@ -80,26 +80,27 @@ void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
   std::string type = xmlElement->Attribute("type");
   if (type == "death") {
     trigger.addComponent<Trigger>();
-    trigger.getComponent<Trigger>().setActionOnUpdate
+    trigger.getComponent<Trigger>().setActionOnEnter
       (
-       [] (BaseGame *game) {
-         game->getWorld()->getPlayer().getComponent<Health>().kill();
+       [] (BaseGame &game) {
+         Util::Log(Debug, "XmlHelper") << "Death.";
+         game.getWorld()->getPlayer();//.getComponent<Health>().kill();
        }
        );
   } else if (type == "win") {
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnUpdate
       (
-       [] (BaseGame *game) {
-      game->getWorld()->event.dispatch(GameState::WinEvent());
+       [] (BaseGame &game) {
+      game.getWorld()->event.dispatch(GameState::WinEvent());
 
       });
   } else if (type == "radiation") {
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnUpdate
       (
-       [] (BaseGame *game) {
-         game->getWorld()
+       [] (BaseGame &game) {
+         game.getWorld()
            ->getPlayer().getComponent<Health>().harm(0.1f);
        }
        );
@@ -113,7 +114,7 @@ void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
-       [track] (BaseGame *game) {
+       [track] (BaseGame &game) {
          SoundManager::playMusic(track);
        }
        );
@@ -122,9 +123,9 @@ void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
-       [mapName] (BaseGame *game) {
+       [mapName] (BaseGame &game) {
 
-         XmlMapLoader mapLoader(*game->getWorld());
+         XmlMapLoader mapLoader(*game.getWorld());
          mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
        }
        );
@@ -134,15 +135,15 @@ void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
-       [spawnElement] (BaseGame *game) {
+       [spawnElement] (BaseGame &game) {
          Vector3f position;
          Vector3f rotation;
 
          extractPosition(spawnElement, position);
          extractRotation(spawnElement, rotation);
 
-         game->getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
-         game->getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
+         game.getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
+         game.getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
        }
        );
   }

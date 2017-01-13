@@ -12,7 +12,7 @@ namespace radix {
 
 class PlayerTask {
 public:
-  using Task = std::function<void(BaseGame *game, TDelta dtime)>;
+  using Task = std::function<void(BaseGame &game, TDelta dtime)>;
 
   PlayerTask() {};
   virtual ~PlayerTask() {};

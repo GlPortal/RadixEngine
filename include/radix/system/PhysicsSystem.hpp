@@ -58,7 +58,7 @@ private:
 
   friend class Uncollider;
   Uncollider *filterCallback;
-  BaseGame* game;
+  BaseGame *game;
 
   btBroadphaseInterface *broadphase;
   btDefaultCollisionConfiguration *collisionConfiguration;
@@ -67,7 +67,7 @@ private:
   btDiscreteDynamicsWorld *physicsWorld;
   btGhostPairCallback *gpCallback;
 public:
-  PhysicsSystem(World&, BaseGame* game);
+  PhysicsSystem(World&, BaseGame *game);
   ~PhysicsSystem();
 
   const char* getName() const {
@@ -102,8 +102,8 @@ public:
     }
 
     CollisionInfo &info;
-    BaseGame *game;
-    CollisionAddedEvent(CollisionInfo &info, BaseGame *game) : info(info) { };
+    BaseGame &game;
+    CollisionAddedEvent(CollisionInfo &info, BaseGame &game) : info(info), game(game) { };
   };
 
   struct CollisionRemovedEvent : public Event {
@@ -117,8 +117,8 @@ public:
     }
 
     CollisionInfo &info;
-    BaseGame *game;
-    CollisionRemovedEvent(CollisionInfo &info, BaseGame *game) : info(info) { };
+    BaseGame &game;
+    CollisionRemovedEvent(CollisionInfo &info, BaseGame &game) : info(info), game(game) { };
   };
 };
 
