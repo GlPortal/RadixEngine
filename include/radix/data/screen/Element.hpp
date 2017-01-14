@@ -1,6 +1,7 @@
 #ifndef RADIX_ELEMENT_HPP
 #define RADIX_ELEMENT_HPP
 
+#include <memory>
 #include <vector>
 #include <radix/data/screen/Style.hpp>
 
@@ -17,7 +18,7 @@ public:
 private:
   bool needsRecomputation;
   std::vector<Element> elements;
-  std::vector<Style> styles;
+  std::vector<std::reference_wrapper<Style>> styles;
   void computeStyle();
   Style computedStyle;
 };
