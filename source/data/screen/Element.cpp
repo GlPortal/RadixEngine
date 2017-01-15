@@ -5,6 +5,11 @@ namespace radix {
 Element::Element():needsRecomputation(true) {
 }
 
+void Element::addStyle(Style& style) {
+  needsRecomputation = true;
+  styles.push_back(style);
+}
+
 void Element::computeStyle() {
 }
 
