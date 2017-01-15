@@ -14,6 +14,7 @@ public:
   Element();
   Style style;
   Style getStyle();
+  void addStyle(Style& style);
   std::vector<Element> getSubElements();
 private:
   bool needsRecomputation;
