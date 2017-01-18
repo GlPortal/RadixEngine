@@ -24,6 +24,7 @@ namespace radix {
    */
   class Style {
   public:
+    Style operator+(Style& rightStyle);
     bool hasColor();
     void setColor(Vector4i color);
     Vector4i getColor();
@@ -51,15 +52,6 @@ namespace radix {
     std::pair <AlignMode, bool> alignMode;
     std::pair <PositionMode, bool> positionMode;
   };
-
-  inline Style operator+(Style& leftStyle, Style& rightStyle)
-  {
-    Style style = leftStyle;
-    if (rightStyle.hasColor() && !leftStyle.hasColor()) {
-      style.setColor(rightStyle.getColor());
-    }
-    return style;
-  }
 } /* namespace radix */
 
 #endif /* RADIX_STYLE_HPP */

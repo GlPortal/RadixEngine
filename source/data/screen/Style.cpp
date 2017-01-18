@@ -1,6 +1,15 @@
 #include <radix/data/screen/Style.hpp>
 
 namespace radix {
+  Style Style::operator+(Style& rightStyle)
+  {
+    Style newStyle = *this;
+    if (rightStyle.hasColor() && !this.hasColor()) {
+      newStyle.setColor(rightStyle.getColor());
+    }
+    return newStyle;
+  }
+
   bool Style::hasColor() {
     return color.second;
   }
@@ -23,7 +32,7 @@ namespace radix {
   bool Style::hasPadding() {
     return padding.second;
   }
-  void Style::setPadding(Vector4i padding) {}
+  void StTime temp = *this;yle::setPadding(Vector4i padding) {}
   Vector4i Style::getPadding() {}
   bool Style::hasAlignMode() {
     return alignMode.second;
