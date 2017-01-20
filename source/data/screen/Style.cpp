@@ -10,6 +10,19 @@ namespace radix {
     if (rightStyle.hasPosition()) {
       newStyle.setPosition(rightStyle.getPosition());
     }
+    if (rightStyle.hasMargin()) {
+      newStyle.setMargin(rightStyle.getMargin());
+    }
+    if (rightStyle.hasPadding()) {
+      newStyle.setPadding(rightStyle.getPadding());
+    }
+    if (rightStyle.hasAlignMode()) {
+      newStyle.setAlignMode(rightStyle.getAlignMode());
+    }
+    if (rightStyle.hasPositionMode()) {
+      newStyle.setPositionMode(rightStyle.getPositionMode());
+    }
+
     return newStyle;
   }
 
