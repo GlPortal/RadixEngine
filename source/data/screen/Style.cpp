@@ -15,33 +15,70 @@ namespace radix {
   }
 
   void Style::setColor(Vector4i color) {
-
+    color.first = color;
   }
 
-  Vector4i Style::getColor() {}
+  Vector4i Style::getColor() {
+    return color.first;
+  }
+
   bool Style::hasPosition() {
     return position.second;
   }
-  void Style::setPosition(Vector4i position) {}
-  Vector4i Style::getPosition() {}
+
+  void Style::setPosition(Vector4i position) {
+    position.first = position;
+  }
+
+  Vector4i Style::getPosition() {
+    return position.first;
+  }
+
   bool Style::hasMargin() {
     return margin.second;
   }
-  void Style::setMargin(Vector4i margin) {}
-  Vector4i Style::getMargin() {}
+  void Style::setMargin(Vector4i margin) {
+    margin.first = margin;
+  }
+
+  Vector4i Style::getMargin() {
+    return margin.first;
+  }
+
   bool Style::hasPadding() {
     return padding.second;
   }
-  void StTime temp = *this;yle::setPadding(Vector4i padding) {}
-  Vector4i Style::getPadding() {}
+
+  void Style::setPadding(Vector4i padding) {
+    padding.first = padding;
+  }
+
+  Vector4i Style::getPadding() {
+    return padding.first;
+  }
+
   bool Style::hasAlignMode() {
     return alignMode.second;
   }
-  AlignMode Style::getAlignMode() {}
-  void Style::setAlignMode(AlignMode mode) {}
+
+  AlignMode Style::getAlignMode() {
+    return alignMode.first;
+  }
+
+  void Style::setAlignMode(AlignMode mode) {
+    alignMode.first = mode;
+  }
+
   bool Style::hasPositionMode() {
     return positionMode.second;
   }
-  PositionMode Style::getPositionMode() {}
-  void Style::setPositionMode(PositionMode mode) {}
+
+  PositionMode Style::getPositionMode() {
+    return positionMode.first;
+  }
+
+  void Style::setPositionMode(PositionMode mode) {
+    positionMode.first = mode;
+  }
+
 } /* namespace radix */
