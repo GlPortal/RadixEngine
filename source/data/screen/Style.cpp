@@ -4,8 +4,11 @@ namespace radix {
   Style Style::operator+(Style& rightStyle)
   {
     Style newStyle = *this;
-    if (rightStyle.hasColor() && !this.hasColor()) {
+    if (rightStyle.hasColor()) {
       newStyle.setColor(rightStyle.getColor());
+    }
+    if (rightStyle.hasPosition()) {
+      newStyle.setPosition(rightStyle.getPosition());
     }
     return newStyle;
   }
