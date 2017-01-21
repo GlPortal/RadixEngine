@@ -20,6 +20,7 @@ public:
   class CallbackHolder final : public CallbackPointer {
   private:
     EventDispatcher *dispatcher;
+    bool isStatic = false;
 
   public:
     CallbackHolder() :
@@ -35,6 +36,9 @@ public:
     void operator()(const Event &e) {
       (*second)(e);
     }
+
+    void setStatic() { isStatic = true; }
+    bool getStatic()  { return isStatic; }
 
     // No copy
     CallbackHolder(CallbackHolder&) = delete;
@@ -54,8 +58,10 @@ public:
     }
 
     ~CallbackHolder() {
-      if (dispatcher) {
-        dispatcher->removeObserver(*this);
+      if (!isStatic) {
+        if (dispatcher) {
+          dispatcher->removeObserver(*this);
+        }
       }
     }
   };
