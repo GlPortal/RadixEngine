@@ -24,6 +24,7 @@ namespace radix {
    */
   class Style {
   public:
+    Style();
     Style operator+(Style& rightStyle);
     bool hasColor();
     void setColor(Vector4i color);
@@ -44,7 +45,6 @@ namespace radix {
     PositionMode getPositionMode();
     void setPositionMode(PositionMode mode);
   private:
-    std::map<std::string, Vector4i> vector4iMap;
     std::pair <Vector4i, bool> color;
     std::pair <Vector4i, bool> position;
     std::pair <Vector4i, bool> margin;
