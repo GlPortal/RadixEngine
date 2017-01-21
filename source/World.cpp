@@ -42,8 +42,6 @@ radix::Config &World::getConfig(){
   return this->config;
 }
 
-
-
 void World::create() {
   lastUpdateTime = SDL_GetTicks();
 }
