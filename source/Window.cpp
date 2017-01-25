@@ -51,6 +51,16 @@ void Window::initEpoxy() {
   }
 }
 
+void Window::initGwen() {
+  gwenRenderer = std::make_unique<GlGwenRenderer>();
+  gwenSkin = std::make_unique<Gwen::Skin::TexturedBase>(gwenRenderer.get());
+  gwenSkin->Init((Environment::getDataDir() + "/gui/DefaultSkin.png").c_str());
+  gwenCanvas = std::make_unique<Gwen::Controls::Canvas>(gwenSkin.get());
+  gwenInput = std::make_unique<GWENInput>();
+  gwenRenderer->Init();
+  gwenInput->init(gwenCanvas.get());
+}
+
 void Window::create(const char *title) {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
@@ -91,14 +101,7 @@ void Window::create(const char *title) {
 
   // Lock cursor in the middle of the screen
   lockMouse();
-
-  gwenRenderer = std::make_unique<GlGwenRenderer>();
-  gwenSkin = std::make_unique<Gwen::Skin::TexturedBase>(gwenRenderer.get());
-  gwenSkin->Init((Environment::getDataDir() + "/gui/DefaultSkin.png").c_str());
-  gwenCanvas = std::make_unique<Gwen::Controls::Canvas>(gwenSkin.get());
-  gwenInput = std::make_unique<GWENInput>();
-  gwenRenderer->Init();
-  gwenInput->init(gwenCanvas.get());
+  initGwen();
 
 #if 0 // Testing code
   {

@@ -62,6 +62,7 @@ private:
   void processMouseButtonEvents(SDL_Event &event);
   void processWindowEvents(SDL_Event &event);
   void initEpoxy();
+  void initGwen();
   unsigned int width;
   unsigned int height;
   SDL_Window *window;
