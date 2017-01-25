@@ -71,11 +71,7 @@ void Window::create(const char *title) {
   width  = windowDimensions.width;
   height = windowDimensions.height;
 
-  // Explicitly request an OpenGL 3.2 Core context
-  // i.e. enforce using non-deprecated functions
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  setSdlGlAttributes();
 
   window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
       width, height, flags);
@@ -476,5 +472,11 @@ SDL_Surface* Window::flipVertical(SDL_Surface* sfc) {
   }
 
   return result;
+}
+
+void Window::setSdlGlAttributes() {
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 }
 } /* namespace radix */

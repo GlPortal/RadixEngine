@@ -54,6 +54,11 @@ public:
   SDL_Surface* flipVertical(SDL_Surface* sfc);
 private:
   Vector2i getWindowDimensions();
+  /*
+   * Explicitly request an OpenGL 3.2 Core context
+   * i.e. enforce using non-deprecated functions
+   */
+  void setSdlGlAttributes();
   void processMouseButtonEvents(SDL_Event &event);
   void processWindowEvents(SDL_Event &event);
   void initEpoxy();
