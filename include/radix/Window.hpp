@@ -63,6 +63,7 @@ private:
   void processWindowEvents(SDL_Event &event);
   void initEpoxy();
   void initGwen();
+  void testGwen();
   unsigned int width;
   unsigned int height;
   SDL_Window *window;

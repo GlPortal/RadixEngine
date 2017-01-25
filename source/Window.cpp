@@ -102,37 +102,6 @@ void Window::create(const char *title) {
   // Lock cursor in the middle of the screen
   lockMouse();
   initGwen();
-
-#if 0 // Testing code
-  {
-    using namespace Gwen::Controls;
-    WindowControl *win = new WindowControl(gwenCanvas.get());
-    win->SetTitle("Texture cache");
-    win->SetBounds(30, 30, 500, 200);
-    TreeControl *tree = new TreeControl(win, "tree");
-    tree->SetBounds(0, 0, 200, 186);
-    std::thread thr([tree]() {
-      while (true) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        Base::List &l = tree->GetChildNodes();
-        for (auto it : TextureLoader::getTextureCache()) {
-          bool add = true;
-          for (Base *b : l) {
-            if (((TreeNode*)b)->GetName() == it.first) {
-              add = false;
-              break;
-            }
-          }
-          if (add) {
-            TreeNode *n = tree->AddNode(it.first);
-            n->SetName(it.first);
-          }
-        }
-      }
-    });
-    thr.detach();
-  }
-#endif
 }
 
 Vector2i Window::getWindowDimensions() {
@@ -481,5 +450,34 @@ void Window::setSdlGlAttributes() {
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+}
+
+void Window::testGwen() {
+  using namespace Gwen::Controls;
+  WindowControl *win = new WindowControl(gwenCanvas.get());
+  win->SetTitle("Texture cache");
+  win->SetBounds(30, 30, 500, 200);
+  TreeControl *tree = new TreeControl(win, "tree");
+  tree->SetBounds(0, 0, 200, 186);
+  std::thread thr([tree]() {
+      while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        Base::List &l = tree->GetChildNodes();
+        for (auto it : TextureLoader::getTextureCache()) {
+          bool add = true;
+          for (Base *b : l) {
+            if (((TreeNode*)b)->GetName() == it.first) {
+              add = false;
+              break;
+            }
+          }
+          if (add) {
+            TreeNode *n = tree->AddNode(it.first);
+            n->SetName(it.first);
+          }
+        }
+      }
+    });
+  thr.detach();
 }
 } /* namespace radix */
