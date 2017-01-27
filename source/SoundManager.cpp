@@ -7,6 +7,7 @@ namespace radix {
 bool SoundManager::isInitialized = false;
 bool SoundManager::isDisabled = true;
 
+std::string SoundManager::musicFilePlaying = "";
 Mix_Music *SoundManager::music = nullptr;
 std::map<int, SoundManager::SoundInfo> SoundManager::sounds = {};
 
@@ -82,6 +83,8 @@ void SoundManager::playMusic(const std::string &filename) {
     Util::Log(Warning, "SoundManager") << "music play failed: " << Mix_GetError();
     return;
   }
+
+  musicFilePlaying = filename;
 }
 
 void SoundManager::playSound(const std::string &filename, const Entity &source) {
@@ -142,6 +145,10 @@ void SoundManager::destroy() {
   SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
   isInitialized = false;
+}
+
+bool SoundManager::isPlaying(const std::string &filename) {
+  return filename == musicFilePlaying;
 }
 
 void SoundManager::reload() {

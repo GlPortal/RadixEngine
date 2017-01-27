@@ -23,11 +23,14 @@ public:
   static void playMusic(const std::string &filename);
   static void playSound(const std::string &filename, const Entity &source);
 
+  static bool isPlaying(const std::string &filename);
+
   static void update(const Entity &listener);
 
 private:
   static bool isInitialized, isDisabled;
 
+  static std::string musicFilePlaying;
   static Mix_Music *music;
   static std::map<int, SoundInfo> sounds;
 };

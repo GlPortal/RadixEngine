@@ -110,12 +110,14 @@ void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
       loop = true;
     }
     looping music isn't supported */
-    std::string track = xmlElement->Attribute("track");
+    std::string track = Environment::getDataDir() + "/" + xmlElement->Attribute("track");
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
        [track] (BaseGame &game) {
-         SoundManager::playMusic(track);
+         if (!SoundManager::isPlaying(track)) {
+           SoundManager::playMusic(track);
+         }
        }
        );
   } else if (type == "map") {
