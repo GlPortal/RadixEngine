@@ -31,7 +31,7 @@ void ScreenRenderer::renderScreen(Screen *screen) {
   widget.scale(Vector3f(viewportWidth, viewportHeight, 1));
 
   const Mesh &mesh = MeshLoader::getMesh("GUIElement.obj");
-  Shader &shader = ShaderLoader::getShader("color.frag");
+  Shader &shader = ShaderLoader::getFragAndVertShader("color.frag");
 
   shader.bind();
   glUniform4f(shader.uni("color"), screen->color.r, screen->color.g, screen->color.b, screen->color.a);

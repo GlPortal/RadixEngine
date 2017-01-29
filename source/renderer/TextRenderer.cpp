@@ -22,7 +22,7 @@ int TextRenderer::getTextWidth(std::string text, Font font) {
 void TextRenderer::renderText(RenderContext &rc, Text text) {
   // FIXME This should be determined by the currently set font
   const Material &mat = MaterialLoader::fromTexture("Pacaya.png");
-  Shader &shader = ShaderLoader::getShader("text.frag");
+  Shader &shader = ShaderLoader::getFragAndVertShader("text.frag");
   shader.bind();
   Vector4f color = text.color;
   glUniform4f(shader.uni("color"), color.x, color.y, color.z, color.w);

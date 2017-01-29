@@ -21,9 +21,9 @@ Renderer::Renderer(World &world) :
 }
 
 void Renderer::init() {
-  Shader &diffuse = ShaderLoader::getShader("diffuse.frag");
+  Shader &diffuse = ShaderLoader::getFragAndVertShader("diffuse.frag");
   updateLights(diffuse);
-  Shader &metal = ShaderLoader::getShader("metal.frag");
+  Shader &metal = ShaderLoader::getFragAndVertShader("metal.frag");
   updateLights(metal);
 }
 

@@ -66,7 +66,7 @@ void GlGwenRenderer::flush() {
     return;
   }
 
-  Shader &sh = ShaderLoader::getShader("2d.frag", "2d.vert");
+  Shader &sh = ShaderLoader::getFragAndVertShader("2d.frag", "2d.vert");
   sh.bind();
 
   glUniform1i(sh.uni("tex"), 0);

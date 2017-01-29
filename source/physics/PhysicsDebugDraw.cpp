@@ -53,7 +53,7 @@ void PhysicsDebugDraw::render(const Camera &cam) {
   if (not vbo) {
     vbo = std::make_unique<VBO>(12*4*sizeof(PtData));
   }
-  Shader &sh = ShaderLoader::getShader("unshaded.frag");
+  Shader &sh = ShaderLoader::getFragAndVertShader("unshaded.frag");
   sh.bind();
   Matrix4f projMatrix; cam.getProjMatrix(projMatrix);
   glUniformMatrix4fv(sh.uni("projectionMatrix"), 1, false, projMatrix.toArray());
