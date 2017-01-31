@@ -695,7 +695,11 @@ bool KinematicCharacterController::canJump() const {
   return onGround();
 }
 
+#if (BT_BULLET_VERSION >= 285)
 void KinematicCharacterController::jump(const btVector3& dir) {
+#else
+void KinematicCharacterController::jump() {
+#endif
   if (not canJump()) {
     return;
   }

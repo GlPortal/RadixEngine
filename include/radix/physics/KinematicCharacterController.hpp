@@ -158,7 +158,11 @@ public:
   void setMaxJumpHeight(btScalar maxJumpHeight);
   bool canJump() const;
 
+#if (BT_BULLET_VERSION >= 285)
   void jump(const btVector3& dir = btVector3());
+#else
+  void jump();
+#endif
 
   void setGravity(btScalar gravity);
   btScalar getGravity() const;
