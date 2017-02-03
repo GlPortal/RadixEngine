@@ -69,6 +69,7 @@ set(RADIX_SOURCES
   ${D}/SystemManager.cpp
   ${D}/system/PhysicsSystem.cpp
   ${D}/system/PlayerSystem.cpp
+  ${D}/system/ParticleSystem.cpp
   ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp
   ${D}/util/XmlLoader.cpp
