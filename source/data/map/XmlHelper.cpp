@@ -104,17 +104,23 @@ void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
            ->getPlayer().getComponent<Health>().harm(0.1f);
        }
        );
-  } else if (type == "music") {
-    if (xmlElement->Attribute("loop") == "true") {
-      loop = true;
+  } else if (type == "audio") {
+    bool loop = false;
+    if (xmlElement->Attribute("loop")) {
+      std::string loopAttribute = xmlElement->Attribute("loop");
+      if (loopAttribute == "true") {
+        loop = true;
+      }
     }
-    std::string track = Environment::getDataDir() + "/" + xmlElement->Attribute("file");
+    std::string datadir = Environment::getDataDir();
+    std::string fileName =
+      datadir + "/audio/" + xmlElement->Attribute("file");
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
-       [track] (BaseGame &game) {
-         if (!SoundManager::isPlaying(track)) {
-           SoundManager::playMusic(track);
+       [fileName] (BaseGame &game) {
+         if (!SoundManager::isPlaying(fileName)) {
+           SoundManager::playMusic(fileName);
          }
        }
        );
