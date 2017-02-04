@@ -27,13 +27,7 @@ BaseGame::~BaseGame() {
 
 void BaseGame::setup() {
   SoundManager::init();
-  window.create(windowTitle.c_str());
-  if(config.getCursorVisibility()) {
-    window.unlockMouse();
-  } else {
-    window.lockMouse();
-  }
-
+  createWindow();
   world.setConfig(config);
   world.create();
   renderer = std::make_unique<Renderer>(world);
@@ -41,17 +35,8 @@ void BaseGame::setup() {
   SystemManager::Transaction systemTransaction = world.systems.transact();
   systemTransaction.addSystem<PlayerSystem>(this);
   systemTransaction.addSystem<PhysicsSystem>(this);
-
-  screenshotCallbackHolder =
-    world.event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
-      const int key =  ((InputSource::KeyReleasedEvent &) event).key;
-      if (key == SDL_SCANCODE_G) {
-        this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");
-      }
-    });
-
+  createScreenshotCallbackHolder();
   nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
-
   renderer->setViewport(&window);
   screenRenderer = std::make_unique<ScreenRenderer>(world, *renderer.get(), gameWorld);
   initHook();
@@ -133,4 +118,22 @@ void BaseGame::loadMap() {
   }
 }
 
+void BaseGame::createWindow() {
+  window.create(windowTitle.c_str());
+  if(config.getCursorVisibility()) {
+    window.unlockMouse();
+  } else {
+    window.lockMouse();
+  }
+}
+
+void BaseGame::createScreenshotCallbackHolder() {
+  screenshotCallbackHolder =
+    world.event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
+        const int key =  ((InputSource::KeyReleasedEvent &) event).key;
+        if (key == SDL_SCANCODE_G) {
+          this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");
+        }
+      });
+}
 } /* namespace radix */

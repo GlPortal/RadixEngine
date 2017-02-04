@@ -69,6 +69,9 @@ protected:
 
   bool closed;
   unsigned int currentTime = 0, nextUpdate = 0, lastUpdate = 0, lastRender = 0;
+private:
+  void createWindow();
+  void createScreenshotCallbackHolder();
 };
 
 } /* namespace radix */
