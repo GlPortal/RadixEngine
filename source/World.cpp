@@ -101,20 +101,6 @@ void World::update(TDelta dtime) {
       }
     }
   }*/
-
-  //Check if the end of the level has been reached
-  float distToEnd = (scene->end->getComponent<Transform>().getPosition() -
-                     plrTform.getPosition()).length();
-  if (distToEnd < 1) {
-    if (currentLevel + 1 < mapList.size()) {
-      currentLevel++;
-      loadScene(mapList[currentLevel]);
-    } else {
-      scene->screen->enabled = true;
-      scene->screen->title   = "Game Over";
-      scene->screen->text    = "Hit q to quit the game.";
-    }
-  }
 #endif
 }
 
