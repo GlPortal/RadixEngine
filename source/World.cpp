@@ -20,14 +20,7 @@ World::World(InputSource &input) :
   gameTime(0),
   lastUpdateTime(0){
   input.addDispatcher(event);
-  player = &entityManager.create();
-  player->addComponent<Transform>().setPosition(Vector3f(2.5, 1, 5));
-  player->addComponent<Health>();
-  player->addComponent<SoundSource>();
-  player->addComponent<SoundListener>();
-  player->addComponent<Player>();
-  player->getComponent<Player>().addTask<PlayerMoveTask>();
-  player->getComponent<Player>().addTask<PlayerTriggerTask>();
+  initPlayer();
 }
 
 World::~World() {
@@ -119,6 +112,17 @@ void World::render(double dtime) {
 
 Entity& World::getPlayer() {
   return *player;
+}
+
+void World::initPlayer() {
+  player = &entityManager.create();
+  player->addComponent<Transform>().setPosition(Vector3f(2.5, 1, 5));
+  player->addComponent<Health>();
+  player->addComponent<SoundSource>();
+  player->addComponent<SoundListener>();
+  player->addComponent<Player>();
+  player->getComponent<Player>().addTask<PlayerMoveTask>();
+  player->getComponent<Player>().addTask<PlayerTriggerTask>();
 }
 
 } /* namespace radix */
