@@ -32,6 +32,8 @@ typedef std::pair<Entity*, Entity*> EntityPair;
 class World {
 private:
   radix::Config config;
+  double gameTime;
+  uint32_t lastUpdateTime;
 protected:
   Entity *player;
 public:
@@ -78,10 +80,6 @@ public:
   inline Entity& getEntityByName(const std::string &name) {
     return entityManager.getByName(name);
   }
-
-private:
-  double gameTime;
-  uint32_t lastUpdateTime;
 };
 
 } /* namespace glPortal */
