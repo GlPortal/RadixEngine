@@ -105,12 +105,10 @@ void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
        }
        );
   } else if (type == "music") {
-   /*  bool loop = false;
     if (xmlElement->Attribute("loop") == "true") {
       loop = true;
     }
-    looping music isn't supported */
-    std::string track = Environment::getDataDir() + "/" + xmlElement->Attribute("track");
+    std::string track = Environment::getDataDir() + "/" + xmlElement->Attribute("file");
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
@@ -121,7 +119,7 @@ void XmlHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
        }
        );
   } else if (type == "map") {
-    std::string mapName = xmlElement->Attribute("map");
+    std::string mapName = xmlElement->Attribute("file");
     trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
