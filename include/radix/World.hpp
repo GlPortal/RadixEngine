@@ -34,6 +34,7 @@ private:
   radix::Config config;
   double gameTime;
   uint32_t lastUpdateTime;
+  void initPlayer();
 protected:
   Entity *player;
 public:
