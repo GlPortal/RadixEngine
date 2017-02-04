@@ -34,7 +34,6 @@ private:
   radix::Config config;
 protected:
   Entity *player;
-
 public:
   InputSource &input;
   World(InputSource &input);
@@ -47,17 +46,13 @@ public:
   inline double getTime() const {
     return gameTime;
   }
+
   void update(TDelta dtime);
-
   Entity& getPlayer();
-
   Camera camera;
   std::map<int, Material> materials;
-
   EventDispatcher event;
-
   SystemManager systems;
-
   EntityManager entityManager;
 
   // Convenience
