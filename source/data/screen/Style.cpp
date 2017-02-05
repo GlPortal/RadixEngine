@@ -1,7 +1,7 @@
 #include <radix/data/screen/Style.hpp>
 
 namespace radix {
-  void Style::Style():
+  Style::Style():
     color(std::make_pair(Vector4i(0), false)),
     position(std::make_pair(Vector4i(0), false)),
     margin(std::make_pair(Vector4i(0), false)),
