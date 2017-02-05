@@ -8,6 +8,9 @@
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Matrix4f.hpp>
+#include <radix/core/math/Math.hpp>
+
+#include <ciso646>
 
 namespace radix {
 
@@ -151,12 +154,12 @@ Vector3f Quaternion::toAero() const {
       thetaZ = atan2(-r01, r11);
       thetaY = atan2(-r20, r22);
     } else {
-      thetaX = -M_PI /2;
+      thetaX = -Math::PI /2;
       thetaZ = 0;
       thetaY = -atan2(r02, r00);
     }
   } else {
-    thetaX = +M_PI/2;
+    thetaX = +Math::PI/2;
     thetaZ = 0;
     thetaY = atan2(r02, r00);
   }
