@@ -6,7 +6,7 @@
 
 #include <glad/glad.h>
 
-#include <bullet/LinearMath/btIDebugDraw.h>
+#include <LinearMath/btIDebugDraw.h>
 
 #include <radix/core/gl/VBO.hpp>
 #include <radix/Camera.hpp>

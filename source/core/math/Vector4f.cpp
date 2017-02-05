@@ -1,7 +1,7 @@
 #include <radix/core/math/Vector4f.hpp>
 
-#include <bullet/LinearMath/btQuaternion.h>
-#include <bullet/LinearMath/btVector3.h>
+#include <LinearMath/btQuaternion.h>
+#include <LinearMath/btVector3.h>
 
 #include <serine/Archiver.hpp>
 
