@@ -18,6 +18,8 @@
 
 #include <bullet/LinearMath/btVector3.h>
 
+#include <ciso646>
+
 namespace radix {
 
 const Vector3f Vector3f::ZERO(0, 0, 0);
