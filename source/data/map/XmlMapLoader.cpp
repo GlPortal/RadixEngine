@@ -18,7 +18,6 @@
 #include <radix/data/material/MaterialLoader.hpp>
 
 using namespace std;
-using namespace tinyxml2;
 
 namespace radix {
 
@@ -28,13 +27,13 @@ XmlMapLoader::XmlMapLoader(World &w) :
 }
 
 void XmlMapLoader::load(const std::string &path) {
-  XMLDocument doc;
-  XMLError error = doc.LoadFile(path.c_str());
+  tinyxml2::XMLDocument doc;
+  tinyxml2::XMLError error = doc.LoadFile(path.c_str());
 
   if (error == 0) {
-    XMLHandle docHandle(&doc);
-    XMLElement *element = docHandle.FirstChildElement().ToElement();
-    rootHandle = XMLHandle(element);
+    tinyxml2::XMLHandle docHandle(&doc);
+    tinyxml2::XMLElement *element = docHandle.FirstChildElement().ToElement();
+    rootHandle = tinyxml2::XMLHandle(element);
 
     extractMaterials();
     extractSpawn();
@@ -52,10 +51,10 @@ void XmlMapLoader::load(const std::string &path) {
 }
 
 void XmlMapLoader::extractMaterials() {
-  XMLElement *matIdxElm = rootHandle.FirstChildElement("materials").ToElement();
+  tinyxml2::XMLElement *matIdxElm = rootHandle.FirstChildElement("materials").ToElement();
 
   if (matIdxElm) {
-    XMLElement *matElm = matIdxElm->FirstChildElement("material");
+    tinyxml2::XMLElement *matElm = matIdxElm->FirstChildElement("material");
     if (matElm) {
       do {
         int mid = -1;
@@ -76,8 +75,7 @@ void XmlMapLoader::extractMaterials() {
   }
 }
 
-void XmlMapLoader::extractSpawn() {
-  XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
+void XmlMapLoader::extractSpawn() {tinyxml2::XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
 
   if (spawnElement) {
     Entity &start = world.entityManager.create();
@@ -101,7 +99,7 @@ void XmlMapLoader::extractLights() {
   Vector3f lightPos;
   Vector3f lightColor;
   float distance, energy, specular;
-  XMLElement* lightElement = rootHandle.FirstChildElement("light").ToElement();
+  tinyxml2::XMLElement* lightElement = rootHandle.FirstChildElement("light").ToElement();
 
   if (lightElement){
     do {
@@ -110,7 +108,7 @@ void XmlMapLoader::extractLights() {
 
       lightElement->QueryFloatAttribute("distance", &distance);
       lightElement->QueryFloatAttribute("energy", &energy);
-      if (lightElement->QueryFloatAttribute("specular", &specular) == XML_NO_ATTRIBUTE) {
+      if (lightElement->QueryFloatAttribute("specular", &specular) == tinyxml2::XML_NO_ATTRIBUTE) {
         specular = 0;
       }
 
@@ -127,7 +125,7 @@ void XmlMapLoader::extractLights() {
 }
 
 void XmlMapLoader::extractDoor() {
-  XMLElement *endElement = rootHandle.FirstChildElement("end").ToElement();
+  tinyxml2::XMLElement *endElement = rootHandle.FirstChildElement("end").ToElement();
 
   if (endElement) {
     Entity &door = world.entityManager.create();
@@ -145,7 +143,7 @@ void XmlMapLoader::extractDoor() {
 }
 
 void XmlMapLoader::extractWalls() {
-  XMLElement *wallBoxElement = rootHandle.FirstChildElement("wall").ToElement();
+  tinyxml2::XMLElement *wallBoxElement = rootHandle.FirstChildElement("wall").ToElement();
 
   if (wallBoxElement) {
     do {
@@ -176,7 +174,7 @@ void XmlMapLoader::extractWalls() {
 }
 
 void XmlMapLoader::extractAcids() {
-  XMLElement *acidElement = rootHandle.FirstChildElement("acid").ToElement();
+  tinyxml2::XMLElement *acidElement = rootHandle.FirstChildElement("acid").ToElement();
 
   if (acidElement) {
     do {
@@ -201,7 +199,7 @@ void XmlMapLoader::extractAcids() {
 }
 
 void XmlMapLoader::extractTriggers() {
-  XMLElement *triggerElement = rootHandle.FirstChildElement("trigger").ToElement();
+  tinyxml2::XMLElement *triggerElement = rootHandle.FirstChildElement("trigger").ToElement();
 
   if (triggerElement) {
     do {
@@ -228,7 +226,7 @@ void XmlMapLoader::extractTriggers() {
 void XmlMapLoader::extractModels() {
   int mid = -1;
   string mesh("none");
-  XMLElement *modelElement = rootHandle.FirstChildElement("model").ToElement();
+  tinyxml2::XMLElement *modelElement = rootHandle.FirstChildElement("model").ToElement();
   if (modelElement){
     do {
       modelElement->QueryIntAttribute("material", &mid);
