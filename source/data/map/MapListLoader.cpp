@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <ciso646>
+
 using namespace std;
 
 namespace radix {

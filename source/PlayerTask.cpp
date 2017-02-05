@@ -4,6 +4,8 @@
 #include <radix/component/Player.hpp>
 #include <radix/system/PlayerSystem.hpp>
 
+#include <ciso646>
+
 namespace radix {
 
 PlayerTriggerTask::PlayerTriggerTask() {
