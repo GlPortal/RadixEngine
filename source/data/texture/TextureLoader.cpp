@@ -1,6 +1,6 @@
 #include <radix/data/texture/TextureLoader.hpp>
 
-#include <epoxy/gl.h>
+#include <glad/glad.h>
 
 #include <radix/env/Environment.hpp>
 #include <FreeImagePlus.h>

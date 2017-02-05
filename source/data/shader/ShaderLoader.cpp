@@ -4,10 +4,12 @@
 #include <iostream>
 #include <memory>
 
-#include <epoxy/gl.h>
+#include <glad/glad.h>
 
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
+
+#include <ciso646>
 
 namespace radix {
 
