@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iostream>
 
+#include <ciso646>
+
 using std::cout;
 
 namespace radix {

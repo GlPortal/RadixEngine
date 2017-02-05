@@ -4,6 +4,8 @@
 #include <radix/data/texture/TextureLoader.hpp>
 #include <radix/env/Util.hpp>
 
+#include <ciso646>
+
 namespace radix {
 
 PhysicsDebugDraw::PhysicsDebugDraw() {

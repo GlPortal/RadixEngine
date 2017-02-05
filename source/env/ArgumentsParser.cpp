@@ -10,6 +10,8 @@
 #include <radix/env/Config.hpp>
 #include <radix/env/Environment.hpp>
 
+#include <ciso646>
+
 namespace radix {
 std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";

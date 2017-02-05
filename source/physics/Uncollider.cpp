@@ -6,6 +6,8 @@
 #include <radix/system/PhysicsSystem.hpp>
 #include <radix/World.hpp>
 
+#include <ciso646>
+
 namespace radix {
 
 std::list<btCollisionObject*> Uncollider::volumes;
