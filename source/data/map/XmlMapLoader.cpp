@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <radix/data/map/XmlHelper.hpp>
+#include <radix/data/map/XmlTriggerHelper.hpp>
 #include <radix/env/Environment.hpp>
 
 #include <radix/component/Transform.hpp>
@@ -219,7 +220,7 @@ void XmlMapLoader::extractTriggers() {
       Vector3f scale;
       XmlHelper::extractScale(triggerElement, scale);
       t.setScale(scale);
-      XmlHelper::extractTriggerActions(trigger, triggerElement);
+      XmlTriggerHelper::extractTriggerActions(trigger, triggerElement);
 
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);
   }
