@@ -1,5 +1,5 @@
-#ifndef RADIX_XMLHELPER_HPP
-#define RADIX_XMLHELPER_HPP
+#ifndef RADIX_XML_HELPER_HPP
+#define RADIX_XML_HELPER_HPP
 
 #include <string>
 
@@ -26,4 +26,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* RADIX_XMLHELPER_HPP */
+#endif /* RADIX_XML_HELPER_HPP */
