@@ -14,31 +14,28 @@ using namespace tinyxml2;
 namespace radix {
 
 void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
+  std::function<void(BaseGame&)> action;
   std::string type = xmlElement->Attribute("type");
   trigger.addComponent<Trigger>();
   if (type == "death") {
-    trigger.getComponent<Trigger>().setActionOnEnter
-      (
-       [] (BaseGame &game) {
-         Util::Log(Debug, "XmlHelper") << "Death.";
-         game.getWorld()->getPlayer();//.getComponent<Health>().kill();
-       }
-       );
-  } else if (type == "win") {
-    trigger.getComponent<Trigger>().setActionOnUpdate
-      (
-       [] (BaseGame &game) {
-      game.getWorld()->event.dispatch(GameState::WinEvent());
+    action = [] (BaseGame &game) {
+      Util::Log(Debug, "XmlHelper") << "Death.";
+      game.getWorld()->getPlayer();//.getComponent<Health>().kill();
+    };
 
-      });
+    trigger.getComponent<Trigger>().setActionOnEnter(action);
+  } else if (type == "win") {
+    action = [] (BaseGame &game) {
+      game.getWorld()->event.dispatch(GameState::WinEvent());
+    };
+
+    trigger.getComponent<Trigger>().setActionOnUpdate(action);
   } else if (type == "radiation") {
-    trigger.getComponent<Trigger>().setActionOnUpdate
-      (
-       [] (BaseGame &game) {
-         game.getWorld()
-           ->getPlayer().getComponent<Health>().harm(0.1f);
-       }
-       );
+    action = [] (BaseGame &game) {
+      game.getWorld()
+      ->getPlayer().getComponent<Health>().harm(0.1f);
+    };
+    trigger.getComponent<Trigger>().setActionOnUpdate(action);
   } else if (type == "audio") {
     bool loop = false;
     if (xmlElement->Attribute("loop")) {
@@ -50,38 +47,35 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     std::string datadir = Environment::getDataDir();
     std::string fileName =
       datadir + "/audio/" + xmlElement->Attribute("file");
-    std::function<void(BaseGame&)> action = [fileName] (BaseGame &game) {
+    action = [fileName] (BaseGame &game) {
       if (!SoundManager::isPlaying(fileName)) {
         SoundManager::playMusic(fileName);
       }
     };
+
     trigger.getComponent<Trigger>().setActionOnEnter(action);
   } else if (type == "map") {
     std::string mapName = xmlElement->Attribute("file");
-    trigger.getComponent<Trigger>().setActionOnEnter
-      (
-       [mapName] (BaseGame &game) {
+    action = [mapName] (BaseGame &game) {
+      XmlMapLoader mapLoader(*game.getWorld());
+      mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
+    };
 
-         XmlMapLoader mapLoader(*game.getWorld());
-         mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
-       }
-       );
-
+    trigger.getComponent<Trigger>().setActionOnEnter(action);
   } else if (type == "checkpoint") {
     XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
-    trigger.getComponent<Trigger>().setActionOnEnter
-      (
-       [spawnElement] (BaseGame &game) {
-         Vector3f position;
-         Vector3f rotation;
+    action = [spawnElement] (BaseGame &game) {
+      Vector3f position;
+      Vector3f rotation;
 
-         XmlHelper::extractPosition(spawnElement, position);
-         XmlHelper::extractRotation(spawnElement, rotation);
+      XmlHelper::extractPosition(spawnElement, position);
+      XmlHelper::extractRotation(spawnElement, rotation);
 
-         game.getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
-         game.getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
-       }
-       );
+      game.getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
+      game.getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
+    };
+
+    trigger.getComponent<Trigger>().setActionOnEnter(action);
   }
 }
 
