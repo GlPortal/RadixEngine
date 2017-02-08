@@ -15,8 +15,8 @@ namespace radix {
 
 void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
   std::string type = xmlElement->Attribute("type");
+  trigger.addComponent<Trigger>();
   if (type == "death") {
-    trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
        [] (BaseGame &game) {
@@ -25,7 +25,6 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
        }
        );
   } else if (type == "win") {
-    trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnUpdate
       (
        [] (BaseGame &game) {
@@ -33,7 +32,6 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
 
       });
   } else if (type == "radiation") {
-    trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnUpdate
       (
        [] (BaseGame &game) {
@@ -52,7 +50,7 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     std::string datadir = Environment::getDataDir();
     std::string fileName =
       datadir + "/audio/" + xmlElement->Attribute("file");
-    trigger.addComponent<Trigger>();
+
     trigger.getComponent<Trigger>().setActionOnEnter
       (
        [fileName] (BaseGame &game) {
@@ -63,7 +61,6 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
        );
   } else if (type == "map") {
     std::string mapName = xmlElement->Attribute("file");
-    trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
        [mapName] (BaseGame &game) {
@@ -75,7 +72,6 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
 
   } else if (type == "checkpoint") {
     XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
-    trigger.addComponent<Trigger>();
     trigger.getComponent<Trigger>().setActionOnEnter
       (
        [spawnElement] (BaseGame &game) {
