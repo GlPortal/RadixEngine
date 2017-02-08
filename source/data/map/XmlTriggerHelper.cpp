@@ -50,15 +50,12 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     std::string datadir = Environment::getDataDir();
     std::string fileName =
       datadir + "/audio/" + xmlElement->Attribute("file");
-
-    trigger.getComponent<Trigger>().setActionOnEnter
-      (
-       [fileName] (BaseGame &game) {
-         if (!SoundManager::isPlaying(fileName)) {
-           SoundManager::playMusic(fileName);
-         }
-       }
-       );
+    std::function<void(BaseGame&)> action = [fileName] (BaseGame &game) {
+      if (!SoundManager::isPlaying(fileName)) {
+        SoundManager::playMusic(fileName);
+      }
+    };
+    trigger.getComponent<Trigger>().setActionOnEnter(action);
   } else if (type == "map") {
     std::string mapName = xmlElement->Attribute("file");
     trigger.getComponent<Trigger>().setActionOnEnter
