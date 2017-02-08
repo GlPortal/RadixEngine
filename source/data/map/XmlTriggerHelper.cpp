@@ -19,8 +19,7 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   trigger.addComponent<Trigger>();
   if (type == "death") {
     action = [] (BaseGame &game) {
-      Util::Log(Debug, "XmlHelper") << "Death.";
-      game.getWorld()->getPlayer();//.getComponent<Health>().kill();
+      game.getWorld()->getPlayer().getComponent<Health>().kill();
     };
 
     trigger.getComponent<Trigger>().setActionOnEnter(action);
