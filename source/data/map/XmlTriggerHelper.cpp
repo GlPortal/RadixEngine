@@ -18,23 +18,11 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   std::string type = xmlElement->Attribute("type");
   trigger.addComponent<Trigger>();
   if (type == "death") {
-    action = [] (BaseGame &game) {
-      game.getWorld()->getPlayer().getComponent<Health>().kill();
-    };
-
-    trigger.getComponent<Trigger>().setActionOnEnter(action);
+    XmlTriggerHelper::addDeathAction(trigger);
   } else if (type == "win") {
-    action = [] (BaseGame &game) {
-      game.getWorld()->event.dispatch(GameState::WinEvent());
-    };
-
-    trigger.getComponent<Trigger>().setActionOnUpdate(action);
+    XmlTriggerHelper::addWinAction(trigger);
   } else if (type == "radiation") {
-    action = [] (BaseGame &game) {
-      game.getWorld()
-      ->getPlayer().getComponent<Health>().harm(0.1f);
-    };
-    trigger.getComponent<Trigger>().setActionOnUpdate(action);
+    XmlTriggerHelper::addRadiationAction(trigger);
   } else if (type == "audio") {
     bool loop = false;
     if (xmlElement->Attribute("loop")) {
@@ -78,4 +66,31 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   }
 }
 
+void XmlTriggerHelper::addDeathAction(Entity& trigger) {
+  std::function<void(BaseGame&)> action;
+  action = [] (BaseGame &game) {
+    game.getWorld()->getPlayer().getComponent<Health>().kill();
+  };
+
+  trigger.getComponent<Trigger>().setActionOnEnter(action);
+}
+
+void XmlTriggerHelper::addWinAction(Entity& trigger) {
+  std::function<void(BaseGame&)> action;
+  action = [] (BaseGame &game) {
+    game.getWorld()->event.dispatch(GameState::WinEvent());
+  };
+
+  trigger.getComponent<Trigger>().setActionOnUpdate(action);
+}
+
+void XmlTriggerHelper::addRadiationAction(Entity& trigger) {
+  std::function<void(BaseGame&)> action;
+  action = [] (BaseGame &game) {
+    game.getWorld()
+    ->getPlayer().getComponent<Health>().harm(0.1f);
+  };
+  trigger.getComponent<Trigger>().setActionOnUpdate(action);
+
+}
 } /* namespace radix */
