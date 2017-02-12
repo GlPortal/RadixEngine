@@ -1,24 +1,16 @@
-#ifndef RADIX_PARTICLESYSTEM_HPP
-#define RADIX_PARTICLESYSTEM_HPP
+#ifndef RADIX_PARTICLE_SYSTEM_HPP
+#define RADIX_PARTICLE_SYSTEM_HPP
+
+#include <map>
 
 #include <radix/system/System.hpp>
 #include <radix/BaseGame.hpp>
 
 namespace radix {
 
-struct Particle {
-  float size;
-  float minLifeTime;
-  float maxLifeTime;
-  Vector4f color;
-  Vector3f minVelocity;
-  Vector3f maxVelocity;
-  Vector3f position;
-};
+class Emitter;
 
 class ParticleSystem : public System {
-private:
-  std::list<Particle> particles;
 public:
   ParticleSystem(World&);
   ~ParticleSystem();
@@ -33,9 +25,17 @@ public:
 
   void update(TDelta timeDelta);
 
-  void addParticle(Particle particle);
+  inline void addEmitter(Emitter &emitter) {
+    emitters.push_back(&emitter);
+  }
+
+  inline std::list<Emitter*>& getEmitters() {
+    return emitters;
+  }
+private:
+  std::list<Emitter*> emitters;
 };
 
 } /* namespace radix */
 
-#endif /* RADIX_PARTICLESYSTEM_HPP */
+#endif /* RADIX_PARTICLE_SYSTEM_HPP */

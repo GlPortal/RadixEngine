@@ -7,11 +7,11 @@
 #include <radix/Window.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/renderer/ScreenRenderer.hpp>
+#include <radix/renderer/ParticleRenderer.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/data/screen/Screen.hpp>
-#include <radix/renderer/ScreenRenderer.hpp>
 
 namespace radix {
 
@@ -59,6 +59,7 @@ protected:
   GameWorld gameWorld;
 
   std::shared_ptr<ScreenRenderer> screenRenderer;
+  std::shared_ptr<ParticleRenderer> particleRenderer;
   std::unique_ptr<Renderer> renderer;
   std::unique_ptr<Camera> camera;
   std::shared_ptr<radix::Screen> screen;

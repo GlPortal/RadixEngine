@@ -15,6 +15,7 @@ set(RADIX_SOURCES
   ${D}/component/SoundSource.cpp
   ${D}/component/Transform.cpp
   ${D}/component/Trigger.cpp
+  ${D}/component/Emitter.cpp
   ${D}/core/diag/AnsiConsoleLogger.cpp
   ${D}/core/diag/Logger.cpp
   ${D}/core/diag/LogInput.cpp
@@ -65,6 +66,7 @@ set(RADIX_SOURCES
   ${D}/renderer/ScreenRenderer.cpp
   ${D}/renderer/PortalRenderer.cpp
   ${D}/renderer/TextRenderer.cpp
+  ${D}/renderer/ParticleRenderer.cpp
   ${D}/SoundManager.cpp
   ${D}/SystemManager.cpp
   ${D}/system/PhysicsSystem.cpp

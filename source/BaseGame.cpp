@@ -6,6 +6,7 @@
 #include <radix/system/PhysicsSystem.hpp>
 #include <radix/component/Player.hpp>
 #include <radix/env/ArgumentsParser.hpp>
+#include <radix/system/ParticleSystem.hpp>
 
 namespace radix {
 
@@ -41,6 +42,7 @@ void BaseGame::setup() {
   SystemManager::Transaction systemTransaction = world.systems.transact();
   systemTransaction.addSystem<PlayerSystem>(this);
   systemTransaction.addSystem<PhysicsSystem>(this);
+  systemTransaction.addSystem<ParticleSystem>();
 
   screenshotCallbackHolder =
     world.event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
@@ -54,6 +56,7 @@ void BaseGame::setup() {
 
   renderer->setViewport(&window);
   screenRenderer = std::make_unique<ScreenRenderer>(world, *renderer.get(), gameWorld);
+  particleRenderer = std::make_unique<ParticleRenderer>(world, *renderer.get());
   initHook();
   loadMap();
   renderer->init();

@@ -4,6 +4,7 @@
 namespace radix {
 
 class Vector3f;
+class Matrix4f;
 class Quaternion;
 
 /** \class Math
@@ -17,6 +18,8 @@ public:
 
   static Vector3f toDirection(const Quaternion &orientation);
   static Vector3f toEuler(const Vector3f &direction);
+  static float randFloatRange(float min, float max);
+  static Matrix4f lookAt(const Vector3f &eye, const Vector3f &center, const Vector3f &up);
 
   /** Restricts a value to a range
    * @param v    Value
