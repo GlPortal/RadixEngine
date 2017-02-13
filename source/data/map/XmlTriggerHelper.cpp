@@ -31,6 +31,7 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
         loop = true;
       }
     }
+
     std::string datadir = Environment::getDataDir();
     std::string fileName =
       datadir + "/audio/" + xmlElement->Attribute("file");
