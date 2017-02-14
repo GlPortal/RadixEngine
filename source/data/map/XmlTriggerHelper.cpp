@@ -43,13 +43,8 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
 
     trigger.getComponent<Trigger>().setActionOnEnter(action);
   } else if (type == "map") {
-    std::string mapName = xmlElement->Attribute("file");
-    action = [mapName] (BaseGame &game) {
-      XmlMapLoader mapLoader(*game.getWorld());
-      mapLoader.load(Environment::getDataDir() + "maps/" + mapName);
-    };
-
-    trigger.getComponent<Trigger>().setActionOnEnter(action);
+    std::string filename = xmlElement->Attribute("file");
+    addMapAction(filename, trigger);
   } else if (type == "checkpoint") {
     XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
     action = [spawnElement] (BaseGame &game) {
@@ -93,5 +88,15 @@ void XmlTriggerHelper::addRadiationAction(Entity& trigger) {
   };
   trigger.getComponent<Trigger>().setActionOnUpdate(action);
 
+}
+
+void XmlTriggerHelper::addMapAction(std::string filename, Entity& trigger){
+  std::function<void(BaseGame&)> action;
+  action = [filename] (BaseGame &game) {
+    XmlMapLoader mapLoader(*game.getWorld());
+    mapLoader.load(Environment::getDataDir() + "maps/" + filename);
+  };
+
+  trigger.getComponent<Trigger>().setActionOnEnter(action);
 }
 } /* namespace radix */

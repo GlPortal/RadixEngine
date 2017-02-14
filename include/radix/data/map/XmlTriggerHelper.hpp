@@ -17,6 +17,7 @@ namespace radix {
     static void addDeathAction(Entity& trigger);
     static void addWinAction(Entity& trigger);
     static void addRadiationAction(Entity& trigger);
+    static void addMapAction(std::string filename, Entity& trigger);
   };
 
 } /* namespace radix */
