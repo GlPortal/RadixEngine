@@ -33,7 +33,7 @@ void ArgumentsParser::showUsage(char **argv) {
 }
 
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
-  static struct option long_options[] = {
+  static struct option longOptions[] = {
     {"version",          no_argument,       0, 'v'},
     {"help",             no_argument,       0, 'h'},
     {"showcursor",       no_argument,       0, 'c'},
@@ -46,9 +46,9 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   };
 
   while (1) {
-    int option_index = 0;
+    int optionIndex = 0;
     int argument;
-    argument = getopt_long (argc, argv, "cvhd:m:M:GD", long_options, &option_index);
+    argument = getopt_long (argc, argv, "cvhd:m:M:GD", longOptions, &optionIndex);
 
     if (argument == NO_ARGUMENT) {
       break;
