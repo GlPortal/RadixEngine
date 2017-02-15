@@ -13,6 +13,7 @@ private:
   static bool showCursor;
   static bool ignoreGlVersion;
   static bool debugMode;
+  static const int NO_ARGUMENT; 
 public:
   static void showUsage(char **argv);
   static void setEnvironmentFromArgs(const int argc, char **argv);

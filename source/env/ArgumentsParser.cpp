@@ -11,6 +11,7 @@
 #include <radix/env/Environment.hpp>
 
 namespace radix {
+const int ArgumentsParser::NO_ARGUMENT = -1;
 std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";
 bool ArgumentsParser::showCursor = false;
@@ -49,7 +50,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     int argument;
     argument = getopt_long (argc, argv, "cvhd:m:M:GD", long_options, &option_index);
 
-    if (argument == -1) {
+    if (argument == NO_ARGUMENT) {
       break;
     }
 
