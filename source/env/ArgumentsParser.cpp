@@ -65,33 +65,26 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       showUsage(argv);
       exit(0);
     case 'm':
-      /// - map \n
       /// Set the map that should be loaded.
       mapName = optarg;
       break;
     case 'M':
-      /// - mapFromPath \n
       /// Set the map that should be loaded.
       mapPath = optarg;
       break;
     case 'c':
-      /// - showCursor \n
       /// Forces os mouse cursor to be drawn
       /// Defaults to false;
       showCursor = true;
       break;
     case '?':
-      /// getopt error handling
-      /// getopt has already shown an error message.
       showUsage(argv);
       exit(1);
     case 'G':
-      /// - ignoreGlVersion \n
       /// Disable OpenGl version check
       ignoreGlVersion = true;
       break;
     case 'D':
-      /// - debugMode \n
       /// Run game in debug mode
       debugMode = true;
       showCursor = true;
