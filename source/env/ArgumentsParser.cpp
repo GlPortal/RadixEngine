@@ -53,7 +53,6 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       break;
     }
 
-    /// Command Line arguments
     switch (argument) {
     case 'v':
       showVersion();
@@ -65,27 +64,21 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       showUsage(argv);
       exit(0);
     case 'm':
-      /// Set the map that should be loaded.
       mapName = optarg;
       break;
     case 'M':
-      /// Set the map that should be loaded.
       mapPath = optarg;
       break;
     case 'c':
-      /// Forces os mouse cursor to be drawn
-      /// Defaults to false;
       showCursor = true;
       break;
     case '?':
       showUsage(argv);
       exit(1);
     case 'G':
-      /// Disable OpenGl version check
       ignoreGlVersion = true;
       break;
     case 'D':
-      /// Run game in debug mode
       debugMode = true;
       showCursor = true;
       ignoreGlVersion = true;
