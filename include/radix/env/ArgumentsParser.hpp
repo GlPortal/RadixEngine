@@ -17,6 +17,7 @@ public:
   static void showUsage(char **argv);
   static void setEnvironmentFromArgs(const int argc, char **argv);
   static void populateConfig(radix::Config &config);
+  static void showVersion();
 };
 
 } /* namespace radix */
