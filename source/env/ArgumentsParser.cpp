@@ -57,14 +57,11 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     switch (argument) {
     case 'v':
       showVersion();
+      exit(0);
     case 'd':
-      /// - datadir \n
-      /// Set directory where the game data is stored.
       Environment::setDataDir(optarg);
       break;
     case 'h':
-      /// - help \n
-      /// Display the help.
       showUsage(argv);
       exit(0);
     case 'm':
@@ -129,7 +126,6 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
 
 void ArgumentsParser::showVersion(){
   std::cout << "GlPortal Version 0.1\n";
-  exit(0);
 }
 
 } /* namespace radix */
