@@ -236,16 +236,16 @@ void XmlMapLoader::extractModels() {
       mesh = modelElement->Attribute("mesh");
 
       Entity &model = world.entityManager.create();
-      Transform &t = model.addComponent<Transform>();
+      Transform &transform = model.addComponent<Transform>();
       Vector3f position;
       XmlHelper::extractPosition(modelElement, position);
-      t.setPosition(position);
+      transform.setPosition(position);
       Vector3f angles;
       XmlHelper::extractRotation(modelElement, angles);
-      t.setOrientation(Quaternion().fromAero(angles));
-      MeshDrawable &m = model.addComponent<MeshDrawable>();
-      m.material = world.materials[mid];
-      m.mesh = MeshLoader::getMesh(mesh);
+      transform.setOrientation(Quaternion().fromAero(angles));
+      MeshDrawable &meshDrawable = model.addComponent<MeshDrawable>();
+      meshDrawable.material = world.materials[mid];
+      meshDrawable.mesh = MeshLoader::getMesh(mesh);
     } while ((modelElement = modelElement->NextSiblingElement("model")) != nullptr);
   }
 }
