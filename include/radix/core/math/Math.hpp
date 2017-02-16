@@ -11,7 +11,7 @@ namespace radix {
  */
 class Math {
 public:
-  static constexpr float PI = 3.141592653589793238462643383279502884197169399375105820974944592307;
+  static constexpr float PI = 3.14159265358979323846f;
   static constexpr float DEG_TO_RAD = PI / 180;
   static constexpr float RAD_TO_DEG = 180 / PI;
 
