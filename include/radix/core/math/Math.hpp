@@ -1,10 +1,10 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 
-namespace radix {
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Vector4f.hpp>
 
-class Vector3f;
-class Quaternion;
+namespace radix {
 
 /** \class Math
  * @brief Math helper class
