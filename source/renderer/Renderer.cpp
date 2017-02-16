@@ -9,6 +9,7 @@
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Matrix3f.hpp>
 #include <radix/component/LightSource.hpp>
+#include <radix/component/Transform.hpp>
 
 #include <ciso646>
 
@@ -168,10 +169,10 @@ bool Renderer::clipViewFrame(const RenderContext &rc, const Mesh &frame,
     min_y.y = (std::max(-1.f, min_y.y) + 1) / 2 * sh;
     max_y.y = (std::min( 1.f, max_y.y) + 1) / 2 * sh;
 
-    r.x = min_x.x;
-    r.y = min_y.y;
-    r.w = max_x.x-min_x.x;
-    r.h = max_y.y-min_y.y;
+    r.x = (int) min_x.x;
+    r.y = (int) min_y.y;
+    r.w = (int) max_x.x-min_x.x;
+    r.h = (int) max_y.y-min_y.y;
 
     {
       int r_min_x = std::max(r.x, scissor.x);
