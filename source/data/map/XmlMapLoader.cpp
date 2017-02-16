@@ -96,7 +96,7 @@ void XmlMapLoader::extractSpawn() {
 }
 
 /**
- * Extract a light elements containing position (x, y, z) and colour (r, g, b) attributes
+ * Extract light element containing position (x, y, z) and colour (r, g, b) attributes
  */
 void XmlMapLoader::extractLights() {
   Vector3f lightPos;
