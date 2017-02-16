@@ -13,6 +13,7 @@
 #include <ciso646>
 
 namespace radix {
+const int ArgumentsParser::NO_ARGUMENT = -1;
 std::string ArgumentsParser::mapName = "";
 std::string ArgumentsParser::mapPath = "";
 bool ArgumentsParser::showCursor = false;
@@ -34,7 +35,7 @@ void ArgumentsParser::showUsage(char **argv) {
 }
 
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
-  static struct option long_options[] = {
+  static struct option longOptions[] = {
     {"version",          no_argument,       0, 'v'},
     {"help",             no_argument,       0, 'h'},
     {"showcursor",       no_argument,       0, 'c'},
@@ -47,60 +48,40 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
   };
 
   while (1) {
-    int option_index = 0;
+    int optionIndex = 0;
     int argument;
-    argument = getopt_long (argc, argv, "cvhd:m:M:GD", long_options, &option_index);
+    argument = getopt_long (argc, argv, "cvhd:m:M:GD", longOptions, &optionIndex);
 
-    if (argument == -1) {
+    if (argument == NO_ARGUMENT) {
       break;
     }
 
-    /// Command Line arguments
     switch (argument) {
     case 'v':
-      /// - version \n
-      /// Display the current version.
-      std::cout << "GlPortal Version 0.1\n";
+      showVersion();
       exit(0);
     case 'd':
-      /// - datadir \n
-      /// Set directory where the game data is stored.
       Environment::setDataDir(optarg);
       break;
     case 'h':
-      /// - help \n
-      /// Display the help.
       showUsage(argv);
       exit(0);
     case 'm':
-      /// - map \n
-      /// Set the map that should be loaded.
       mapName = optarg;
       break;
     case 'M':
-      /// - mapFromPath \n
-      /// Set the map that should be loaded.
       mapPath = optarg;
       break;
     case 'c':
-      /// - showCursor \n
-      /// Forces os mouse cursor to be drawn
-      /// Defaults to false;
       showCursor = true;
       break;
     case '?':
-      /// getopt error handling
-      /// getopt has already shown an error message.
       showUsage(argv);
       exit(1);
     case 'G':
-      /// - ignoreGlVersion \n
-      /// Disable OpenGl version check
       ignoreGlVersion = true;
       break;
     case 'D':
-      /// - debugMode \n
-      /// Run game in debug mode
       debugMode = true;
       showCursor = true;
       ignoreGlVersion = true;
@@ -130,6 +111,10 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
     config.height = 600;
     config.fullscreen = false;
   }
+}
+
+void ArgumentsParser::showVersion(){
+  std::cout << "GlPortal Version 0.1\n";
 }
 
 } /* namespace radix */

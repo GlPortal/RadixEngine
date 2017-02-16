@@ -43,7 +43,7 @@ set(RADIX_SOURCES
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapLoader.cpp
   ${D}/data/map/MapLoader.cpp
-  ${D}/data/map/XmlHelper.cpp
+  ${D}/data/map/XmlTriggerHelper.cpp
   ${D}/data/map/XmlHelper.cpp
   ${D}/data/map/XmlMapLoader.cpp
   ${D}/data/material/MaterialLoader.cpp
