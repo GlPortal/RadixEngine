@@ -7,7 +7,9 @@ using namespace std;
 
 namespace radix {
 
-const std::string DeathTrigger::TYPE = "death";
+const std::string DeathTrigger::getType(){
+  return std::string("death");
+}
 
 void DeathTrigger::addAction(Entity& trigger) {
   std::function<void(BaseGame&)> action;

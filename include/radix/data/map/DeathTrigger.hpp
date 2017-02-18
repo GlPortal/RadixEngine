@@ -3,15 +3,16 @@
 
 #include <string>
 
+#include <radix/data/map/BaseTrigger.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
 
 namespace radix {
 
-  class DeathTrigger {
+  class DeathTrigger: public BaseTrigger {
   public:
-    static const std::string TYPE;
-    static void addAction(Entity& trigger);
+    const std::string getType();
+    void addAction(Entity& trigger);
   };
 
 } /* namespace radix */
