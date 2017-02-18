@@ -1,4 +1,5 @@
 #include <radix/data/map/XmlTriggerHelper.hpp>
+#include <radix/data/map/DeathTrigger.hpp>
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
@@ -17,8 +18,8 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   std::function<void(BaseGame&)> action;
   std::string type = xmlElement->Attribute("type");
   trigger.addComponent<Trigger>();
-  if (type == "death") {
-    XmlTriggerHelper::addDeathAction(trigger);
+  if (type == DeathTrigger::TYPE) {
+    DeathTrigger::addAction(trigger);
   } else if (type == "win") {
     XmlTriggerHelper::addWinAction(trigger);
   } else if (type == "radiation") {

@@ -45,6 +45,7 @@ set(RADIX_SOURCES
   ${D}/data/map/MapLoader.cpp
   ${D}/data/map/XmlTriggerHelper.cpp
   ${D}/data/map/XmlHelper.cpp
+  ${D}/data/map/DeathTrigger.cpp
   ${D}/data/map/XmlMapLoader.cpp
   ${D}/data/material/MaterialLoader.cpp
   ${D}/data/model/MeshLoader.cpp
