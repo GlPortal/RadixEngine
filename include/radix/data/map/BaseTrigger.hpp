@@ -9,7 +9,6 @@ namespace radix {
 
   class BaseTrigger {
   public:
-    virtual const std::string getType() = 0;
     virtual void addAction(Entity& trigger) {}
   };
 

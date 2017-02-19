@@ -11,7 +11,7 @@ namespace radix {
 
   class DeathTrigger: public BaseTrigger {
   public:
-    const std::string getType();
+    static const std::string TYPE;
     void addAction(Entity& trigger);
   };
 

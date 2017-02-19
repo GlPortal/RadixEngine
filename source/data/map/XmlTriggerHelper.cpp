@@ -18,8 +18,8 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   std::function<void(BaseGame&)> action;
   std::string type = xmlElement->Attribute("type");
   trigger.addComponent<Trigger>();
-  DeathTrigger deathTrigger = DeathTrigger();
-  if (type == deathTrigger.getType()) {
+  if (type == DeathTrigger::TYPE) {
+    DeathTrigger deathTrigger = DeathTrigger();
     deathTrigger.addAction(trigger);
   } else if (type == "win") {
     XmlTriggerHelper::addWinAction(trigger);
