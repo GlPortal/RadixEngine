@@ -1,4 +1,5 @@
 #include <radix/data/map/XmlTriggerHelper.hpp>
+#include <radix/data/map/WinTrigger.hpp>
 #include <radix/data/map/DeathTrigger.hpp>
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
@@ -21,8 +22,9 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   if (type == DeathTrigger::TYPE) {
     DeathTrigger deathTrigger = DeathTrigger();
     deathTrigger.addAction(trigger);
-  } else if (type == "win") {
-    XmlTriggerHelper::addWinAction(trigger);
+  } else if (type == WinTrigger::TYPE) {
+    WinTrigger winTrigger = WinTrigger();
+    winTrigger.addAction(trigger);
   } else if (type == "radiation") {
     XmlTriggerHelper::addRadiationAction(trigger);
   } else if (type == "audio") {
@@ -62,24 +64,6 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
 
     trigger.getComponent<Trigger>().setActionOnEnter(action);
   }
-}
-
-void XmlTriggerHelper::addDeathAction(Entity& trigger) {
-  std::function<void(BaseGame&)> action;
-  action = [] (BaseGame &game) {
-    game.getWorld()->getPlayer().getComponent<Health>().kill();
-  };
-
-  trigger.getComponent<Trigger>().setActionOnEnter(action);
-}
-
-void XmlTriggerHelper::addWinAction(Entity& trigger) {
-  std::function<void(BaseGame&)> action;
-  action = [] (BaseGame &game) {
-    game.getWorld()->event.dispatch(GameState::WinEvent());
-  };
-
-  trigger.getComponent<Trigger>().setActionOnUpdate(action);
 }
 
 void XmlTriggerHelper::addRadiationAction(Entity& trigger) {
