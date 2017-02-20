@@ -37,10 +37,13 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
         loop = true;
       }
     }
-
-    std::string datadir = Environment::getDataDir();
-    std::string fileName =
-      datadir + "/audio/" + xmlElement->Attribute("file");
+    const char* rawFileName;
+    rawFileName = xmlElement->Attribute("file");
+    if (rawFileName == nullptr) {
+      throw std::runtime_error("Attribute file mandatory for trigger of type audio.");
+    }
+    std::string datadir  = Environment::getDataDir();
+    std::string fileName = datadir + "/audio/" + rawFileName;
     action = [fileName] (BaseGame &game) {
       if (!SoundManager::isPlaying(fileName)) {
         SoundManager::playMusic(fileName);
