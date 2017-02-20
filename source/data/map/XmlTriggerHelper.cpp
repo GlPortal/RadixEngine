@@ -1,6 +1,7 @@
 #include <radix/data/map/XmlTriggerHelper.hpp>
 #include <radix/data/map/WinTrigger.hpp>
 #include <radix/data/map/DeathTrigger.hpp>
+#include <radix/data/map/RadiationTrigger.hpp>
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
@@ -25,8 +26,9 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   } else if (type == WinTrigger::TYPE) {
     WinTrigger winTrigger = WinTrigger();
     winTrigger.addAction(trigger);
-  } else if (type == "radiation") {
-    XmlTriggerHelper::addRadiationAction(trigger);
+  } else if (type == RadiationTrigger::TYPE) {
+    RadiationTrigger radiationTrigger = RadiationTrigger();
+    radiationTrigger.addAction(trigger);
   } else if (type == "audio") {
     bool loop = false;
     if (xmlElement->Attribute("loop")) {
@@ -64,16 +66,6 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
 
     trigger.getComponent<Trigger>().setActionOnEnter(action);
   }
-}
-
-void XmlTriggerHelper::addRadiationAction(Entity& trigger) {
-  std::function<void(BaseGame&)> action;
-  action = [] (BaseGame &game) {
-    game.getWorld()
-    ->getPlayer().getComponent<Health>().harm(0.1f);
-  };
-  trigger.getComponent<Trigger>().setActionOnUpdate(action);
-
 }
 
 void XmlTriggerHelper::addMapAction(std::string filename, Entity& trigger){
