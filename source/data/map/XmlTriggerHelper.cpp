@@ -2,13 +2,13 @@
 #include <radix/data/map/WinTrigger.hpp>
 #include <radix/data/map/DeathTrigger.hpp>
 #include <radix/data/map/RadiationTrigger.hpp>
+#include <radix/data/map/AudioTrigger.hpp>
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/component/Trigger.hpp>
 #include <radix/component/Health.hpp>
 #include <radix/core/state/GameState.hpp>
-#include <radix/SoundManager.hpp>
 #include <radix/env/Environment.hpp>
 
 using namespace std;
@@ -42,15 +42,10 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     if (rawFileName == nullptr) {
       throw std::runtime_error("Attribute file mandatory for trigger of type audio.");
     }
-    std::string datadir  = Environment::getDataDir();
-    std::string fileName = datadir + "/audio/" + rawFileName;
-    action = [fileName] (BaseGame &game) {
-      if (!SoundManager::isPlaying(fileName)) {
-        SoundManager::playMusic(fileName);
-      }
-    };
 
-    trigger.getComponent<Trigger>().setActionOnEnter(action);
+    AudioTrigger audioTrigger = AudioTrigger(rawFileName);
+    audioTrigger.setLoop(loop);
+    audioTrigger.addAction(trigger);
   } else if (type == "map") {
     std::string filename = xmlElement->Attribute("file");
     addMapAction(filename, trigger);
