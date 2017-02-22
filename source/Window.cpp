@@ -10,6 +10,7 @@
 #include <Gwen/Controls/TreeControl.h>
 
 #include <radix/core/event/EventDispatcher.hpp>
+#include <radix/core/gl/DebugOutput.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 #include <radix/core/diag/Throwables.hpp>
 #include <radix/input/GWENInput.hpp>
@@ -71,6 +72,15 @@ void Window::create(const char *title) {
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config.getAntialiasLevel());
   }
 
+  int glFlags = 0;
+
+  const bool enableGlDebug = config.isLoaded() && config.getGlContextEnableDebug();
+  if (enableGlDebug) {
+    glFlags |= SDL_GL_CONTEXT_DEBUG_FLAG;
+  }
+
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, glFlags);
+
   int flags = SDL_WINDOW_OPENGL;
 
   if (config.isLoaded() && config.isFullscreen()) {
@@ -89,6 +99,10 @@ void Window::create(const char *title) {
   context = SDL_GL_CreateContext(window);
 
   initEpoxy();
+
+  if (enableGlDebug) {
+    gl::DebugOutput::enable();
+  }
 
   glViewport(0, 0, width, height);
 

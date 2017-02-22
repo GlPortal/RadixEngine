@@ -34,6 +34,7 @@ public:
   bool isHidePortalsByClick() const { return hidePortalsByClick; }
   bool getCursorVisibility() const { return cursorVisibility; }
   bool getIgnoreGlVersion() const { return ignoreGlVersion; }
+  bool getGlContextEnableDebug() const { return glContextEnableDebug; }
   LogLevel getLoglevel() const { return loglevel; }
   std::string getMap() const { return map; }
   std::string getMapPath() const { return mapPath; }
@@ -56,6 +57,7 @@ private:
   bool hidePortalsByClick;
   bool cursorVisibility;
   bool ignoreGlVersion;
+  bool glContextEnableDebug;
   LogLevel loglevel;
   std::string map;
   std::string mapPath;
