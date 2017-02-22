@@ -38,7 +38,7 @@ void Window::setConfig(radix::Config &config){
 }
 
 void Window::initEpoxy() {
-  const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
+  const int glver = /*epoxy_gl_version()*/45, glmaj = glver / 10, glmin = glver % 10;
   const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
   if (config.getIgnoreGlVersion()) {
@@ -88,7 +88,11 @@ void Window::create(const char *title) {
 
   context = SDL_GL_CreateContext(window);
 
-  initEpoxy();
+  //initEpoxy(); //Corruption
+  if (!gladLoadGL()) {
+      printf("You are seriously? You used wrong GPU?\n");
+      exit(-1);
+  }
 
   glViewport(0, 0, width, height);
 

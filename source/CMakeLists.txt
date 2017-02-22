@@ -6,6 +6,7 @@ set(D ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(RADIX_SOURCES
   ${RADIX_SOURCES}
+  ${D}/glad/glad.cpp
   ${D}/BaseGame.cpp
   ${D}/Camera.cpp
   ${D}/PlayerTask.cpp

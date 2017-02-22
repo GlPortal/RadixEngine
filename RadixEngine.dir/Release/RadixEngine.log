@@ -1,0 +1,764 @@
+﻿cl : Command line warning D9002: ignoring unknown option '--std=c++1z'
+  glad.cpp
+  BaseGame.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(40): warning C4267: 'return': conversion from 'size_t' to 'unsigned long', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(99): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(114): warning C4307: '*': integral constant overflow
+  Camera.cpp
+  PlayerTask.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\source\PlayerTask.cpp(43): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\PlayerTask.cpp(79): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Health.cpp
+  Player.cpp
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\component\Player.cpp(29): warning C4305: 'argument': truncation from 'double' to 'btScalar'
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24930\include\memory(1314): warning C4244: 'argument': conversion from 'int' to 'btScalar', possible loss of data
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24930\include\memory(1384): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<double,int>(double &&,int &&)' being compiled
+          with
+          [
+              _Ty=btCapsuleShape
+          ]
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24930\include\memory(1384): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<double,int>(double &&,int &&)' being compiled
+          with
+          [
+              _Ty=btCapsuleShape
+          ]
+  C:\dev\glPortal\external\RadixEngine\source\component\Player.cpp(25): note: see reference to function template instantiation 'std::shared_ptr<btCapsuleShape> std::make_shared<btCapsuleShape,double,int>(double &&,int &&)' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24930\include\memory(1314): warning C4244: 'argument': conversion from 'double' to 'btScalar', possible loss of data
+  RigidBody.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+  SoundSource.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+  Transform.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Trigger.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(40): warning C4267: 'return': conversion from 'size_t' to 'unsigned long', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(99): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(114): warning C4307: '*': integral constant overflow
+  AnsiConsoleLogger.cpp
+C:\dev\glPortal\external\RadixEngine\source\core\diag\AnsiConsoleLogger.cpp(31): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdlib.h(1188): note: see declaration of 'getenv'
+  Logger.cpp
+  LogInput.cpp
+  StdoutLogger.cpp
+  EventDispatcher.cpp
+  Path.cpp
+  TightDataPacker.cpp
+C:\dev\glPortal\external\RadixEngine\source\core\gl\TightDataPacker.cpp(14): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
+  VBO.cpp
+  Math.cpp
+  Matrix3f.cpp
+  Generating Code...
+  Compiling...
+  Matrix4f.cpp
+  Vector2f.cpp
+  Vector3f.cpp
+  Vector4f.cpp
+C:\dev\glPortal\external\RadixEngine\source\core\math\Vector4f.cpp(121): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\core\math\Vector4f.cpp(121): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+  GameState.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/core/state/GameState.hpp(16): warning C4307: '*': integral constant overflow
+  Entity.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+  EntityManager.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+  ArgumentsParser.cpp
+C:\dev\glPortal\external\RadixEngine\include\getopt.h(59): warning C4081: expected 'newline'; found ';'
+  Config.cpp
+C:\dev\glPortal\external\RadixEngine\source\env\Config.cpp(28): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\string.h(173): note: see declaration of 'strerror'
+C:\dev\glPortal\external\RadixEngine\source\env\Config.cpp(48): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\env\Config.cpp(50): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\env\Config.cpp(51): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\env\Config.cpp(52): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\env\Config.cpp(62): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Environment.cpp
+  OperatingSystem.cpp
+  Util.cpp
+  GameWorld.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+  InputSource.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+  MapListLoader.cpp
+  MapLoader.cpp
+  XmlTriggerHelper.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/core/state/GameState.hpp(16): warning C4307: '*': integral constant overflow
+  XmlHelper.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/core/state/GameState.hpp(16): warning C4307: '*': integral constant overflow
+  XmlMapLoader.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(127): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  C:\dev\glPortal\external\RadixEngine\source\data\map\XmlMapLoader.cpp(172): note: see reference to function template instantiation 'T &radix::Entity::addComponent<radix::RigidBody,int,std::shared_ptr<btBoxShape>>(int &&,std::shared_ptr<btBoxShape> &&)' being compiled
+          with
+          [
+              T=radix::RigidBody
+          ]
+  MaterialLoader.cpp
+  Generating Code...
+  Compiling...
+  MeshLoader.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\source\data\model\MeshLoader.cpp(275): warning C4312: 'type cast': conversion from 'const unsigned int' to 'GLvoid *' of greater size
+C:\dev\glPortal\external\RadixEngine\source\data\model\MeshLoader.cpp(278): warning C4312: 'type cast': conversion from 'const unsigned int' to 'GLvoid *' of greater size
+C:\dev\glPortal\external\RadixEngine\source\data\model\MeshLoader.cpp(281): warning C4312: 'type cast': conversion from 'const unsigned int' to 'GLvoid *' of greater size
+  FontLoader.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/data/text/Font.hpp(25): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\data\text\FontLoader.cpp(43): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  TextureLoader.cpp
+  XmlScreenLoader.cpp
+  Element.cpp
+  Shader.cpp
+  ShaderLoader.cpp
+  CollisionDispatcher.cpp
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+  KinematicCharacterController.cpp
+C:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\source\physics\KinematicCharacterController.cpp(167): warning C4305: '=': truncation from 'double' to 'btScalar'
+C:\dev\glPortal\external\RadixEngine\source\physics\KinematicCharacterController.cpp(178): warning C4305: '=': truncation from 'double' to 'btScalar'
+  PhysicsDebugDraw.cpp
+C:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\source\physics\PhysicsDebugDraw.cpp(81): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  PhysicsHelper.cpp
+  Uncollider.cpp
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(40): warning C4267: 'return': conversion from 'size_t' to 'unsigned long', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(99): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(114): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+  SubRenderer.cpp
+C:\dev\glPortal\external\RadixEngine\source\renderer\SubRenderer.cpp(15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GlGwenRenderer.cpp
+C:\dev\glPortal\external\RadixEngine\source\renderer\GlGwenRenderer.cpp(1): warning C4005: 'NOMINMAX': macro redefinition
+  C:\dev\glPortal\external\RadixEngine\source\renderer\GlGwenRenderer.cpp(1): note: command-line arguments:  see previous definition of 'NOMINMAX'
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\renderer\GlGwenRenderer.cpp(336): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Renderer.cpp
+C:\dev\glPortal\external\RadixEngine\source\renderer\Renderer.cpp(1): warning C4005: 'NOMINMAX': macro redefinition
+  C:\dev\glPortal\external\RadixEngine\source\renderer\Renderer.cpp(1): note: command-line arguments:  see previous definition of 'NOMINMAX'
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/data/text/Font.hpp(25): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\renderer\Renderer.cpp(174): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\renderer\Renderer.cpp(175): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  ScreenRenderer.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/data/text/Font.hpp(25): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\renderer\ScreenRenderer.cpp(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\renderer\ScreenRenderer.cpp(32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\renderer\ScreenRenderer.cpp(53): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\renderer\ScreenRenderer.cpp(55): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\renderer\ScreenRenderer.cpp(57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  PortalRenderer.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/data/text/Font.hpp(25): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+  TextRenderer.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/data/text/Font.hpp(25): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+  SoundManager.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+  SystemManager.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+  Generating Code...
+c:\dev\glportal\external\radixengine\include\radix\core\gl\vbo.hpp(66): warning C4717: 'radix::VBO::update<radix::GlGwenRenderer::Vertex>': recursive on all control paths, function will cause runtime stack overflow
+c:\dev\glportal\external\radixengine\include\radix\core\gl\vbo.hpp(66): warning C4717: 'radix::VBO::update<radix::PhysicsDebugDraw::PtData>': recursive on all control paths, function will cause runtime stack overflow
+c:\dev\glportal\external\radixengine\include\radix\core\gl\vbo.hpp(52): warning C4717: 'radix::VBO::setData<radix::PhysicsDebugDraw::PtData>': recursive on all control paths, function will cause runtime stack overflow
+  Compiling...
+  PhysicsSystem.cpp
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(40): warning C4267: 'return': conversion from 'size_t' to 'unsigned long', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(99): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(114): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\source\system\PhysicsSystem.cpp(30): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+  PlayerSystem.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(40): warning C4267: 'return': conversion from 'size_t' to 'unsigned long', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(99): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/system/PhysicsSystem.hpp(114): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\source\system\PlayerSystem.cpp(36): warning C4305: '*=': truncation from 'double' to 'float'
+C:\dev\glPortal\external\RadixEngine\source\system\PlayerSystem.cpp(39): warning C4305: 'argument': truncation from 'double' to 'float'
+  Profiler.cpp
+  Fps.cpp
+  XmlLoader.cpp
+  Window.cpp
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+  World.cpp
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(46): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(61): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/Entity.hpp(76): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(102): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/SystemManager.hpp(117): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(32): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(48): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(82): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(97): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(116): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(135): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(150): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(165): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(180): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(197): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(214): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(230): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(245): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(260): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(275): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(290): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(305): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(320): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/input/InputSource.hpp(335): warning C4307: '*': integral constant overflow
+C:\dev\glPortal\external\RadixEngine\include\radix/data/text/Font.hpp(25): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\dev\glPortal\external\RadixEngine\external\gwen\include\Gwen/TextObject.h(92): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\dev\install\include\bullet\LinearMath/btIDebugDraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+  Generating Code...
+CollisionDispatcher.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  RadixEngine.vcxproj -> C:\dev\glPortal\external\RadixEngine\build\Release\RadixEngine.lib

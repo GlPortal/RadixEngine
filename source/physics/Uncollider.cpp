@@ -82,7 +82,7 @@ void Uncollider::nearCallback(btBroadphasePair &collisionPair,
       colObj1, colObj1->getWorldTransform(), -1, -1);
 
     if (not collisionPair.m_algorithm) {
-      collisionPair.m_algorithm = dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap);
+      collisionPair.m_algorithm = dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap, nullptr, BT_CONTACT_POINT_ALGORITHMS);
     }
 
     if (collisionPair.m_algorithm) {
