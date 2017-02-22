@@ -29,7 +29,7 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   } else if (type == RadiationTrigger::TYPE) {
     RadiationTrigger radiationTrigger = RadiationTrigger();
     radiationTrigger.addAction(trigger);
-  } else if (type == "audio") {
+  } else if (type == AudioTrigger::TYPE) {
     bool loop = false;
     if (xmlElement->Attribute("loop")) {
       std::string loopAttribute = xmlElement->Attribute("loop");
@@ -37,8 +37,7 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
         loop = true;
       }
     }
-    const char* rawFileName;
-    rawFileName = xmlElement->Attribute("file");
+    const char* rawFileName = xmlElement->Attribute("file");
     if (rawFileName == nullptr) {
       throw std::runtime_error("Attribute file mandatory for trigger of type audio.");
     }
