@@ -30,3 +30,4 @@ tests/xmlReadingTest
 RadixEngine
 build/
 x64/
+getopt.h
