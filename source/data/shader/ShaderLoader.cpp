@@ -4,7 +4,7 @@
 #include <iostream>
 #include <memory>
 
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>

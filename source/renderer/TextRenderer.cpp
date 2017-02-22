@@ -6,7 +6,7 @@
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector4f.hpp>
 
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 
 namespace radix {
 

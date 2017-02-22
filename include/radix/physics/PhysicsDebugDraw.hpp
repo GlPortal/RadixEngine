@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 
 #include <LinearMath/btIDebugDraw.h>
 

@@ -58,13 +58,5 @@ endforeach(FLAG ${CXX14_FLAG_CANDIDATES})
 
 set(CXX14_FLAGS "${CXX14_FLAGS_INTERNAL}")
 
-if(WIN32) # Support for Windows based
-    set(CXX14_FLAGS "${CXX14_FLAGS} -DNOMINMAX")
-endif(WIN32)
-
-if(WIN32) # Workaround for MSVC (and, or, not fix)
-    set(CXX14_FLAGS "${CXX14_FLAGS} -Dnot=! -Dand=&& -Dor=||")
-endif(WIN32)
-
 find_package_handle_standard_args(CXX14 DEFAULT_MSG CXX14_FLAGS)
 mark_as_advanced(CXX14_FLAGS)

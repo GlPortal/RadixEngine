@@ -3,7 +3,7 @@
 #include <radix/renderer/Renderer.hpp>
 
 #include <algorithm>
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/Viewport.hpp>
@@ -22,7 +22,7 @@ Renderer::Renderer(World &world) :
   rc(*this),
   textRenderer(world, *this),
   vpWidth(0), vpHeight(0) {
-    support.uniformBuffers = GLAD_GL_ARB_uniform_buffer_object;
+    support.uniformBuffers = epoxy_has_gl_extension("GL_ARB_uniform_buffer_object");
 }
 
 void Renderer::init() {
