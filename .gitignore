@@ -28,3 +28,6 @@ tests/gwenUnicodeTest
 tests/quaternionTest
 tests/xmlReadingTest
 RadixEngine
+build/
+x64/
+getopt.h

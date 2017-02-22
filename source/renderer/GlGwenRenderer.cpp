@@ -17,7 +17,7 @@
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 #include <ciso646>
 #undef near
 #undef far

@@ -1,6 +1,6 @@
 #include <radix/data/shader/Shader.hpp>
 
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 
 namespace radix {
 

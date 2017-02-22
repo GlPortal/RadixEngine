@@ -4,7 +4,7 @@
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/text/FontLoader.hpp>
 
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 
 namespace radix {
 

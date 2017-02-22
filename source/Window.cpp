@@ -3,7 +3,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 #include <Gwen/Controls/WindowControl.h>
 #include <Gwen/Controls/CheckBox.h>
 #include <Gwen/Controls/TextBox.h>
@@ -44,7 +44,7 @@ void Window::initEpoxy() {
   if (config.getIgnoreGlVersion()) {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
   } else {
-    if (glver < 32) {
+    if ((glmaj * 10 + glmin) < 32) {
       throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
                              " is unsupported, " "required minimum is 3.2");
     }

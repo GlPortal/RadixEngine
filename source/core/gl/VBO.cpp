@@ -1,6 +1,6 @@
 #include <radix/core/gl/VBO.hpp>
 
-#include <glad/glad.h>
+#include <epoxy/gl.h>
 
 namespace radix {
 
