@@ -38,13 +38,14 @@ void Window::setConfig(radix::Config &config){
 }
 
 void Window::initEpoxy() {
-  const int glver = /*epoxy_gl_version()*/45, glmaj = glver / 10, glmin = glver % 10;
+  //const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
+  const int glmaj = GLVersion.major, glmin = GLVersion.minor;
   const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
   if (config.getIgnoreGlVersion()) {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
   } else {
-    if (glver < 32) {
+    if ((glmaj * 10 + glmin) < 32) {
       throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
                              " is unsupported, " "required minimum is 3.2");
     }
