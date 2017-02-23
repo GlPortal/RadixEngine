@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL.h>
 
+#include <ciso646>
+
 namespace radix {
 
 bool SoundManager::isInitialized = false;

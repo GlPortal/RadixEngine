@@ -13,13 +13,15 @@
 #ifndef MATRIX4F_HPP
 #define MATRIX4F_HPP
 
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Vector4f.hpp>
+
 #include <string>
 
 namespace radix {
 
 class Matrix3f;
-class Vector3f;
-class Vector4f;
+
 class Quaternion;
 
 class Matrix4f {

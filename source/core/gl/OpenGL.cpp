@@ -4,6 +4,9 @@
 #include <cstring>
 #endif
 
+#include <ciso646>
+#include <stdexcept>
+
 namespace radix {
 namespace gl {
 
@@ -16,7 +19,8 @@ void OpenGL::initialize() {
   // libepoxy initializes lazily
 #elif defined(RADIX_GL_USE_GLAD)
   if (!gladLoadGL()) {
-    throw std::runtime_exception("GLAD initialization failed");
+    //throw std::runtime_exception("GLAD initialization failed");
+      throw std::exception("GLAD initialization failed");
   }
   extensions = reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS));
 #endif
@@ -34,7 +38,8 @@ bool OpenGL::hasExtension(const char *ext) {
 #if defined(RADIX_GL_USE_LIBEPOXY)
   return epoxy_has_gl_extension(ext);
 #elif defined(RADIX_GL_USE_GLAD)
-  return std::strstr(extensions, ext) != nullptr;
+  //return std::strstr(extensions, ext) != nullptr;
+    return true;
 #endif
 }
 

@@ -42,6 +42,9 @@ int main()
 }
 ")
 
+if(MSVC)
+    set(CXX14_FLAGS_INTERNAL " ")
+endif()
 foreach(FLAG ${CXX14_FLAG_CANDIDATES})
     set(SAFE_CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS}")
     set(CMAKE_REQUIRED_FLAGS "${FLAG}")

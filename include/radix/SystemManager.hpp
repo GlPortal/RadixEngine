@@ -15,6 +15,8 @@
 #include <radix/core/event/Event.hpp>
 #include <radix/system/System.hpp>
 
+#undef max
+
 namespace radix {
 
 class World;

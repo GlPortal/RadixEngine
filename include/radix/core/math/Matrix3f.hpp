@@ -13,13 +13,14 @@
 #ifndef MATRIX3F_HPP
 #define MATRIX3F_HPP
 
+#include <radix/core/math/Vector2f.hpp>
+#include <radix/core/math/Vector3f.hpp>
+
 #include <string>
 
 namespace radix {
 
 class Matrix4f;
-class Vector3f;
-class Vector2f;
 
 class Matrix3f {
 public:

@@ -4,6 +4,8 @@
 
 #include <radix/core/math/Math.hpp>
 
+#include <ciso646>
+
 namespace radix {
 
 Health::Health(Entity &ent) :

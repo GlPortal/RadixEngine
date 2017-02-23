@@ -11,6 +11,8 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/component/Player.hpp>
 
+#include <ciso646>
+
 namespace radix {
 
 World::World(InputSource &input) :

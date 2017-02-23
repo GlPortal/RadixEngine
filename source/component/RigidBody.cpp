@@ -1,5 +1,7 @@
 #include <radix/component/RigidBody.hpp>
 
+#include <ciso646>
+
 namespace radix {
 
 RigidBody::RigidBody(Entity &ent) :

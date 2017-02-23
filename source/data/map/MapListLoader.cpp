@@ -5,6 +5,8 @@
 
 using namespace std;
 
+#include <ciso646>
+
 namespace radix {
 
 vector<string> MapListLoader::getMapList() {

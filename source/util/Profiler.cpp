@@ -4,6 +4,8 @@
 #include <sstream>
 #include <stack>
 
+#include <ciso646>
+
 namespace radix {
 namespace util {
 

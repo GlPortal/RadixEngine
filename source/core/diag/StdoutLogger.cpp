@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <ciso646>
+
 namespace radix {
 
 const char* StdoutLogger::getName() const {

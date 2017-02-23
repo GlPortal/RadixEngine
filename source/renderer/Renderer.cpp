@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include <radix/renderer/Renderer.hpp>
 
 #include <algorithm>
@@ -8,6 +10,8 @@
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Matrix3f.hpp>
 #include <radix/component/LightSource.hpp>
+
+#include <ciso646>
 
 namespace radix {
 

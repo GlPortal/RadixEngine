@@ -8,6 +8,8 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 
+#include <ciso646>
+
 namespace radix {
 
 class GWENInput {

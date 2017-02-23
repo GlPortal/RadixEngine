@@ -1,0 +1,11 @@
+set(GLAD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/glad/")
+set(GLAD_INCLUDE_DIRS ${GLAD_INCLUDE_DIR})
+set(GLAD_LIBRARY "GLAD")
+set(GLAD_LIBRARIES ${GLAD_LIBRARY})
+
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/external/glad/")
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(GLAD DEFAULT_MSG GLAD_LIBRARIES GLAD_INCLUDE_DIR GLAD_INCLUDE_DIRS)
+
+mark_as_advanced(GLAD_LIBRARY GLAD_LIBRARIES GLAD_INCLUDE_DIR GLAD_INCLUDE_DIRS)

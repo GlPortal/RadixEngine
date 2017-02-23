@@ -9,6 +9,8 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 
+#include <ciso646>
+
 namespace radix {
 
 Vector4f::Vector4f(const Vector3f &v, float w)
