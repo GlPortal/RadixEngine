@@ -21,6 +21,7 @@ set(RADIX_SOURCES
   ${D}/core/diag/StdoutLogger.cpp
   ${D}/core/event/EventDispatcher.cpp
   ${D}/core/file/Path.cpp
+  ${D}/core/gl/DebugOutput.cpp
   ${D}/core/gl/TightDataPacker.cpp
   ${D}/core/gl/VBO.cpp
   ${D}/core/math/Math.cpp
@@ -45,6 +46,10 @@ set(RADIX_SOURCES
   ${D}/data/map/MapLoader.cpp
   ${D}/data/map/XmlTriggerHelper.cpp
   ${D}/data/map/XmlHelper.cpp
+  ${D}/data/map/WinTrigger.cpp
+  ${D}/data/map/DeathTrigger.cpp
+  ${D}/data/map/RadiationTrigger.cpp
+  ${D}/data/map/AudioTrigger.cpp
   ${D}/data/map/XmlMapLoader.cpp
   ${D}/data/material/MaterialLoader.cpp
   ${D}/data/model/MeshLoader.cpp
