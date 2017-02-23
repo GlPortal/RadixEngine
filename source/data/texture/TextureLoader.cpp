@@ -3,7 +3,7 @@
 #include <epoxy/gl.h>
 
 #include <radix/env/Environment.hpp>
-#include <FreeImagePlus.h>
+#include <FreeImage.h>
 
 namespace radix {
 

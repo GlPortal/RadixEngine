@@ -113,7 +113,7 @@ private:
     bool uniformBuffers;
   } support;
 
-  uint lightsUBO;
+  unsigned lightsUBO;
 
   World &world;
   Viewport *viewport;
