@@ -18,6 +18,19 @@ function(radix_add_exported_definition)
   set(RADIX_DEFINITIONS "${RADIX_DEFINITIONS}" PARENT_SCOPE)
 endfunction(radix_add_exported_definition)
 
+#### COMPILE-TIME SETTINGS ####
+
+set(RADIX_GL_LOADER "libepoxy" CACHE STRING "OpenGL loader to use. One of 'libepoxy', 'glad'")
+
+if ("${RADIX_GL_LOADER}" STREQUAL "libepoxy")
+  set(RADIX_GL_USE_LIBEPOXY TRUE)
+  radix_add_exported_definition("RADIX_GL_USE_LIBEPOXY")
+endif()
+if ("${RADIX_GL_LOADER}" STREQUAL "glad")
+  set(RADIX_GL_USE_GLAD TRUE)
+  radix_add_exported_definition("RADIX_GL_USE_GLAD")
+endif()
+
 #### PLATFORM-SPECIFIC FIXES ####
 
 if(DEFINED WIN32)
@@ -37,9 +50,16 @@ list(APPEND RADIX_INCLUDE_DIRS ${OPENGL_INCLUDE_DIR})
 set(RADIX_LIBRARIES ${OPENGL_gl_LIBRARY})
 
 find_package(PkgConfig REQUIRED)
-pkg_search_module(EPOXY REQUIRED epoxy)
-list(APPEND RADIX_INCLUDE_DIRS ${EPOXY_INCLUDE_DIRS})
-list(APPEND RADIX_LIBRARIES ${EPOXY_LIBRARIES} )
+
+if (RADIX_GL_USE_LIBEPOXY)
+  pkg_search_module(EPOXY REQUIRED epoxy)
+  list(APPEND RADIX_INCLUDE_DIRS ${EPOXY_INCLUDE_DIRS})
+  list(APPEND RADIX_LIBRARIES ${EPOXY_LIBRARIES})
+elseif (RADIX_GL_USE_GLAD)
+  find_package(GLAD QUIET)
+  list(APPEND RADIX_INCLUDE_DIRS ${GLAD_INCLUDE_DIRS})
+  list(APPEND RADIX_LIBRARIES ${GLAD_LIBRARIES})
+endif()
 
 find_package(Assimp REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${ASSIMP_INCLUDE_DIRS})
@@ -77,17 +97,6 @@ list(APPEND RADIX_LIBRARIES ${FREEIMAGE_LIBRARIES})
 set(PORTAL_TEST_LIBRARIES ${RADIX_LIBRARIES})
 
 list(APPEND RADIX_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/external/serine/include")
-
-#### COMPILE-TIME SETTINGS ####
-
-set(RADIX_GL_LOADER "libepoxy" CACHE STRING "OpenGL loader to use. One of 'libepoxy', 'glad'")
-
-if ("${RADIX_GL_LOADER}" STREQUAL "libepoxy")
-  radix_add_exported_definition("RADIX_GL_USE_LIBEPOXY")
-endif()
-if ("${RADIX_GL_LOADER}" STREQUAL "glad")
-  radix_add_exported_definition("RADIX_GL_USE_GLAD")
-endif()
 
 #### ENGINE ####
 
