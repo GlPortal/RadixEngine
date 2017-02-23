@@ -22,7 +22,6 @@ Renderer::Renderer(World &world) :
   rc(*this),
   textRenderer(world, *this),
   vpWidth(0), vpHeight(0) {
-  support.uniformBuffers = epoxy_has_gl_extension("GL_ARB_uniform_buffer_object");
 }
 
 void Renderer::init() {
