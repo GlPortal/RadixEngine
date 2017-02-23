@@ -1,5 +1,3 @@
-#define NOMINMAX
-
 #include <radix/renderer/GlGwenRenderer.hpp>
 
 #include <cmath>
@@ -17,10 +15,15 @@
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 
-#include <glad/glad.h>
-#include <ciso646>
+#ifdef _WIN32
+#define NOMINMAX
 #undef near
 #undef far
+#include <glad/glad.h>
+#include <ciso646>
+#else
+#include <epoxy/gl.h>
+#endif
 
 namespace radix {
 

@@ -1,9 +1,6 @@
-#define NOMINMAX
-
 #include <radix/renderer/Renderer.hpp>
 
 #include <algorithm>
-#include <glad/glad.h>
 
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/Viewport.hpp>
@@ -11,7 +8,13 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/component/Transform.hpp>
 
+#ifdef _WIN32
+#define NOMINMAX
+#include <glad/glad.h>
 #include <ciso646>
+#else
+#include <epoxy/gl.h>
+#endif
 
 namespace radix {
 

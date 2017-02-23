@@ -3,7 +3,6 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <glad/glad.h>
 #include <Gwen/Controls/WindowControl.h>
 #include <Gwen/Controls/CheckBox.h>
 #include <Gwen/Controls/TextBox.h>
@@ -16,6 +15,12 @@
 #include <radix/renderer/GlGwenRenderer.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
+
+#ifdef _WIN32
+#include <glad/glad.h>
+#else
+#include <epoxy/gl.h>
+#endif
 
 namespace radix {
 
