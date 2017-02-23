@@ -80,12 +80,12 @@ static void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id,
 }
 
 void DebugOutput::enable() {
-  glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-  glDebugMessageCallback(glDebugCallback, nullptr);
+  //glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+  //glDebugMessageCallback(glDebugCallback, nullptr);
 }
 
 void DebugOutput::disable() {
-  glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_FALSE);
+  //glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_FALSE);
 }
 
 } /* namespace gl */
