@@ -3,19 +3,13 @@
 #include <radix/renderer/Renderer.hpp>
 
 #include <algorithm>
+#include <radix/OpenGL.hpp>
 
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Matrix3f.hpp>
 #include <radix/component/LightSource.hpp>
 #include <radix/component/Transform.hpp>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#include <ciso646>
-#else
-#include <epoxy/gl.h>
-#endif
 
 namespace radix {
 
@@ -26,6 +20,7 @@ Renderer::Renderer(World &world) :
   rc(*this),
   textRenderer(world, *this),
   vpWidth(0), vpHeight(0) {
+  support.uniformBuffers = opengl::uniformBufferSupport();
 }
 
 void Renderer::init() {

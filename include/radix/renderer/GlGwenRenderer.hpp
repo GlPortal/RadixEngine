@@ -6,15 +6,7 @@
 
 #include <Gwen/Gwen.h>
 #include <Gwen/BaseRender.h>
-
-#ifdef _WIN32
-#undef near
-#undef far
-#include <glad/glad.h>
-#include <ciso646>
-#else
-#include <epoxy/gl.h>
-#endif
+#include <radix/OpenGL.hpp>
 
 namespace radix {
 

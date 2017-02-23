@@ -1,12 +1,7 @@
 #include <radix/core/gl/DebugOutput.hpp>
 
 #include <radix/env/Util.hpp>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
+#include <radix/OpenGL.hpp>
 
 namespace radix {
 namespace gl {

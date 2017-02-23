@@ -4,15 +4,9 @@
 #include <iostream>
 #include <memory>
 
+#include <radix/OpenGL.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#include <ciso646>
-#else
-#include <epoxy/gl.h>
-#endif
 
 namespace radix {
 

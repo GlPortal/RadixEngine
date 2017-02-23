@@ -55,10 +55,10 @@ set(RADIX_SOURCES
   ${D}/data/model/MeshLoader.cpp
   ${D}/data/text/FontLoader.cpp
   ${D}/data/texture/TextureLoader.cpp
-  ${D}/data/screen/XmlScreenLoader.cpp
   ${D}/data/screen/Element.cpp
   ${D}/data/shader/Shader.cpp
   ${D}/data/shader/ShaderLoader.cpp
+  ${D}/data/screen/XmlScreenLoader.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/KinematicCharacterController.cpp
   ${D}/physics/PhysicsDebugDraw.cpp

@@ -1,13 +1,8 @@
 #include <radix/data/texture/TextureLoader.hpp>
 
+#include <radix/OpenGL.hpp>
 #include <radix/env/Environment.hpp>
-#include <FreeImagePlus.h>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
+#include <FreeImage.h>
 
 namespace radix {
 

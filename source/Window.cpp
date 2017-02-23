@@ -3,11 +3,13 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+
 #include <Gwen/Controls/WindowControl.h>
 #include <Gwen/Controls/CheckBox.h>
 #include <Gwen/Controls/TextBox.h>
 #include <Gwen/Controls/TreeControl.h>
 
+#include <radix/OpenGL.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/gl/DebugOutput.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
@@ -16,12 +18,6 @@
 #include <radix/renderer/GlGwenRenderer.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
 
 namespace radix {
 
@@ -44,7 +40,7 @@ void Window::setConfig(radix::Config &config){
 }
 
 void Window::initOpenGL() {
-#ifdef _WIN32
+#ifdef GLAD_SUPPORT
   if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
     Util::Log(Error, "Window") << "Failed to initialize OpenGL context";
     const std::string versionString = std::to_string(GLVersion.major) + '.' + std::to_string(GLVersion.minor);
@@ -53,7 +49,7 @@ void Window::initOpenGL() {
   }
 
   Util::Log(Info, "Window") << "Loaded OpenGL version: " << GLVersion.major << "." << GLVersion.minor;
-#else
+#elif EPOXY_SUPPORT
   const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
   const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;

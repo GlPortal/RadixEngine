@@ -1,3 +1,5 @@
+
+#include <radix/OpenGL.hpp>
 #include <radix/renderer/TextRenderer.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/data/text/FontLoader.hpp>
@@ -5,12 +7,6 @@
 #include <radix/data/material/MaterialLoader.hpp>
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector4f.hpp>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
 
 namespace radix {
 

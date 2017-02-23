@@ -5,16 +5,11 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
+#include <radix/OpenGL.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/Entity.hpp>
 #include <radix/core/gl/TightDataPacker.hpp>
 #include <radix/component/Transform.hpp>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
 
 namespace radix {
 

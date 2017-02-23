@@ -27,4 +27,7 @@ documentation/doxygen_sqlite3.db
 tests/gwenUnicodeTest
 tests/quaternionTest
 tests/xmlReadingTest
+build/
+x64/
+getopt.h
 RadixEngine

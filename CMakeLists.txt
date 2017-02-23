@@ -13,6 +13,12 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(DEFINED WIN32)
   add_definitions("-D_USE_MATH_DEFINES")
+
+  if(MSVC)
+    add_definitions("-Dand=&&")
+    add_definitions("-Dor=||")
+    add_definitions("-Dnot=!")
+  endif()
 endif()
 
 #### LIBRARIES ####
@@ -27,10 +33,36 @@ list(APPEND RADIX_INCLUDE_DIRS ${OPENGL_INCLUDE_DIR})
 
 set(RADIX_LIBRARIES ${OPENGL_gl_LIBRARY})
 
+if (
+  (NOT DEFINED EPOXY_SUPPORT) AND # Epoxy
+  (NOT DEFINED GLAD_SUPPORT)      # GLAD
+)
+  if(WIN32)
+    set(GLAD_SUPPORT TRUE)
+  else()
+    set(EPOXY_SUPPORT TRUE)
+  endif()
+endif()
+
 find_package(PkgConfig REQUIRED)
-pkg_search_module(EPOXY REQUIRED epoxy)
-list(APPEND RADIX_INCLUDE_DIRS ${EPOXY_INCLUDE_DIRS})
-list(APPEND RADIX_LIBRARIES ${EPOXY_LIBRARIES} )
+
+if (EPOXY_SUPPORT)
+  pkg_search_module(EPOXY REQUIRED epoxy)
+  list(APPEND RADIX_INCLUDE_DIRS ${EPOXY_INCLUDE_DIRS})
+
+  if(WIN32 AND MSVC)
+    list(APPEND RADIX_LIBRARIES ${EPOXY_LIBDIR}/${EPOXY_LIBRARIES}.lib )
+  else()
+    list(APPEND RADIX_LIBRARIES ${EPOXY_LIBRARIES} )
+  endif()
+
+  add_definitions("-DEPOXY_SUPPORT")
+elseif (GLAD_SUPPORT) 
+  find_package(GLAD QUIET)
+  list(APPEND RADIX_INCLUDE_DIRS ${GLAD_INCLUDE_DIRS})
+  list(APPEND RADIX_LIBRARIES ${GLAD_LIBRARIES} )
+  add_definitions("-DGLAD_SUPPORT")
+endif ()
 
 find_package(Assimp REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${ASSIMP_INCLUDE_DIRS})
