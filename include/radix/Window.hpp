@@ -61,7 +61,7 @@ private:
   void setSdlGlAttributes();
   void processMouseButtonEvents(SDL_Event &event);
   void processWindowEvents(SDL_Event &event);
-  void initEpoxy();
+  void initOpenGL();
   void initGwen();
   void testGwen();
   unsigned int width;

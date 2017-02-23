@@ -37,18 +37,15 @@ void Window::setConfig(radix::Config &config){
   this->config = config;
 }
 
-void Window::initEpoxy() {
-  const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
-  const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
-  Util::Log(Verbose, "Window") << "OpenGL " << versionString;
-  if (config.getIgnoreGlVersion()) {
-    Util::Log(Warning, "Window") << "Ignore OpenGl version";
-  } else {
-    if (glver < 32) {
+void Window::initOpenGL() {
+  if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+      Util::Log(Error, "Window") << "Failed to initialize OpenGL context";
+      const std::string versionString = std::to_string(GLVersion.major) + '.' + std::to_string(GLVersion.minor);
       throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
-                             " is unsupported, " "required minimum is 3.2");
-    }
+          " is unsupported, " "required minimum is 3.2");
   }
+
+  Util::Log(Info, "Window") << "Loaded OpenGL version: " << GLVersion.major << "." << GLVersion.minor;
 }
 
 void Window::initGwen() {
@@ -88,7 +85,7 @@ void Window::create(const char *title) {
 
   context = SDL_GL_CreateContext(window);
 
-  initEpoxy();
+  initOpenGL();
 
   glViewport(0, 0, width, height);
 
