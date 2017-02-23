@@ -4,12 +4,16 @@
 #include <memory>
 #include <vector>
 
-#include <glad/glad.h>
-
 #include <bullet/LinearMath/btIDebugDraw.h>
 
 #include <radix/core/gl/VBO.hpp>
 #include <radix/Camera.hpp>
+
+#ifdef _WIN32
+#include <glad/glad.h>
+#else
+#include <epoxy/gl.h>
+#endif
 
 namespace radix {
 
