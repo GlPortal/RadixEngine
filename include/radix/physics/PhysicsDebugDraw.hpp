@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <radix/OpenGL.hpp>
-#include <LinearMath/btIDebugDraw.h>
+#include <bullet/LinearMath/btIDebugDraw.h>
 
 #include <radix/core/gl/VBO.hpp>
 #include <radix/Camera.hpp>
