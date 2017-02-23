@@ -1,6 +1,6 @@
 #include <radix/physics/Uncollider.hpp>
 
-#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
+#include <bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 
 #include <radix/physics/PhysicsHelper.hpp>
 #include <radix/system/PhysicsSystem.hpp>

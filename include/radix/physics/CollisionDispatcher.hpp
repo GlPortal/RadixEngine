@@ -1,7 +1,7 @@
 #ifndef RADIX_COLLISION_DISPATCHER_HPP
 #define RADIX_COLLISION_DISPATCHER_HPP
 
-#include <btBulletDynamicsCommon.h>
+#include <bullet/btBulletDynamicsCommon.h>
 
 namespace radix {
 

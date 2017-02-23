@@ -16,7 +16,7 @@
 
 #include <serine/Archiver.hpp>
 
-#include <LinearMath/btVector3.h>
+#include <bullet/LinearMath/btVector3.h>
 
 #include <ciso646>
 
