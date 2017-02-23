@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <epoxy/gl.h>
+#include <radix/OpenGL.hpp>
 
 #include <Gwen/Gwen.h>
 #include <Gwen/BaseRender.h>

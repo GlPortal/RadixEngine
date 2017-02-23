@@ -4,7 +4,7 @@
 #include <assimp/mesh.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <epoxy/gl.h>
+#include <radix/OpenGL.hpp>
 
 #include <radix/env/Environment.hpp>
 #include <radix/Entity.hpp>

@@ -35,6 +35,7 @@ set(RADIX_LIBRARIES ${OPENGL_gl_LIBRARY})
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(EPOXY REQUIRED epoxy)
+add_definitions("-DEPOXY_SUPPORT")
 list(APPEND RADIX_INCLUDE_DIRS ${EPOXY_INCLUDE_DIRS})
 
 if(WIN32 AND MSVC)

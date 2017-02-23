@@ -3,12 +3,13 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <epoxy/gl.h>
+
 #include <Gwen/Controls/WindowControl.h>
 #include <Gwen/Controls/CheckBox.h>
 #include <Gwen/Controls/TextBox.h>
 #include <Gwen/Controls/TreeControl.h>
 
+#include <radix/OpenGL.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/gl/DebugOutput.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
@@ -36,20 +37,6 @@ Window::~Window() = default;
 
 void Window::setConfig(radix::Config &config){
   this->config = config;
-}
-
-void Window::initEpoxy() {
-  const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
-  const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
-  Util::Log(Verbose, "Window") << "OpenGL " << versionString;
-  if (config.getIgnoreGlVersion()) {
-    Util::Log(Warning, "Window") << "Ignore OpenGl version";
-  } else {
-    if (glver < 32) {
-      throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
-                             " is unsupported, " "required minimum is 3.2");
-    }
-  }
 }
 
 void Window::initGwen() {
@@ -98,7 +85,11 @@ void Window::create(const char *title) {
 
   context = SDL_GL_CreateContext(window);
 
-  initEpoxy();
+  if (config.getIgnoreGlVersion()) {
+    Util::Log(Warning, "Window") << "Ignore OpenGl version";
+  } else {
+    opengl::initGL();
+  }
 
   if (enableGlDebug) {
     gl::DebugOutput::enable();

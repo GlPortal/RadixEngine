@@ -1,7 +1,6 @@
 #include <radix/core/gl/DebugOutput.hpp>
 
-#include <epoxy/gl.h>
-
+#include <radix/OpenGL.hpp>
 #include <radix/env/Util.hpp>
 
 namespace radix {

@@ -1,4 +1,4 @@
-#include <epoxy/gl.h>
+#include <radix/OpenGL.hpp>
 #include <radix/renderer/TextRenderer.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/data/text/FontLoader.hpp>

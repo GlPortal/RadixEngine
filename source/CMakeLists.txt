@@ -77,6 +77,7 @@ set(RADIX_SOURCES
   ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp
   ${D}/util/XmlLoader.cpp
+  ${D}/OpenGL.cpp
   ${D}/Window.cpp
   ${D}/World.cpp
   PARENT_SCOPE
