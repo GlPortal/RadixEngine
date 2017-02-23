@@ -55,7 +55,7 @@ LogInput Util::_Log::operator()(LogLevel lvl, const std::string &tag) {
 static void SetThreadName(uint32_t dwThreadID, const char **threadName) {
   THREADNAME_INFO info;
   info.dwType = 0x1000;
-  info.szName = threadName;
+  info.szName = (LPCSTR)threadName;
   info.dwThreadID = dwThreadID;
   info.dwFlags = 0;
   __try
@@ -68,8 +68,8 @@ static void SetThreadName(uint32_t dwThreadID, const char **threadName) {
 }
 
 void Util::SetThreadName(std::thread &thread, const char *name) {
-  DWORD threadId = ::GetThreadId(static_cast<HANDLE>(thread->native_handle()));
-  SetThreadName(threadId,threadName);
+  DWORD threadId = ::GetThreadId(static_cast<HANDLE>(thread.native_handle()));
+  radix::SetThreadName((uint32_t)threadId, &name);
 }
 #elif __APPLE__
 void Util::SetThreadName(std::thread &thread, const char *name) {

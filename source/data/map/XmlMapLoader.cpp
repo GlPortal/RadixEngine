@@ -29,7 +29,7 @@ XmlMapLoader::XmlMapLoader(World &w) :
 }
 
 void XmlMapLoader::load(const std::string &path) {
-  XMLDocument doc;
+  tinyxml2::XMLDocument doc;
   XMLError error = doc.LoadFile(path.c_str());
 
   if (error == 0) {
