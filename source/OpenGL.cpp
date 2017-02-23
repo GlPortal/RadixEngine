@@ -14,11 +14,18 @@ namespace radix {
                 Util::Log(Verbose, "Window") << "OpenGL " << versionString;
 
                 if (glver < 32) {
-                    throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +  " is unsupported, " "required minimum is 3.2");
+                    throw 
+                    Exception::Error("Window", std::string("OpenGL Version ") + versionString + 
+                    " is unsupported, " + 
+                    "required minimum is 3.2"
+                    );
                 }
             #elif GLAD_SUPPORT
                 if (!gladLoadGL()) {
-                    throw Exception::Error("Window", std::string("OpenGL Version ") + versionString + " is unsupported, " "required minimum is 3.2");
+                    throw 
+                    Exception::Error("Window", std::string("OpenGL Version ") + versionString + 
+                    " is unsupported, " + 
+                    "required minimum is 3.2");
                 }
             #endif
         }
