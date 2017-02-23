@@ -17,11 +17,6 @@
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 
-#ifdef _WIN32
-#undef near
-#undef far
-#endif
-
 namespace radix {
 
 GlGwenRenderer::GlGwenRenderer() :
