@@ -1,11 +1,14 @@
 #include <radix/data/map/XmlTriggerHelper.hpp>
+#include <radix/data/map/WinTrigger.hpp>
+#include <radix/data/map/DeathTrigger.hpp>
+#include <radix/data/map/RadiationTrigger.hpp>
+#include <radix/data/map/AudioTrigger.hpp>
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/component/Trigger.hpp>
 #include <radix/component/Health.hpp>
 #include <radix/core/state/GameState.hpp>
-#include <radix/SoundManager.hpp>
 #include <radix/env/Environment.hpp>
 
 using namespace std;
@@ -17,13 +20,16 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   std::function<void(BaseGame&)> action;
   std::string type = xmlElement->Attribute("type");
   trigger.addComponent<Trigger>();
-  if (type == "death") {
-    XmlTriggerHelper::addDeathAction(trigger);
-  } else if (type == "win") {
-    XmlTriggerHelper::addWinAction(trigger);
-  } else if (type == "radiation") {
-    XmlTriggerHelper::addRadiationAction(trigger);
-  } else if (type == "audio") {
+  if (type == DeathTrigger::TYPE) {
+    DeathTrigger deathTrigger = DeathTrigger();
+    deathTrigger.addAction(trigger);
+  } else if (type == WinTrigger::TYPE) {
+    WinTrigger winTrigger = WinTrigger();
+    winTrigger.addAction(trigger);
+  } else if (type == RadiationTrigger::TYPE) {
+    RadiationTrigger radiationTrigger = RadiationTrigger();
+    radiationTrigger.addAction(trigger);
+  } else if (type == AudioTrigger::TYPE) {
     bool loop = false;
     if (xmlElement->Attribute("loop")) {
       std::string loopAttribute = xmlElement->Attribute("loop");
@@ -31,17 +37,14 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
         loop = true;
       }
     }
+    const char* rawFileName = xmlElement->Attribute("file");
+    if (rawFileName == nullptr) {
+      throw std::runtime_error("Attribute file mandatory for trigger of type audio.");
+    }
 
-    std::string datadir = Environment::getDataDir();
-    std::string fileName =
-      datadir + "/audio/" + xmlElement->Attribute("file");
-    action = [fileName] (BaseGame &game) {
-      if (!SoundManager::isPlaying(fileName)) {
-        SoundManager::playMusic(fileName);
-      }
-    };
-
-    trigger.getComponent<Trigger>().setActionOnEnter(action);
+    AudioTrigger audioTrigger = AudioTrigger(rawFileName);
+    audioTrigger.setLoop(loop);
+    audioTrigger.addAction(trigger);
   } else if (type == "map") {
     std::string filename = xmlElement->Attribute("file");
     addMapAction(filename, trigger);
@@ -60,34 +63,6 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
 
     trigger.getComponent<Trigger>().setActionOnEnter(action);
   }
-}
-
-void XmlTriggerHelper::addDeathAction(Entity& trigger) {
-  std::function<void(BaseGame&)> action;
-  action = [] (BaseGame &game) {
-    game.getWorld()->getPlayer().getComponent<Health>().kill();
-  };
-
-  trigger.getComponent<Trigger>().setActionOnEnter(action);
-}
-
-void XmlTriggerHelper::addWinAction(Entity& trigger) {
-  std::function<void(BaseGame&)> action;
-  action = [] (BaseGame &game) {
-    game.getWorld()->event.dispatch(GameState::WinEvent());
-  };
-
-  trigger.getComponent<Trigger>().setActionOnUpdate(action);
-}
-
-void XmlTriggerHelper::addRadiationAction(Entity& trigger) {
-  std::function<void(BaseGame&)> action;
-  action = [] (BaseGame &game) {
-    game.getWorld()
-    ->getPlayer().getComponent<Health>().harm(0.1f);
-  };
-  trigger.getComponent<Trigger>().setActionOnUpdate(action);
-
 }
 
 void XmlTriggerHelper::addMapAction(std::string filename, Entity& trigger){

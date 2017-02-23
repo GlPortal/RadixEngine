@@ -23,20 +23,21 @@ public:
   Config();
   void load();
   bool isLoaded();
-  unsigned int getWidth() { return width; }
-  unsigned int getHeight() { return height; }
-  float getSensitivity() { return sensitivity; }
-  bool isFullscreen() { return fullscreen; }
-  int getAntialiasLevel() { return antialiasing; }
-  int getRecursionLevel() { return recursivePortal; }
-  bool hasSound() { return sound; }
-  bool hasVsync() { return vsync; }
-  bool isHidePortalsByClick() { return hidePortalsByClick; }
-  bool getCursorVisibility() { return cursorVisibility; }
-  bool getIgnoreGlVersion() { return ignoreGlVersion; }
-  LogLevel getLoglevel() { return loglevel; }
-  std::string getMap() { return map; }
-  std::string getMapPath() { return mapPath; }
+  unsigned int getWidth() const { return width; }
+  unsigned int getHeight() const { return height; }
+  float getSensitivity() const { return sensitivity; }
+  bool isFullscreen() const { return fullscreen; }
+  int getAntialiasLevel() const { return antialiasing; }
+  int getRecursionLevel() const { return recursivePortal; }
+  bool hasSound() const { return sound; }
+  bool hasVsync() const { return vsync; }
+  bool isHidePortalsByClick() const { return hidePortalsByClick; }
+  bool getCursorVisibility() const { return cursorVisibility; }
+  bool getIgnoreGlVersion() const { return ignoreGlVersion; }
+  bool getGlContextEnableDebug() const { return glContextEnableDebug; }
+  LogLevel getLoglevel() const { return loglevel; }
+  std::string getMap() const { return map; }
+  std::string getMapPath() const { return mapPath; }
 
 private:
   void loadVideoSettings(Json json);
@@ -56,6 +57,7 @@ private:
   bool hidePortalsByClick;
   bool cursorVisibility;
   bool ignoreGlVersion;
+  bool glContextEnableDebug;
   LogLevel loglevel;
   std::string map;
   std::string mapPath;
