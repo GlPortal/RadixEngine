@@ -8,6 +8,11 @@
 #include <Gwen/Gwen.h>
 #include <Gwen/BaseRender.h>
 
+#ifdef _WIN32
+#undef near
+#undef far
+#endif
+
 namespace radix {
 
 class VBO;
