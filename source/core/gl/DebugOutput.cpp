@@ -1,7 +1,7 @@
 #include <radix/core/gl/DebugOutput.hpp>
 
-#include <radix/OpenGL.hpp>
 #include <radix/env/Util.hpp>
+#include <radix/OpenGL.hpp>
 
 namespace radix {
 namespace gl {

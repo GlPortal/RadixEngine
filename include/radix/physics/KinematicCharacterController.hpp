@@ -24,9 +24,9 @@ we need.
 #ifndef RADIX_KINEMATIC_CHARACTER_CONTROLLER_HPP
 #define RADIX_KINEMATIC_CHARACTER_CONTROLLER_HPP
 
-#include <LinearMath/btVector3.h>
-#include <BulletDynamics/Character/btCharacterControllerInterface.h>
-#include <BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/BulletDynamics/Character/btCharacterControllerInterface.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
 
 
 class btCollisionShape;
