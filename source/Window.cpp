@@ -3,7 +3,9 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <epoxy/gl.h>
+
+#include <radix/core/gl/OpenGL.hpp>
+
 #include <Gwen/Controls/WindowControl.h>
 #include <Gwen/Controls/CheckBox.h>
 #include <Gwen/Controls/TextBox.h>
@@ -38,8 +40,9 @@ void Window::setConfig(radix::Config &config){
   this->config = config;
 }
 
-void Window::initEpoxy() {
-  const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
+void Window::initGl() {
+  gl::OpenGL::initialize();
+  const int glver = gl::OpenGL::version(), glmaj = glver / 10, glmin = glver % 10;
   const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
   if (config.getIgnoreGlVersion()) {
@@ -98,7 +101,7 @@ void Window::create(const char *title) {
 
   context = SDL_GL_CreateContext(window);
 
-  initEpoxy();
+  initGl();
 
   if (enableGlDebug) {
     gl::DebugOutput::enable();

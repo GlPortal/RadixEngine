@@ -9,6 +9,15 @@ project(${RADIX_LIBRARY} CXX C)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+#### UTILITY ####
+
+set(RADIX_DEFINITIONS "")
+function(radix_add_exported_definition)
+  add_definitions("-D${ARGV0}")
+  list(APPEND RADIX_DEFINITIONS "${ARGV0}")
+  set(RADIX_DEFINITIONS "${RADIX_DEFINITIONS}" PARENT_SCOPE)
+endfunction(radix_add_exported_definition)
+
 #### PLATFORM-SPECIFIC FIXES ####
 
 if(DEFINED WIN32)
@@ -69,6 +78,17 @@ set(PORTAL_TEST_LIBRARIES ${RADIX_LIBRARIES})
 
 list(APPEND RADIX_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/external/serine/include")
 
+#### COMPILE-TIME SETTINGS ####
+
+set(RADIX_GL_LOADER "libepoxy" CACHE STRING "OpenGL loader to use. One of 'libepoxy', 'glad'")
+
+if ("${RADIX_GL_LOADER}" STREQUAL "libepoxy")
+  radix_add_exported_definition("RADIX_GL_USE_LIBEPOXY")
+endif()
+if ("${RADIX_GL_LOADER}" STREQUAL "glad")
+  radix_add_exported_definition("RADIX_GL_USE_GLAD")
+endif()
+
 #### ENGINE ####
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
@@ -93,6 +113,7 @@ if (RADIX_EXPORT_CMAKE_PACKAGE_VARS)
   set(RADIX_LIBRARIES "${RADIX_LIBRARIES}" PARENT_SCOPE)
   set(RADIX_INCLUDE_DIR "${RADIX_INCLUDE_DIR}" PARENT_SCOPE)
   set(RADIX_INCLUDE_DIRS "${RADIX_INCLUDE_DIRS}" PARENT_SCOPE)
+  set(RADIX_DEFINITIONS "${RADIX_DEFINITIONS}" PARENT_SCOPE)
 endif ()
 
 #### UNIT TESTING ####
