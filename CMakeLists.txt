@@ -13,6 +13,12 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(DEFINED WIN32)
   add_definitions("-D_USE_MATH_DEFINES")
+
+  if(MSVC)
+    add_definitions("-Dand=&&")
+    add_definitions("-Dor=||")
+    add_definitions("-Dnot=!")
+  endif()
 endif()
 
 #### LIBRARIES ####
