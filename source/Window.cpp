@@ -39,6 +39,10 @@ void Window::setConfig(radix::Config &config){
   this->config = config;
 }
 
+void Window::initOpenGL() {
+  opengl::initGL();
+}
+
 void Window::initGwen() {
   gwenRenderer = std::make_unique<GlGwenRenderer>();
   gwenSkin = std::make_unique<Gwen::Skin::TexturedBase>(gwenRenderer.get());
@@ -85,11 +89,7 @@ void Window::create(const char *title) {
 
   context = SDL_GL_CreateContext(window);
 
-  if (config.getIgnoreGlVersion()) {
-    Util::Log(Warning, "Window") << "Ignore OpenGl version";
-  } else {
-    opengl::initGL();
-  }
+  initOpenGL();
 
   if (enableGlDebug) {
     gl::DebugOutput::enable();

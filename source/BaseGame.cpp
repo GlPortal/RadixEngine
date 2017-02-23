@@ -7,6 +7,8 @@
 #include <radix/component/Player.hpp>
 #include <radix/env/ArgumentsParser.hpp>
 
+#include <SDL2/SDL_timer.h>
+
 namespace radix {
 
 Fps BaseGame::fps;

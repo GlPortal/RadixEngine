@@ -37,13 +37,17 @@ if (
   (NOT DEFINED EPOXY_SUPPORT) AND # Epoxy
   (NOT DEFINED GLAD_SUPPORT)      # GLAD
 )
-  set(EPOXY_SUPPORT TRUE)
+  if(WIN32)
+    set(GLAD_SUPPORT TRUE)
+  else()
+    set(EPOXY_SUPPORT TRUE)
+  endif()
 endif()
 
 find_package(PkgConfig REQUIRED)
+
 if (EPOXY_SUPPORT)
   pkg_search_module(EPOXY REQUIRED epoxy)
-  add_definitions("-DEPOXY_SUPPORT")
   list(APPEND RADIX_INCLUDE_DIRS ${EPOXY_INCLUDE_DIRS})
 
   if(WIN32 AND MSVC)
@@ -51,8 +55,10 @@ if (EPOXY_SUPPORT)
   else()
     list(APPEND RADIX_LIBRARIES ${EPOXY_LIBRARIES} )
   endif()
-elseif (GLAD_SUPPORT) #TODO advanced
-  find_package(GLAD REQUIRED)
+
+  add_definitions("-DEPOXY_SUPPORT")
+elseif (GLAD_SUPPORT) 
+  find_package(GLAD QUIET)
   list(APPEND RADIX_INCLUDE_DIRS ${GLAD_INCLUDE_DIRS})
   list(APPEND RADIX_LIBRARIES ${GLAD_LIBRARIES} )
   add_definitions("-DGLAD_SUPPORT")

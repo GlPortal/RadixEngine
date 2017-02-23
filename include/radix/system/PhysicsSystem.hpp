@@ -3,8 +3,8 @@
 
 #include <unordered_set>
 
-#include <bullet/btBulletDynamicsCommon.h>
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <btBulletDynamicsCommon.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/system/System.hpp>

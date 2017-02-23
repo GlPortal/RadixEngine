@@ -16,7 +16,9 @@
 
 #include <serine/Archiver.hpp>
 
-#include <bullet/LinearMath/btVector3.h>
+#include <LinearMath/btVector3.h>
+
+#include <ciso646>
 
 namespace radix {
 

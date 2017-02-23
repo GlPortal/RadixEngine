@@ -14,6 +14,8 @@
 #include <cmath>
 #include <sstream>
 
+#include <ciso646>
+
 namespace radix {
 
 const Vector2f Vector2f::ZERO(0, 0);

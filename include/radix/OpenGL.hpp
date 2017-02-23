@@ -1,6 +1,8 @@
 #ifndef RADIX_OPENGL_HPP
 #define RADIX_OPENGL_HPP
 
+#include <ciso646>
+
 #ifdef EPOXY_SUPPORT
 #include <epoxy/gl.h>
 #elif GLAD_SUPPORT

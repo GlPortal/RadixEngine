@@ -5,7 +5,6 @@
 #include <vector>
 
 #include <radix/OpenGL.hpp>
-
 #include <Gwen/Gwen.h>
 #include <Gwen/BaseRender.h>
 

@@ -4,8 +4,8 @@
 #include <assimp/mesh.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <radix/OpenGL.hpp>
 
+#include <radix/OpenGL.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/Entity.hpp>
 #include <radix/core/gl/TightDataPacker.hpp>

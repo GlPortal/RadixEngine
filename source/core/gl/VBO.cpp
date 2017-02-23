@@ -1,5 +1,4 @@
 #include <radix/core/gl/VBO.hpp>
-
 #include <radix/OpenGL.hpp>
 
 namespace radix {

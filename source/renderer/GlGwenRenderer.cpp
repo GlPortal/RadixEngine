@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include <radix/renderer/GlGwenRenderer.hpp>
 
 #include <cmath>
@@ -14,6 +16,15 @@
 #include <radix/env/Environment.hpp>
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
+
+#ifdef _WIN32
+#undef near
+#undef far
+#include <glad/glad.h>
+#include <ciso646>
+#else
+#include <epoxy/gl.h>
+#endif
 
 namespace radix {
 
@@ -53,7 +64,7 @@ void GlGwenRenderer::Begin() {
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glAlphaFunc(GL_GREATER, 1.0f);
+  //glAlphaFunc(GL_GREATER, 1.0f);
   glEnable(GL_BLEND);
 }
 

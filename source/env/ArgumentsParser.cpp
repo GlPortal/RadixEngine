@@ -10,6 +10,8 @@
 #include <radix/env/Config.hpp>
 #include <radix/env/Environment.hpp>
 
+#include <ciso646>
+
 namespace radix {
 const int ArgumentsParser::NO_ARGUMENT = -1;
 std::string ArgumentsParser::mapName = "";

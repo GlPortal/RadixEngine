@@ -5,6 +5,8 @@
 #include <radix/physics/CollisionDispatcher.hpp>
 #include <radix/physics/Uncollider.hpp>
 
+#include <ciso646>
+
 namespace radix {
 
 std::unordered_set<CollisionInfo, CollisionInfoHash, CollisionInfoEqual> PhysicsSystem::collisions;

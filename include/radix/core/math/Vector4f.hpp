@@ -4,6 +4,8 @@
 #include <cmath>
 #include <string>
 
+#include <radix/core/math/Vector2f.hpp>
+#include <radix/core/math/Vector3f.hpp>
 #include <serine/Serializable.hpp>
 
 class btVector4;
@@ -11,8 +13,6 @@ class btQuaternion;
 
 namespace radix {
 
-struct Vector2f;
-struct Vector3f;
 class Matrix3f;
 class Matrix4f;
 

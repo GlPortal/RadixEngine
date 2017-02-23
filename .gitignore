@@ -30,3 +30,4 @@ tests/xmlReadingTest
 build/
 x64/
 getopt.h
+RadixEngine

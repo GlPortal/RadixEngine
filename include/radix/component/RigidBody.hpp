@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
-#include <bullet/BulletDynamics/Dynamics/btRigidBody.h>
-#include <bullet/LinearMath/btDefaultMotionState.h>
+#include <BulletCollision/CollisionShapes/btCollisionShape.h>
+#include <BulletDynamics/Dynamics/btRigidBody.h>
+#include <LinearMath/btDefaultMotionState.h>
 
 #include <radix/component/Component.hpp>
 #include <radix/component/Transform.hpp>
