@@ -16,8 +16,7 @@ namespace radix {
 #ifdef EPOXY_SUPPORT
             return epoxy_has_gl_extension("GL_ARB_uniform_buffer_object");
 #elif GLAD_SUPPORT
-//            return !!GLAD_GL_ARB_uniform_buffer_object;
-            return false;
+            return !!GLAD_GL_ARB_uniform_buffer_object;
 #else 
             return false;
 #endif
