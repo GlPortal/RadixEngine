@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include <radix/renderer/Renderer.hpp>
 
 #include <algorithm>
@@ -9,7 +11,6 @@
 #include <radix/component/Transform.hpp>
 
 #ifdef _WIN32
-#define NOMINMAX
 #include <glad/glad.h>
 #include <ciso646>
 #else

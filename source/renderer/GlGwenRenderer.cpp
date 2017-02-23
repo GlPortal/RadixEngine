@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include <radix/renderer/GlGwenRenderer.hpp>
 
 #include <cmath>
@@ -16,7 +18,6 @@
 #include <radix/data/texture/TextureLoader.hpp>
 
 #ifdef _WIN32
-#define NOMINMAX
 #undef near
 #undef far
 #include <glad/glad.h>
