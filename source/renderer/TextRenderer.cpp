@@ -9,12 +9,6 @@
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector4f.hpp>
 
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
-
 namespace radix {
 
 TextRenderer::TextRenderer(World &w, Renderer &ren) :
