@@ -4,7 +4,7 @@
 #include <iostream>
 #include <memory>
 
-#include <epoxy/gl.h>
+#include <radix/core/gl/OpenGL.hpp>
 
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>

@@ -3,13 +3,16 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <epoxy/gl.h>
+
+#include <radix/core/gl/OpenGL.hpp>
+
 #include <Gwen/Controls/WindowControl.h>
 #include <Gwen/Controls/CheckBox.h>
 #include <Gwen/Controls/TextBox.h>
 #include <Gwen/Controls/TreeControl.h>
 
 #include <radix/core/event/EventDispatcher.hpp>
+#include <radix/core/gl/DebugOutput.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 #include <radix/core/diag/Throwables.hpp>
 #include <radix/input/GWENInput.hpp>
@@ -37,8 +40,9 @@ void Window::setConfig(radix::Config &config){
   this->config = config;
 }
 
-void Window::initEpoxy() {
-  const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
+void Window::initGl() {
+  gl::OpenGL::initialize();
+  const int glver = gl::OpenGL::version(), glmaj = glver / 10, glmin = glver % 10;
   const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
   if (config.getIgnoreGlVersion()) {
@@ -71,6 +75,15 @@ void Window::create(const char *title) {
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config.getAntialiasLevel());
   }
 
+  int glFlags = 0;
+
+  const bool enableGlDebug = config.isLoaded() && config.getGlContextEnableDebug();
+  if (enableGlDebug) {
+    glFlags |= SDL_GL_CONTEXT_DEBUG_FLAG;
+  }
+
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, glFlags);
+
   int flags = SDL_WINDOW_OPENGL;
 
   if (config.isLoaded() && config.isFullscreen()) {
@@ -88,7 +101,11 @@ void Window::create(const char *title) {
 
   context = SDL_GL_CreateContext(window);
 
-  initEpoxy();
+  initGl();
+
+  if (enableGlDebug) {
+    gl::DebugOutput::enable();
+  }
 
   glViewport(0, 0, width, height);
 

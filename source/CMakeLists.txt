@@ -21,6 +21,8 @@ set(RADIX_SOURCES
   ${D}/core/diag/StdoutLogger.cpp
   ${D}/core/event/EventDispatcher.cpp
   ${D}/core/file/Path.cpp
+  ${D}/core/gl/DebugOutput.cpp
+  ${D}/core/gl/OpenGL.cpp
   ${D}/core/gl/TightDataPacker.cpp
   ${D}/core/gl/VBO.cpp
   ${D}/core/math/Math.cpp
