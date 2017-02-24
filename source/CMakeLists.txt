@@ -49,6 +49,7 @@ set(RADIX_SOURCES
   ${D}/data/map/DeathTrigger.cpp
   ${D}/data/map/RadiationTrigger.cpp
   ${D}/data/map/AudioTrigger.cpp
+  ${D}/data/map/MapTrigger.cpp
   ${D}/data/map/XmlMapLoader.cpp
   ${D}/data/material/MaterialLoader.cpp
   ${D}/data/model/MeshLoader.cpp
