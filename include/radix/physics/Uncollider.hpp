@@ -4,7 +4,7 @@
 #include <list>
 #include <unordered_set>
 
-#include <bullet/BulletCollision/btBulletCollisionCommon.h>
+#include <bullet/btBulletCollisionCommon.h>
 #include <bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h>
 
 namespace std {

@@ -11,7 +11,9 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/component/Player.hpp>
 
+#ifdef _WIN32
 #include <ciso646>
+#endif
 
 namespace radix {
 

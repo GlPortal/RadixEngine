@@ -78,7 +78,6 @@ void XmlMapLoader::extractMaterials() {
 
 void XmlMapLoader::extractSpawn() {
   tinyxml2::XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
-
   if (spawnElement) {
     Entity &start = world.entityManager.create();
     Transform &transform = start.addComponent<Transform>();

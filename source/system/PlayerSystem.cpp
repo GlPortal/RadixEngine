@@ -5,6 +5,10 @@
 #include <radix/component/Player.hpp>
 #include <radix/system/PhysicsSystem.hpp>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 namespace radix {
 
 PlayerSystem::PlayerSystem(World &w, BaseGame *game) :

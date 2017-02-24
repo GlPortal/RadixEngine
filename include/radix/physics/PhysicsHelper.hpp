@@ -1,7 +1,7 @@
 #ifndef RADIX_PHYSICS_HELPER_HPP
 #define RADIX_PHYSICS_HELPER_HPP
 
-#include <bullet/LinearMath/btVector3.h>
+#include <LinearMath/btVector3.h>
 #include <bullet/BulletCollision/Gimpact/btBoxCollision.h>
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>

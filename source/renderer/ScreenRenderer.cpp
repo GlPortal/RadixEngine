@@ -7,6 +7,12 @@
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/text/FontLoader.hpp>
 
+#ifdef _WIN32
+#include <glad/glad.h>
+#else
+#include <epoxy/gl.h>
+#endif
+
 namespace radix {
 
 ScreenRenderer::ScreenRenderer(World &w, Renderer &ren, GameWorld &gw) :

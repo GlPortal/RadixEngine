@@ -28,3 +28,4 @@ tests/gwenUnicodeTest
 tests/quaternionTest
 tests/xmlReadingTest
 getopt.h
+RadixEngine
