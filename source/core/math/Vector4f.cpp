@@ -14,8 +14,6 @@
 #include <ciso646>
 #endif
 
-#include <ciso646>
-
 namespace radix {
 
 Vector4f::Vector4f(const Vector3f &v, float w)

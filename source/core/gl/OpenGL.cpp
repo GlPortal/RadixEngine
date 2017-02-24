@@ -6,9 +6,6 @@
 #include <set>
 #endif
 
-#include <ciso646>
-#include <stdexcept>
-
 namespace radix {
 namespace gl {
 

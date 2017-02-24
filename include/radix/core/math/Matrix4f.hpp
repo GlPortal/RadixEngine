@@ -21,7 +21,6 @@
 namespace radix {
 
 class Matrix3f;
-class Quaternion;
 
 class Matrix4f {
 public:

@@ -17,8 +17,6 @@
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 
-#include <ciso646>
-
 namespace radix {
 
 GlGwenRenderer::GlGwenRenderer() :

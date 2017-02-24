@@ -16,8 +16,6 @@
 #include <ciso646>
 #endif
 
-#include <ciso646>
-
 namespace radix {
 
 Renderer::Renderer(World &world) :
