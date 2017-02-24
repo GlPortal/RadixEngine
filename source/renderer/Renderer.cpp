@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+#include <radix/core/gl/OpenGL.hpp>
+
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Matrix3f.hpp>
@@ -11,10 +13,7 @@
 #include <radix/component/Transform.hpp>
 
 #ifdef _WIN32
-#include <glad/glad.h>
 #include <ciso646>
-#else
-#include <epoxy/gl.h>
 #endif
 
 namespace radix {
@@ -26,6 +25,7 @@ Renderer::Renderer(World &world) :
   rc(*this),
   textRenderer(world, *this),
   vpWidth(0), vpHeight(0) {
+  support.uniformBuffers = gl::OpenGL::hasExtension("GL_ARB_uniform_buffer_object");
 }
 
 void Renderer::init() {

@@ -1,4 +1,7 @@
 #include <radix/renderer/ScreenRenderer.hpp>
+
+#include <radix/core/gl/OpenGL.hpp>
+
 #include <radix/Viewport.hpp>
 #include <radix/data/model/MeshLoader.hpp>
 #include <radix/data/shader/ShaderLoader.hpp>

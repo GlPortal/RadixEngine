@@ -7,13 +7,12 @@
 #include <Gwen/Gwen.h>
 #include <Gwen/BaseRender.h>
 
+#include <radix/core/gl/OpenGL.hpp>
+
 #ifdef _WIN32
-#undef near
-#undef far
-#include <glad/glad.h>
-#include <ciso646>
-#else
-#include <epoxy/gl.h>
+  #undef near
+  #undef far
+  #include <ciso646>
 #endif
 
 namespace radix {

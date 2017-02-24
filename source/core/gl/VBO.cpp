@@ -1,10 +1,6 @@
 #include <radix/core/gl/VBO.hpp>
 
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
+#include <radix/core/gl/OpenGL.hpp>
 
 namespace radix {
 

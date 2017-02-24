@@ -1,4 +1,7 @@
 #include <radix/renderer/TextRenderer.hpp>
+
+#include <radix/core/gl/OpenGL.hpp>
+
 #include <radix/renderer/Renderer.hpp>
 #include <radix/data/text/FontLoader.hpp>
 #include <radix/data/shader/ShaderLoader.hpp>

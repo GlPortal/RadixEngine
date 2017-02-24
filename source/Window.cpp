@@ -3,6 +3,9 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+
+#include <radix/core/gl/OpenGL.hpp>
+
 #include <Gwen/Controls/WindowControl.h>
 #include <Gwen/Controls/CheckBox.h>
 #include <Gwen/Controls/TextBox.h>
@@ -16,12 +19,6 @@
 #include <radix/renderer/GlGwenRenderer.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
 
 namespace radix {
 
@@ -43,30 +40,19 @@ void Window::setConfig(radix::Config &config){
   this->config = config;
 }
 
-void Window::initOpenGL() {
-#ifdef _WIN32
-  if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
-    Util::Log(Error, "Window") << "Failed to initialize OpenGL context";
-    const std::string versionString = std::to_string(GLVersion.major) + '.' + std::to_string(GLVersion.minor);
-    throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
-          " is unsupported, " "required minimum is 3.2");
-  }
-
-  Util::Log(Info, "Window") << "Loaded OpenGL version: " << GLVersion.major << "." << GLVersion.minor;
-#else
-  const int glver = epoxy_gl_version(), glmaj = glver / 10, glmin = glver % 10;
+void Window::initGl() {
+  gl::OpenGL::initialize();
+  const int glver = gl::OpenGL::version(), glmaj = glver / 10, glmin = glver % 10;
   const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
   if (config.getIgnoreGlVersion()) {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
-  }
-  else {
+  } else {
     if (glver < 32) {
       throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
-            " is unsupported, " "required minimum is 3.2");
+                             " is unsupported, " "required minimum is 3.2");
     }
   }
-#endif
 }
 
 void Window::initGwen() {
@@ -115,7 +101,7 @@ void Window::create(const char *title) {
 
   context = SDL_GL_CreateContext(window);
 
-  initOpenGL();
+  initGl();
 
   if (enableGlDebug) {
     gl::DebugOutput::enable();

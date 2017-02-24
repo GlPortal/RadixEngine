@@ -1,13 +1,9 @@
 #include <radix/data/texture/TextureLoader.hpp>
 
+#include <radix/core/gl/OpenGL.hpp>
+
 #include <radix/env/Environment.hpp>
 #include <FreeImagePlus.h>
-
-#ifdef _WIN32
-#include <glad/glad.h>
-#else
-#include <epoxy/gl.h>
-#endif
 
 namespace radix {
 
@@ -69,6 +65,7 @@ Texture TextureLoader::uploadTexture(const unsigned char *data, int width, int h
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
   glGenerateMipmap(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, 0);
   texture.handle = handle;
