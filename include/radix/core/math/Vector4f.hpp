@@ -6,7 +6,6 @@
 
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector3f.hpp>
-
 #include <serine/Serializable.hpp>
 
 class btVector4;

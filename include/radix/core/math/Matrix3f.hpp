@@ -15,7 +15,6 @@
 
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector3f.hpp>
-
 #include <string>
 
 namespace radix {
