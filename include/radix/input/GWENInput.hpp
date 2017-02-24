@@ -8,7 +8,9 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 
+#ifdef _WIN32
 #include <ciso646>
+#endif
 
 namespace radix {
 
