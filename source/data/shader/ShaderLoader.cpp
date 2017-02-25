@@ -9,6 +9,10 @@
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 namespace radix {
 
 static constexpr GLint MaxGlLogSize = 1024 * 1024 * 2; // 2 MiB

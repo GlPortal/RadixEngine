@@ -10,6 +10,10 @@
 #include <radix/env/Config.hpp>
 #include <radix/env/Environment.hpp>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 namespace radix {
 const int ArgumentsParser::NO_ARGUMENT = -1;
 std::string ArgumentsParser::mapName = "";

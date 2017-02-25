@@ -14,7 +14,6 @@ namespace radix {
   class XmlTriggerHelper {
   public:
     static void extractTriggerActions(Entity& trigger, tinyxml2::XMLElement* xmlElement);
-    static void addMapAction(std::string filename, Entity& trigger);
   };
 
 } /* namespace radix */

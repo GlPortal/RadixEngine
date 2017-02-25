@@ -10,6 +10,10 @@
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/core/math/Math.hpp>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 namespace radix {
 
 Vector4f::Vector4f(const Vector3f &v, float w)

@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <iostream>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 using std::cout;
 
 namespace radix {

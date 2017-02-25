@@ -10,6 +10,7 @@
 #include <radix/core/gl/OpenGL.hpp>
 
 #ifdef _WIN32
+  #include <ciso646>
   #undef near
   #undef far
 #endif
