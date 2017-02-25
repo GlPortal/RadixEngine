@@ -3,10 +3,6 @@
 #include <fstream>
 #include <iostream>
 
-#ifdef _WIN32
-#include <ciso646>
-#endif
-
 using namespace std;
 
 namespace radix {

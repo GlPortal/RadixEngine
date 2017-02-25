@@ -1,10 +1,6 @@
 #include <radix/data/screen/XmlScreenLoader.hpp>
 #include <radix/env/Util.hpp>
 
-#ifdef _WIN32
-#include <ciso646>
-#endif
-
 using namespace tinyxml2;
 
 namespace radix {

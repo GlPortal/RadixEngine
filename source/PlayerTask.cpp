@@ -4,10 +4,6 @@
 #include <radix/component/Player.hpp>
 #include <radix/system/PlayerSystem.hpp>
 
-#ifdef _WIN32
-#include <ciso646>
-#endif
-
 namespace radix {
 
 PlayerTriggerTask::PlayerTriggerTask() {

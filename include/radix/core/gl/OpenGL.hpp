@@ -1,10 +1,6 @@
 #ifndef RADIX_CORE_GL_OPENGL_HPP
 #define RADIX_CORE_GL_OPENGL_HPP
 
-#ifdef _WIN32
-#define RADIX_GL_USE_GLAD
-#endif
-
 #if defined(RADIX_GL_USE_LIBEPOXY)
 #include <epoxy/gl.h>
 #elif defined(RADIX_GL_USE_GLAD)
