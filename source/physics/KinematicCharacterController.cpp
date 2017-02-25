@@ -31,6 +31,10 @@ what we need.
 #include <radix/physics/KinematicCharacterController.hpp>
 #include <radix/physics/Uncollider.hpp>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 namespace radix {
 
 static btVector3

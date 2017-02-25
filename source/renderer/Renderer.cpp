@@ -12,6 +12,10 @@
 #include <radix/component/LightSource.hpp>
 #include <radix/component/Transform.hpp>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 namespace radix {
 
 Renderer::Renderer(World &world) :

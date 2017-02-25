@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 namespace radix {
 
 const char* StdoutLogger::getName() const {

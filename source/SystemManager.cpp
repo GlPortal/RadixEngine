@@ -3,6 +3,10 @@
 #include <radix/env/Util.hpp>
 #include <radix/World.hpp>
 
+#ifdef _WIN32
+#include <ciso646>
+#endif
+
 namespace radix {
 
 SystemManager::SystemRunner::SystemRunner(SystemManager &sysMan) :
