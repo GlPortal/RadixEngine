@@ -3,6 +3,7 @@
 #include <radix/data/map/DeathTrigger.hpp>
 #include <radix/data/map/RadiationTrigger.hpp>
 #include <radix/data/map/AudioTrigger.hpp>
+#include <radix/data/map/MapTrigger.hpp>
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
@@ -45,9 +46,10 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     AudioTrigger audioTrigger = AudioTrigger(rawFileName);
     audioTrigger.setLoop(loop);
     audioTrigger.addAction(trigger);
-  } else if (type == "map") {
-    std::string filename = xmlElement->Attribute("file");
-    addMapAction(filename, trigger);
+  } else if (type == MapTrigger::TYPE) {
+    std::string fileName = xmlElement->Attribute("file");
+    MapTrigger mapTrigger = MapTrigger(fileName);
+    mapTrigger.addAction(trigger);
   } else if (type == "checkpoint") {
     XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
     action = [spawnElement] (BaseGame &game) {
@@ -63,15 +65,5 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
 
     trigger.getComponent<Trigger>().setActionOnEnter(action);
   }
-}
-
-void XmlTriggerHelper::addMapAction(std::string filename, Entity& trigger){
-  std::function<void(BaseGame&)> action;
-  action = [filename] (BaseGame &game) {
-    XmlMapLoader mapLoader(*game.getWorld());
-    mapLoader.load(Environment::getDataDir() + "maps/" + filename);
-  };
-
-  trigger.getComponent<Trigger>().setActionOnEnter(action);
 }
 } /* namespace radix */
