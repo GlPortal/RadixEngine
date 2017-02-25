@@ -38,16 +38,16 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
         loop = true;
       }
     }
-    const char* rawFileName = xmlElement->Attribute("file");
-    if (rawFileName == nullptr) {
-      throw std::runtime_error("Attribute file mandatory for trigger of type audio.");
-    }
 
-    AudioTrigger audioTrigger = AudioTrigger(rawFileName);
+    std::string fileName;
+    XmlHelper::extractFileAttribute(xmlElement, fileName);
+
+    AudioTrigger audioTrigger = AudioTrigger(fileName);
     audioTrigger.setLoop(loop);
     audioTrigger.addAction(trigger);
   } else if (type == MapTrigger::TYPE) {
-    std::string fileName = xmlElement->Attribute("file");
+    std::string fileName;
+    XmlHelper::extractFileAttribute(xmlElement, fileName);
     MapTrigger mapTrigger = MapTrigger(fileName);
     mapTrigger.addAction(trigger);
   } else if (type == "checkpoint") {

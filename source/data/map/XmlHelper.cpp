@@ -75,4 +75,14 @@ void XmlHelper::extractColor(XMLElement *xmlElement, Vector3f &color) {
 void XmlHelper::extractScale(XMLElement *xmlElement, Vector3f &scale) {
   pushAttributeVertexToVector(xmlElement->FirstChildElement("scale"), scale);
 }
+
+void XmlHelper::extractFileAttribute(tinyxml2::XMLElement *xmlElement, std::string &fileName) {
+  const char* rawFileName = xmlElement->Attribute("file");
+  if (rawFileName == nullptr) {
+    throwMandatoryAttributeException("file");
+  }
+
+  fileName = rawFileName;
+}
+
 } /* namespace radix */
