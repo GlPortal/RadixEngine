@@ -1,9 +1,5 @@
 #include <radix/component/Player.hpp>
 
-#ifdef _WIN32
-#include <ciso646>
-#endif
-
 namespace radix {
 
 static const Vector3f PLAYER_SIZE(0.5, 1, 0.5);

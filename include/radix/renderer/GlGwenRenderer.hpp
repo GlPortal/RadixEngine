@@ -12,7 +12,6 @@
 #ifdef _WIN32
   #undef near
   #undef far
-  #include <ciso646>
 #endif
 
 namespace radix {

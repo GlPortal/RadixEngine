@@ -8,10 +8,6 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Vector4f.hpp>
 
-#ifdef _WIN32
-#include <ciso646>
-#endif
-
 namespace radix {
 
 LogInput::LogInput(Logger &sink, LogLevel lvl, const std::string &tag) :
