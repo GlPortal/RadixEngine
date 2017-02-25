@@ -8,7 +8,7 @@
 
 #include <memory>
 #include <functional>
-#include <BulletCollision/CollisionShapes/btCapsuleShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 
 namespace radix {

@@ -3,13 +3,12 @@
 
 #include <string>
 
+#include <radix/core/math/Vector2f.hpp>
+#include <radix/core/math/Vector3f.hpp>
+#include <radix/core/math/Vector4f.hpp>
 #include <radix/core/diag/Logger.hpp>
 
 namespace radix {
-
-class Vector2f;
-class Vector3f;
-class Vector4f;
 
 /** \class LogInput
  * @brief `std::cout`-like object that sends the data it aggregated to a Logger when it dies

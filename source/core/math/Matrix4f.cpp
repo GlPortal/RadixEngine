@@ -154,9 +154,9 @@ std::string Matrix4f::str() const {
 Quaternion Matrix4f::getRotation() const {
   float trace = a[0] + a[5] + a[10], temp[4];
   if (trace > 0) {
-    float s = std::sqrt(trace + 1.0);
-    temp[3]=(s * 0.5);
-    s = 0.5 / s;
+    float s = std::sqrt(trace + 1.0f);
+    temp[3] = (s * 0.5f);
+    s = 0.5f / s;
 
     temp[0]=((a[7] - a[9]) * s);
     temp[1]=((a[8] - a[2]) * s);
@@ -168,9 +168,9 @@ Quaternion Matrix4f::getRotation() const {
     int j = (i + 1) % 3;
     int k = (i + 2) % 3;
 
-    float s = std::sqrt(a[i+4*i] - a[j+4*j] - a[k+4*k] + 1.0);
-    temp[i] = s * 0.5;
-    s = 0.5 / s;
+    float s = std::sqrt(a[i+4*i] - a[j+4*j] - a[k+4*k] + 1.0f);
+    temp[i] = s * 0.5f;
+    s = 0.5f / s;
 
     temp[3] = (a[k+4*j] - a[j+4*k]) * s;
     temp[j] = (a[j+4*i] + a[i+4*j]) * s;

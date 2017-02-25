@@ -4,10 +4,15 @@
 #include <memory>
 #include <vector>
 
-#include <radix/core/gl/OpenGL.hpp>
-
 #include <Gwen/Gwen.h>
 #include <Gwen/BaseRender.h>
+
+#include <radix/core/gl/OpenGL.hpp>
+
+#ifdef _WIN32
+  #undef near
+  #undef far
+#endif
 
 namespace radix {
 
