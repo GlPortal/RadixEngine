@@ -1,5 +1,5 @@
 #include <radix/util/sdl/Fps.hpp>
-#include <SDL_timer.h>
+#include <SDL2/SDL_timer.h>
 
 namespace radix {
 

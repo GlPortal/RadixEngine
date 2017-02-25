@@ -27,3 +27,4 @@ documentation/doxygen_sqlite3.db
 tests/gwenUnicodeTest
 tests/quaternionTest
 tests/xmlReadingTest
+RadixEngine
