@@ -8,8 +8,6 @@
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/component/Trigger.hpp>
-#include <radix/component/Health.hpp>
-#include <radix/core/state/GameState.hpp>
 #include <radix/env/Environment.hpp>
 
 using namespace std;
