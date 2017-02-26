@@ -130,12 +130,9 @@ endif ()
 
 #### UNIT TESTING ####
 
-find_package(UnitTestPlusPlus)
-if (UnitTestPlusPlus_FOUND)
-  include_directories(${RADIX_INCLUDE_DIRS} ${UnitTestPlusPlus_INCLUDE_DIRS})
-  enable_testing()
-  add_subdirectory(tests)
-endif ()
+include_directories(${RADIX_INCLUDE_DIRS} ${UnitTestPlusPlus_INCLUDE_DIRS})
+enable_testing()
+add_subdirectory(tests)
 
 if (CMAKE_VERSION VERSION_GREATER 2.8.5)
   include(FeatureSummary)
