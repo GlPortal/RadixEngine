@@ -22,9 +22,9 @@ struct QuaternionTestFixtures {
     nppi(-M_PI + 0.002f, M_PI - 0.002f),
     z360(0, 359.99f) {
   }
-  
+
   ~QuaternionTestFixtures() {}
-  
+
 };
 
 bool fuzzyEq(float f1, float f2) {
@@ -153,7 +153,7 @@ SUITE(QuaternionTest) {
   }
   TEST_FIXTURE(QuaternionTestFixtures, Random_HeadRotHRand) {
     Vector3f init, back; float add;
-    Quaternion q; 
+    Quaternion q;
     for (int n = 0; n < 200; ++n) {
       add = rad(z360(gen));
       q.fromAxAngle(0, 1, 0, add);
@@ -168,7 +168,7 @@ SUITE(QuaternionTest) {
   }
   TEST_FIXTURE(QuaternionTestFixtures, Random_HeadRotHRandAddSub) {
     Vector3f init, back; float add, sub;
-    Quaternion q, qs; 
+    Quaternion q, qs;
     for (int n = 0; n < 200; ++n) {
       add = rad(z360(gen));
       sub = rad(z360(gen));
