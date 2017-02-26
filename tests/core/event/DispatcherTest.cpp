@@ -18,7 +18,7 @@ struct DispatcherFixtures {
     observer.addCallback(Event::loadScene, std::bind(&FlagObserver::execute, observer));
     dispatcher.dispatch(Event::loadScene);
   }
-  
+
   ~DispatcherFixtures() {}
 };
 
