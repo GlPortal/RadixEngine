@@ -3,8 +3,6 @@ set(CATCH_INCLUDE_DIRS ${CATCH_INCLUDE_DIR})
 set(CATCH_LIBRARY "CATCH")
 set(CATCH_LIBRARIES ${CATCH_LIBRARY})
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/external/catch")
-
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(CATCH DEFAULT_MSG CATCH_LIBRARIES CATCH_INCLUDE_DIR CATCH_INCLUDE_DIRS)
 
