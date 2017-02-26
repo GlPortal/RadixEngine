@@ -28,13 +28,20 @@ struct XmlHelperFixtures
 
 };
 
-TEST_CASE_METHOD(XmlHelperFixtures, "Extracted vectors are valid", "[true]") {
-  XmlHelper::pushAttributeVertexToVector(lightElement, vector);
+TEST_CASE_METHOD(XmlHelperFixtures, "Data can be extracted from xml", "[xml-helper]") {
+  SECTION("Extracted vectors are valid") {
+    XmlHelper::pushAttributeVertexToVector(lightElement, vector);
 
-  bool vectorIsValid(false);
-  Vector3f resultVector = sourceVector - vector;
-  if((resultVector.x + resultVector.y + resultVector.z) == 0 ){
-    vectorIsValid = true;
+    bool vectorIsValid(false);
+    Vector3f resultVector = sourceVector - vector;
+    if((resultVector.x + resultVector.y + resultVector.z) == 0 ){
+      vectorIsValid = true;
+    }
+    REQUIRE(vectorIsValid);
   }
-  REQUIRE(vectorIsValid);
+
+  SECTION("Extracting missing attribute throws error") {
+    lightElement->DeleteAttribute("z");
+    REQUIRE_THROWS_AS(XmlHelper::pushAttributeVertexToVector(lightElement, vector), runtime_error);
+  }
 }
