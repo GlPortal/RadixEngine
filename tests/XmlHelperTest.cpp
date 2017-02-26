@@ -1,4 +1,6 @@
+#ifndef CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_MAIN
+#endif
 #include <catch.hpp>
 #include <tinyxml2.h>
 #include <radix/core/math/Vector3f.hpp>
