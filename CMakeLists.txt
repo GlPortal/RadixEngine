@@ -82,6 +82,9 @@ find_package(GWEN REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${GWEN_INCLUDE_DIR})
 list(APPEND RADIX_LIBRARIES ${GWEN_LIBRARY})
 
+find_package(Catch REQUIRED)
+list(APPEND RADIX_INCLUDE_DIRS ${CATCH_INCLUDE_DIR})
+
 find_package(Bullet 2.82 REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${BULLET_INCLUDE_DIR})
 list(APPEND RADIX_LIBRARIES ${BULLET_LIBRARIES})
@@ -127,12 +130,9 @@ endif ()
 
 #### UNIT TESTING ####
 
-find_package(UnitTestPlusPlus)
-if (UnitTestPlusPlus_FOUND)
-  include_directories(${RADIX_INCLUDE_DIRS} ${UnitTestPlusPlus_INCLUDE_DIRS})
-  enable_testing()
-  add_subdirectory(tests)
-endif ()
+include_directories(${RADIX_INCLUDE_DIRS} ${UnitTestPlusPlus_INCLUDE_DIRS})
+enable_testing()
+add_subdirectory(tests)
 
 if (CMAKE_VERSION VERSION_GREATER 2.8.5)
   include(FeatureSummary)

@@ -1,4 +1,7 @@
-#include <UnitTest++.h>
+#ifndef CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_MAIN
+#endif
+#include <catch.hpp>
 #include <tinyxml2.h>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/data/map/XmlHelper.hpp>
@@ -7,14 +10,14 @@
 using namespace radix;
 using namespace std;
 
-struct XmlReadingFixtures
+struct XmlHelperFixtures
 {
   Vector3f sourceVector;
   Vector3f vector;
   tinyxml2::XMLDocument doc;
   tinyxml2::XMLElement * lightElement;
 
-  XmlReadingFixtures() {
+  XmlHelperFixtures() {
     doc.NewDeclaration("1.0");
     lightElement = doc.NewElement("light");
     sourceVector = Vector3f(155, 266, 377);
@@ -23,14 +26,12 @@ struct XmlReadingFixtures
     lightElement->SetAttribute("z", sourceVector.z);
   }
 
-  ~XmlReadingFixtures() {}
+  ~XmlHelperFixtures() {}
 
 };
 
-
-SUITE(XmlReading)
-{
-  TEST_FIXTURE(XmlReadingFixtures, extractValidVectorDataFromXml){
+TEST_CASE_METHOD(XmlHelperFixtures, "Data can be extracted from xml", "[xml-helper]") {
+  SECTION("Extracted vectors are valid") {
     XmlHelper::pushAttributeVertexToVector(lightElement, vector);
 
     bool vectorIsValid(false);
@@ -38,16 +39,11 @@ SUITE(XmlReading)
     if((resultVector.x + resultVector.y + resultVector.z) == 0 ){
       vectorIsValid = true;
     }
-    CHECK(vectorIsValid);
+    REQUIRE(vectorIsValid);
   }
 
-  TEST_FIXTURE(XmlReadingFixtures, extractMissingAttributeFromXml){
+  SECTION("Extracting missing attribute throws error") {
     lightElement->DeleteAttribute("z");
-    CHECK_THROW(XmlHelper::pushAttributeVertexToVector(lightElement, vector), runtime_error); 
+    REQUIRE_THROWS_AS(XmlHelper::pushAttributeVertexToVector(lightElement, vector), runtime_error);
   }
-}
-
-int main()
-{
-  return UnitTest::RunAllTests();
 }

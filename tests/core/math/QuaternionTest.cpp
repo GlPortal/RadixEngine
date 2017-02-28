@@ -1,6 +1,9 @@
 #include <random>
 #include <cmath>
-#include <UnitTest++.h>
+#ifndef CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_MAIN
+#endif
+#include <catch.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Quaternion.hpp>
@@ -22,9 +25,9 @@ struct QuaternionTestFixtures {
     nppi(-M_PI + 0.002f, M_PI - 0.002f),
     z360(0, 359.99f) {
   }
-  
+
   ~QuaternionTestFixtures() {}
-  
+
 };
 
 bool fuzzyEq(float f1, float f2) {
@@ -43,51 +46,50 @@ void printq(const Quaternion &q) {
   printf("%f %f %f %f\n", q.x, q.y, q.z, q.w);
 }
 
-SUITE(QuaternionTest) {
+TEST_CASE_METHOD(QuaternionTestFixtures, "Angle to Quaternion conversion", "[quaternion]") {
   // euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
-  TEST_FIXTURE(QuaternionTestFixtures, AxAngle_X90) {
+  SECTION("Convert ax x 90 to quat") {
     quat.fromAxAngle(1, 0, 0, rad(90));
     CHECK(fuzzyEq(quat, 0.7071, 0, 0, 0.7071));
   }
-  TEST_FIXTURE(QuaternionTestFixtures, AxAngle_X45) {
+  SECTION("Convert ax x 45 to quat") {
     quat.fromAxAngle(1, 0, 0, rad(45));
     CHECK(fuzzyEq(quat, 0.3827, 0, 0, 0.9239));
   }
-  TEST_FIXTURE(QuaternionTestFixtures, AxAngle_Y90) {
+  SECTION("Convert ax y 90 to quat") {
     quat.fromAxAngle(0, 1, 0, rad(90));
     CHECK(fuzzyEq(quat, 0, 0.7071, 0, 0.7071));
   }
-  TEST_FIXTURE(QuaternionTestFixtures, AxAngle_Y45) {
+  SECTION("Convert ax y 45 to quat") {
     quat.fromAxAngle(0, 1, 0, rad(45));
     CHECK(fuzzyEq(quat, 0, 0.3827, 0, 0.9239));
   }
-  TEST_FIXTURE(QuaternionTestFixtures, AxAngle_XY90) {
+  SECTION("Convert ax xy 90 to quat") {
     quat.fromAxAngle(1, 1, 0, rad(90));
     CHECK(fuzzyEq(quat, 0.5, 0.5, 0, 0.7071));
   }
-  TEST_FIXTURE(QuaternionTestFixtures, AxAngle_XY45) {
+  SECTION("Convert ax xy 45 to quat") {
     quat.fromAxAngle(1, 1, 0, rad(45));
     CHECK(fuzzyEq(quat, 0.2706, 0.2706, 0, 0.9239));
   }
 
   // euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/steps/
-  TEST_FIXTURE(QuaternionTestFixtures, Aero_Heading90) {
+  SECTION("Convert to quat heading 90") {
     quat.fromAero(rad(90), 0, 0);
     CHECK(fuzzyEq(length(quat), 1));
     CHECK(fuzzyEq(quat, 0, 0.7071, 0, 0.7071));
   }
-  TEST_FIXTURE(QuaternionTestFixtures, Aero_Attitude90) {
+  SECTION("Convert to quat attitude 90") {
     quat.fromAero(0, rad(90), 0);
     CHECK(fuzzyEq(length(quat), 1));
     CHECK(fuzzyEq(quat, 0.7071, 0, 0, 0.7071));
   }
-  TEST_FIXTURE(QuaternionTestFixtures, Aero_HA90) {
+  SECTION("Convert to quat heading attitude 90") {
     quat.fromAero(rad(90), rad(90), 0);
     CHECK(fuzzyEq(length(quat), 1));
     CHECK(fuzzyEq(quat, 0.5, 0.5, -0.5, 0.5));
   }
-
-  TEST_FIXTURE(QuaternionTestFixtures, QuatToAero_NorthSingularity) {
+  SECTION("Convert quat to aero north singularity ") {
     Vector3f init, back;
     for (int n = 0; n < 50; ++n) {
       init.x = nppi(gen);
@@ -98,7 +100,7 @@ SUITE(QuaternionTest) {
       CHECK(back.fuzzyEqual(init));
     }
   }
-  TEST_FIXTURE(QuaternionTestFixtures, QuatToAero_SouthSingularity) {
+  SECTION("Convert quat to aero south singularity ") {
     Vector3f init, back;
     for (int n = 0; n < 50; ++n) {
       init.x = nppi(gen);
@@ -109,13 +111,12 @@ SUITE(QuaternionTest) {
       CHECK(back.fuzzyEqual(init));
     }
   }
-  TEST_FIXTURE(QuaternionTestFixtures, QuatToAero_A90) {
+  SECTION("Convert quat to aero a 90 ") {
     quat = Quaternion(.7071, 0, 0, .7071);
     Vector3f a = quat.toAero();
     CHECK(a.fuzzyEqual(Vector3f(0, rad(90), 0)));
   }
-
-  TEST_FIXTURE(QuaternionTestFixtures, RandomAeroQuatAero_HA) {
+  SECTION("Convert quat to aero ha ") {
     Vector3f init, back;
     for (int n = 0; n < 100; ++n) {
       init.x = nppi(gen);
@@ -126,7 +127,7 @@ SUITE(QuaternionTest) {
       CHECK(back.fuzzyEqual(init));
     }
   }
-  TEST_FIXTURE(QuaternionTestFixtures, RandomAeroQuatAero_HT) {
+  SECTION("Convert random aero to quat to aero ht") {
     Vector3f init, back;
     for (int n = 0; n < 100; ++n) {
       init.x = nppi(gen);
@@ -137,8 +138,7 @@ SUITE(QuaternionTest) {
       CHECK(back.fuzzyEqual(init));
     }
   }
-
-  TEST_FIXTURE(QuaternionTestFixtures, Random_HeadRotH90) {
+  SECTION("Convert random head rot h 90") {
     Vector3f init, back;
     Quaternion q; q.fromAxAngle(0, 1, 0, rad(90));
     for (int n = 0; n < 100; ++n) {
@@ -151,9 +151,9 @@ SUITE(QuaternionTest) {
       CHECK(back.fuzzyEqual(init));
     }
   }
-  TEST_FIXTURE(QuaternionTestFixtures, Random_HeadRotHRand) {
+  SECTION("Convert random head rot h rand") {
     Vector3f init, back; float add;
-    Quaternion q; 
+    Quaternion q;
     for (int n = 0; n < 200; ++n) {
       add = rad(z360(gen));
       q.fromAxAngle(0, 1, 0, add);
@@ -166,9 +166,9 @@ SUITE(QuaternionTest) {
       CHECK(back.fuzzyEqual(init));
     }
   }
-  TEST_FIXTURE(QuaternionTestFixtures, Random_HeadRotHRandAddSub) {
+  SECTION("Convert random head rot h rand add sub") {
     Vector3f init, back; float add, sub;
-    Quaternion q, qs; 
+    Quaternion q, qs;
     for (int n = 0; n < 200; ++n) {
       add = rad(z360(gen));
       sub = rad(z360(gen));
@@ -183,7 +183,7 @@ SUITE(QuaternionTest) {
       CHECK(back.fuzzyEqual(init));
     }
   }
-  TEST_FIXTURE(QuaternionTestFixtures, Random_HeadRotHRandAddSubByInv) {
+  SECTION("Convert random head rot h rand add sub by inv") {
     Vector3f init, back; float add, sub;
     Quaternion q, qs;
     for (int n = 0; n < 200; ++n) {
@@ -200,8 +200,4 @@ SUITE(QuaternionTest) {
       CHECK(back.fuzzyEqual(init));
     }
   }
-}
-
-int main() {
-  return UnitTest::RunAllTests();
 }

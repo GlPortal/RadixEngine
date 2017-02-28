@@ -7,3 +7,6 @@
 [submodule "external/serine"]
 	path = external/serine
 	url = https://github.com/GlPortal/serine.git
+[submodule "external/catch"]
+	path = external/catch
+	url = https://github.com/philsquared/Catch.git
