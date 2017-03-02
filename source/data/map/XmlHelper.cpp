@@ -86,8 +86,8 @@ void XmlHelper::extractFileAttribute(tinyxml2::XMLElement *xmlElement, std::stri
 }
 
 bool XmlHelper::extractBooleanAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute, bool defaultValue) {
-  if (xmlElement->Attribute(attribute)) {
-    std::string attributeValue = xmlElement->Attribute(attribute);
+  if (xmlElement->Attribute(attribute.c_str())) {
+    std::string attributeValue = xmlElement->Attribute(attribute.c_str());
     if (attributeValue == "true") {
       return true;
     }
