@@ -42,20 +42,6 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     XmlHelper::extractFileAttribute(xmlElement, fileName);
     MapTrigger mapTrigger = MapTrigger(fileName);
     mapTrigger.addAction(trigger);
-  } else if (type == "checkpoint") {
-    XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
-    action = [spawnElement] (BaseGame &game) {
-      Vector3f position;
-      Vector3f rotation;
-
-      XmlHelper::extractPosition(spawnElement, position);
-      XmlHelper::extractRotation(spawnElement, rotation);
-
-      game.getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
-      game.getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
-    };
-
-    trigger.getComponent<Trigger>().setActionOnEnter(action);
-  }
+  } 
 }
 } /* namespace radix */
