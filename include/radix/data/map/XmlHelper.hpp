@@ -22,7 +22,7 @@ public:
   static void extractRotation(tinyxml2::XMLElement *xmlElement, Vector3f &rotation);
   static void extractScale(tinyxml2::XMLElement *xmlElement, Vector3f &scale);
   static void extractFileAttribute(tinyxml2::XMLElement *xmlElement, std::string &fileName);
-  static bool extractBooleanAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute, bool default);
+  static bool extractBooleanAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute, bool defaultValue);
 };
 
 } /* namespace radix */
