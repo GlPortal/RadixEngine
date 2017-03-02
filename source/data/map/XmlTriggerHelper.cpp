@@ -29,13 +29,7 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     RadiationTrigger radiationTrigger = RadiationTrigger();
     radiationTrigger.addAction(trigger);
   } else if (type == AudioTrigger::TYPE) {
-    bool loop = false;
-    if (xmlElement->Attribute("loop")) {
-      std::string loopAttribute = xmlElement->Attribute("loop");
-      if (loopAttribute == "true") {
-        loop = true;
-      }
-    }
+    bool loop = loop = XmlHelper::extractBooleanAttribute(xmlElement, "loop", false);
 
     std::string fileName;
     XmlHelper::extractFileAttribute(xmlElement, fileName);

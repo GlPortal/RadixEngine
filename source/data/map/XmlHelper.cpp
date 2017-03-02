@@ -85,4 +85,19 @@ void XmlHelper::extractFileAttribute(tinyxml2::XMLElement *xmlElement, std::stri
   fileName = rawFileName;
 }
 
+bool XmlHelper::extractBooleanAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute, bool default) {
+  if (xmlElement->Attribute(attribute)) {
+    std::string attributeValue = xmlElement->Attribute(attribute);
+    if (attributeValue == "true") {
+      return true;
+    }
+
+    if (attributeValue == "false") {
+      return false;
+    }
+  }
+
+  return default;
+}
+
 } /* namespace radix */
