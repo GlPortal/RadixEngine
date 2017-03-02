@@ -42,6 +42,8 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     XmlHelper::extractFileAttribute(xmlElement, fileName);
     MapTrigger mapTrigger = MapTrigger(fileName);
     mapTrigger.addAction(trigger);
-  } 
+  } else {
+    XmlHelper::throwMandatoryAttributeException("trigger type");
+  }
 }
 } /* namespace radix */
