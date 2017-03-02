@@ -31,13 +31,17 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   } else if (type == AudioTrigger::TYPE) {
     extractAudioTriggerActions(trigger, xmlElement);
   } else if (type == MapTrigger::TYPE) {
-    std::string fileName;
-    XmlHelper::extractFileAttribute(xmlElement, fileName);
-    MapTrigger mapTrigger = MapTrigger(fileName);
-    mapTrigger.addAction(trigger);
+    extractMapTriggerActions(trigger, xmlElement);
   } else {
     XmlHelper::throwMandatoryAttributeException("trigger type");
   }
+}
+
+void XmlTriggerHelper::extractMapTriggerActions(Entity& trigger, XMLElement *xmlElement) {
+  std::string fileName;
+  XmlHelper::extractFileAttribute(xmlElement, fileName);
+  MapTrigger mapTrigger = MapTrigger(fileName);
+  mapTrigger.addAction(trigger);
 }
 
 void XmlTriggerHelper::extractAudioTriggerActions(Entity& trigger, XMLElement *xmlElement) {
