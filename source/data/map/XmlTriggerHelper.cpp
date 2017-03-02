@@ -29,14 +29,7 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     RadiationTrigger radiationTrigger = RadiationTrigger();
     radiationTrigger.addAction(trigger);
   } else if (type == AudioTrigger::TYPE) {
-    bool loop = loop = XmlHelper::extractBooleanAttribute(xmlElement, "loop", false);
-
-    std::string fileName;
-    XmlHelper::extractFileAttribute(xmlElement, fileName);
-
-    AudioTrigger audioTrigger = AudioTrigger(fileName);
-    audioTrigger.setLoop(loop);
-    audioTrigger.addAction(trigger);
+    extractAudioTriggerActions(trigger, xmlElement);
   } else if (type == MapTrigger::TYPE) {
     std::string fileName;
     XmlHelper::extractFileAttribute(xmlElement, fileName);
@@ -45,5 +38,16 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   } else {
     XmlHelper::throwMandatoryAttributeException("trigger type");
   }
+}
+
+void XmlTriggerHelper::extractAudioTriggerActions(Entity& trigger, XMLElement *xmlElement) {
+  bool loop = XmlHelper::extractBooleanAttribute(xmlElement, "loop", false);
+
+  std::string fileName;
+  XmlHelper::extractFileAttribute(xmlElement, fileName);
+
+  AudioTrigger audioTrigger = AudioTrigger(fileName);
+  audioTrigger.setLoop(loop);
+  audioTrigger.addAction(trigger);
 }
 } /* namespace radix */
