@@ -23,6 +23,8 @@ public:
   static void extractScale(tinyxml2::XMLElement *xmlElement, Vector3f &scale);
   static void extractFileAttribute(tinyxml2::XMLElement *xmlElement, std::string &fileName);
   static bool extractBooleanAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute, bool defaultValue);
+  static std::string extractStringAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute);
+  static std::string extractStringMandatoryAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute);
 };
 
 } /* namespace radix */

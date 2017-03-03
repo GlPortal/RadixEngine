@@ -100,4 +100,23 @@ bool XmlHelper::extractBooleanAttribute(tinyxml2::XMLElement *xmlElement, std::s
   return defaultValue;
 }
 
+std::string XmlHelper::extractStringAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute) {
+  const char* rawString = xmlElement->Attribute(attribute.c_str());
+  if (rawString == nullptr) {
+    return "";
+  }
+
+  return std::string(rawString);
+}
+
+std::string XmlHelper::extractStringMandatoryAttribute(tinyxml2::XMLElement *xmlElement, std::string attribute) {
+  const char* rawString = xmlElement->Attribute(attribute.c_str());
+  if (rawString == nullptr) {
+    throwMandatoryAttributeException(attribute);
+  }
+
+  return std::string(rawString);
+}
+
+
 } /* namespace radix */
