@@ -10,7 +10,7 @@ You can find the website at http://glportal.de .
 Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec, Geert Custers
 
 ## Compile the source
-For instructions on how to compile the game please [read COMPILE.md](COMPILE.md).
+For instructions on how to compile the game engine please [read COMPILE.md](COMPILE.md).
 
 ## Join the team
 Chat with us at irc.freenode.org in the channel [#glportal](http://webchat.freenode.net/?channels=%23glportal&uio=d4)
