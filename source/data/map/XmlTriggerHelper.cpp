@@ -29,39 +29,29 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     RadiationTrigger radiationTrigger = RadiationTrigger();
     radiationTrigger.addAction(trigger);
   } else if (type == AudioTrigger::TYPE) {
-    bool loop = false;
-    if (xmlElement->Attribute("loop")) {
-      std::string loopAttribute = xmlElement->Attribute("loop");
-      if (loopAttribute == "true") {
-        loop = true;
-      }
-    }
-
-    std::string fileName;
-    XmlHelper::extractFileAttribute(xmlElement, fileName);
-
-    AudioTrigger audioTrigger = AudioTrigger(fileName);
-    audioTrigger.setLoop(loop);
-    audioTrigger.addAction(trigger);
+    extractAudioTriggerActions(trigger, xmlElement);
   } else if (type == MapTrigger::TYPE) {
-    std::string fileName;
-    XmlHelper::extractFileAttribute(xmlElement, fileName);
-    MapTrigger mapTrigger = MapTrigger(fileName);
-    mapTrigger.addAction(trigger);
-  } else if (type == "checkpoint") {
-    XMLElement *spawnElement = xmlElement->FirstChildElement("spawn");
-    action = [spawnElement] (BaseGame &game) {
-      Vector3f position;
-      Vector3f rotation;
-
-      XmlHelper::extractPosition(spawnElement, position);
-      XmlHelper::extractRotation(spawnElement, rotation);
-
-      game.getWorld()->getPlayer().getComponent<Transform>().setPosition(position);
-      game.getWorld()->getPlayer().getComponent<Transform>().setOrientation(Quaternion().fromAero(rotation));
-    };
-
-    trigger.getComponent<Trigger>().setActionOnEnter(action);
+    extractMapTriggerActions(trigger, xmlElement);
+  } else {
+    XmlHelper::throwMandatoryAttributeException("trigger type");
   }
+}
+
+void XmlTriggerHelper::extractMapTriggerActions(Entity& trigger, XMLElement *xmlElement) {
+  std::string fileName;
+  XmlHelper::extractFileAttribute(xmlElement, fileName);
+  MapTrigger mapTrigger = MapTrigger(fileName);
+  mapTrigger.addAction(trigger);
+}
+
+void XmlTriggerHelper::extractAudioTriggerActions(Entity& trigger, XMLElement *xmlElement) {
+  bool loop = XmlHelper::extractBooleanAttribute(xmlElement, "loop", false);
+
+  std::string fileName;
+  XmlHelper::extractFileAttribute(xmlElement, fileName);
+
+  AudioTrigger audioTrigger = AudioTrigger(fileName);
+  audioTrigger.setLoop(loop);
+  audioTrigger.addAction(trigger);
 }
 } /* namespace radix */

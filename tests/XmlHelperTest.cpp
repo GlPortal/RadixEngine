@@ -16,6 +16,7 @@ struct XmlHelperFixtures
   Vector3f vector;
   tinyxml2::XMLDocument doc;
   tinyxml2::XMLElement * lightElement;
+  tinyxml2::XMLElement * testElement;
 
   XmlHelperFixtures() {
     doc.NewDeclaration("1.0");
@@ -24,6 +25,11 @@ struct XmlHelperFixtures
     lightElement->SetAttribute("x", sourceVector.x);
     lightElement->SetAttribute("y", sourceVector.y);
     lightElement->SetAttribute("z", sourceVector.z);
+
+    testElement = doc.NewElement("test");
+    testElement->SetAttribute("key", "value");
+    testElement->SetAttribute("emptyKey", "");
+
   }
 
   ~XmlHelperFixtures() {}
@@ -45,5 +51,22 @@ TEST_CASE_METHOD(XmlHelperFixtures, "Data can be extracted from xml", "[xml-help
   SECTION("Extracting missing attribute throws error") {
     lightElement->DeleteAttribute("z");
     REQUIRE_THROWS_AS(XmlHelper::pushAttributeVertexToVector(lightElement, vector), runtime_error);
+  }
+}
+
+TEST_CASE_METHOD(XmlHelperFixtures, "String attributes can be extracted from xml", "[xml-string-attribute]") {
+  SECTION("Non mandatory string can be extracted") {
+
+    REQUIRE(XmlHelper::extractStringAttribute(testElement, "key") == "value");
+  }
+
+  SECTION("Mandatory string can be extracted") {
+
+    REQUIRE(XmlHelper::extractStringMandatoryAttribute(testElement, "key") == "value");
+  }
+
+  SECTION("Error is thrown when Mandatory string does not exist") {
+
+    REQUIRE_THROWS_AS(XmlHelper::extractStringMandatoryAttribute(testElement, "non-existant"), runtime_error);
   }
 }
