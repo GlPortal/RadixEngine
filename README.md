@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/GlPortal/RadixEngine.svg?branch=master)](https://travis-ci.org/GlPortal/RadixEngine)
+[![Build status Windows](https://ci.appveyor.com/api/projects/status/91fld6vif4rigyw2?svg=true)](https://ci.appveyor.com/project/hhirsch/glportal)
 [![Join Chat](https://img.shields.io/badge/reddit-join_chat-brightgreen.svg)](https://www.reddit.com/r/RadixEngine/)
 #![RadixEngine](https://raw.githubusercontent.com/GlPortal/glportal_raw_data/master/graphics/logo/radix/RadixEngine.png "RadixEngine")
 
