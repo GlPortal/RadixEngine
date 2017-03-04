@@ -9,6 +9,7 @@ matrix:
       before_install: 
         - docker pull glportal/whale-gcc:bullet285
         - pip install --user cpp-coveralls
+        - pip install --user pyyaml
       script:
         - set -e
         - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:bullet285 bash -c "cmake ./; make; make tests; ctest;"
