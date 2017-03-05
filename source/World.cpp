@@ -14,11 +14,11 @@
 namespace radix {
 
 World::World(InputSource &input) :
+  gameTime(0),
+  lastUpdateTime(0),
   input(input),
   systems(*this),
-  entityManager(*this),
-  gameTime(0),
-  lastUpdateTime(0){
+  entityManager(*this){
   input.addDispatcher(event);
   initPlayer();
 }
