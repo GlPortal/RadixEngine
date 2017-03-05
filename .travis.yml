@@ -18,7 +18,7 @@ matrix:
         - set -e
         - export COVERALLS_REPO_TOKEN=XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA
         - export COVERALLS_SERVICE_NAME=travis-ci
-        - docker run -it --rm -w /home/travis/build/GlPortal/RadixEngine -v $(pwd):/home/travis/build/GlPortal/RadixEngine glportal/whale-gcc:bullet286 bash -c "cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug ./; make; make tests; ctest; make coveralls"
+        - docker run -it -e COVERALLS_REPO_TOKEN='XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA' --rm -w /home/travis/build/GlPortal/RadixEngine -v $(pwd):/home/travis/build/GlPortal/RadixEngine glportal/whale-gcc:bullet286 bash -c "cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug ./; make; make tests; ctest; make coveralls"
         - mkdir -p /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir
 #        - sudo chmod -R 777 /home/travis/build/GlPortal/RadixEngine/
 #        - touch /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir/XmlHelperTest.cpp.gcda
