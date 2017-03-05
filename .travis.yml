@@ -14,6 +14,8 @@ matrix:
         - set -e
         - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:bullet286 bash -c "cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug ./; make; make tests; make coveralls; ctest;"
       after_success:
+        - export COVERALLS_REPO_TOKEN=XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA
+        - export COVERALLS_SERVICE_NAME=travis-ci
         - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
   exclude:
     - os: osx
