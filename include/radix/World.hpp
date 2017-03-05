@@ -22,6 +22,7 @@
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/data/material/Material.hpp>
 #include <radix/SystemManager.hpp>
+#include <radix/data/map/Destination.hpp>
 #include <radix/input/InputSource.hpp>
 #include <radix/env/Config.hpp>
 
@@ -62,6 +63,7 @@ public:
   std::map<std::string, Entity*> entityAliases;
   std::map<std::string, std::vector<Entity*>> entityGroups;
   std::map<std::string, std::vector<EntityPair>> entityPairs;
+  std::map<std::string, Destination> destinations;
 
   // Game States
   std::stack<HandleGameFunction> stateFunctionStack;

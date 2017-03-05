@@ -34,6 +34,7 @@ private:
   void extractDoor();
   void extractWalls();
   void extractAcids();
+  void extractDestinations();
   void extractTriggers();
   void extractModels();
 };

@@ -43,6 +43,7 @@ void XmlMapLoader::load(const std::string &path) {
     extractLights();
     extractWalls();
     extractAcids();
+    extractDestinations();
     extractTriggers();
     Util::Log(Info, "XmlMapLoader") << "Map " << path << " loaded";
   } else {
@@ -196,6 +197,23 @@ void XmlMapLoader::extractAcids() {
       m.material = MaterialLoader::loadFromXML("fluid/acid00");
       m.mesh = MeshLoader::getPortalBox(acid);
     } while ((acidElement = acidElement->NextSiblingElement("acid")) != nullptr);
+  }
+}
+
+void XmlMapLoader::extractDestinations() {
+  tinyxml2::XMLElement *destinationElement = rootHandle.FirstChildElement("destination")
+    .ToElement();
+
+  if (destinationElement) {
+    do {
+      Destination destination;
+      XmlHelper::extractPosition(destinationElement, destination.position);
+      XmlHelper::extractRotation(destinationElement, destination.rotation);
+      std::string name = destinationElement->Attribute("name");
+
+      world.destinations.insert(std::make_pair(name, destination));
+    } while ((destinationElement = destinationElement->NextSiblingElement("destination"))
+             != nullptr);
   }
 }
 
