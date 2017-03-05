@@ -14,12 +14,12 @@ matrix:
         - docker pull glportal/whale-gcc:bullet286
         - pip install --user cpp-coveralls
         - pip install --user pyyaml
+        - export COVERALLS_REPO_TOKEN=XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA
+        - export COVERALLS_SERVICE_NAME=travis-ci
       script:
         - set -e
         - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:bullet286 bash -c "cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug ./; make; make tests; make coveralls; ctest;"
       after_success:
-        - export COVERALLS_REPO_TOKEN=XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA
-        - export COVERALLS_SERVICE_NAME=travis-ci
         - mkdir /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/
         - mkdir /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir
         - lcov --directory . --capture --output-file coverage.info # capture coverage info
