@@ -82,13 +82,15 @@ void Uncollider::nearCallback(btBroadphasePair &collisionPair,
     btManifoldResult contactPointResult(&obj0Wrap, &obj1Wrap);
 
     if (not collisionPair.m_algorithm) {
-
+#if (BT_BULLET_VERSION >=286)
       collisionPair.m_algorithm =
         dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap,
                                  contactPointResult.getPersistentManifold(),
                                  ebtDispatcherQueryType::BT_CONTACT_POINT_ALGORITHMS);
     }
-
+#else
+    collisionPair.m_algorithm = dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap);
+#endif
     if (collisionPair.m_algorithm) {
       if (dispatchInfo.m_dispatchFunc == btDispatcherInfo::DISPATCH_DISCRETE) {
         collisionPair.m_algorithm->processCollision(&obj0Wrap, &obj1Wrap, dispatchInfo,
