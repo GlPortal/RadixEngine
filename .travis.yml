@@ -18,12 +18,12 @@ matrix:
         - set -e
         - export COVERALLS_REPO_TOKEN=XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA
         - export COVERALLS_SERVICE_NAME=travis-ci
-        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:bullet286 bash -c "cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug ./; make; make tests; ctest;"
+        - docker run -it --rm -w /home/travis/build/GlPortal/RadixEngine -v $(pwd):/home/travis/build/GlPortal/RadixEngine glportal/whale-gcc:bullet286 bash -c "cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug ./; make; make tests; ctest; make coveralls"
         - mkdir -p /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir
         - sudo chmod -R 777 /home/travis/build/GlPortal/RadixEngine/
         - touch /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir/XmlHelperTest.cpp.gcda
         - lcov --directory . --capture --output-file coverage.info # capture coverage info
-        - lcov --remove coverage.info 'tests/*' '/usr/*' 'data/*' --output-file coverage.info # filter out system and test code
+        - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
         - lcov --list coverage.info # debug before upload
       after_success:
         - make coveralls;
