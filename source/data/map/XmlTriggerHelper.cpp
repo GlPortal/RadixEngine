@@ -9,6 +9,7 @@
 #include <radix/core/math/Math.hpp>
 #include <radix/component/Trigger.hpp>
 #include <radix/env/Environment.hpp>
+#include <radix/data/map/TeleportTrigger.hpp>
 
 using namespace std;
 using namespace tinyxml2;
@@ -32,6 +33,8 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
     extractAudioTriggerActions(trigger, xmlElement);
   } else if (type == MapTrigger::TYPE) {
     extractMapTriggerActions(trigger, xmlElement);
+  } else if (type == TeleportTrigger::TYPE) {
+    extractDestinationTriggerActions(trigger, xmlElement);
   } else {
     XmlHelper::throwMandatoryAttributeException("trigger type");
   }
@@ -54,4 +57,12 @@ void XmlTriggerHelper::extractAudioTriggerActions(Entity& trigger, XMLElement *x
   audioTrigger.setLoop(loop);
   audioTrigger.addAction(trigger);
 }
+
+void XmlTriggerHelper::extractDestinationTriggerActions(Entity &trigger,
+                                                        tinyxml2::XMLElement *xmlElement) {
+  std::string destination = xmlElement->Attribute("destination");
+  TeleportTrigger teleportTrigger = TeleportTrigger(destination);
+  teleportTrigger.addAction(trigger);
+}
+
 } /* namespace radix */
