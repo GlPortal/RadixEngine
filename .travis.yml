@@ -26,7 +26,7 @@ matrix:
         - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
         - lcov --list coverage.info # debug before upload
       after_success:
-        - make coveralls;
+        - coveralls-lcov --repo-token XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA coverage.info 
   exclude:
     - os: osx
       osx_image: xcode7.3
