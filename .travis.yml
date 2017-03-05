@@ -23,7 +23,7 @@ matrix:
         - sudo chmod -R 777 /home/travis/build/GlPortal/RadixEngine/
         - touch /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir/XmlHelperTest.cpp.gcda
         - lcov --directory . --capture --output-file coverage.info # capture coverage info
-        - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
+        - lcov --remove coverage.info 'tests/*' '/usr/*' 'data/*' --output-file coverage.info # filter out system and test code
         - lcov --list coverage.info # debug before upload
       after_success:
         - make coveralls;
