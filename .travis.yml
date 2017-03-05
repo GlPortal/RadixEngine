@@ -12,7 +12,7 @@ matrix:
         - pip install --user pyyaml
       script:
         - set -e
-        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:bullet286 bash -c "cmake ./; make; make tests; ctest;"
+        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:bullet286 bash -c "cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug ./; make; make tests; make coveralls; ctest;"
       after_success:
         - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
   exclude:

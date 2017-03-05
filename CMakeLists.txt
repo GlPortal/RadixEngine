@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 set(RADIX_LIBRARY RadixEngine)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Build type")
@@ -18,6 +17,13 @@ function(radix_add_exported_definition)
   list(APPEND RADIX_DEFINITIONS "${ARGV0}")
   set(RADIX_DEFINITIONS "${RADIX_DEFINITIONS}" PARENT_SCOPE)
 endfunction(radix_add_exported_definition)
+
+option(COVERALLS "Generate coveralls data" OFF)
+
+if (COVERALLS)
+    include(Coveralls)
+    coveralls_turn_on_coverage()
+endif()
 
 #### COMPILE-TIME SETTINGS ####
 
@@ -139,3 +145,13 @@ if (CMAKE_VERSION VERSION_GREATER 2.8.5)
   include(FeatureSummary)
   feature_summary(WHAT ALL)
 endif ()
+
+if (COVERALLS)
+    set(COVERAGE_SRCS ${RADIX_SOURCES})
+
+    # Create the coveralls target.
+    coveralls_setup(
+        "${COVERAGE_SRCS}" # The source files.
+        ON                 # If we should upload.
+    )
+endif()
