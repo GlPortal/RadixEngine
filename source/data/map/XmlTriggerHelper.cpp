@@ -16,10 +16,21 @@ using namespace tinyxml2;
 
 namespace radix {
 
-void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement) {
+void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement, const std::list<CustomTrigger>& customTriggers) {
   std::function<void(BaseGame&)> action;
   std::string type = xmlElement->Attribute("type");
   trigger.addComponent<Trigger>();
+
+  /* first go through custom triggers */
+  auto it = customTriggers.begin();
+  while(it != customTriggers.end()) {
+    if (type == it->TYPE) {
+      it->loadFunction(trigger, xmlElement);
+      return;
+    }
+    it++;
+  }
+
   if (type == DeathTrigger::TYPE) {
     DeathTrigger deathTrigger = DeathTrigger();
     deathTrigger.addAction(trigger);
@@ -58,8 +69,7 @@ void XmlTriggerHelper::extractAudioTriggerActions(Entity& trigger, XMLElement *x
   audioTrigger.addAction(trigger);
 }
 
-void XmlTriggerHelper::extractDestinationTriggerActions(Entity &trigger,
-                                                        tinyxml2::XMLElement *xmlElement) {
+void XmlTriggerHelper::extractDestinationTriggerActions(Entity &trigger, XMLElement *xmlElement) {
   std::string destination = xmlElement->Attribute("destination");
   TeleportTrigger teleportTrigger = TeleportTrigger(destination);
   teleportTrigger.addAction(trigger);

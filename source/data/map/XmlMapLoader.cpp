@@ -22,9 +22,10 @@ using namespace std;
 
 namespace radix {
 
-XmlMapLoader::XmlMapLoader(World &w) :
+XmlMapLoader::XmlMapLoader(World &w, const std::list<CustomTrigger>& customTriggers) :
   MapLoader(w),
-  rootHandle(nullptr) {
+  rootHandle(nullptr),
+  customTriggers(customTriggers) {
 }
 
 void XmlMapLoader::load(const std::string &path) {
@@ -236,7 +237,7 @@ void XmlMapLoader::extractTriggers() {
       Vector3f scale;
       XmlHelper::extractScale(triggerElement, scale);
       t.setScale(scale);
-      XmlTriggerHelper::extractTriggerActions(trigger, triggerElement);
+      XmlTriggerHelper::extractTriggerActions(trigger, triggerElement, customTriggers);
 
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);
   }
