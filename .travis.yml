@@ -8,7 +8,6 @@ matrix:
       addons:
         apt:
           packages:
-            - g++-4.8
             - lcov
       services: docker
       before_install: 
@@ -21,6 +20,8 @@ matrix:
       after_success:
         - export COVERALLS_REPO_TOKEN=XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA
         - export COVERALLS_SERVICE_NAME=travis-ci
+        - mkdir /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/
+        - mkdir /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir
         - lcov --directory . --capture --output-file coverage.info # capture coverage info
         - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
         - lcov --list coverage.info # debug before upload
