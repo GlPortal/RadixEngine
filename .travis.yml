@@ -16,6 +16,9 @@ matrix:
       after_success:
         - export COVERALLS_REPO_TOKEN=XcgjR2KjUHOkdLygzBTf6fqDDy3neAMFA
         - export COVERALLS_SERVICE_NAME=travis-ci
+        - lcov --directory . --capture --output-file coverage.info # capture coverage info
+        - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
+        - lcov --list coverage.info # debug before upload
         - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
   exclude:
     - os: osx
