@@ -20,7 +20,7 @@ matrix:
         - export COVERALLS_SERVICE_NAME=travis-ci
         - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:bullet286 bash -c "cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug ./; make; make tests; make coveralls; ctest;"
         - mkdir -p /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir
-        - chmod -R 777 /home/travis/build/GlPortal/RadixEngine/
+        - sudo chmod -R 777 /home/travis/build/GlPortal/RadixEngine/
         - touch /home/travis/build/GlPortal/RadixEngine/tests/CMakeFiles/XmlHelperTest.dir/XmlHelperTest.cpp.gcda
         - lcov --directory . --capture --output-file coverage.info # capture coverage info
         - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
