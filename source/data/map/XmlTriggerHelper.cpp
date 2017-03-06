@@ -16,7 +16,8 @@ using namespace tinyxml2;
 
 namespace radix {
 
-void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement, const std::list<CustomTrigger>& customTriggers) {
+void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement,
+                                             const std::list<CustomTrigger>& customTriggers) {
   std::function<void(BaseGame&)> action;
   std::string type = xmlElement->Attribute("type");
   trigger.addComponent<Trigger>();
