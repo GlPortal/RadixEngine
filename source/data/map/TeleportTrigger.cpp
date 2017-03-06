@@ -17,6 +17,7 @@ void TeleportTrigger::addAction(Entity &trigger) {
     transform.setOrientation(Quaternion().fromAero(game.getWorld()->destinations.at(destination)
                                                      .rotation));
   };
+  trigger.getComponent<Trigger>().setActionOnEnter(action);
 }
 
 } /* namespace radix */
