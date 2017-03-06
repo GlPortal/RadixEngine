@@ -47,19 +47,6 @@ void World::update(TDelta dtime) {
   systems.run(dtime);
 }
 
-#if 0
-
-void World::render(double dtime) {
-  renderer->render(dtime, scene->camera);
-  if (isPhysicsDebugEnabled) {
-    scene->physics.world->debugDrawWorld();
-    pdd.render(scene->camera);
-  }
-  window->gwenCanvas->RenderCanvas();
-  window->gwenRenderer->End();
-}
-#endif
-
 Entity& World::getPlayer() {
   return *player;
 }
