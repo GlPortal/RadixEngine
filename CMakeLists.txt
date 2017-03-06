@@ -18,6 +18,13 @@ function(radix_add_exported_definition)
   set(RADIX_DEFINITIONS "${RADIX_DEFINITIONS}" PARENT_SCOPE)
 endfunction(radix_add_exported_definition)
 
+option(COVERALLS "Generate coveralls data" OFF)
+
+if (COVERALLS)
+    include(Coveralls)
+    coveralls_turn_on_coverage()
+endif()
+
 #### COMPILE-TIME SETTINGS ####
 
 set(RADIX_GL_LOADER "libepoxy" CACHE STRING "OpenGL loader to use. One of 'libepoxy', 'glad'")
@@ -138,3 +145,13 @@ if (CMAKE_VERSION VERSION_GREATER 2.8.5)
   include(FeatureSummary)
   feature_summary(WHAT ALL)
 endif ()
+
+if (COVERALLS)
+    set(COVERAGE_SRCS ${RADIX_SOURCES})
+
+    # Create the coveralls target.
+    coveralls_setup(
+        "${COVERAGE_SRCS}" # The source files.
+        ON                 # If we should upload.
+    )
+endif()
