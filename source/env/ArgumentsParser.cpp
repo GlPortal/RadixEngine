@@ -94,6 +94,7 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
   if (not mapName.empty()) {
     config.map = mapName;
   }
+
   if (not mapPath.empty()) {
     config.mapPath = mapPath;
   }
@@ -101,9 +102,11 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
   if (showCursor) {
     config.cursorVisibility = showCursor;
   }
+
   if (ignoreGlVersion) {
     config.ignoreGlVersion = ignoreGlVersion;
   }
+
   if (debugMode) {
     config.width = 800;
     config.height = 600;
