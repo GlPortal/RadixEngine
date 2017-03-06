@@ -45,56 +45,6 @@ void World::destroy() {
 void World::update(TDelta dtime) {
   gameTime += dtime;
   systems.run(dtime);
-#if 0
-  /// @todo
-  Entity &player = *this->player;
-  Health &plrHealth = player.getComponent<Health>();
-  Transform &plrTform = player.getComponent<Transform>();
-  Player &plrComp = player.getComponent<Player>();
-
-  if (not plrHealth.isAlive()) {
-    plrTform.setPosition(scene->start->getComponent<Transform>().getPosition());
-    plrHealth.revive();
-    hidePortals();
-  }
-
-  for (Entity &e : scene->entities) {
-    // Trigger
-    if (e.hasComponent<Trigger>()) {
-      const Trigger &trigger = e.getComponent<Trigger>();
-      const Transform &trTform = e.getComponent<Transform>();
-      BoxCollider playerCollider(plrTform.position, plrTform.scale);
-      BoxCollider triggerCollider(trTform.position, trTform.scale);
-
-      if (playerCollider.collidesWith(triggerCollider)) {
-        if (trigger.type == "radiation") {
-          player.getComponent<Health>().harm(.1f);
-          System::Log(Verbose) << "Radiation touched.";
-        } else if (trigger.type == "death") {
-          player.getComponent<Health>().kill();
-          System::Log(Verbose) << "Death touched.";
-        } else if (trigger.type == "win") {
-          if (currentLevel + 1 < mapList.size()) {
-            currentLevel++;
-            loadScene(mapList[currentLevel]);
-          } else {
-            scene->screen->enabled = true;
-          }
-          System::Log(Verbose) << "Win touched.";
-        } else if (trigger.type == "map") {
-          System::Log(Verbose) << "Map trigger touched.";
-          throw __FILE__ ": Map trigger type de-implemented, please reimplement";
-          //loadScene(trigger.reference);
-        } else if (trigger.type == "button") {
-          System::Log(Verbose) << "Button touched.";
-          printf("Button touched\n");
-        } else {
-          System::Log(Verbose) << "Other trigger touched. " << trigger.type;
-        }
-      }
-    }
-  }*/
-#endif
 }
 
 #if 0
