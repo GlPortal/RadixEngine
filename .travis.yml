@@ -7,17 +7,12 @@ matrix:
     - os: linux
       services: docker
       before_install: 
-        - docker pull glportal/whale-gcc:bullet285
+        - docker pull glportal/whale-gcc:coveralls
         - pip install --user cpp-coveralls
         - pip install --user pyyaml
       script:
         - set -e
-        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:bullet285 bash -c "cmake ./; make; make tests; ctest;"
-      after_success:
-        - sudo ln -s $(pwd) /data
-        - ls /data
-        - ls ./
-        - coveralls --exclude lib --exclude external --exclude tests --gcov-options '\-lp'
+        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coveralls bash -c "cmake ./; make; make tests; ctest; coveralls --exclude lib --exclude external --exclude tests --gcov-options '\-lp'"
   exclude:
     - os: osx
       osx_image: xcode7.3
