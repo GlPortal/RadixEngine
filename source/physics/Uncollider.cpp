@@ -72,19 +72,26 @@ void Uncollider::nearCallback(btBroadphasePair &collisionPair,
 
   btCollisionObject *colObj0 = (btCollisionObject*)collisionPair.m_pProxy0->m_clientObject;
   btCollisionObject *colObj1 = (btCollisionObject*)collisionPair.m_pProxy1->m_clientObject;
-  
+
   if (dispatcher.needsCollision(colObj0, colObj1)) {
     btCollisionObjectWrapper obj0Wrap(0, colObj0->getCollisionShape(),
       colObj0, colObj0->getWorldTransform(), -1, -1);
     btCollisionObjectWrapper obj1Wrap(0, colObj1->getCollisionShape(),
       colObj1, colObj1->getWorldTransform(), -1, -1);
 
-    if (not collisionPair.m_algorithm) {
-      collisionPair.m_algorithm = dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap);
-    }
+    btManifoldResult contactPointResult(&obj0Wrap, &obj1Wrap);
 
+    if (not collisionPair.m_algorithm) {
+#if (BT_BULLET_VERSION >=286)
+      collisionPair.m_algorithm =
+        dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap,
+                                 contactPointResult.getPersistentManifold(),
+                                 ebtDispatcherQueryType::BT_CONTACT_POINT_ALGORITHMS);
+    }
+#else
+    collisionPair.m_algorithm = dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap);
+#endif
     if (collisionPair.m_algorithm) {
-      btManifoldResult contactPointResult(&obj0Wrap, &obj1Wrap);
       if (dispatchInfo.m_dispatchFunc == btDispatcherInfo::DISPATCH_DISCRETE) {
         collisionPair.m_algorithm->processCollision(&obj0Wrap, &obj1Wrap, dispatchInfo,
           &contactPointResult);

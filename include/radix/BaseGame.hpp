@@ -1,6 +1,9 @@
 #ifndef RADIX_BASEGAME_HPP
 #define RADIX_BASEGAME_HPP
 
+#include <utility>
+#include <functional>
+
 #include <radix/util/sdl/Fps.hpp>
 #include <radix/World.hpp>
 #include <radix/GameWorld.hpp>
@@ -10,6 +13,7 @@
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
+#include <radix/data/map/CustomTrigger.hpp>
 #include <radix/data/screen/Screen.hpp>
 #include <radix/renderer/ScreenRenderer.hpp>
 
@@ -47,11 +51,15 @@ public:
   inline Window& getWindow() {
     return window;
   }
+  inline std::list<CustomTrigger>& getCustomTriggers() {
+    return customTriggers;
+  };
 
 protected:
   void loadMap();
   virtual void prepareCamera();
   virtual void initHook();
+  virtual void customTriggerHook();
 
   Window window;
   World world;
@@ -66,6 +74,8 @@ protected:
 
   std::string defaultMap  = "/maps/n1.xml";
   std::string windowTitle = "RadixEngine";
+
+  std::list<CustomTrigger> customTriggers;
 
   bool closed;
   unsigned int currentTime = 0, nextUpdate = 0, lastUpdate = 0, lastRender = 0;

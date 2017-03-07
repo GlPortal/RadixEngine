@@ -2,10 +2,12 @@
 #define RADIX_XMLMAPLOADER_HPP
 
 #include <string>
+#include <list>
 
 #include <tinyxml2.h>
 
 #include <radix/data/map/MapLoader.hpp>
+#include <radix/data/map/CustomTrigger.hpp>
 
 namespace radix {
 
@@ -16,9 +18,9 @@ namespace radix {
 class XmlMapLoader : public MapLoader {
 private:
   tinyxml2::XMLHandle rootHandle;
-
+  std::list<CustomTrigger> customTriggers;
 public:
-  XmlMapLoader(World&);
+  XmlMapLoader(World&, const std::list<CustomTrigger>&);
   /**
    * Load data from XML into World.
    */
@@ -34,6 +36,7 @@ private:
   void extractDoor();
   void extractWalls();
   void extractAcids();
+  void extractDestinations();
   void extractTriggers();
   void extractModels();
 };

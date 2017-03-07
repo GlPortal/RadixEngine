@@ -22,9 +22,10 @@ using namespace std;
 
 namespace radix {
 
-XmlMapLoader::XmlMapLoader(World &w) :
+XmlMapLoader::XmlMapLoader(World &w, const std::list<CustomTrigger>& customTriggers) :
   MapLoader(w),
-  rootHandle(nullptr) {
+  rootHandle(nullptr),
+  customTriggers(customTriggers) {
 }
 
 void XmlMapLoader::load(const std::string &path) {
@@ -43,6 +44,7 @@ void XmlMapLoader::load(const std::string &path) {
     extractLights();
     extractWalls();
     extractAcids();
+    extractDestinations();
     extractTriggers();
     Util::Log(Info, "XmlMapLoader") << "Map " << path << " loaded";
   } else {
@@ -199,6 +201,23 @@ void XmlMapLoader::extractAcids() {
   }
 }
 
+void XmlMapLoader::extractDestinations() {
+  tinyxml2::XMLElement *destinationElement = rootHandle.FirstChildElement("destination")
+    .ToElement();
+
+  if (destinationElement) {
+    do {
+      Destination destination;
+      XmlHelper::extractPosition(destinationElement, destination.position);
+      XmlHelper::extractRotation(destinationElement, destination.rotation);
+      std::string name = destinationElement->Attribute("name");
+
+      world.destinations.insert(std::make_pair(name, destination));
+    } while ((destinationElement = destinationElement->NextSiblingElement("destination"))
+             != nullptr);
+  }
+}
+
 void XmlMapLoader::extractTriggers() {
   tinyxml2::XMLElement *triggerElement = rootHandle.FirstChildElement("trigger").ToElement();
 
@@ -218,7 +237,7 @@ void XmlMapLoader::extractTriggers() {
       Vector3f scale;
       XmlHelper::extractScale(triggerElement, scale);
       t.setScale(scale);
-      XmlTriggerHelper::extractTriggerActions(trigger, triggerElement);
+      XmlTriggerHelper::extractTriggerActions(trigger, triggerElement, customTriggers);
 
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);
   }

@@ -42,6 +42,7 @@ void BaseGame::setup() {
   renderer->setViewport(&window);
   screenRenderer = std::make_unique<ScreenRenderer>(world, *renderer.get(), gameWorld);
   initHook();
+  customTriggerHook();
   loadMap();
   renderer->init();
   renderer->addRenderer(*screenRenderer);
@@ -79,6 +80,7 @@ void BaseGame::update() {
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
 void BaseGame::initHook() { }
+void BaseGame::customTriggerHook() { }
 
 void BaseGame::cleanUp() {
   world.destroy();
@@ -111,7 +113,7 @@ void BaseGame::close() {
 }
 
 void BaseGame::loadMap() {
-  XmlMapLoader mapLoader(world);
+  XmlMapLoader mapLoader(world, customTriggers);
   std::string mapPath = config.getMapPath();
   if (mapPath.length() > 0) {
     mapLoader.load(mapPath);
