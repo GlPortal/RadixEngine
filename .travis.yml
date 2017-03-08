@@ -10,7 +10,7 @@ matrix:
         - docker pull glportal/whale-gcc:coverall
       script:
         - set -e
-        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake ./; make; make tests; ctest; coveralls --exclude lib --exclude external --exclude tests --gcov-options '\-lp'"
+        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake ./; make; make tests; ctest; coveralls -i source -i include --gcov-options '\-lp'"
   exclude:
     - os: osx
       osx_image: xcode7.3
