@@ -34,7 +34,6 @@ void Config::load() {
   this->loadMouseSettings(configJson["mouse"]);
   this->loadLoglevelSettings(configJson["logging"]);
 
-  // Misc
   glContextEnableDebug = configJson["debug"]["gl_context_debug"].bool_value();
   map = "n1";
   loaded = true;
