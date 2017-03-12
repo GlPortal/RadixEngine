@@ -78,7 +78,8 @@ void XmlMapLoader::extractMaterials() {
   }
 }
 
-void XmlMapLoader::extractSpawn() {tinyxml2::XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
+void XmlMapLoader::extractSpawn() {
+  tinyxml2::XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
 
   if (spawnElement) {
     Entity &start = world.entityManager.create();
@@ -210,7 +211,7 @@ void XmlMapLoader::extractDestinations() {
       Destination destination;
       XmlHelper::extractPosition(destinationElement, destination.position);
       XmlHelper::extractRotation(destinationElement, destination.rotation);
-      std::string name = destinationElement->Attribute("name");
+      std::string name = XmlHelper::extractStringMandatoryAttribute(destinationElement, "name");
 
       world.destinations.insert(std::make_pair(name, destination));
     } while ((destinationElement = destinationElement->NextSiblingElement("destination"))

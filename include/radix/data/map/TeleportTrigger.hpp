@@ -9,7 +9,7 @@ namespace radix {
 
 class TeleportTrigger : public BaseTrigger {
 public:
-  TeleportTrigger(std::string& destination);
+  TeleportTrigger(std::string destination);
   static const std::string TYPE;
   std::string destination;
   void addAction(Entity& trigger);

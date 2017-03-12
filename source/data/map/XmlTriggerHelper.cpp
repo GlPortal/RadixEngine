@@ -71,7 +71,7 @@ void XmlTriggerHelper::extractAudioTriggerActions(Entity& trigger, XMLElement *x
 }
 
 void XmlTriggerHelper::extractDestinationTriggerActions(Entity &trigger, XMLElement *xmlElement) {
-  std::string destination = xmlElement->Attribute("destination");
+  std::string destination = XmlHelper::extractStringMandatoryAttribute(xmlElement, "destination");
   TeleportTrigger teleportTrigger = TeleportTrigger(destination);
   teleportTrigger.addAction(trigger);
 }
