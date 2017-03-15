@@ -21,9 +21,9 @@ std::string XmlHelper::invalidElementMessage("pushAttributeToVector received an 
   */
 void XmlHelper::pushAttributeVertexToVector(XMLElement *xmlElement, Vector3f &targetVector) {
   if (xmlElement) {
-    int xQueryResult = xmlElement->QueryFloatAttribute("x", &targetVector.x);
-    int yQueryResult = xmlElement->QueryFloatAttribute("y", &targetVector.y);
-    int zQueryResult = xmlElement->QueryFloatAttribute("z", &targetVector.z);
+    float xQueryResult = xmlElement->QueryFloatAttribute("x", &targetVector.x);
+    float yQueryResult = xmlElement->QueryFloatAttribute("y", &targetVector.y);
+    float zQueryResult = xmlElement->QueryFloatAttribute("z", &targetVector.z);
     if (xQueryResult == XML_NO_ATTRIBUTE){
       throwMandatoryAttributeException("<x>");
     }
