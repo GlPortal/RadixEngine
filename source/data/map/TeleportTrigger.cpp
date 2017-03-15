@@ -1,6 +1,8 @@
 #include <radix/data/map/TeleportTrigger.hpp>
 
 #include <radix/component/Trigger.hpp>
+#include <radix/component/Player.hpp>
+#include <radix/system/PhysicsSystem.hpp>
 
 namespace radix {
 
@@ -14,6 +16,8 @@ void TeleportTrigger::addAction(Entity &trigger) {
 
   action = [dest] (BaseGame& game) {
     Transform& transform = game.getWorld()->getPlayer().getComponent<Transform>();
+    KinematicCharacterController &controller = *game.getWorld()->getPlayer().getComponent<Player>()
+      .controller;
     if (game.getWorld()->destinations.find(dest)
         != game.getWorld()->destinations.end()) {
       transform.setPosition(game.getWorld()->destinations.at(dest).position);
@@ -21,7 +25,7 @@ void TeleportTrigger::addAction(Entity &trigger) {
                                                        .rotation));
     }
   };
-  trigger.getComponent<Trigger>().setActionOnEnter(action);
+  trigger.getComponent<Trigger>().setActionOnUpdate(action);
 }
 
 } /* namespace radix */
