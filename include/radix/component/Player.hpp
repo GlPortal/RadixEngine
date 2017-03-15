@@ -64,6 +64,9 @@ public:
 
   Quaternion getBaseHeadOrientation() const;
   Quaternion getHeadOrientation() const;
+  inline void setHeadOrientation(Quaternion &quaternion) {
+    headAngle = quaternion.toAero();
+  }
 };
 
 class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {

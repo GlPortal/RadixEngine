@@ -16,11 +16,14 @@ void TeleportTrigger::addAction(Entity &trigger) {
 
   action = [dest] (BaseGame& game) {
     Transform& transform = game.getWorld()->getPlayer().getComponent<Transform>();
+    Player& player = game.getWorld()->getPlayer().getComponent<Player>();
     if (game.getWorld()->destinations.find(dest)
         != game.getWorld()->destinations.end()) {
       transform.setPosition(game.getWorld()->destinations.at(dest).position);
       transform.setOrientation(Quaternion().fromAero(game.getWorld()->destinations.at(dest)
                                                        .rotation));
+      player.setHeadOrientation(Quaternion().fromAero(game.getWorld()->destinations.at(dest)
+                                                        .rotation));
     }
   };
   trigger.getComponent<Trigger>().setActionOnUpdate(action);
