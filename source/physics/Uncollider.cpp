@@ -90,6 +90,7 @@ void Uncollider::nearCallback(btBroadphasePair &collisionPair,
     }
 #else
     collisionPair.m_algorithm = dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap);
+  }
 #endif
     if (collisionPair.m_algorithm) {
       if (dispatchInfo.m_dispatchFunc == btDispatcherInfo::DISPATCH_DISCRETE) {
