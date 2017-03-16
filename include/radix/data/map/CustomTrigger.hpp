@@ -1,6 +1,8 @@
 #ifndef RADIX_CUSTOM_TRIGGER_HPP
 #define RADIX_CUSTOM_TRIGGER_HPP
 
+#include <radix/Entity.hpp>
+
 #include <functional>
 #include <string>
 
