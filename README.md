@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/GlPortal/RadixEngine.svg?branch=master)](https://travis-ci.org/GlPortal/RadixEngine)
 [![Join Chat](https://img.shields.io/badge/reddit-join_chat-brightgreen.svg)](https://www.reddit.com/r/RadixEngine/)
 [![Documentation Status](https://img.shields.io/badge/specification-latest-brightgreen.svg)](http://radix-spec.glportal.de/en/latest/)
-#![RadixEngine](https://raw.githubusercontent.com/GlPortal/glportal_raw_data/master/graphics/logo/radix/RadixEngine.png "RadixEngine")
+
+![RadixEngine](https://raw.githubusercontent.com/GlPortal/glportal_raw_data/master/graphics/logo/radix/RadixEngine.png "RadixEngine")
 
 Radix is a modern, free and open-source 3D game engine with an Entity Component System and physics simulation.
 It runs on all modern operating systems including GNU/Linux, Mac and Windows.
