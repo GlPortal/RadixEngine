@@ -81,8 +81,8 @@ void Uncollider::nearCallback(btBroadphasePair &collisionPair,
 
     btManifoldResult contactPointResult(&obj0Wrap, &obj1Wrap);
 
-    if (not collisionPair.m_algorithm) {
 #if (BT_BULLET_VERSION >=286)
+    if (not collisionPair.m_algorithm) {
       collisionPair.m_algorithm =
         dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap,
                                  contactPointResult.getPersistentManifold(),
