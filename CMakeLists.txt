@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 set(RADIX_LIBRARY RadixEngine)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  --coverage -fprofile-arcs -ftest-coverage")
+
+if (COVERAGE)
+  message("-- Coverage Enabled")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  --coverage -fprofile-arcs -ftest-coverage")
+endif ()
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Build type")
