@@ -80,13 +80,15 @@ public:
     Entity* playerEntity = (Entity*) colObj0Wrap->getCollisionObject()->getUserPointer();
     Entity* triggerEntity = (Entity*) colObj1Wrap->getCollisionObject()->getUserPointer();
 
-    if (triggerEntity->hasComponent<Trigger>()) {
-      Trigger &trigger = triggerEntity->getComponent<Trigger>();
-      trigger.onUpdate(game);
+    if (triggerEntity && playerEntity) {
+      if (triggerEntity->hasComponent<Trigger>()) {
+        Trigger &trigger = triggerEntity->getComponent<Trigger>();
+        trigger.onUpdate(game);
 
-      if (playerEntity->hasComponent<Player>()) {
-        Player &player = playerEntity->getComponent<Player>();
-        player.trigger = &trigger;
+        if (playerEntity->hasComponent<Player>()) {
+          Player &player = playerEntity->getComponent<Player>();
+          player.trigger = &trigger;
+        }
       }
     }
     return 0;
