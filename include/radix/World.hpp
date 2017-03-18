@@ -53,11 +53,11 @@ public:
 
   void update(TDelta dtime);
   Entity& getPlayer();
-  Camera camera;
   std::map<int, Material> materials;
   EventDispatcher event;
   SystemManager systems;
   EntityManager entityManager;
+  std::unique_ptr<Camera> camera;
 
   // Convenience
   std::map<std::string, Entity*> entityAliases;

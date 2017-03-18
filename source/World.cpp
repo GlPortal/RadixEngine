@@ -37,6 +37,9 @@ radix::Config &World::getConfig(){
 
 void World::create() {
   lastUpdateTime = SDL_GetTicks();
+  camera = std::make_unique<Camera>();
+  std::vector<EntityPair> portalPairs;
+  entityPairs.insert(std::pair<std::string, std::vector<EntityPair>>("portalPairs", portalPairs));
 }
 
 void World::destroy() {

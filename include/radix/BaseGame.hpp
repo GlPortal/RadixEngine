@@ -68,7 +68,6 @@ protected:
 
   std::shared_ptr<ScreenRenderer> screenRenderer;
   std::unique_ptr<Renderer> renderer;
-  std::unique_ptr<Camera> camera;
   std::shared_ptr<radix::Screen> screen;
   EventDispatcher::CallbackHolder screenshotCallbackHolder;
 

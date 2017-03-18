@@ -33,7 +33,6 @@ void BaseGame::setup() {
   world.setConfig(config);
   world.create();
   renderer = std::make_unique<Renderer>(world);
-  camera = std::make_unique<Camera>();
   SystemManager::Transaction systemTransaction = world.systems.transact();
   systemTransaction.addSystem<PlayerSystem>(this);
   systemTransaction.addSystem<PhysicsSystem>(this);
@@ -97,15 +96,15 @@ void BaseGame::render() {
 }
 
 void BaseGame::prepareCamera() {
-  camera->setPerspective();
+  world.camera->setPerspective();
   int viewportWidth, viewportHeight;
   window.getSize(&viewportWidth, &viewportHeight);
-  camera->setAspect((float)viewportWidth / viewportHeight);
+  world.camera->setAspect((float)viewportWidth / viewportHeight);
   const Transform &playerTransform = world.getPlayer().getComponent<Transform>();
   Vector3f headOffset(0, playerTransform.getScale().y, 0);
-  camera->setPosition(playerTransform.getPosition() + headOffset);
+  world.camera->setPosition(playerTransform.getPosition() + headOffset);
   const Player &playerComponent = world.getPlayer().getComponent<Player>();
-  camera->setOrientation(playerComponent.getHeadOrientation());
+  world.camera->setOrientation(playerComponent.getHeadOrientation());
 }
 
 void BaseGame::close() {
