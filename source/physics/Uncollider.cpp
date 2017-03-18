@@ -28,13 +28,14 @@ bool Uncollider::isPointInUncollideVolume(const btVector3 &p) {
 }
 
 void Uncollider::beforePhysicsStep() {
-  if (volumes.size() > 0) {
+  /* physics debug drawing */
+  /*if (volumes.size() > 0) {
     for (btCollisionObject *volume : volumes) {
       btVector3 ext = ((btBoxShape*)volume)->getHalfExtentsWithoutMargin();
       world.systems.get<PhysicsSystem>().physicsWorld->getDebugDrawer()->drawBox(-ext, ext,
         volume->getWorldTransform(), btVector3(1, .5, 0));
     }
-  }
+  } */
 }
 
 void Uncollider::addCollisonPairExclusion(btCollisionObject *a, btCollisionObject *b) {
