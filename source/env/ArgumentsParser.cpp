@@ -17,6 +17,7 @@ std::string ArgumentsParser::mapPath = "";
 bool ArgumentsParser::showCursor = false;
 bool ArgumentsParser::ignoreGlVersion = false;
 bool ArgumentsParser::debugMode = false;
+bool ArgumentsParser::consoleEnabled = false;
 
 void ArgumentsParser::showUsage(char **argv) {
   std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
@@ -30,6 +31,7 @@ void ArgumentsParser::showUsage(char **argv) {
   std::cout << "  -c, --showcursor         Forces to draw os mouse cursor" << std::endl;
   std::cout << "  -G, --ignoreGlVersion    Disable OpenGl version check" << std::endl;
   std::cout << "  -D, --debugMode          Run game in debug mode" << std::endl;
+  std::cout << "  -a, --console            Run game interactively" << std::endl;
 }
 
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
@@ -42,6 +44,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     {"datadir",          required_argument, 0, 'd'},
     {"map",              required_argument, 0, 'm'},
     {"mapfrompath",      required_argument, 0, 'M'},
+    {"console",          no_argument      , 0, 'a'},
     {0, 0, 0, 0}
   };
 
@@ -84,6 +87,9 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       showCursor = true;
       ignoreGlVersion = true;
       break;
+    case 'a':
+      consoleEnabled = true;
+      break;
     default:
       break;
     }
@@ -111,6 +117,10 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
     config.width = 800;
     config.height = 600;
     config.fullscreen = false;
+  }
+
+  if (consoleEnabled) {
+    config.consoleEnabled = true;
   }
 }
 

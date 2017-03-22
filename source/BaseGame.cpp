@@ -6,6 +6,7 @@
 #include <radix/system/PhysicsSystem.hpp>
 #include <radix/component/Player.hpp>
 #include <radix/env/ArgumentsParser.hpp>
+#include <radix/env/GameConsole.hpp>
 
 #include <SDL2/SDL_timer.h>
 
@@ -28,6 +29,10 @@ BaseGame::~BaseGame() {
 }
 
 void BaseGame::setup() {
+  radix::GameConsole console;
+  if (config.isConsoleEnabled()) {
+    console.run(*this);
+  }
   SoundManager::init();
   createWindow();
   world.setConfig(config);

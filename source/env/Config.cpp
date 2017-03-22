@@ -7,7 +7,7 @@
 
 namespace radix {
 
-Config::Config() : loaded(false), ignoreGlVersion(false) {
+Config::Config() : loaded(false), ignoreGlVersion(false), consoleEnabled(false) {
 }
 
 
