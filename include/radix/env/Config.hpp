@@ -32,6 +32,7 @@ public:
   bool hasSound() const { return sound; }
   bool hasVsync() const { return vsync; }
   bool isHidePortalsByClick() const { return hidePortalsByClick; }
+  bool isConsoleEnabled() const { return consoleEnabled; }
   bool getCursorVisibility() const { return cursorVisibility; }
   bool getIgnoreGlVersion() const { return ignoreGlVersion; }
   bool getGlContextEnableDebug() const { return glContextEnableDebug; }
@@ -58,6 +59,7 @@ private:
   bool cursorVisibility;
   bool ignoreGlVersion;
   bool glContextEnableDebug;
+  bool consoleEnabled;
   LogLevel loglevel;
   std::string map;
   std::string mapPath;

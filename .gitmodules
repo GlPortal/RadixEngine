@@ -10,3 +10,6 @@
 [submodule "external/catch"]
 	path = external/catch
 	url = https://github.com/philsquared/Catch.git
+[submodule "external/linenoise"]
+	path = external/linenoise
+	url = https://github.com/GlPortal/cpp-linenoise.git

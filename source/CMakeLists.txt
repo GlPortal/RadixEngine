@@ -35,6 +35,7 @@ set(RADIX_SOURCES
   ${D}/Entity.cpp
   ${D}/EntityManager.cpp
   ${D}/env/ArgumentsParser.cpp
+  ${D}/env/GameConsole.cpp
   ${D}/env/Config.cpp
   ${D}/env/Environment.cpp
   ${D}/env/OperatingSystem.cpp
