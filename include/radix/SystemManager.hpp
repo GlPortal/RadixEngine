@@ -19,6 +19,37 @@
 
 namespace radix {
 
+/*
+ * THREAD SAFETY UTILITIES
+ */
+
+/*
+ * Declares a variable of type #type, and of name #name.
+ * Along with that, it declares a mutex of name #name##Mutex.
+ * This macro should be used to declare variables that must
+ * remain thread safe (almost always since this is a multi-threaded engine).
+ * It should not be used when declaring variables on the stack, for (hopefully)
+ * obvious reasons. It is recommended to use this in conjunction with
+ * RADIX_DECLARE_MUTEX_GETTER, to keep code clean.
+ */
+
+#define RADIX_DECLARE_WITH_MUTEX(type, name) type name; std::mutex name##Mutex
+
+/*
+ * Declares a getter method for variable declared with RADIX_DECLARE_WITH_MUTEX.
+ */
+
+#define RADIX_DECLARE_SAFE_GETTER(type, name)               \
+inline type get##name() {                                   \
+  name##Mutex.lock();                                       \
+  return name;                                              \
+}                                                           \
+                                                            \
+inline void relinquish##name##Mutex() {                     \
+  name##Mutex.unlock();                                     \
+}                                                           \
+
+
 class World;
 
 class SystemManager {
