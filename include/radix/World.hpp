@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include <radix/ThreadSafety.hpp>
 #include <radix/Camera.hpp>
 #include <radix/EntityManager.hpp>
 #include <radix/core/types/TimeDelta.hpp>
@@ -33,8 +34,8 @@ typedef std::pair<Entity*, Entity*> EntityPair;
 class World {
 private:
   radix::Config config;
-  double gameTime;
-  uint32_t lastUpdateTime;
+  RADIX_DECLARE_WITH_MUTEX(double, gameTime);
+  RADIX_DECLARE_WITH_MUTEX(uint32_t, lastUpdateTime);
   void initPlayer();
 protected:
   Entity *player;
@@ -47,9 +48,8 @@ public:
   void create();
   void destroy();
 
-  inline double getTime() const {
-    return gameTime;
-  }
+  RADIX_DECLARE_SAFE_GETTER(double, gameTime);
+  RADIX_DECLARE_SAFE_GETTER(uint32_t, lastUpdateTime);
 
   void update(TDelta dtime);
   Entity& getPlayer();

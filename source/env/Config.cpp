@@ -39,10 +39,6 @@ void Config::load() {
   loaded = true;
 }
 
-bool Config::isLoaded() {
-  return loaded;
-}
-
 void Config::loadVideoSettings(Json json) {
   fullscreen      = json["fullscreen"].bool_value();
   antialiasing    = json["antialiasing"].number_value();
@@ -67,19 +63,19 @@ void Config::loadMouseSettings(Json json) {
 void Config::loadLoglevelSettings(Json json) {
   std::string value = json["loglevel"].string_value();
   if (value == "verbose") {
-    loglevel = LogLevel::Verbose;
+    logLevel = LogLevel::Verbose;
   } else if (value == "debug") {
-    loglevel = LogLevel::Debug;
+    logLevel = LogLevel::Debug;
   } else if (value == "info") {
-    loglevel = LogLevel::Info;
+    logLevel = LogLevel::Info;
   } else if (value == "warning") {
-    loglevel = LogLevel::Warning;
+    logLevel = LogLevel::Warning;
   } else if (value == "error") {
-    loglevel = LogLevel::Error;
+    logLevel = LogLevel::Error;
   } else if (value == "failure") {
-    loglevel = LogLevel::Failure;
+    logLevel = LogLevel::Failure;
   } else {
-    loglevel = LogLevel::Debug;
+    logLevel = LogLevel::Debug;
   }
 }
 
