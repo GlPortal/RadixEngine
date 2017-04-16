@@ -29,6 +29,7 @@ set(RADIX_SOURCES
   ${D}/core/math/Matrix3f.cpp
   ${D}/core/math/Matrix4f.cpp
   ${D}/core/math/Vector2f.cpp
+  ${D}/core/math/Vector2ui.cpp
   ${D}/core/math/Vector3f.cpp
   ${D}/core/math/Vector4f.cpp
   ${D}/core/state/GameState.cpp
