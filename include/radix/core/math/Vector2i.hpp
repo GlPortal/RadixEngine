@@ -1,5 +1,6 @@
 #ifndef VECTOR2I_HPP
 #define VECTOR2I_HPP
+namespace radix {
 struct Vector2i {
   union {
     int x, width;
@@ -16,4 +17,5 @@ struct Vector2i {
   : x(v), y(v) {}
 
 };
+} /* namespace radix */
 #endif /* VECTOR2I_HPP */
