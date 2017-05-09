@@ -24,17 +24,14 @@ void PlayerSystem::mouseLook(Entity &entity) {
 
   // Apply mouse movement to view
   //Vector3f &rotation = entity.getComponent<Transform>().rotation;
-  if (world.getConfig().safeGetloaded()) {
-    float sensitivity = world.getConfig().safeGetsensitivity();
-    player.headAngle.attitude -= rad(mousedy * sensitivity);
-    player.headAngle.heading  -= rad(mousedx * sensitivity);
-    world.getConfig().relinquishsensitivityMutex();
+  if (world.getConfig().isLoaded()) {
+    player.headAngle.attitude -= rad(mousedy * world.getConfig().getSensitivity());
+    player.headAngle.heading  -= rad(mousedx * world.getConfig().getSensitivity());
   } else {
     player.headAngle.attitude -= rad(mousedy * 0.30);
     player.headAngle.heading  -= rad(mousedx * 0.30);
   }
   player.headAngle.tilt *= 0.8;
-  world.getConfig().relinquishloadedMutex();
 
   // Restrict rotation in horizontal axis
   player.headAngle.attitude = Math::clamp(player.headAngle.attitude, rad(-89.99), rad(89.99));

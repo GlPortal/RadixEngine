@@ -30,10 +30,9 @@ BaseGame::~BaseGame() {
 
 void BaseGame::setup() {
   radix::GameConsole console;
-  if (config.safeGetconsoleEnabled()) {
+  if (config.isConsoleEnabled()) {
     console.run(*this);
   }
-  config.relinquishconsoleEnabledMutex();
   SoundManager::init();
   createWindow();
   world.setConfig(config);
@@ -119,8 +118,7 @@ void BaseGame::close() {
 
 void BaseGame::loadMap() {
   XmlMapLoader mapLoader(world, customTriggers);
-  std::string mapPath = config.safeGetmapPath();
-  config.relinquishmapPathMutex();
+  std::string mapPath = config.getMapPath();
   if (mapPath.length() > 0) {
     mapLoader.load(mapPath);
   } else {
@@ -130,12 +128,11 @@ void BaseGame::loadMap() {
 
 void BaseGame::createWindow() {
   window.create(windowTitle.c_str());
-  if(config.safeGetcursorVisibility()) {
+  if(config.getCursorVisibility()) {
     window.unlockMouse();
   } else {
     window.lockMouse();
   }
-  config.relinquishcursorVisibilityMutex();
 }
 
 void BaseGame::createScreenshotCallbackHolder() {

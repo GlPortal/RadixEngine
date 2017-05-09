@@ -45,7 +45,7 @@ void Window::initGl() {
   const int glver = gl::OpenGL::version(), glmaj = glver / 10, glmin = glver % 10;
   const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
-  if (config.safeGetignoreGlVersion()) {
+  if (config.getIgnoreGlVersion()) {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
   } else {
     if (glver < 32) {
@@ -53,7 +53,6 @@ void Window::initGl() {
                              " is unsupported, " "required minimum is 3.2");
     }
   }
-  config.relinquishignoreGlVersionMutex();
 }
 
 void Window::initGwen() {
@@ -71,31 +70,25 @@ void Window::create(const char *title) {
 
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-  bool isConfigLoaded = config.safeGetloaded();
-  config.relinquishloadedMutex();
-  if (isConfigLoaded && config.safeGetantialiasing() > 0) {
-    config.relinquishantialiasingMutex();
+  if (config.isLoaded() && config.getAntialiasLevel() > 0) {
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config.safeGetantialiasing());
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config.getAntialiasLevel());
   }
-  config.relinquishantialiasingMutex();
 
   int glFlags = 0;
 
-  const bool enableGlDebug = isConfigLoaded && config.safeGetglContextEnableDebug();
+  const bool enableGlDebug = config.isLoaded() && config.getGlContextEnableDebug();
   if (enableGlDebug) {
     glFlags |= SDL_GL_CONTEXT_DEBUG_FLAG;
   }
-  config.relinquishglContextEnableDebugMutex();
 
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, glFlags);
 
   int flags = SDL_WINDOW_OPENGL;
 
-  if (isConfigLoaded && config.safeGetfullscreen()) {
+  if (config.isLoaded() && config.isFullscreen()) {
     flags |= SDL_WINDOW_BORDERLESS;
   }
-  config.relinquishfullscreenMutex();
 
   Vector2i windowDimensions = getWindowDimensions();
   width  = windowDimensions.width;
@@ -117,12 +110,12 @@ void Window::create(const char *title) {
   glViewport(0, 0, width, height);
 
   // Allows unbound framerate if vsync is disabled
-  if (isConfigLoaded) {
-    SDL_GL_SetSwapInterval(config.safeGetvsync() ? 1 : 0);
+  if (config.isLoaded()) {
+    SDL_GL_SetSwapInterval(config.hasVsync() ? 1 : 0);
   } else {
     SDL_GL_SetSwapInterval(1);
   }
-  config.relinquishvsyncMutex();
+
   // Lock cursor in the middle of the screen
   lockMouse();
   initGwen();
@@ -132,12 +125,10 @@ Vector2i Window::getWindowDimensions() {
   SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
   SDL_GetDesktopDisplayMode(0, &dispMode);
 
-  if (config.safeGetloaded()) {
+  if (config.isLoaded()) {
     unsigned int widthConfig, heightConfig;
-    widthConfig  = config.safeGetwidth();
-    heightConfig = config.safeGetheight();
-    config.relinquishwidthMutex();
-    config.relinquishheightMutex();
+    widthConfig  = config.getWidth();
+    heightConfig = config.getHeight();
 
     width  = widthConfig;
     height = heightConfig;
@@ -152,7 +143,6 @@ Vector2i Window::getWindowDimensions() {
     width = dispMode.w;
     height = dispMode.h;
   }
-  config.relinquishloadedMutex();
 
   return Vector2i(width, height);
 }

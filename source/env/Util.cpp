@@ -40,9 +40,7 @@ void Util::Init() {
 }
 
 LogInput Util::_Log::operator()() {
-  LogLevel level = Environment::getConfig().safeGetlogLevel();
-  Environment::getConfig().relinquishlogLevelMutex();
-  return LogInput(*Util::logger, level);
+  return LogInput(*Util::logger, Environment::getConfig().getLoglevel());
 }
 
 LogInput Util::_Log::operator()(LogLevel lvl) {
