@@ -80,7 +80,7 @@ void VBO::bind() const {
 }
 
 void VBO::setSize(std::size_t size, Usage usage) {
-  GLint currentBoundArray; glGetIntegerv(GL_ARRAY_BUFFER, &currentBoundArray);
+  GLint currentBoundArray; glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &currentBoundArray);
   glBindBuffer(GL_ARRAY_BUFFER, id);
   this->size = size;
   glBufferData(GL_ARRAY_BUFFER, size, nullptr, getGlUsage(usage));
@@ -88,7 +88,7 @@ void VBO::setSize(std::size_t size, Usage usage) {
 }
 
 void VBO::setData(const void *data, std::size_t count, Usage usage) {
-  GLint currentBoundArray; glGetIntegerv(GL_ARRAY_BUFFER, &currentBoundArray);
+  GLint currentBoundArray; glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &currentBoundArray);
   glBindBuffer(GL_ARRAY_BUFFER, id);
   this->size = count;
   glBufferData(GL_ARRAY_BUFFER, count, data, getGlUsage(usage));
@@ -96,7 +96,7 @@ void VBO::setData(const void *data, std::size_t count, Usage usage) {
 }
 
 void VBO::update(const void *data, std::size_t count, std::size_t offset) {
-  GLint currentBoundArray; glGetIntegerv(GL_ARRAY_BUFFER, &currentBoundArray);
+  GLint currentBoundArray; glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &currentBoundArray);
   glBindBuffer(GL_ARRAY_BUFFER, id);
   glBufferSubData(GL_ARRAY_BUFFER, offset, count, data);
   glBindBuffer(GL_ARRAY_BUFFER, currentBoundArray);
