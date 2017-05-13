@@ -17,6 +17,8 @@
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 
+#define FULL_VERBOSE 0
+
 namespace radix {
 
 GlGwenRenderer::GlGwenRenderer() :
@@ -27,7 +29,7 @@ GlGwenRenderer::GlGwenRenderer() :
 
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
-  vbo = std::make_unique<VBO>(MaxVerts*sizeof(Vertex), VBO::Dynamic | VBO::Draw);
+  vbo = std::make_unique<VBO>(MaxVerts*sizeof(Vertex), VBO::Stream | VBO::Draw);
   vbo->bind();
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
     sizeof(Vertex), (GLvoid*)offsetof(Vertex, x));
@@ -38,7 +40,10 @@ GlGwenRenderer::GlGwenRenderer() :
   glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE,
     sizeof(Vertex), (GLvoid*)offsetof(Vertex, r));
   glEnableVertexAttribArray(2);
-  glBindVertexArray(0);
+
+  GLint size = 0;
+  glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+  Util::Log(Debug, "GlGwenRenderer") << "Created VAO " << vao << " b " << (unsigned int)*vbo << "o"  << size << "v" << vbo->getSize();glBindVertexArray(0);
 }
 
 GlGwenRenderer::~GlGwenRenderer() {
@@ -56,6 +61,7 @@ void GlGwenRenderer::Begin() {
   glDisable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
+  glActiveTexture(GL_TEXTURE0);
 }
 
 void GlGwenRenderer::End() {
@@ -66,6 +72,12 @@ void GlGwenRenderer::flush() {
   if (vertNum == 0) {
     return;
   }
+
+#if FULL_VERBOSE
+  Util::Log(Debug, "GlGwenRenderer") << "Flushing " << vertNum << " vertices";
+#endif
+
+  vbo->update(vertices, vertNum);
 
   Shader &sh = ShaderLoader::getShader("2d.frag", "2d.vert");
   sh.bind();
@@ -94,8 +106,6 @@ void GlGwenRenderer::flush() {
 
   glBindVertexArray(vao);
 
-  vbo->update(vertices, vertNum);
-
   glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertNum);
 
   sh.release();
@@ -120,17 +130,21 @@ void GlGwenRenderer::addVert(int x, int y, float u, float v) {
 }
 
 void GlGwenRenderer::DrawFilledRect(Gwen::Rect rect) {
+#if FULL_VERBOSE
+  Util::Log(Debug, "GlGwenRenderer") << "DrawFilledRect";
+#endif
+
   GLuint boundtex;
-  GLboolean texturesOn;
-  glGetBooleanv(GL_TEXTURE_2D, &texturesOn);
   glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint*)&boundtex);
   GLuint glTexEmptyHandle = TextureLoader::getEmptyDiffuse().handle;
 
-  if (not texturesOn or boundtex != glTexEmptyHandle) {
+  if (boundtex != glTexEmptyHandle) {
+#if FULL_VERBOSE
+    Util::Log(Debug, "GlGwenRenderer") << "Flushing due to texture change: " << boundtex <<
+        " to " << glTexEmptyHandle;
+#endif
     flush();
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, glTexEmptyHandle);
-    glEnable(GL_TEXTURE_2D);
   }
 
   Translate(rect);
@@ -172,7 +186,11 @@ void GlGwenRenderer::EndClip() {
 
 void GlGwenRenderer::DrawTexturedRect(Gwen::Texture *tex, Gwen::Rect rect, float u1, float v1,
   float u2, float v2) {
-  GLuint *glTex = (GLuint*)tex->data;
+#if FULL_VERBOSE
+  Util::Log(Debug, "GlGwenRenderer") << "DrawTexturedRect " << tex->name << ' ' <<
+      u1 << ',' << v1 << ' ' << u2 << ',' << v2;
+#endif
+  GLuint *glTex = reinterpret_cast<GLuint*>(tex->data);
 
   // Missing image, not loaded properly?
   if (not glTex) {
@@ -181,16 +199,16 @@ void GlGwenRenderer::DrawTexturedRect(Gwen::Texture *tex, Gwen::Rect rect, float
 
   Translate(rect);
   GLuint boundtex;
-  GLboolean texturesOn;
-  glGetBooleanv(GL_TEXTURE_2D, &texturesOn);
-  glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint*)&boundtex);
+  glGetIntegerv(GL_TEXTURE_BINDING_2D, reinterpret_cast<GLint*>(&boundtex));
 
   // Switch textures if necessary - that means drawing what we've accumulated so far
-  if (not texturesOn or *glTex != boundtex) {
+  if (*glTex != boundtex) {
+#if FULL_VERBOSE
+    Util::Log(Debug, "GlGwenRenderer") << "Flushing due to texture change: " << boundtex <<
+        " to " << *glTex;
+#endif
     flush();
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, *glTex);
-    glEnable(GL_TEXTURE_2D);
   }
 
   addVert(rect.x, rect.y, u1, v1);
@@ -212,6 +230,7 @@ void GlGwenRenderer::LoadTexture(Gwen::Texture *tex) {
     Util::Log(Debug, "GlGwenRenderer") << "LoadTexture: loading " << tex->name.c_str() << " failed";
     return;
   }
+  FreeImage_FlipVertical(image);
   tex->width = width;
   tex->height = height;
 
@@ -225,11 +244,12 @@ void GlGwenRenderer::LoadTexture(Gwen::Texture *tex) {
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, (void*) FreeImage_GetBits(image));
   FreeImage_Unload(image);
   FreeImage_Unload(bitmap);
-  Util::Log(Debug, "GlGwenRenderer") << "LoadTexture " << tex->name.c_str() << ", id " << *glTex;
+  Util::Log(Debug, "GlGwenRenderer") << "LoadTexture " << tex->name.c_str() << ", id " << *glTex <<
+      ' ' << width << 'x' << height;
 }
 
 void GlGwenRenderer::FreeTexture(Gwen::Texture *tex) {
-  GLuint *glTex = (GLuint*)tex->data;
+  GLuint *glTex = reinterpret_cast<GLuint*>(tex->data);
 
   if (not glTex) {
     return;
@@ -242,7 +262,7 @@ void GlGwenRenderer::FreeTexture(Gwen::Texture *tex) {
 
 Gwen::Color GlGwenRenderer::PixelColour(Gwen::Texture *tex, unsigned int x, unsigned int y,
   const Gwen::Color &col_default) {
-  GLuint *glTex = (GLuint*)tex->data;
+  GLuint *glTex = reinterpret_cast<GLuint*>(tex->data);
 
   if (not glTex) {
     return col_default;
