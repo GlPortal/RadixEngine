@@ -13,13 +13,13 @@ protected:
 
 public:
   enum Usage : uint8_t {
-    Static = 0,
-    Dynamic,
-    Stream,
+    Static  = 0b0001,
+    Dynamic = 0b0010,
+    Stream  = 0b0011,
 
-    Draw = 1 << 2,
-    Read,
-    Copy
+    Draw = 0b0100,
+    Read = 0b1000,
+    Copy = 0b1100
   };
   constexpr static Usage DefaultUsage = static_cast<Usage>(Static | Draw);
 
