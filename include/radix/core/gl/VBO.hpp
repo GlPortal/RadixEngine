@@ -62,7 +62,7 @@ public:
   }
   template <typename T>
   void update(const T *data, std::size_t count, std::size_t offset = 0) {
-    update(data, count*sizeof(T), offset);
+    update(reinterpret_cast<const void*>(data), count*sizeof(T), offset);
   }
   void bind() const;
 };
