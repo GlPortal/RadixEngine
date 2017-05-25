@@ -20,13 +20,12 @@ Screen& XmlScreenLoader::getScreen(const std::string &path) {
 }
 
 std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
-  std::shared_ptr<Screen> screen = std::make_shared<Screen>(); //setup screen pointer
-
   XMLDocument doc(true, COLLAPSE_WHITESPACE);
   XMLError error = doc.LoadFile(path.c_str());
-  std::string module   = XmlScreenLoader::MODULE_NAME;
+  const std::string &module = XmlScreenLoader::MODULE_NAME;
   
   if (error == 0) {
+    std::shared_ptr<Screen> screen = std::make_shared<Screen>(); //setup screen pointer
     XMLHandle docHandle(&doc);
     XMLElement *element  = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
@@ -42,8 +41,7 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
 
     return screen;
   } else {
-    XmlScreenLoader::handleFailureForElement(module, std::string("screen"), path);
-
+    Util::Log(Error, module) << "loadScreen failed to load " << path.c_str() << ": " << errorName(error);
     return nullptr;
   }
 }
