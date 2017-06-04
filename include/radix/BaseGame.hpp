@@ -53,7 +53,7 @@ public:
   }
   inline std::list<CustomTrigger>& getCustomTriggers() {
     return customTriggers;
-  };
+  }
 
 protected:
   void loadMap();
