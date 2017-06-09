@@ -23,7 +23,6 @@ matrix:
         - brew update
       install:
         - sudo port -v install bullet
-        - brew install gcc
         - brew install assimp
         - brew install libepoxy
         - brew install sdl2
