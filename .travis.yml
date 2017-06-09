@@ -49,7 +49,6 @@ matrix:
         - brew update
       install:
         - sudo port -v install bullet
-        - rvm get head
         - brew install assimp
         - brew install libepoxy
         - brew install sdl2
