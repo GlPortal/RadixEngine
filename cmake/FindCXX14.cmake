@@ -1,59 +1,65 @@
-# - Finds if the compiler has C++11 support
-# This module can be used to detect compiler flags for using C++11, and checks
+# - Finds if the compiler has C++14 support
+# This module can be used to detect compiler flags for using C++14, and checks
 # a small subset of the language.
 #
 # The following variables are set:
-#   CXX14_FLAGS - flags to add to the CXX compiler for C++11 support
-#   CXX14_FOUND - true if the compiler supports C++11
+#   CXX14_FLAGS - flags to add to the CXX compiler for C++14 support
+#   CXX14_FOUND - true if the compiler supports C++14
 #
-# TODO: When compilers starts implementing the whole C++11, check the full set
+# TODO: When compilers starts implementing the whole C++14, check the full set
 
 include(CheckCXXSourceCompiles)
 include(FindPackageHandleStandardArgs)
 
 set(CXX14_FLAG_CANDIDATES
-    #Gnu and Intel Linux
-    "-std=c++14"
-    #Microsoft Visual Studio, and everything that automatically accepts C++11
+    # GCC 6+ and everything that automatically accepts C++14
     " "
-    #Intel windows
+    # GCC < 6 and Intel Linux
+    "-std=c++14"
+    # Intel Windows
     "/Qstd=c++14"
     )
 
 set(CXX14_TEST_SOURCE
 "
-class Matrix
-{
-public:
-    Matrix(int a, int b, int c, int d)
-        : data {a, b, c, d}
-    {}
+[[deprecated]] void unused() {}
 
-private:
-    int data[4];
-};
+template<typename T>
+constexpr T pi = T(3.1415926535897932385);
 
-int main()
-{
-    int n[] {4,7,6,1,2};
-    for (auto i : n)
-        Matrix mat (3,5,1,2);
+constexpr int numberwang(int n) {
+    if (n < 0) {
+        return 0b1'1001'0101;
+    }
+    return n - 1;
+}
+
+auto lambda = [v = 0](auto a, auto b) { return v + a * b; };
+
+auto square(int n)  {
+    return lambda(n, n) * numberwang(2);
+}
+
+int main() {
+    int s = square(3);
+    double pie = pi<double>;
     return 0;
 }
 ")
 
+set(SAVE_CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS}")
 foreach(FLAG ${CXX14_FLAG_CANDIDATES})
-    set(SAFE_CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS}")
     set(CMAKE_REQUIRED_FLAGS "${FLAG}")
     unset(CXX14_FLAG_DETECTED CACHE)
-    message(STATUS "Try C++14 flag = [${FLAG}]")
+    message(STATUS "Trying C++14 flag '${FLAG}'")
     check_cxx_source_compiles("${CXX14_TEST_SOURCE}" CXX14_FLAG_DETECTED)
-    set(CMAKE_REQUIRED_FLAGS "${SAFE_CMAKE_REQUIRED_FLAGS}")
     if(CXX14_FLAG_DETECTED)
         set(CXX14_FLAGS_INTERNAL "${FLAG}")
         break()
     endif(CXX14_FLAG_DETECTED)
 endforeach(FLAG ${CXX14_FLAG_CANDIDATES})
+set(CMAKE_REQUIRED_FLAGS "${SAVE_CMAKE_REQUIRED_FLAGS}")
+unset(SAVE_CMAKE_REQUIRED_FLAGS)
 
 set(CXX14_FLAGS "${CXX14_FLAGS_INTERNAL}")
 
