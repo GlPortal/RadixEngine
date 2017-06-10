@@ -43,7 +43,8 @@ GlGwenRenderer::GlGwenRenderer() :
 
   GLint size = 0;
   glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-  Util::Log(Debug, "GlGwenRenderer") << "Created VAO " << vao << " b " << (unsigned int)*vbo << "o"  << size << "v" << vbo->getSize();glBindVertexArray(0);
+  Util::Log(Debug, "GlGwenRenderer") << "Created VAO " << vao << " " << size;
+  glBindVertexArray(0);
 }
 
 GlGwenRenderer::~GlGwenRenderer() {
