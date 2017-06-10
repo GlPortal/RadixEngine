@@ -15,12 +15,7 @@ static constexpr GLint MaxGlLogSize = 1024 * 1024 * 2; // 2 MiB
 
 ShaderLoader::ShaderCache ShaderLoader::shaderCache;
 
-/**
- * @brief getProgramObjectString get program object paramter string.
- * @param pname                  program object paramter.
- * @return                       string of program object.
- */
-static constexpr const char *getProgramObjectString(GLenum pname) {
+constexpr const char *ShaderLoader::getProgramObjectString(GLenum pname) {
   switch (pname) {
   case GL_LINK_STATUS:
     return "Linking";
@@ -100,12 +95,7 @@ Shader &ShaderLoader::getShader(const std::string &fragpath,
   return inserted.first->second;
 }
 
-/**
- * @brief getGlShaderType get GL shader type from Shader::Type.
- * @param type            Shader type enum.
- * @return                GL shader type
- */
-constexpr static GLenum getGlShaderType(const Shader::Type type) {
+constexpr GLenum ShaderLoader::getGlShaderType(const Shader::Type type) {
   switch (type) {
   case Shader::Vertex:
     return GL_VERTEX_SHADER;
@@ -117,12 +107,7 @@ constexpr static GLenum getGlShaderType(const Shader::Type type) {
   return 0;
 }
 
-/**
- * @brief GetShaderTypeString get string from Shader::Type
- * @param type                Shader::Type enum
- * @return                    shader type string
- */
-constexpr static const char *GetShaderTypeString(const Shader::Type type) {
+constexpr const char *ShaderLoader::getShaderTypeString(const Shader::Type type) {
   switch (type) {
   case Shader::Vertex:
     return "vertex";
@@ -139,7 +124,7 @@ void ShaderLoader::checkShader(unsigned int shader, const std::string &path, Sha
   GLint success = 0;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
-  const char *shaderType = GetShaderTypeString(type);
+  const char *shaderType = getShaderTypeString(type);
 
   if (success == GL_TRUE) {
     Util::Log(Debug, "ShaderLoader")

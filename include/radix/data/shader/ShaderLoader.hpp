@@ -56,6 +56,27 @@ private:
    * @link https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetShaderiv.xml
    */
   static void checkShader(unsigned int shader, const std::string &path, Shader::Type type);
+
+  /**
+   * @brief getProgramObjectString get program object paramter string.
+   * @param pname                  program object paramter.
+   * @return                       string of program object.
+   */
+  static constexpr const char *getProgramObjectString(unsigned int pname);
+
+  /**
+   * @brief getGlShaderType get GL shader type from Shader::Type.
+   * @param type            Shader type enum.
+   * @return                GL shader type
+   */
+  constexpr static unsigned int getGlShaderType(const Shader::Type type);
+
+  /**
+   * @brief GetShaderTypeString get string from Shader::Type
+   * @param type                Shader::Type enum
+   * @return                    shader type string
+   */
+  constexpr static const char *getShaderTypeString(const Shader::Type type);
 };
 
 } /* namespace radix */
