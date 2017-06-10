@@ -30,15 +30,7 @@ static constexpr const char *getProgramObjectString(GLenum pname) {
   return "";
 }
 
-/**
- * @brief checkProgram Check program for specific object parameter.
- * @param program      OpenGL program handler.
- * @param pname        Specifies the object parameter.
- * @param fpath        path for fragment shader.
- * @link
- * https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetProgram.xhtml
- */
-void checkProgram(GLuint program, GLenum pname, const std::string fpath) {
+void ShaderLoader::checkProgram(GLuint program, GLenum pname, const std::string fpath) {
   // Error checking
   GLint success = 0;
   glGetProgramiv(program, pname, &success);
@@ -142,7 +134,7 @@ constexpr static const char *GetShaderTypeString(const Shader::Type type) {
   return "<unknown shader type>";
 }
 
-void checkShader(GLuint shader, const std::string &path, Shader::Type type) {
+void ShaderLoader::checkShader(unsigned int shader, const std::string &path, Shader::Type type) {
   // Error checking
   GLint success = 0;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
