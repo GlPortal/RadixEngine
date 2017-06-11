@@ -134,7 +134,8 @@ void ShaderLoader::checkShader(unsigned int shader, const std::string &path, Sha
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
     if (logSize > MaxGlLogSize) {
       throw std::runtime_error(
-          "GL reported compilation log size exceeding maximum");
+          "GL reported compilation log size exceeding maximum"
+      );
     }
     std::unique_ptr<char[]> log(new char[static_cast<unsigned long>(logSize)]);
     glGetShaderInfoLog(shader, logSize, &logSize, log.get());
@@ -150,20 +151,30 @@ void ShaderLoader::checkShader(unsigned int shader, const std::string &path, Sha
 
 unsigned int ShaderLoader::loadShader(const std::string &path,
                                       Shader::Type type) {
-  std::ifstream file(path);
+  // Read file and point to end of file
+  std::ifstream file(path, std::ifstream::ate);
   if (not file.is_open()) {
     Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
   }
-  std::string str;
-  std::string file_contents;
-  while (std::getline(file, str)) {
-    file_contents += str;
-    file_contents.push_back('\n');
-  }
-  const char *buffer = file_contents.c_str();
+  // Get file size
+  auto fileSize = static_cast<std::size_t>(file.tellg());
+  // Point back to beginning of the file
+  file.seekg(std::ifstream::beg);
 
+  // Create buffer with file size + 1
+  std::unique_ptr<char[]> file_contents(new char[fileSize+1]);
+  // Get pointer to the buffer
+  char *buffer = file_contents.get();
+  // Read file to buffer
+  file.read(buffer, static_cast<long>(fileSize));
+  // Set end of buffer to 0
+  file_contents[fileSize] = 0;
+
+  // Create GL Shader
   GLuint shader = glCreateShader(getGlShaderType(type));
+  // Read buffer to OpenGL Driver
   glShaderSource(shader, 1, &buffer, NULL);
+  // Compile Shader
   glCompileShader(shader);
 
   // Error checking
