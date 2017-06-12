@@ -4,9 +4,23 @@
 namespace radix {
 
 struct Texture {
-  unsigned int handle = 0;
-  int width;
-  int height;
+  /**
+   * @brief default constructor
+   */
+  Texture() = default;
+
+  /**
+   * @brief Texture constructor
+   * @param handle  OpenGL Texture handler
+   * @param width   Texture width
+   * @param height  Texture height
+   */
+  Texture(unsigned int handle, int width, int height)
+      : handle(handle), width(width), height(height) {}
+
+  unsigned int handle = 0; /** < OpenGL Texture handler */
+  int width;               /** < Texture width */
+  int height;              /** < Texture height */
 };
 
 } /* namespace radix */
