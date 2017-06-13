@@ -42,11 +42,11 @@ Texture TextureLoader::getTexture(const std::string &path) {
   if (it != textureCache.end())
     return it->second;
 
+  // get image name
+  const std::string imagePath = Environment::getDataDir() + "/textures/" + path;
+  const char* pImagePath = imagePath.c_str();
   // Read image from hard
-  FIBITMAP *bitmap = FreeImage_Load(
-      FreeImage_GetFileType(
-          (Environment::getDataDir() + "/textures/" + path).c_str()),
-      (Environment::getDataDir() + "/textures/" + path).c_str());
+  FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pImagePath),pImagePath);
 
   // Convert image to 32Bits
   FIBITMAP *image = FreeImage_ConvertTo32Bits(bitmap);
