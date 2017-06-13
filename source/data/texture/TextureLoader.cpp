@@ -46,7 +46,7 @@ Texture TextureLoader::getTexture(const std::string &path) {
   const std::string imagePath = Environment::getDataDir() + "/textures/" + path;
   const char* pImagePath = imagePath.c_str();
   // Read image from hard
-  FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pImagePath),pImagePath);
+  FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pImagePath), pImagePath);
 
   // Convert image to 32Bits
   FIBITMAP *image = FreeImage_ConvertTo32Bits(bitmap);
