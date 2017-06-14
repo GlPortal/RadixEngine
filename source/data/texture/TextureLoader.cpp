@@ -2,23 +2,24 @@
 
 #include <radix/core/gl/OpenGL.hpp>
 
-#include <radix/env/Environment.hpp>
 #include <FreeImagePlus.h>
+#include <radix/env/Environment.hpp>
 
 namespace radix {
 
 std::map<std::string, Texture> TextureLoader::textureCache = {};
 
 Texture TextureLoader::getEmptyTexture(const std::string &name,
-  const char *pixel) {
+                                       const char *pixel) {
+  // Check for cached texture
   auto it = textureCache.find(name);
-  if (it != textureCache.end()) {
+  if (it != textureCache.end())
     return it->second;
-  }
-  Texture texture = uploadTexture((const unsigned char*)pixel, 1, 1);
-  texture.width = 1;
-  texture.height = 1;
-  textureCache.insert(std::pair<std::string, Texture>(name, texture));
+
+  // upload texture to GPU
+  Texture texture =
+      uploadTexture(reinterpret_cast<const unsigned char *>(pixel), 1, 1);
+  textureCache.insert(std::make_pair(name, texture)); // Cache texture
   return texture;
 }
 
@@ -31,45 +32,59 @@ Texture TextureLoader::getEmptyNormal() {
 }
 
 Texture TextureLoader::getEmptySpecular() {
-  return TextureLoader::getEmptyTexture("engine@empty/specular", "\x7F\x7F\x7F");
+  return TextureLoader::getEmptyTexture("engine@empty/specular",
+                                        "\x7F\x7F\x7F");
 }
 
 Texture TextureLoader::getTexture(const std::string &path) {
+  // Check if texture is chached
   auto it = textureCache.find(path);
-  if (it != textureCache.end()) {
+  if (it != textureCache.end())
     return it->second;
-  }
-  int width = 0, height = 0;
-  FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType((Environment::getDataDir() + "/textures/" + path).c_str()), (Environment::getDataDir() + "/textures/" + path).c_str());
+
+  // get image name
+  const std::string imagePath = Environment::getDataDir() + "/textures/" + path;
+  const char* pImagePath = imagePath.c_str();
+  // Read image from hard
+  FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pImagePath), pImagePath);
+
+  // Convert image to 32Bits
   FIBITMAP *image = FreeImage_ConvertTo32Bits(bitmap);
-  FreeImage_FlipVertical(image);
-  width = FreeImage_GetWidth(image);
-  height = FreeImage_GetHeight(image);
+  FreeImage_Unload(bitmap);                         // Free Temp bitmap
+  FreeImage_FlipVertical(image);                    // Flip image vertically
+  unsigned int width = FreeImage_GetWidth(image);   // get width image
+  unsigned int height = FreeImage_GetHeight(image); // get height image
+
+  // upload texture to GPU
   Texture texture = uploadTexture(FreeImage_GetBits(image), width, height);
-  texture.width = width;
-  texture.height = height;
-  textureCache.insert(std::pair<std::string, Texture>(path, texture));
-  FreeImage_Unload(image);
-  FreeImage_Unload(bitmap);
+  // add new texture to cache
+  textureCache.insert(std::make_pair(path, texture));
+
+  FreeImage_Unload(image); // free created image
+
   return texture;
 }
 
-Texture TextureLoader::uploadTexture(const unsigned char *data, int width, int height) {
-  Texture texture;
+Texture TextureLoader::uploadTexture(const unsigned char *data,
+                                     unsigned int width, unsigned int height) {
   GLuint handle;
-  glGenTextures(1, &handle);
-  glBindTexture(GL_TEXTURE_2D, handle);
-  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
-
+  glGenTextures(1, &handle); // Create Texture OpenGL handler
+  glBindTexture(GL_TEXTURE_2D,
+                handle); // Bind and Set OpenGL Texture type 2D Texture
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // sets pixel storage modes
+  // Allocate texture with (width x height x 4) and copy data from CPU to GPU
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, static_cast<int>(width),
+               static_cast<int>(height), 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+  // Set texture Filters
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-  glGenerateMipmap(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, 0);
-  texture.handle = handle;
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                  GL_LINEAR_MIPMAP_LINEAR);
 
-  return texture;
+  glGenerateMipmap(GL_TEXTURE_2D); // Generate Mipmap
+  glBindTexture(GL_TEXTURE_2D, 0); // unbind 2D Texture
+
+  // Create Texture Object
+  return Texture(handle, static_cast<int>(width), static_cast<int>(height));
 }
 
 } /* namespace radix */

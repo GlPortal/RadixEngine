@@ -13,24 +13,47 @@ namespace radix {
 
 static constexpr GLint MaxGlLogSize = 1024 * 1024 * 2; // 2 MiB
 
-std::map<std::pair<std::string, std::string>, Shader> ShaderLoader::shaderCache;
+ShaderLoader::ShaderCache ShaderLoader::shaderCache;
 
-Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &vertpath) {
-  std::string fpath = Environment::getDataDir() + "/shaders/" + fragpath;
-  std::string vpath;
-  if (vertpath.empty()) {
-    vpath = Environment::getDataDir() + "/shaders/diffuse.vert";
+constexpr const char *ShaderLoader::getProgramObjectString(GLenum pname) {
+  switch (pname) {
+  case GL_LINK_STATUS:
+    return "Linking";
+  case GL_VALIDATE_STATUS:
+    return "Validation";
+  }
+  return "";
+}
+
+void ShaderLoader::checkProgram(GLuint program, GLenum pname, const std::string fpath) {
+  // Error checking
+  GLint success = 0;
+  glGetProgramiv(program, pname, &success);
+  if (success == GL_TRUE) {
+    Util::Log(Debug, "ShaderLoader")
+        << fpath << ": program " << getProgramObjectString(pname);
   } else {
-    vpath = Environment::getDataDir() + "/shaders/" + vertpath;
+    GLint logSize = 0;
+    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
+    if (logSize > MaxGlLogSize) {
+      throw std::runtime_error(std::string("GL reported ") +
+                               getProgramObjectString(pname) +
+                               " log size exceeding maximum");
+    }
+    std::unique_ptr<char[]> log(new char[static_cast<unsigned long>(logSize)]);
+    glGetProgramInfoLog(program, logSize, NULL, log.get());
+    Util::Log(Error, "ShaderLoader")
+        << fpath << ": " << getProgramObjectString(pname) << " failed:\n"
+        << log.get();
   }
-  auto it = shaderCache.find(std::pair<std::string, std::string>(fragpath, vertpath));
-  if (it != shaderCache.end()) {
-    return it->second;
-  }
+}
 
+unsigned int
+ShaderLoader::createProgram(const std::string &vertexShaderPath,
+                            const std::string &fragmentShaderPath) {
   // Load the shaders
-  GLuint vertShader = loadShader(vpath, Shader::Vertex);
-  GLuint fragShader = loadShader(fpath, Shader::Fragment);
+  GLuint vertShader = loadShader(vertexShaderPath, Shader::Vertex);
+  GLuint fragShader = loadShader(fragmentShaderPath, Shader::Fragment);
 
   // Create a program and attach both shaders
   GLuint program = glCreateProgram();
@@ -40,46 +63,39 @@ Shader& ShaderLoader::getShader(const std::string &fragpath, const std::string &
   glLinkProgram(program);
 
   // Error checking
-  GLint success = 0;
-  glGetProgramiv(program, GL_LINK_STATUS, &success);
-  if (success == GL_TRUE) {
-    Util::Log(Debug, "ShaderLoader") << fpath << ": program linked";
-  } else {
-    GLint logSize = 0;
-    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
-    if (logSize > MaxGlLogSize) {
-      throw std::runtime_error("GL reported link log size exceeding maximum");
-    }
-    std::unique_ptr<char[]> log(new char[static_cast<unsigned long>(logSize)]);
-    glGetProgramInfoLog(program, logSize, NULL, log.get());
-    Util::Log(Error, "ShaderLoader") << fpath << ": linking failed:\n" << log.get();
-  }
+  checkProgram(program, GL_LINK_STATUS, fragmentShaderPath);
 
   glValidateProgram(program);
 
   // Error checking
-  glGetProgramiv(program, GL_VALIDATE_STATUS, &success);
-  if (success == GL_TRUE) {
-    Util::Log(Debug, "ShaderLoader") << fpath << ": program validated";
-  } else {
-    GLint logSize = 0;
-    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
-    if (logSize > MaxGlLogSize) {
-      throw std::runtime_error("GL reported validation log size exceeding maximum");
-    }
-    std::unique_ptr<char[]> log(new char[static_cast<unsigned long>(logSize)]);
-    glGetProgramInfoLog(program, logSize, NULL, log.get());
-    Util::Log(Error, "ShaderLoader") << fpath << ": validation failed:\n" << log.get();
-  }
+  checkProgram(program, GL_VALIDATE_STATUS, fragmentShaderPath);
+
+  return program;
+}
+
+Shader &ShaderLoader::getShader(const std::string &fragpath,
+                                const std::string &vertpath) {
+  auto fpath = Environment::getDataDir() + "/shaders/" + fragpath;
+  auto vpath = (vertpath.empty())
+                   ? Environment::getDataDir() + "/shaders/diffuse.vert"
+                   : Environment::getDataDir() + "/shaders/" + vertpath;
+
+  auto key = std::make_pair(fragpath, vertpath);
+  // Check if shader is cached before
+  auto it = shaderCache.find(key);
+  if (it != shaderCache.end())
+    return it->second;
+
+  // Create a program and attach both shaders
+  GLuint program = createProgram(vpath, fpath);
 
   Shader shader(program);
-  auto inserted = shaderCache.insert(std::pair<std::pair<std::string, std::string>, Shader>(
-    std::pair<std::string, std::string>(fragpath, vertpath), shader));
+  auto inserted = shaderCache.insert(std::make_pair(key, shader));
   // Return reference to newly inserted Shader
   return inserted.first->second;
 }
 
-constexpr static GLenum getGlShaderType(const Shader::Type type) {
+constexpr GLenum ShaderLoader::getGlShaderType(const Shader::Type type) {
   switch (type) {
   case Shader::Vertex:
     return GL_VERTEX_SHADER;
@@ -91,55 +107,78 @@ constexpr static GLenum getGlShaderType(const Shader::Type type) {
   return 0;
 }
 
-unsigned int ShaderLoader::loadShader(const std::string &path, Shader::Type type) {
-  std::ifstream file(path);
-  if (not file.is_open()) {
-    Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
+constexpr const char *ShaderLoader::getShaderTypeString(const Shader::Type type) {
+  switch (type) {
+  case Shader::Vertex:
+    return "vertex";
+  case Shader::Fragment:
+    return "fragment";
+  case Shader::Geometry:
+    return "geometry";
   }
-  std::string str;
-  std::string file_contents;
-  while (std::getline(file, str)) {
-    file_contents += str;
-    file_contents.push_back('\n');
-  }
-  const char* buffer = file_contents.c_str();
+  return "<unknown shader type>";
+}
 
-  GLuint shader = glCreateShader(getGlShaderType(type));
-  glShaderSource(shader, 1, &buffer, NULL);
-  glCompileShader(shader);
-
-  //Error checking
+void ShaderLoader::checkShader(unsigned int shader, const std::string &path, Shader::Type type) {
+  // Error checking
   GLint success = 0;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
-  const char *shaderType = "<unknown shader type>";
-  switch (type) {
-  case Shader::Vertex:
-    shaderType = "vertex";
-    break;
-  case Shader::Fragment:
-    shaderType = "fragment";
-    break;
-  case Shader::Geometry:
-    shaderType = "geometry";
-    break;
-  }
+  const char *shaderType = getShaderTypeString(type);
+
   if (success == GL_TRUE) {
-    Util::Log(Debug, "ShaderLoader") << path << ": " << shaderType << " shader compiled";
+    Util::Log(Debug, "ShaderLoader")
+        << path << ": " << shaderType << " shader compiled";
   } else {
     GLint logSize = 0;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
     if (logSize > MaxGlLogSize) {
-      throw std::runtime_error("GL reported compilation log size exceeding maximum");
+      throw std::runtime_error(
+          "GL reported compilation log size exceeding maximum"
+      );
     }
     std::unique_ptr<char[]> log(new char[static_cast<unsigned long>(logSize)]);
     glGetShaderInfoLog(shader, logSize, &logSize, log.get());
 
-    Util::Log(Error, "ShaderLoader") << path << ": " << shaderType << " shader compilation "
-      "failed:\n" << log.get();
+    Util::Log(Error, "ShaderLoader")
+        << path << ": " << shaderType << " shader compilation "
+                                         "failed:\n"
+        << log.get();
 
     glDeleteShader(shader);
   }
+}
+
+unsigned int ShaderLoader::loadShader(const std::string &path,
+                                      Shader::Type type) {
+  // Read file and point to end of file
+  std::ifstream file(path, std::ifstream::ate);
+  if (not file.is_open()) {
+    Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
+  }
+  // Get file size
+  auto fileSize = static_cast<std::size_t>(file.tellg());
+  // Point back to beginning of the file
+  file.seekg(std::ifstream::beg);
+
+  // Create buffer with file size + 1
+  std::unique_ptr<char[]> file_contents(new char[fileSize+1]);
+  // Get pointer to the buffer
+  char *buffer = file_contents.get();
+  // Read file to buffer
+  file.read(buffer, static_cast<long>(fileSize));
+  // Set end of buffer to 0
+  file_contents[fileSize] = 0;
+
+  // Create GL Shader
+  GLuint shader = glCreateShader(getGlShaderType(type));
+  // Read buffer to OpenGL Driver
+  glShaderSource(shader, 1, &buffer, NULL);
+  // Compile Shader
+  glCompileShader(shader);
+
+  // Error checking
+  checkShader(shader, path, type);
 
   return shader;
 }
