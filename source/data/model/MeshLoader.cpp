@@ -1,4 +1,5 @@
 #include <radix/data/model/MeshLoader.hpp>
+#include <unordered_map>
 
 #include <assimp/Importer.hpp>
 #include <assimp/mesh.h>
@@ -7,90 +8,119 @@
 
 #include <radix/core/gl/OpenGL.hpp>
 
-#include <radix/env/Environment.hpp>
 #include <radix/Entity.hpp>
-#include <radix/core/gl/TightDataPacker.hpp>
 #include <radix/component/Transform.hpp>
+#include <radix/core/gl/TightDataPacker.hpp>
+#include <radix/env/Environment.hpp>
 
 namespace radix {
 
-std::map<std::string, Mesh> MeshLoader::meshCache = { };
+std::map<std::string, Mesh> MeshLoader::meshCache = {};
 
-Mesh& MeshLoader::getMesh(const std::string &path) {
+Mesh &MeshLoader::getMesh(const std::string &path) {
+  // check if mesh is cahced
   auto it = meshCache.find(path);
-  if (it != meshCache.end()) {
+  if (it != meshCache.end())
     return it->second;
-  }
-  std::string fpath = Environment::getDataDir() + "/meshes/" + path;
+
+  // get file Name
+  const std::string filePath = Environment::getDataDir() + "/meshes/" + path;
+  // create instance from Importer
   Assimp::Importer importer;
-  int flags = aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
-  const aiMesh *mesh = importer.ReadFile(fpath, flags)->mMeshes[0];
-  Mesh m = uploadMesh(mesh);
-  auto inserted = meshCache.insert(std::pair<std::string, Mesh>(path, m));
+  // flags to read mesh
+  // - aiProcess_Triangulate      : Triangulates all faces of all meshes.
+  // - aiProcess_GenNormals       : Generates normals for all faces of all meshes.
+  // - aiProcess_CalcTangentSpace : Calculates the tangents and bitangents for
+  //   the imported meshes.
+  // http://assimp.sourceforge.net/lib_html/postprocess_8h.html
+  unsigned int flags =
+      aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
+  // read mesh from hard to container
+  const auto container = importer.ReadFile(filePath, flags);
+  // get first mesh from container
+  const aiMesh *mesh = container->mMeshes[0];
+  // Upload mesh to GPU
+  Mesh meshObject = uploadMesh(mesh);
+
+  // Add mesh to cache
+  auto inserted = meshCache.insert(std::make_pair(path, meshObject));
   // Return reference to newly inserted Mesh
   return inserted.first->second;
 }
 
+using specVector = std::vector<MeshLoader::VertexAttribInfo>;
+
+GLuint MeshLoader::createVBO(const GLenum type,
+                             const GLuint meshSize,
+                             const GLvoid* meshPtr,
+                             const int vtxSize,
+                             const specVector& map) {
+    GLuint VBO = 0;
+    // Create buffer OpenGL handler
+    glGenBuffers(1, &VBO);
+    // assign buffer to OpenGL type
+    glBindBuffer(type, VBO);
+    // upload buffer to GPU
+    glBufferData(type, meshSize, meshPtr, GL_STATIC_DRAW);
+    for(auto item : map) {
+        glVertexAttribPointer(item.index, item.channels, item.type, GL_FALSE, vtxSize, item.offset);
+        glEnableVertexAttribArray(item.index);
+    }
+    // assign buffer to default
+    glBindBuffer(type, 0);
+    // return OpenGL handler
+    return VBO;
+}
+
 Mesh MeshLoader::uploadMesh(const aiMesh *mesh) {
-  Mesh m;
+  Mesh model;
 
   // Generate vertex array object
   GLuint vao;
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-
-  // Prepare vertex indices VBO
-  GLuint idxVBO;
-  glGenBuffers(1, &idxVBO);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBO);
-  
-  // Store face indices in an array
-  unsigned int *faceArray = new unsigned int[mesh->mNumFaces * 3];
-  for (unsigned int f = 0; f < mesh->mNumFaces; ++f) {
-    const aiFace &face = mesh->mFaces[f];
-    std::memcpy(&faceArray[f*3], face.mIndices, 3*sizeof(face.mIndices[0]));
+  // Create vertex indices VBO
+  {
+      // Store face indices in an array
+      std::unique_ptr<unsigned int[]> faceArray(new unsigned int[mesh->mNumFaces * 3]);
+      for (unsigned int f = 0; f < mesh->mNumFaces; ++f) {
+        const aiFace &face = mesh->mFaces[f];
+        std::memcpy(&faceArray[f * 3], face.mIndices, 3 * sizeof(face.mIndices[0]));
+      }
+      // Prepare vertex indices VBO
+      createVBO(GL_ELEMENT_ARRAY_BUFFER,
+                sizeof(unsigned int) * mesh->mNumFaces * 3, faceArray.get());
   }
 
-  // Upload vertex indices to the GPU
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-      sizeof(unsigned int) * mesh->mNumFaces * 3, faceArray, GL_STATIC_DRAW);
-
-  // Once data is uploaded to GPU, no need to keep it in memory
-  delete [] faceArray;
-
-
-  // Prepare vertex data VBO
-  GLuint vbo;
-  glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-  // Cache vertex attributes existence to avoid dereferencing and calling every time
+  // Cache vertex attributes existence to avoid dereferencing and calling every
+  // time
   bool hasPositions = mesh->HasPositions(),
        hasTexCoords = mesh->HasTextureCoords(0),
-       hasNormals   = mesh->HasNormals(),
-       hasTangents  = mesh->HasTangentsAndBitangents();
+       hasNormals = mesh->HasNormals(),
+       hasTangents = mesh->HasTangentsAndBitangents();
 
   // Use them to determine the vertex definition size
-  unsigned int vtxSize =
-    + (hasPositions ? sizeof(float)*3 : 0)
-    + (hasTexCoords ? sizeof(float)*2 : 0)
-    + (hasNormals   ? sizeof(float)*3 : 0)
-    + (hasTangents  ? sizeof(float)*3 : 0);
+  unsigned int vtxSize = +(hasPositions ? sizeof(float) * 3 : 0) +
+                          (hasTexCoords ? sizeof(float) * 2 : 0) +
+                          (hasNormals ? sizeof(float) * 3 : 0) +
+                          (hasTangents ? sizeof(float) * 3 : 0);
 
-  // Create a buffer to store vertex data, with determined size since we now know it
+  // Create a buffer to store vertex data, with determined size since we now
+  // know it
   TightDataPacker data(mesh->mNumVertices * vtxSize);
 
   if (hasPositions) {
-    // Since we keep the vertices in the model, better determine the storage size once and for all
-    m.vertices.resize(mesh->mNumVertices);
+    // Since we keep the vertices in the model, better determine the storage
+    // size once and for all
+    model.vertices.resize(mesh->mNumVertices);
   }
 
   // Process each vertex and store its data
   for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
     if (hasPositions) {
       const aiVector3D &v = mesh->mVertices[i];
-      m.vertices[i] = Vector3f(v.x, v.y, v.z);
+      model.vertices[i] = Vector3f(v.x, v.y, v.z);
       data << v.x << v.y << v.z;
     }
 
@@ -111,143 +141,98 @@ Mesh MeshLoader::uploadMesh(const aiMesh *mesh) {
     }
   }
 
-  // Upload vertex data to the GPU
-  glBufferData(GL_ARRAY_BUFFER, data.getSize(), data.getDataPtr(), GL_STATIC_DRAW);
-
   // Describe the vertex format we have
-  intptr_t offset = 0;
-  if (hasPositions) {
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vtxSize, (GLvoid*)offset);
-    glEnableVertexAttribArray(0);
-    offset += sizeof(float)*3;
-  }
-  if (hasTexCoords) {
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vtxSize, (GLvoid*)offset);
-    glEnableVertexAttribArray(1);
-    offset += sizeof(float)*2;
-  }
-  if (hasNormals) {
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, vtxSize, (GLvoid*)offset);
-    glEnableVertexAttribArray(2);
-    offset += sizeof(float)*3;
-  }
-  if (hasTangents) {
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, vtxSize, (GLvoid*)offset);
-    glEnableVertexAttribArray(3);
-    // offset += sizeof(float)*3;
-  }
+  {
+      intptr_t offset = 0;
+      specVector vertexAttrib;
+      if (hasPositions) {
+            vertexAttrib.push_back({0, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
+            offset += sizeof(float) * 3;
+      }
+      if (hasTexCoords) {
+            vertexAttrib.push_back({1, 2, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
+            offset += sizeof(float) * 2;
+      }
+      if (hasNormals) {
+          vertexAttrib.push_back({2, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
+          offset += sizeof(float) * 3;
+      }
+      if (hasTangents)
+          vertexAttrib.push_back({3, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
 
-  // Unbind the buffers
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+      createVBO(GL_ARRAY_BUFFER, data.getSize(), data.getDataPtr(),
+                           static_cast<int>(vtxSize), vertexAttrib);
+  }
   glBindVertexArray(0);
 
   // Store relevant data in the new mesh
-  m.handle = vao;
-  m.numFaces = mesh->mNumFaces;
+  model.handle = static_cast<int>(vao);
+  model.numFaces = static_cast<int>(mesh->mNumFaces);
 
-  return m;
+  return model;
 }
 
 Mesh MeshLoader::getPortalBox(const Entity &wall) {
-  Mesh mesh;
-
+  // Generate vertex array object
   GLuint vao;
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
   /* == Static part: vertices, normals and tangents == */
-
-  constexpr unsigned int
-    coordsSize = sizeof(float)*3,
-    texcSize = sizeof(float)*2,
-    normalsSize = sizeof(int8_t)*3,
-    tangentsSize = sizeof(int8_t)*3,
-    vtxSize = coordsSize + texcSize + normalsSize + tangentsSize,
-    vboSize = vtxSize * 3 /*verts*/ * 2 /*tris*/ * 6; /*faces*/
+  constexpr unsigned int coordsSize = sizeof(float) * 3,
+                         texcSize = sizeof(float) * 2,
+                         normalsSize = sizeof(int8_t) * 3,
+                         tangentsSize = sizeof(int8_t) * 3,
+                         vtxSize = coordsSize + texcSize + normalsSize + tangentsSize,
+                         vboSize = vtxSize * 3 /*verts*/ * 2 /*tris*/ * 6; /*faces*/
   TightDataPacker data(vboSize);
 
-  static const float vertices[8][3] = {
-    {-0.5f, -0.5f, -0.5f},
-    {-0.5f, -0.5f,  0.5f},
-    {-0.5f,  0.5f, -0.5f},
-    {-0.5f,  0.5f,  0.5f},
-    { 0.5f, -0.5f, -0.5f},
-    { 0.5f, -0.5f,  0.5f},
-    { 0.5f,  0.5f, -0.5f},
-    { 0.5f,  0.5f,  0.5f}
-  };
-  static const uint8_t vi[36] = {
-    3, 1, 5, 3, 5, 7, // Front
-    7, 5, 4, 7, 4, 6, // Left
-    6, 4, 0, 6, 0, 2, // Back
-    2, 0, 1, 2, 1, 3, // Right
-    2, 3, 7, 2, 7, 6, // Top
-    1, 0, 4, 1, 4, 5  // Bottom
+  static constexpr float vertices[8][3] = {
+      {-0.5f, -0.5f, -0.5f}, {-0.5f, -0.5f, 0.5f}, {-0.5f, 0.5f, -0.5f},
+      {-0.5f, 0.5f, 0.5f},   {0.5f, -0.5f, -0.5f}, {0.5f, -0.5f, 0.5f},
+      {0.5f, 0.5f, -0.5f},   {0.5f, 0.5f, 0.5f}};
+
+  static constexpr uint8_t vi[36] = {
+      3, 1, 5, 3, 5, 7, // Front
+      7, 5, 4, 7, 4, 6, // Left
+      6, 4, 0, 6, 0, 2, // Back
+      2, 0, 1, 2, 1, 3, // Right
+      2, 3, 7, 2, 7, 6, // Top
+      1, 0, 4, 1, 4, 5  // Bottom
   };
 
   const Transform &t = wall.getComponent<Transform>();
   const Vector3f &scale = t.getScale();
+
   const float texCoords[8][2] = {
-    {0, 0},
-    {scale.x, 0},
-    {scale.z, 0},
-    {0, scale.y},
-    {0, scale.z},
-    {scale.x, scale.y},
-    {scale.x, scale.z},
-    {scale.z, scale.y}
-  };
-  static const uint8_t ti[36] = {
-    0, 3, 5, 0, 5, 1,
-    0, 3, 7, 0, 7, 2,
-    0, 3, 5, 0, 5, 1,
-    0, 3, 7, 0, 7, 2,
-    0, 4, 6, 0, 6, 1,
-    0, 4, 6, 0, 6, 1
-  };
+      {0, 0},       {scale.x, 0},       {scale.z, 0},       {0, scale.y},
+      {0, scale.z}, {scale.x, scale.y}, {scale.x, scale.z}, {scale.z, scale.y}};
 
-  static const int8_t normals[6][3] = {
-    { 0,  0,  1},
-    { 1,  0,  0},
-    { 0,  0, -1},
-    {-1,  0,  0},
-    { 0,  1,  0},
-    { 0, -1,  0}
-  };
-  static const uint8_t ni[36] = {
-    0, 0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1, 1,
-    2, 2, 2, 2, 2, 2,
-    3, 3, 3, 3, 3, 3,
-    4, 4, 4, 4, 4, 4,
-    5, 5, 5, 5, 5, 5
-  };
+  static constexpr uint8_t ti[36] = {0, 3, 5, 0, 5, 1, 0, 3, 7, 0, 7, 2,
+                                     0, 3, 5, 0, 5, 1, 0, 3, 7, 0, 7, 2,
+                                     0, 4, 6, 0, 6, 1, 0, 4, 6, 0, 6, 1};
 
-  static const int8_t tangents[6][3] = {
-    { 0,  1,  0},
-    { 0,  0,  1},
-    { 0, -1,  0},
-    { 0,  0, -1},
-    { 1,  0,  0},
-    {-1,  0,  0}
-  };
-  static const uint8_t tai[36] = {
-    0, 0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1, 1,
-    2, 2, 2, 2, 2, 2,
-    3, 3, 3, 3, 3, 3,
-    4, 4, 4, 4, 4, 4,
-    5, 5, 5, 5, 5, 5
-  };
-  constexpr unsigned int
-    texCoordsOffset = coordsSize,
-    normalsOffset = texCoordsOffset + texcSize,
-    tangentsOffset = normalsOffset + normalsSize;
+  static constexpr int8_t normals[6][3] = {{0, 0, 1},  {1, 0, 0}, {0, 0, -1},
+                                           {-1, 0, 0}, {0, 1, 0}, {0, -1, 0}};
+
+  static constexpr uint8_t ni[36] = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+                                     2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3,
+                                     4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5};
+
+  static const int8_t tangents[6][3] = {{0, 1, 0},  {0, 0, 1}, {0, -1, 0},
+                                        {0, 0, -1}, {1, 0, 0}, {-1, 0, 0}};
+
+  static constexpr uint8_t tai[36] = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+                                      2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3,
+                                      4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5};
+  constexpr unsigned int texCoordsOffset = coordsSize,
+                         normalsOffset = texCoordsOffset + texcSize,
+                         tangentsOffset = normalsOffset + normalsSize;
+
   for (int i = 0; i < 36; ++i) {
     const float *v = vertices[vi[i]];
     data << v[0] << v[1] << v[2];
-    
+
     const float *t = texCoords[ti[i]];
     data << t[0] << t[1];
 
@@ -257,66 +242,54 @@ Mesh MeshLoader::getPortalBox(const Entity &wall) {
     const int8_t *ta = tangents[tai[i]];
     data << ta[0] << ta[1] << ta[2];
   }
+
+  Mesh mesh;
   mesh.vertices.resize(8);
-  for (int i = 0; i < 8; ++i) {
+
+  for (unsigned int i = 0; i < 8; ++i) {
     const float *v = vertices[i];
     mesh.vertices[i] = Vector3f(v[0], v[1], v[2]);
   }
 
   assert(data.getSize() == vboSize);
 
-  GLuint vbo;
-  glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, vboSize, data.getDataPtr(), GL_STATIC_DRAW);
-  // Vertices
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vtxSize, nullptr);
-  glEnableVertexAttribArray(0);
-  // Tex coords
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vtxSize, (GLvoid*)texCoordsOffset);
-  glEnableVertexAttribArray(1);
-  // Normals
-  glVertexAttribPointer(2, 3, GL_BYTE, GL_FALSE, vtxSize, (GLvoid*)normalsOffset);
-  glEnableVertexAttribArray(2);
-  // Tangents
-  glVertexAttribPointer(3, 3, GL_BYTE, GL_FALSE, vtxSize, (GLvoid*)tangentsOffset);
-  glEnableVertexAttribArray(3);
-
-  //Unbind the buffers
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  createVBO(GL_ARRAY_BUFFER, vboSize, data.getDataPtr(), vtxSize,
+   {{0, 3, GL_FLOAT, nullptr},                                      // Vertices
+    {1, 2, GL_FLOAT, reinterpret_cast<GLvoid *>(texCoordsOffset)},  // Tex coords
+    {2, 3, GL_BYTE, reinterpret_cast<GLvoid *>(normalsOffset)},     // Normals
+    {3, 3, GL_BYTE, reinterpret_cast<GLvoid *>(tangentsOffset)}});  // Tangents
+  // unbind Vertex Array Object (VAO)
   glBindVertexArray(0);
 
-  //Store relevant data in the new mesh
-  mesh.handle = vao;
+  // Store relevant data in the new mesh
+  mesh.handle = static_cast<int>(vao);
   mesh.numFaces = 12;
 
   return mesh;
 }
 
-Mesh MeshLoader::getSubPlane(int x, int y, int width, int height, int w, int h) {
-  Mesh mesh;
-
+Mesh MeshLoader::getSubPlane(int x, int y, int width, int height, int w,
+                             int h) {
+  // Generate vertex array object
   GLuint vao;
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  static const int8_t vertices[4][3] = {
-    {0, -1, 0}, {1, -1, 0},
-    {1,  0, 0}, {0,  0, 0}
+  static constexpr int8_t vertices[4][3] = {
+      {0, -1, 0}, {1, -1, 0}, {1, 0, 0}, {0, 0, 0}
   };
+
   const float texCoords[4][2] = {
-    {(float)x/w, (float)y/h},
-    {(float)(x+width)/w, (float)y/h},
-    {(float)(x+width)/w, (float)(y+height)/h},
-    {(float)x/w, (float)(y+height)/h}
+      {static_cast<float>(x) / w,         static_cast<float>(y) / h},
+      {static_cast<float>(x + width) / w, static_cast<float>(y) / h},
+      {static_cast<float>(x + width) / w, static_cast<float>(y + height) / h},
+      {static_cast<float>(x) / w,         static_cast<float>(y + height) / h}
   };
 
-  static const uint8_t
-    vi[6] = { 0, 1, 3, 2, 3, 1 },
-    ti[6] = { 3, 2, 0, 1, 0, 2 };
+  static constexpr uint8_t vi[6] = {0, 1, 3, 2, 3, 1}, ti[6] = {3, 2, 0, 1, 0, 2};
 
-  constexpr unsigned int vtxSize = 3*sizeof(int8_t) + 2*sizeof(float);
-  TightDataPacker data(6*vtxSize);
+  constexpr unsigned int vtxSize = 3 * sizeof(int8_t) + 2 * sizeof(float);
+  TightDataPacker data(6 * vtxSize);
   for (int i = 0; i < 6; ++i) {
     const int8_t *v = vertices[vi[i]];
     data << v[0] << v[1] << v[2];
@@ -324,27 +297,17 @@ Mesh MeshLoader::getSubPlane(int x, int y, int width, int height, int w, int h) 
     data << t[0] << t[1];
   }
 
-  assert(data.getSize() == 6*vtxSize);
+  assert(data.getSize() == 6 * vtxSize);
 
   // Put the vertex buffer into the VAO
-  GLuint vbo;
-  glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, data.getSize(), data.getDataPtr(), GL_STATIC_DRAW);
-  glVertexAttribPointer(0, 3, GL_BYTE, GL_FALSE, vtxSize, nullptr);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vtxSize, (GLvoid*)(3*sizeof(int8_t)));
-  glEnableVertexAttribArray(1);
-
-  // Unbind the buffers
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  createVBO(GL_ARRAY_BUFFER, data.getSize(), data.getDataPtr(), vtxSize,
+            { {0, 3, GL_BYTE, nullptr},
+              {1, 2, GL_FLOAT, reinterpret_cast<GLvoid *>(3 * sizeof(int8_t))} });
+  // Unbind VAO
   glBindVertexArray(0);
 
   // Store relevant data in the new mesh
-  mesh.handle = vao;
-  mesh.numFaces = 2;
-
-  return mesh;
+  return Mesh{static_cast<int>(vao), 2, {}};
 }
 
 } /* namespace radix */
