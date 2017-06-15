@@ -4,6 +4,14 @@
 
 namespace radix {
 
+void EntityManager::entityAdded(Entity &ent) {
+  idMap.emplace(std::piecewise_construct,
+    std::forward_as_tuple(ent.id),
+    std::forward_as_tuple(ent));
+  ent.init();
+  world.event.dispatch(EntityCreatedEvent(ent));
+}
+
 void EntityManager::changeEntityName(Entity &ent, const std::string &from, const std::string &to) {
   if (!from.empty()) {
     nameMap.erase(from);
@@ -16,19 +24,14 @@ void EntityManager::changeEntityName(Entity &ent, const std::string &from, const
 }
 
 EntityManager::EntityManager(World &w) :
+  m_lastAllocatedId(1),
   world(w) {
 }
 
-Entity& EntityManager::create() {
-  const EntityId id = Util::Rand();
-  emplace_back(*this, id);
-  return back();
-}
-
 Entity& EntityManager::getById(EntityId id) {
-  for (auto it = begin(); it != end(); ++it) {
-    if (it->id == id) {
-      return *it;
+  for (Entity &ent : *this) {
+    if (ent.id == id) {
+      return ent;
     }
   }
   throw std::out_of_range("No entity found by that ID");

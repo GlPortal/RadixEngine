@@ -3,7 +3,7 @@
 #include <bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 
 #include <radix/physics/PhysicsHelper.hpp>
-#include <radix/system/PhysicsSystem.hpp>
+#include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
 
 namespace radix {

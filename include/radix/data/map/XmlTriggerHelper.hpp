@@ -7,7 +7,7 @@
 #include <tinyxml2.h>
 
 #include <radix/core/math/Vector3f.hpp>
-#include <radix/Entity.hpp>
+#include <radix/entities/Trigger.hpp>
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/CustomTrigger.hpp>
 
@@ -15,10 +15,10 @@ namespace radix {
 
   class XmlTriggerHelper {
   public:
-    static void extractTriggerActions(Entity& trigger, tinyxml2::XMLElement* xmlElement, const std::list<CustomTrigger>& customTriggers);
-    static void extractMapTriggerActions(Entity& trigger, tinyxml2::XMLElement *xmlElement);
-    static void extractAudioTriggerActions(Entity& trigger, tinyxml2::XMLElement *xmlElement);
-    static void extractDestinationTriggerActions(Entity& trigger,
+    static void extractTriggerActions(entities::Trigger &trigger, tinyxml2::XMLElement* xmlElement, const std::list<CustomTrigger>& customTriggers);
+    static void extractMapTriggerActions(entities::Trigger &trigger, tinyxml2::XMLElement *xmlElement);
+    static void extractAudioTriggerActions(entities::Trigger &trigger, tinyxml2::XMLElement *xmlElement);
+    static void extractDestinationTriggerActions(entities::Trigger &trigger,
                                                  tinyxml2::XMLElement *xmlElement);
   };
 

@@ -25,15 +25,7 @@ public:
   using KeyboardModifier = int;
 
   struct KeyPressedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:KeyPressed";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:KeyPressed")
     InputSource &source;
     const KeyboardKey key;
     const KeyboardModifier mod;
@@ -41,15 +33,7 @@ public:
       : source(source), key(key), mod(mod) {}
   };
   struct KeyReleasedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:KeyReleased";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:KeyReleased")
     InputSource &source;
     const KeyboardKey key;
     const KeyboardModifier mod;
@@ -75,30 +59,14 @@ public:
     Unknown = 0xFF
   };
   struct MouseButtonPressedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:MouseButtonPressed";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:MouseButtonPressed")
     InputSource &source;
     const MouseButton button;
     MouseButtonPressedEvent(InputSource &source, MouseButton button)
       : source(source), button(button) {}
   };
   struct MouseButtonReleasedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:MouseButtonReleased";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:MouseButtonReleased")
     InputSource &source;
     const MouseButton button;
     MouseButtonReleasedEvent(InputSource &source, MouseButton button)
@@ -109,15 +77,7 @@ public:
   /*   Mouse wheel   */
   /* =============== */
   struct MouseWheelScrolledEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:MouseWheelScrolled";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:MouseWheelScrolled")
     InputSource &source;
     const int x, y;
     MouseWheelScrolledEvent(InputSource &source, int x, int y)
@@ -128,60 +88,28 @@ public:
   /*      Window     */
   /* =============== */
   struct WindowShownEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowShown";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowShown")
     InputSource &source;
     Uint32 windowID;
     WindowShownEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowHiddenEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowHidden";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowHidden")
     InputSource &source;
     Uint32 windowID;
     WindowHiddenEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowExposedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowExposed";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowExposed")
     InputSource &source;
     Uint32 windowID;
     WindowExposedEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowMovedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowMoved";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowMoved")
     InputSource &source;
     Uint32 windowID;
     Sint32 to;
@@ -190,15 +118,7 @@ public:
         : source(source), windowID(windowID), to(to), from(from) {}
   };
   struct WindowResizedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowResized";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowResized")
     InputSource &source;
     Uint32 windowID;
     Sint32 x;
@@ -207,15 +127,7 @@ public:
         : source(source), windowID(windowID), x(x), y(y) {}
   };
   struct WindowSizeChangedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowSizeChanged";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowSizeChanged")
     InputSource &source;
     Uint32 windowID;
     WindowSizeChangedEvent(InputSource &source, Uint32 windowID)
@@ -223,120 +135,56 @@ public:
   };
 
   struct WindowMinimizedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowMinimized";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowMinimized")
     InputSource &source;
     Uint32 windowID;
     WindowMinimizedEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowMaximizedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowMaximized";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowMaximized")
     InputSource &source;
     Uint32 windowID;
     WindowMaximizedEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowRestoredEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowRestored";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowRestored")
     InputSource &source;
     Uint32 windowID;
     WindowRestoredEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowEnterEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:EnterExposed";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:EnterExposed")
     InputSource &source;
     Uint32 windowID;
     WindowEnterEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowLeaveEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowLeave";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowLeave")
     InputSource &source;
     Uint32 windowID;
     WindowLeaveEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowFocusGainedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowFocusGained";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowFocusGained")
     InputSource &source;
     Uint32 windowID;
     WindowFocusGainedEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowFocusLostEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:FocusLost";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:FocusLost")
     InputSource &source;
     Uint32 windowID;
     WindowFocusLostEvent(InputSource &source, Uint32 windowID)
         : source(source), windowID(windowID) {}
   };
   struct WindowCloseEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/InputSource:WindowClose";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType  Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
-
+    radix_event_declare("radix/InputSource:WindowClose")
     InputSource &source;
     Uint32 windowID;
     WindowCloseEvent(InputSource &source, Uint32 windowID)

@@ -40,10 +40,8 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
     Util::Log(Debug, module) << "Screen " << path << " loaded";
 
     return screen;
-  } else {
-    Util::Log(Error, module) << "loadScreen failed to load " << path.c_str() << ": " << errorName(error);
-    return nullptr;
   }
+  throw std::runtime_error("Failed to load " + path + ": " + errorName(error));
 }
 
 bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* textVector) {

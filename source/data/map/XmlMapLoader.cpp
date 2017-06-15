@@ -3,16 +3,18 @@
 #include <iostream>
 #include <vector>
 
+#include <bullet/BulletCollision/CollisionShapes/btBoxShape.h>
+
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlTriggerHelper.hpp>
 #include <radix/env/Environment.hpp>
 
-#include <radix/component/Transform.hpp>
-#include <radix/component/MeshDrawable.hpp>
-#include <radix/component/Trigger.hpp>
-#include <radix/component/LightSource.hpp>
-#include <radix/component/RigidBody.hpp>
-#include <radix/component/Player.hpp>
+#include <radix/entities/Trigger.hpp>
+#include <radix/entities/Player.hpp>
+#include <radix/entities/StaticModel.hpp>
+#include <radix/entities/LightSource.hpp>
+#include <radix/entities/LiquidVolume.hpp>
+#include <radix/entities/ReferencePoint.hpp>
 
 #include <radix/World.hpp>
 #include <radix/data/model/MeshLoader.hpp>
@@ -82,15 +84,13 @@ void XmlMapLoader::extractSpawn() {
   tinyxml2::XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
 
   if (spawnElement) {
-    Entity &start = world.entityManager.create();
-    Transform &transform = start.addComponent<Transform>();
+    entities::ReferencePoint &start = world.entityManager.create<entities::ReferencePoint>();
     Vector3f position;
     XmlHelper::extractPosition(spawnElement, position);
-    transform.setPosition(position);
-    Player &player = world.getPlayer().getComponent<Player>();
+    start.setPosition(position);
+    entities::Player &player = world.getPlayer();
     XmlHelper::extractRotation(spawnElement, player.headAngle);
-    Transform &playerTransform = world.getPlayer().getComponent<Transform>();
-    playerTransform.setPosition(position);
+    player.setPosition(position);
   } else {
     throw std::runtime_error("No spawn position defined.");
   }
@@ -105,7 +105,7 @@ void XmlMapLoader::extractLights() {
   float distance, energy, specular;
   tinyxml2::XMLElement* lightElement = rootHandle.FirstChildElement("light").ToElement();
 
-  if (lightElement){
+  if (lightElement) {
     do {
       XmlHelper::extractPosition(lightElement, lightPos);
       XmlHelper::extractColor(lightElement, lightColor);
@@ -116,14 +116,12 @@ void XmlMapLoader::extractLights() {
         specular = 0;
       }
 
-      Entity &light = world.entityManager.create();
-      Transform &t = light.addComponent<Transform>();
-      t.setPosition(lightPos);
-      LightSource &ls = light.addComponent<LightSource>();
-      ls.color = lightColor;
-      ls.distance = distance;
-      ls.energy = energy;
-      ls.specular = specular;
+      entities::LightSource &light = world.entityManager.create<entities::LightSource>();
+      light.setPosition(lightPos);
+      light.color = lightColor;
+      light.distance = distance;
+      light.energy = energy;
+      light.specular = specular;
     } while ((lightElement = lightElement->NextSiblingElement("light")) != nullptr);
   }
 }
@@ -132,17 +130,15 @@ void XmlMapLoader::extractDoor() {
   tinyxml2::XMLElement *endElement = rootHandle.FirstChildElement("end").ToElement();
 
   if (endElement) {
-    Entity &door = world.entityManager.create();
-    Transform &transform = door.addComponent<Transform>();
+    entities::StaticModel &door = world.entityManager.create<entities::StaticModel>();
     Vector3f position;
     XmlHelper::extractPosition(endElement, position);
-    transform.setPosition(position);
+    door.setPosition(position);
     Vector3f angles;
     XmlHelper::extractRotation(endElement, angles);
-    transform.setOrientation(Quaternion().fromAero(angles));
-    MeshDrawable &mesh = door.addComponent<MeshDrawable>();
-    mesh.material = MaterialLoader::loadFromXML("door/door");
-    mesh.mesh = MeshLoader::getMesh("Door.obj");
+    door.setOrientation(Quaternion().fromAero(angles));
+    door.material = MaterialLoader::loadFromXML("door/door");
+    door.mesh = MeshLoader::getMesh("Door.obj");
   }
 }
 
@@ -151,28 +147,24 @@ void XmlMapLoader::extractWalls() {
 
   if (wallBoxElement) {
     do {
-      Entity &wall = world.entityManager.create();
+      entities::StaticModel &wall = world.entityManager.create<entities::StaticModel>();
 
-      Transform &t = wall.addComponent<Transform>();
       Vector3f position;
       XmlHelper::extractPosition(wallBoxElement, position);
-      t.setPosition(position);
+      wall.setPosition(position);
       Vector3f angles;
       XmlHelper::extractRotation(wallBoxElement, angles);
-      t.setOrientation(Quaternion().fromAero(angles));
+      wall.setOrientation(Quaternion().fromAero(angles));
       Vector3f scale;
       XmlHelper::extractScale(wallBoxElement, scale);
-      t.setScale(scale);
+      wall.setScale(scale);
 
       int mid = -1;
       wallBoxElement->QueryIntAttribute("material", &mid);
-      MeshDrawable &m = wall.addComponent<MeshDrawable>();
-      m.material = world.materials[mid];
-      m.material.scaleU = m.material.scaleV = 2.f;
-      m.mesh = MeshLoader::getPortalBox(wall);
-      wall.addComponent<RigidBody>
-        (0, std::make_shared<btBoxShape>(btVector3(t.getScale().x/2,
-                                                   t.getScale().y/2, t.getScale().z/2)));
+      wall.material = world.materials[mid];
+      wall.material.scaleU = wall.material.scaleV = 2.f;
+      wall.mesh = MeshLoader::getPortalBox(wall);
+      wall.setRigidBody(0, std::make_shared<btBoxShape>(static_cast<btVector3>(scale/2)));
     } while ((wallBoxElement = wallBoxElement->NextSiblingElement("wall")) != nullptr);
   }
 }
@@ -182,22 +174,20 @@ void XmlMapLoader::extractAcids() {
 
   if (acidElement) {
     do {
-      Entity &acid = world.entityManager.create();
+      entities::LiquidVolume &acid = world.entityManager.create<entities::LiquidVolume>();
 
-      Transform &t = acid.addComponent<Transform>();
       Vector3f position;
       XmlHelper::extractPosition(acidElement, position);
-      t.setPosition(position);
+      acid.setPosition(position);
       Vector3f angles;
       XmlHelper::extractRotation(acidElement, angles);
-      t.setOrientation(Quaternion().fromAero(angles));
+      acid.setOrientation(Quaternion().fromAero(angles));
       Vector3f scale;
       XmlHelper::extractScale(acidElement, scale);
-      t.setScale(scale);
+      acid.setScale(scale);
 
-      MeshDrawable &m = acid.addComponent<MeshDrawable>();
-      m.material = MaterialLoader::loadFromXML("fluid/acid00");
-      m.mesh = MeshLoader::getPortalBox(acid);
+      acid.material = MaterialLoader::loadFromXML("fluid/acid00");
+      acid.mesh = MeshLoader::getPortalBox(acid);
     } while ((acidElement = acidElement->NextSiblingElement("acid")) != nullptr);
   }
 }
@@ -225,19 +215,18 @@ void XmlMapLoader::extractTriggers() {
   if (triggerElement) {
     do {
       //! [Creating an Entity.]
-      Entity &trigger = world.entityManager.create();
+      entities::Trigger &trigger = world.entityManager.create<entities::Trigger>();
 
-      Transform &t = trigger.addComponent<Transform>();
       //! [Creating an Entity.]
       Vector3f position;
       XmlHelper::extractPosition(triggerElement, position);
-      t.setPosition(position);
+      trigger.setPosition(position);
       Vector3f angles;
       XmlHelper::extractRotation(triggerElement, angles);
-      t.setOrientation(Quaternion().fromAero(angles));
+      trigger.setOrientation(Quaternion().fromAero(angles));
       Vector3f scale;
       XmlHelper::extractScale(triggerElement, scale);
-      t.setScale(scale);
+      trigger.setScale(scale);
       XmlTriggerHelper::extractTriggerActions(trigger, triggerElement, customTriggers);
 
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);
@@ -253,17 +242,15 @@ void XmlMapLoader::extractModels() {
       modelElement->QueryIntAttribute("material", &mid);
       mesh = modelElement->Attribute("mesh");
 
-      Entity &model = world.entityManager.create();
-      Transform &transform = model.addComponent<Transform>();
+      entities::StaticModel &model = world.entityManager.create<entities::StaticModel>();
       Vector3f position;
       XmlHelper::extractPosition(modelElement, position);
-      transform.setPosition(position);
+      model.setPosition(position);
       Vector3f angles;
       XmlHelper::extractRotation(modelElement, angles);
-      transform.setOrientation(Quaternion().fromAero(angles));
-      MeshDrawable &meshDrawable = model.addComponent<MeshDrawable>();
-      meshDrawable.material = world.materials[mid];
-      meshDrawable.mesh = MeshLoader::getMesh(mesh);
+      model.setOrientation(Quaternion().fromAero(angles));
+      model.material = world.materials[mid];
+      model.mesh = MeshLoader::getMesh(mesh);
     } while ((modelElement = modelElement->NextSiblingElement("model")) != nullptr);
   }
 }

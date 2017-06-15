@@ -77,7 +77,7 @@ static void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id,
   }
   char line[3 + 3 + 1 + 3 + 1 + 3 + 1];
   std::snprintf(line, sizeof(line)/sizeof(line[0]), "GL %3s %3s %3s", sourceStr, typeStr, severityStr);
-  Util::Log(Debug, line) << message;
+  //Util::Log(Debug, line) << message;
 }
 
 void DebugOutput::enable() {

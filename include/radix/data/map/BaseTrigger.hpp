@@ -7,10 +7,10 @@
 
 namespace radix {
 
-  class BaseTrigger {
-  public:
-    virtual void addAction(Entity& trigger) {}
-  };
+class BaseTrigger {
+public:
+  virtual void addAction(Entity& trigger) {}
+};
 
 } /* namespace radix */
 

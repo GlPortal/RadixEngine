@@ -4,12 +4,6 @@
 #include <radix/data/map/MapListLoader.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/env/Environment.hpp>
-#include <radix/component/Health.hpp>
-#include <radix/component/Trigger.hpp>
-#include <radix/component/SoundSource.hpp>
-#include <radix/component/SoundListener.hpp>
-#include <radix/component/LightSource.hpp>
-#include <radix/component/Player.hpp>
 
 namespace radix {
 
@@ -17,7 +11,7 @@ World::World(InputSource &input) :
   gameTime(0),
   lastUpdateTime(0),
   input(input),
-  systems(*this),
+  simulations(*this),
   entityManager(*this){
   input.addDispatcher(event);
   initPlayer();
@@ -47,22 +41,19 @@ void World::destroy() {
 
 void World::update(TDelta dtime) {
   gameTime += dtime;
-  systems.run(dtime);
+  simulations.run(dtime);
+  for (Entity &ent : entityManager) {
+    ent.tick(dtime);
+  }
 }
 
-Entity& World::getPlayer() {
+entities::Player& World::getPlayer() {
   return *player;
 }
 
 void World::initPlayer() {
-  player = &entityManager.create();
-  player->addComponent<Transform>().setPosition(Vector3f(2.5, 1, 5));
-  player->addComponent<Health>();
-  player->addComponent<SoundSource>();
-  player->addComponent<SoundListener>();
-  player->addComponent<Player>();
-  player->getComponent<Player>().addTask<PlayerMoveTask>();
-  player->getComponent<Player>().addTask<PlayerTriggerTask>();
+  player = &entityManager.create<entities::Player>();
+  player->setPosition(Vector3f(2.5, 1, 5));
 }
 
 } /* namespace radix */

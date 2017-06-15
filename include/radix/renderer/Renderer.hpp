@@ -3,13 +3,13 @@
 
 #include <string>
 
+#include <radix/Transform.hpp>
 #include <radix/World.hpp>
 #include <radix/data/material/Material.hpp>
 #include <radix/data/shader/Shader.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/core/math/Rectangle.hpp>
 #include <radix/renderer/RenderContext.hpp>
-#include <radix/component/Transform.hpp>
 #include <radix/renderer/TextRenderer.hpp>
 #include <radix/renderer/SubRenderer.hpp>
 
@@ -96,11 +96,11 @@ public:
   static Matrix4f getFrameView(const Matrix4f &src, const Matrix4f &in, const Matrix4f &out);
   static Matrix4f getFrameView(const Matrix4f &src, const Transform &in, const Transform &out) {
     Matrix4f inMat;
-    inMat.translate(in.getPosition());
-    inMat.rotate(in.getOrientation());
+    inMat.translate(in.position);
+    inMat.rotate(in.orientation);
     Matrix4f outMat;
-    outMat.translate(out.getPosition());
-    outMat.rotate(out.getOrientation());
+    outMat.translate(out.position);
+    outMat.rotate(out.orientation);
     return getFrameView(src, inMat, outMat);
   }
   static bool clipViewFrame(const RenderContext &rc, const Mesh &frame,
