@@ -1,17 +1,16 @@
 #include <radix/data/model/MeshLoader.hpp>
+#include <radix/Entity.hpp>
+#include <radix/env/Environment.hpp>
+#include <radix/component/Transform.hpp>
+#include <radix/core/gl/OpenGL.hpp>
+#include <radix/core/gl/TightDataPacker.hpp>
+
 #include <unordered_map>
 
 #include <assimp/Importer.hpp>
 #include <assimp/mesh.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-
-#include <radix/core/gl/OpenGL.hpp>
-
-#include <radix/Entity.hpp>
-#include <radix/component/Transform.hpp>
-#include <radix/core/gl/TightDataPacker.hpp>
-#include <radix/env/Environment.hpp>
 
 namespace radix {
 
@@ -23,9 +22,7 @@ Mesh &MeshLoader::getMesh(const std::string &path) {
   if (it != meshCache.end())
     return it->second;
 
-  // get file Name
   const std::string filePath = Environment::getDataDir() + "/meshes/" + path;
-  // create instance from Importer
   Assimp::Importer importer;
   // flags to read mesh
   // - aiProcess_Triangulate      : Triangulates all faces of all meshes.
@@ -37,14 +34,11 @@ Mesh &MeshLoader::getMesh(const std::string &path) {
       aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
   // read mesh from hard to container
   const auto container = importer.ReadFile(filePath, flags);
-  // get first mesh from container
   const aiMesh *mesh = container->mMeshes[0];
   // Upload mesh to GPU
   Mesh meshObject = uploadMesh(mesh);
 
-  // Add mesh to cache
   auto inserted = meshCache.insert(std::make_pair(path, meshObject));
-  // Return reference to newly inserted Mesh
   return inserted.first->second;
 }
 
