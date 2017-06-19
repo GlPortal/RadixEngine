@@ -49,21 +49,21 @@ GLuint MeshLoader::createVBO(const GLenum type,
                              const GLvoid* meshPtr,
                              const int vtxSize,
                              const specVector& map) {
-    GLuint VBO = 0;
-    // Create buffer OpenGL handler
-    glGenBuffers(1, &VBO);
-    // assign buffer to OpenGL type
-    glBindBuffer(type, VBO);
-    // upload buffer to GPU
-    glBufferData(type, meshSize, meshPtr, GL_STATIC_DRAW);
-    for(auto item : map) {
-        glVertexAttribPointer(item.index, item.channels, item.type, GL_FALSE, vtxSize, item.offset);
-        glEnableVertexAttribArray(item.index);
-    }
-    // assign buffer to default
-    glBindBuffer(type, 0);
-    // return OpenGL handler
-    return VBO;
+  GLuint VBO = 0;
+  // Create buffer OpenGL handler
+  glGenBuffers(1, &VBO);
+  // assign buffer to OpenGL type
+  glBindBuffer(type, VBO);
+  // upload buffer to GPU
+  glBufferData(type, meshSize, meshPtr, GL_STATIC_DRAW);
+  for(auto item : map) {
+      glVertexAttribPointer(item.index, item.channels, item.type, GL_FALSE, vtxSize, item.offset);
+      glEnableVertexAttribArray(item.index);
+  }
+  // assign buffer to default
+  glBindBuffer(type, 0);
+  // return OpenGL handler
+  return VBO;
 }
 
 Mesh MeshLoader::uploadMesh(const aiMesh *mesh) {
@@ -76,15 +76,15 @@ Mesh MeshLoader::uploadMesh(const aiMesh *mesh) {
 
   // Create vertex indices VBO
   {
-      // Store face indices in an array
-      std::unique_ptr<unsigned int[]> faceArray(new unsigned int[mesh->mNumFaces * 3]);
-      for (unsigned int f = 0; f < mesh->mNumFaces; ++f) {
-        const aiFace &face = mesh->mFaces[f];
-        std::memcpy(&faceArray[f * 3], face.mIndices, 3 * sizeof(face.mIndices[0]));
-      }
-      // Prepare vertex indices VBO
-      createVBO(GL_ELEMENT_ARRAY_BUFFER,
-                sizeof(unsigned int) * mesh->mNumFaces * 3, faceArray.get());
+    // Store face indices in an array
+    std::unique_ptr<unsigned int[]> faceArray(new unsigned int[mesh->mNumFaces * 3]);
+    for (unsigned int f = 0; f < mesh->mNumFaces; ++f) {
+      const aiFace &face = mesh->mFaces[f];
+      std::memcpy(&faceArray[f * 3], face.mIndices, 3 * sizeof(face.mIndices[0]));
+    }
+    // Prepare vertex indices VBO
+    createVBO(GL_ELEMENT_ARRAY_BUFFER,
+              sizeof(unsigned int) * mesh->mNumFaces * 3, faceArray.get());
   }
 
   // Cache vertex attributes existence to avoid dereferencing and calling every
@@ -137,25 +137,25 @@ Mesh MeshLoader::uploadMesh(const aiMesh *mesh) {
 
   // Describe the vertex format we have
   {
-      intptr_t offset = 0;
-      specVector vertexAttrib;
-      if (hasPositions) {
-            vertexAttrib.push_back({0, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
-            offset += sizeof(float) * 3;
-      }
-      if (hasTexCoords) {
-            vertexAttrib.push_back({1, 2, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
-            offset += sizeof(float) * 2;
-      }
-      if (hasNormals) {
-          vertexAttrib.push_back({2, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
+    intptr_t offset = 0;
+    specVector vertexAttrib;
+    if (hasPositions) {
+          vertexAttrib.push_back({0, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
           offset += sizeof(float) * 3;
-      }
-      if (hasTangents)
-          vertexAttrib.push_back({3, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
+    }
+    if (hasTexCoords) {
+          vertexAttrib.push_back({1, 2, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
+          offset += sizeof(float) * 2;
+    }
+    if (hasNormals) {
+        vertexAttrib.push_back({2, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
+        offset += sizeof(float) * 3;
+    }
+    if (hasTangents)
+        vertexAttrib.push_back({3, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
 
-      createVBO(GL_ARRAY_BUFFER, data.getSize(), data.getDataPtr(),
-                           static_cast<int>(vtxSize), vertexAttrib);
+    createVBO(GL_ARRAY_BUFFER, data.getSize(), data.getDataPtr(),
+                         static_cast<int>(vtxSize), vertexAttrib);
   }
   glBindVertexArray(0);
 
