@@ -19,8 +19,9 @@ std::map<std::string, Mesh> MeshLoader::meshCache = {};
 Mesh &MeshLoader::getMesh(const std::string &path) {
   // check if mesh is cahced
   auto it = meshCache.find(path);
-  if (it != meshCache.end())
+  if (it != meshCache.end()) {
     return it->second;
+  }
 
   const std::string filePath = Environment::getDataDir() + "/meshes/" + path;
   Assimp::Importer importer;
@@ -151,9 +152,9 @@ Mesh MeshLoader::uploadMesh(const aiMesh *mesh) {
         vertexAttrib.push_back({2, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
         offset += sizeof(float) * 3;
     }
-    if (hasTangents)
+    if (hasTangents) {
         vertexAttrib.push_back({3, 3, GL_FLOAT, reinterpret_cast<GLvoid*>(offset)});
-
+    }
     createVBO(GL_ARRAY_BUFFER, data.getSize(), data.getDataPtr(),
                          static_cast<int>(vtxSize), vertexAttrib);
   }
