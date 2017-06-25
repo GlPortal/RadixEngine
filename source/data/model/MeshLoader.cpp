@@ -33,7 +33,6 @@ Mesh &MeshLoader::getMesh(const std::string &path) {
   // http://assimp.sourceforge.net/lib_html/postprocess_8h.html
   unsigned int flags =
       aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
-  // read mesh from hard to container
   const auto container = importer.ReadFile(filePath, flags);
   const aiMesh *mesh = container->mMeshes[0];
   // Upload mesh to GPU
