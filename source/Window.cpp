@@ -39,15 +39,20 @@ void Window::setConfig(radix::Config &config){
   this->config = config;
 }
 
-void Window::initGl() {
-  // Parse OpenGL Version
-  gl::OpenGL::initialize();
-  const int glversion = gl::OpenGL::version();
-  const int glmajor = glversion / 10;
-  const int glminor = glversion % 10;
-  // Convert OpenGL Version to string
+inline std::string Window::getOpenGlVersionString(const int _glVersion) {
+  const int glmajor = _glVersion / 10;
+  const int glminor = _glVersion % 10;
+
   char versionString[8];
   sprintf(versionString, "%d.%d", glmajor, glminor);
+
+  return std::string(versionString);
+}
+
+void Window::initGl() {
+  gl::OpenGL::initialize();
+  const int glversion = gl::OpenGL::version();
+  const std::string versionString = getOpenGlVersionString(glversion);
 
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
   if (config.getIgnoreGlVersion()) {
