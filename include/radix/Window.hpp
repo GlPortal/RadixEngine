@@ -33,15 +33,7 @@ public:
   ~Window() override;
 
   /**
-   * @brief create initialize SDL and initialize OpenGL
-   * 1. Initialize SDL system
-   * 2. Set OpenGL Version
-   * 3. Create SDL window
-   * 4. Create OpenGL Context
-   * 5. Initialize OpenGL
-   * 6. Set OpenGL Viewport
-   * 7. hide mouse
-   * 8. initlize other subsystem @see initGwen
+   * @brief create initialize SDL and OpenGL
    * @param title window title
    */
   void create(const char* title);
@@ -71,12 +63,6 @@ public:
 
   /**
    * @brief close ShutDown all subsystem
-   * 1. GWENInput
-   * 2. Canvas
-   * 3. TexturedBase
-   * 4. GlGwenRenderer
-   * 5. Release OpenGL Context
-   * 6. Release Window
    */
   void close();
 
@@ -213,11 +199,6 @@ private:
 
   /**
    * @brief initGwen Initlize Gwen subsystem
-   * initalization order
-   * 1. gwenRenderer
-   * 2. gwebSkin
-   * 3. gwenCanvas
-   * 4. gwenInput
    */
   void initGwen();
 
