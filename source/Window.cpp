@@ -1,4 +1,4 @@
-#include <radix/Window.hpp>
+﻿#include <radix/Window.hpp>
 
 #include <iostream>
 #include <chrono>
@@ -31,8 +31,7 @@ Window::Window() :
   width(0),
   height(0),
   window(nullptr),
-  keystates(SDL_NUM_SCANCODES) {
-}
+  keystates(SDL_NUM_SCANCODES) {}
 
 Window::~Window() = default;
 
@@ -40,15 +39,26 @@ void Window::setConfig(radix::Config &config){
   this->config = config;
 }
 
+inline std::string Window::getOpenGlVersionString(const int _glVersion) {
+  const int glmajor = _glVersion / 10;
+  const int glminor = _glVersion % 10;
+
+  char versionString[8];
+  sprintf(versionString, "%d.%d", glmajor, glminor);
+
+  return std::string(versionString);
+}
+
 void Window::initGl() {
   gl::OpenGL::initialize();
-  const int glver = gl::OpenGL::version(), glmaj = glver / 10, glmin = glver % 10;
-  const std::string versionString = std::to_string(glmaj) + '.' + std::to_string(glmin);
+  const int glversion = gl::OpenGL::version();
+  const std::string versionString = getOpenGlVersionString(glversion);
+
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
   if (config.getIgnoreGlVersion()) {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
   } else {
-    if (glver < 32) {
+    if (glversion < 32) {
       throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
                              " is unsupported, " "required minimum is 3.2");
     }
@@ -57,10 +67,14 @@ void Window::initGl() {
 
 void Window::initGwen() {
   gwenRenderer = std::make_unique<GlGwenRenderer>();
-  gwenSkin = std::make_unique<Gwen::Skin::TexturedBase>(gwenRenderer.get());
-  gwenSkin->Init((Environment::getDataDir() + "/gui/DefaultSkin.png").c_str());
-  gwenCanvas = std::make_unique<Gwen::Controls::Canvas>(gwenSkin.get());
-  gwenInput = std::make_unique<GWENInput>();
+  gwenSkin     = std::make_unique<Gwen::Skin::TexturedBase>(gwenRenderer.get());
+
+  const auto defaultSkinPath = Environment::getDataDir() + "/gui/DefaultSkin.png";
+  gwenSkin->Init(defaultSkinPath.c_str());
+
+  gwenCanvas   = std::make_unique<Gwen::Controls::Canvas>(gwenSkin.get());
+  gwenInput    = std::make_unique<GWENInput>();
+
   gwenRenderer->Init();
   gwenInput->init(gwenCanvas.get());
 }
@@ -122,27 +136,22 @@ void Window::create(const char *title) {
 }
 
 Vector2i Window::getWindowDimensions() {
+  /* Get screen 0 info (main screen)
+   * - pixel format
+   * - screen width
+   * - screen height
+   */
   SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
   SDL_GetDesktopDisplayMode(0, &dispMode);
 
+  unsigned int widthConfig = 0, heightConfig = 0;
   if (config.isLoaded()) {
-    unsigned int widthConfig, heightConfig;
     widthConfig  = config.getWidth();
     heightConfig = config.getHeight();
-
-    width  = widthConfig;
-    height = heightConfig;
-
-    if (widthConfig == 0) {
-      width = dispMode.w;
-    }
-    if (heightConfig == 0) {
-      height = dispMode.h;
-    }
-  } else {
-    width = dispMode.w;
-    height = dispMode.h;
   }
+
+  width  = (widthConfig == 0) ? dispMode.w : widthConfig;
+  height = (heightConfig == 0) ? dispMode.h : heightConfig;
 
   return Vector2i(width, height);
 }
@@ -183,9 +192,9 @@ void Window::unlockMouse() {
   SDL_SetRelativeMouseMode(SDL_FALSE);
 }
 
-
 void Window::processEvents() {
   SDL_Event event;
+
   while (SDL_PollEvent(&event)) {
     int key = event.key.keysym.scancode;
     int mod = event.key.keysym.mod;
@@ -218,14 +227,14 @@ void Window::processEvents() {
       break;
     }
     case SDL_MOUSEBUTTONDOWN:
-      case SDL_MOUSEBUTTONUP: {
+    case SDL_MOUSEBUTTONUP: {
         processMouseButtonEvents(event);
         break;
     }
     case SDL_MOUSEWHEEL: {
       const int dirmult = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) ? -1 : 1;
       const MouseWheelScrolledEvent mwse(*this, event.wheel.x * dirmult, event.wheel.y * dirmult);
-      for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+      for (auto &d : dispatchers) {
         d.get().dispatch(mwse);
       }
       break;
@@ -240,6 +249,7 @@ void Window::processEvents() {
 
 void Window::processMouseButtonEvents(SDL_Event &event) {
   MouseButton button;
+
   switch (event.button.button) {
     case SDL_BUTTON_LEFT: {
       button = MouseButton::Left;
@@ -266,14 +276,16 @@ void Window::processMouseButtonEvents(SDL_Event &event) {
       break;
     }
   }
+
+  // Dispatch mouse event to subscribed listeners
   if (event.type == SDL_MOUSEBUTTONDOWN) {
     const MouseButtonPressedEvent mbpe(*this, button);
-    for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+    for (auto &d : dispatchers) {
       d.get().dispatch(mbpe);
     }
   } else {
     const MouseButtonReleasedEvent mbre(*this, button);
-    for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+    for (auto &d : dispatchers) {
       d.get().dispatch(mbre);
     }
   }
@@ -389,7 +401,7 @@ void Window::processWindowEvents(SDL_Event &event) {
 void Window::keyPressed(KeyboardKey key, KeyboardModifier mod) {
   keystates[key] = true;
   const KeyPressedEvent kpe(*this, key, mod);
-  for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
+  for (auto &d : dispatchers) {
     d.get().dispatch(kpe);
   }
 }
@@ -406,29 +418,27 @@ bool Window::isKeyDown(KeyboardKey key) {
   return keystates[key];
 }
 
-void Window::addToBuffer(const std::string &character) {
-  charbuffer.append(character);
-}
-
 std::string Window::getCharBuffer() {
   return charbuffer;
 }
 
+void Window::addToBuffer(const std::string& character) {
+  charbuffer.append(character);
+}
+
 void Window::clearBuffer() {
-  charbuffer = "";
+  charbuffer.clear();
 }
 
 void Window::truncateCharBuffer() {
-  if (charbuffer.size() > 0) {
-    charbuffer = charbuffer.substr(0, charbuffer.size() - 1);
-  }
+  charbuffer = charbuffer.substr(0, charbuffer.size() - 1);
 }
 
 void Window::clear() {
   keystates.clear();
 }
 
-void Window::printScreenToFile(std::string fileName) {
+void Window::printScreenToFile(const std::string& fileName) {
   Util::Log(Verbose, "Window") << "Taking screenshot";
   SDL_Surface * image =
     SDL_CreateRGBSurface(SDL_SWSURFACE,
@@ -437,9 +447,11 @@ void Window::printScreenToFile(std::string fileName) {
                          0x0000FF00,
                          0x00FF0000, 0);
 
+  // Read current OpenGL buffer to SDL_Surface
   glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
   SDL_Surface * flippedImage = flipVertical(image);
   SDL_SaveBMP(flippedImage, fileName.c_str());
+  // free image resources
   SDL_FreeSurface(flippedImage);
   SDL_FreeSurface(image);
 }
@@ -450,10 +462,12 @@ SDL_Surface* Window::flipVertical(SDL_Surface* sfc) {
                          sfc->format->BytesPerPixel * 8,
                          sfc->format->Rmask, sfc->format->Gmask,
                          sfc->format->Bmask, sfc->format->Amask);
+
   const auto pitch = sfc->pitch;
   const auto pxlength = pitch*sfc->h;
   auto pixels = static_cast<unsigned char*>(sfc->pixels) + pxlength;
   auto rpixels = static_cast<unsigned char*>(result->pixels);
+
   for (auto line = 0; line < sfc->h; ++line) {
     memcpy(rpixels, pixels, pitch);
     pixels -= pitch;
@@ -471,14 +485,21 @@ void Window::setSdlGlAttributes() {
 
 void Window::testGwen() {
   using namespace Gwen::Controls;
-  WindowControl *win = new WindowControl(gwenCanvas.get());
+
+  auto win = std::unique_ptr<WindowControl>(new WindowControl(gwenCanvas.get()));
   win->SetTitle("Texture cache");
   win->SetBounds(30, 30, 500, 200);
-  TreeControl *tree = new TreeControl(win, "tree");
+
+  auto tree = std::unique_ptr<TreeControl>(new TreeControl(win.get(), "tree"));
   tree->SetBounds(0, 0, 200, 186);
-  std::thread thr([tree]() {
+
+  // pass tree control to lambda c++14
+  // https://isocpp.org/blog/2013/04/trip-report-iso-c-spring-2013-meeting
+  // Lambda generalized capture
+  std::thread thr([ tree{std::move(tree)} ]() {
       while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
+
         Base::List &l = tree->GetChildNodes();
         for (auto it : TextureLoader::getTextureCache()) {
           bool add = true;
@@ -493,8 +514,10 @@ void Window::testGwen() {
             n->SetName(it.first);
           }
         }
+
       }
     });
+
   thr.detach();
 }
 } /* namespace radix */
