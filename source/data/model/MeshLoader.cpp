@@ -6,6 +6,7 @@
 #include <radix/core/gl/TightDataPacker.hpp>
 
 #include <unordered_map>
+#include <cassert>
 
 #include <assimp/Importer.hpp>
 #include <assimp/mesh.h>
