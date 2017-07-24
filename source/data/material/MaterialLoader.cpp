@@ -12,14 +12,139 @@ namespace radix {
 
 std::map<std::string, Material> MaterialLoader::materialCache = {};
 
+constexpr const char *MaterialLoader::typeToString(const MaterialLoader::materialAttrib _type) {
+  switch (_type) {
+    case materialAttrib::diffuse:
+      return "diffuse";
+    case materialAttrib::specular:
+      return "specular";
+    case materialAttrib::normal:
+      return "normal";
+    case materialAttrib::surface:
+      return "surface";
+    case materialAttrib::scale:
+      return "scale";
+    case materialAttrib::kind:
+      return "kind";
+    case materialAttrib::tags:
+      return "tags";
+  }
+
+  return "";
+}
+
+template <MaterialLoader::materialAttrib _type>
+bool MaterialLoader::loadAttrib(XMLHandle *root, const std::string &dir,
+                                Material &mat) {
+  const auto element = root->FirstChildElement(typeToString(_type)).ToElement();
+
+  if (element) {
+    std::string elementPath = element->Attribute("path");
+
+    if (!elementPath.empty()) {
+      elementPath = dir + "/" + elementPath;
+
+      Util::Log(Debug, "MaterialLoader") << mat.name << ": load "
+                                         << elementPath;
+
+      switch (_type) {
+        case materialAttrib::diffuse:
+          mat.diffuse = TextureLoader::getTexture(elementPath);
+          break;
+        case materialAttrib::normal:
+          mat.normal = TextureLoader::getTexture(elementPath);
+          break;
+        case materialAttrib::specular:
+          mat.specular = TextureLoader::getTexture(elementPath);
+          element->QueryFloatAttribute("shininess", &mat.shininess);
+          break;
+      }
+      return true;
+    }
+  }
+
+  switch (_type) {
+    case materialAttrib::diffuse:
+      mat.diffuse = TextureLoader::getEmptyDiffuse();
+      break;
+    case materialAttrib::normal:
+      mat.normal = TextureLoader::getEmptyNormal();
+      break;
+    case materialAttrib::specular:
+      mat.specular = TextureLoader::getEmptySpecular();
+      break;
+  }
+  return false;
+}
+
+template <>
+bool MaterialLoader::loadAttrib<MaterialLoader::materialAttrib::surface>(
+    XMLHandle *root, const std::string &, Material &mat) {
+  XMLElement *element = root->FirstChildElement("surface").ToElement();
+  mat.portalable = false;
+  if (element) {
+    element->QueryBoolAttribute("portalable", &mat.portalable);
+    return true;
+  }
+  return false;
+}
+
+template <>
+bool MaterialLoader::loadAttrib<MaterialLoader::materialAttrib::scale>(
+    XMLHandle *root, const std::string &, Material &mat) {
+  XMLElement *scaleE = root->FirstChildElement("scale").ToElement();
+  if (scaleE) {
+    scaleE->QueryFloatAttribute("u", &mat.scaleU);
+    scaleE->QueryFloatAttribute("v", &mat.scaleV);
+    return true;
+  }
+  return false;
+}
+
+template <>
+bool MaterialLoader::loadAttrib<MaterialLoader::materialAttrib::kind>(
+    XMLHandle *root, const std::string &, Material &mat) {
+  XMLElement *kindE = root->FirstChildElement("kind").ToElement();
+  if (kindE) {
+    mat.kind = std::string(kindE->GetText());
+    return true;
+  }
+  return false;
+}
+
+template <>
+bool MaterialLoader::loadAttrib<MaterialLoader::materialAttrib::tags>(
+    XMLHandle *root, const std::string &, Material &mat) {
+  const XMLElement *tagsE = root->FirstChildElement("tags").ToElement();
+  if (tagsE) {
+    const std::string tagStr(tagsE->GetText());
+    size_t start = 0;
+    size_t index = tagStr.find(",", start);
+
+    while (index != std::string::npos) {
+      mat.tags.push_back(tagStr.substr(start, index - start));
+      start = index + 1;
+      index = tagStr.find(",", start);
+    }
+
+    if (start != std::string::npos) {
+      mat.tags.push_back(tagStr.substr(start));
+    }
+    return true;
+  }
+  return false;
+}
+
 const Material MaterialLoader::loadFromXML(const std::string &path) {
-  std::string dir = path.substr(0, path.find_last_of("/\\"));
+  const std::string dir = path.substr(0, path.find_last_of("/\\"));
   XMLDocument doc;
-  XMLError error = doc.LoadFile((Environment::getDataDir() + "/textures/" + path + ".gmd").c_str());
+
+  const auto xmlPath = Environment::getDataDir() + "/textures/" + path + ".gmd";
+  const XMLError error = doc.LoadFile(xmlPath.c_str());
 
   if (error != 0) {
-    Util::Log(Error, "MaterialLoader") << "XML Error " << doc.ErrorID() << ": " <<
-      doc.ErrorName() << " in " << path;
+    Util::Log(Error, "MaterialLoader") << "XML Error " << doc.ErrorID() << ": "
+                                       << doc.ErrorName() << " in " << path;
   }
 
   XMLHandle docHandle(&doc);
@@ -34,104 +159,54 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
   mat.name = name;
   mat.fancyname = fancyname;
 
-  XMLElement *diffE = rootH.FirstChildElement("diffuse").ToElement();
-  if (diffE) {
-    std::string diffP = diffE->Attribute("path");
-    if (diffP.length() > 0) {
-      diffP = dir + "/" + diffP;
-      Util::Log(Debug, "MaterialLoader") << mat.name << ": load " << diffP;
-      mat.diffuse = TextureLoader::getTexture(diffP);
-    }
-  } else {
-    mat.diffuse = TextureLoader::getEmptyDiffuse();
-  }
+  loadAttrib<materialAttrib::diffuse>(&rootH, dir, mat);
 
-  XMLElement *normE = rootH.FirstChildElement("normal").ToElement();
-  if (normE) {
-    std::string normP = normE->Attribute("path");
-    if (normP.length() > 0) {
-      normP = dir + "/" + normP;
-      Util::Log(Debug, "MaterialLoader") << mat.name << ": load " << normP;
-      mat.normal = TextureLoader::getTexture(normP);
-    }
-  } else {
-    mat.normal = TextureLoader::getEmptyNormal();
-  }
+  loadAttrib<materialAttrib::normal>(&rootH, dir, mat);
 
-  XMLElement *specE = rootH.FirstChildElement("specular").ToElement();
-  if (specE) {
-    std::string specP = specE->Attribute("path");
-    if (specP.length() > 0) {
-      specP = dir + "/" + specP;
-      Util::Log(Debug, "MaterialLoader") << mat.name << ": load " << specP;
-      mat.specular = TextureLoader::getTexture(specP);
-    }
-    specE->QueryFloatAttribute("shininess", &mat.shininess);
-  } else {
-    mat.specular = TextureLoader::getEmptySpecular();
-  }
+  loadAttrib<materialAttrib::specular>(&rootH, dir, mat);
 
-  XMLElement *surfaceE = rootH.FirstChildElement("surface").ToElement();
-  mat.portalable = false;
-  if (surfaceE) {
-    surfaceE->QueryBoolAttribute("portalable", &mat.portalable);
-  }
+  loadAttrib<materialAttrib::surface>(&rootH, dir, mat);
 
-  XMLElement *scaleE = rootH.FirstChildElement("scale").ToElement();
-  if (scaleE) {
-    scaleE->QueryFloatAttribute("u", &mat.scaleU);
-    scaleE->QueryFloatAttribute("v", &mat.scaleV);
-  }
+  loadAttrib<materialAttrib::scale>(&rootH, dir, mat);
 
-  XMLElement *kindE = rootH.FirstChildElement("kind").ToElement();
-  if (kindE) {
-    mat.kind = std::string(kindE->GetText());
-  }
+  loadAttrib<materialAttrib::kind>(&rootH, dir, mat);
 
-  XMLElement *tagsE = rootH.FirstChildElement("tags").ToElement();
-  if (tagsE) {
-    std::string tagStr(tagsE->GetText());
-    size_t start = 0;
-    size_t index = tagStr.find(",", start);
-    while (index != std::string::npos) {
-      mat.tags.push_back(tagStr.substr(start, index - start));
-      start = index + 1;
-      index = tagStr.find(",", start);
-    }
-    if (start != std::string::npos) {
-      mat.tags.push_back(tagStr.substr(start));
-    }
-  }
-
-  // TODO
+  loadAttrib<materialAttrib::tags>(&rootH, dir, mat);
 
   return mat;
 }
 
-const Material& MaterialLoader::getMaterial(const std::string &name) {
+const Material &MaterialLoader::getMaterial(const std::string &name) {
+  // make sure that texture is not exist in cache
   auto it = materialCache.find(name);
   if (it != materialCache.end()) {
     return it->second;
   }
-  std::string path = /*Environment::getDataDir() + "/textures/" +*/ name;
-  Material m = loadFromXML(path);
-  auto inserted = materialCache.insert(std::pair<std::string, Material>(m.name, m));
+
+  Material m = loadFromXML(name);
+  auto inserted = materialCache.insert(std::make_pair(m.name, m));
+
   // Return reference to newly inserted Material
   return inserted.first->second;
 }
 
-const Material& MaterialLoader::fromTexture(const std::string &name) {
-  auto it = materialCache.find("rawtex/" + name);
+const Material &MaterialLoader::fromTexture(const std::string &name) {
+  // make sure that texture is not exist in cache
+  std::string materialName = "rawtex/" + name;
+  auto it = materialCache.find(materialName);
   if (it != materialCache.end()) {
     return it->second;
   }
+
   Material m;
-  m.name = "rawtex/" + name;
+  m.name.swap(materialName);
   m.diffuse = TextureLoader::getTexture(name);
   m.normal = TextureLoader::getEmptyNormal();
   m.specular = TextureLoader::getEmptySpecular();
   m.shininess = 1;
-  auto inserted = materialCache.insert(std::pair<std::string, Material>(m.name, m));
+
+  auto inserted = materialCache.insert(std::make_pair(m.name, m));
+
   // Return reference to newly inserted Material
   return inserted.first->second;
 }
