@@ -40,6 +40,7 @@ TEST_CASE("Clamp test") {
   // value above upper bound
   REQUIRE(Math::clamp(6, 2, 4) == 4);
   // negative stuff, zeros
+  REQUIRE(Math::clamp(1, 1, 1) == 1);
 }
 
 
