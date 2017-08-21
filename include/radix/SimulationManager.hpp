@@ -62,7 +62,7 @@ protected:
     std::condition_variable queueCondVar;
     bool exit;
     TDelta dtime;
-    int runCount;
+    unsigned int runCount;
     std::mutex runCountMutex;
     std::condition_variable runCountCondVar;
     SimulationRunner(SimulationManager&);
