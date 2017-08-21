@@ -1,0 +1,43 @@
+#top {
+  background: #222;
+  color: #fff;
+  border-bottom: 1px solid hsl(40deg, 100%, 50%);
+}
+#projectname {
+  font-size: 200%;
+  font-family: "Liberation Sans", Tahoma, Arial, sans-serif;
+}
+#projectbrief {
+  display: none;
+}
+#projectlogo {
+  vertical-align: middle;
+}
+#titlearea {
+  border-bottom: 1px solid hsl(40deg, 100%, 50%);
+}
+#titlearea table {
+  padding-left: .5em;
+}
+#titlearea tr {
+  height: auto !important;
+}
+.sm-dox {
+  background: none;
+}
+.sm-dox a, .sm-dox a:focus, .sm-dox a:hover, .sm-dox a:active {
+  line-height: normal;
+  color: inherit;
+  text-shadow: none;
+}
+#main-menu>li>ul {
+  top: 2em !important;
+}
+#MSearchBox {
+  margin-top: 0;
+  height: auto;
+}
+#MSearchBox .left, #MSearchBox .right, #MSearchField {
+  top: 0;
+  background: #fff;
+}
