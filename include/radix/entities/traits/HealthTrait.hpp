@@ -1,17 +1,18 @@
 #ifndef RADIX_ENTITIES_HEALTH_TRAIT_HPP
 #define RADIX_ENTITIES_HEALTH_TRAIT_HPP
 
-#include <radix/Entity.hpp>
+#include <radix/entities/traits/Trait.hpp>
 
 namespace radix {
 namespace entities {
 
-class HealthTrait : public virtual Entity {
+class HealthTrait : public Trait {
+protected:
+  HealthTrait();
+
 public:
   float maxHealth;
   float health;
-
-  HealthTrait();
 
   bool isAlive();
   void heal(float amount);

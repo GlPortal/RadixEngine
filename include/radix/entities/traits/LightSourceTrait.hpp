@@ -1,14 +1,14 @@
 #ifndef RADIX_ENTITIES_LIGHTSOURCE_TRAIT_HPP
 #define RADIX_ENTITIES_LIGHTSOURCE_TRAIT_HPP
 
-#include <radix/Entity.hpp>
+#include <radix/entities/traits/Trait.hpp>
 
 #include <radix/core/math/Vector3f.hpp>
 
 namespace radix {
 namespace entities {
 
-class LightSourceTrait : public virtual Entity {
+class LightSourceTrait : public Trait {
 public:
   bool enabled;
   Vector3f color;
@@ -16,6 +16,7 @@ public:
   float energy;
   float specular;
 
+protected:
   LightSourceTrait() :
     enabled(true),
     color(1, 1, 1),

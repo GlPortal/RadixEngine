@@ -3,6 +3,7 @@
 
 #include <array>
 #include <memory>
+#include <stdexcept>
 #include <type_traits>
 
 #include <RadixEntity/Entity.hpp>
@@ -11,6 +12,7 @@
 #include <radix/core/event/Event.hpp>
 #include <radix/core/types/TimeDelta.hpp>
 #include <radix/env/Util.hpp>
+#include <radix/util/NullReference.hpp>
 
 namespace radix {
 
@@ -37,6 +39,12 @@ private:
    * Entity's name. Used to find a specific entity from the @ref World entity list.
    */
   std::string m_name;
+
+protected:
+  Entity() :
+    world(util::NullReference<World>) {
+    throw std::invalid_argument("You forgot to properly instantiate the Entity base");
+  }
 
 public:
   struct NameChangedEvent : public Event {

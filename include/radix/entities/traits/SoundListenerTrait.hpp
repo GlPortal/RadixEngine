@@ -1,12 +1,12 @@
 #ifndef RADIX_ENTITIES_SOUNDLISTENER_TRAIT_HPP
 #define RADIX_ENTITIES_SOUNDLISTENER_TRAIT_HPP
 
-#include <radix/Entity.hpp>
+#include <radix/entities/traits/Trait.hpp>
 
 namespace radix {
 namespace entities {
 
-class SoundListenerTrait : public virtual Entity {
+class SoundListenerTrait : public Trait {
 public:
   // TODO
 };

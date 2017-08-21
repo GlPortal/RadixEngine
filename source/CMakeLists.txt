@@ -81,6 +81,7 @@ set(RADIX_SOURCES
   ${D}/Transform.cpp
   ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp
+  ${D}/util/NullReference.cpp
   ${D}/util/XmlLoader.cpp
   ${D}/Window.cpp
   ${D}/World.cpp

@@ -1,12 +1,12 @@
 #ifndef RADIX_ENTITIES_SOUND_PHYSICAL_MEDIUM_TRAIT_HPP
 #define RADIX_ENTITIES_SOUND_PHYSICAL_MEDIUM_TRAIT_HPP
 
-#include <radix/Entity.hpp>
+#include <radix/entities/traits/Trait.hpp>
 
 namespace radix {
 namespace entities {
 
-class SoundPhysicalMediumTrait : public virtual Entity {
+class SoundPhysicalMediumTrait : public Trait {
 public:
   /* TODO
   double speedOfSound;

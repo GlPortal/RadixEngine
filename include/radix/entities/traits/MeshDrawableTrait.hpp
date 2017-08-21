@@ -1,7 +1,7 @@
 #ifndef RADIX_ENTITIES_MESHDRAWABLE_TRAIT_HPP
 #define RADIX_ENTITIES_MESHDRAWABLE_TRAIT_HPP
 
-#include <radix/Entity.hpp>
+#include <radix/entities/traits/Trait.hpp>
 
 #include <radix/data/material/Material.hpp>
 #include <radix/data/model/Mesh.hpp>
@@ -9,7 +9,7 @@
 namespace radix {
 namespace entities {
 
-class MeshDrawableTrait : public virtual Entity {
+class MeshDrawableTrait : public Trait {
 public:
   Mesh mesh;
   // TODO: MaterialDrawable?

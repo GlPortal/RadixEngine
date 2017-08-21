@@ -7,18 +7,20 @@
 #include <bullet/BulletDynamics/Dynamics/btRigidBody.h>
 #include <bullet/LinearMath/btDefaultMotionState.h>
 
-#include <radix/Entity.hpp>
+#include <radix/entities/traits/Trait.hpp>
 
 namespace radix {
 namespace entities {
 
-class RigidBodyTrait : public virtual Entity {
+class RigidBodyTrait : public Trait {
+protected:
+  RigidBodyTrait();
+
 public:
   std::shared_ptr<btCollisionShape> shape;
   btDefaultMotionState motionState;
   btRigidBody *body;
 
-  RigidBodyTrait();
   ~RigidBodyTrait();
 
   void setRigidBody(float mass,
