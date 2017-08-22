@@ -7,7 +7,7 @@ Donate Bitcoin to 1JxrwJZgV9qBeEPH7BDF9qLJPSDcp6fqxz
 
 ![RadixEngine](https://raw.githubusercontent.com/GlPortal/glportal_raw_data/master/graphics/logo/radix/RadixEngine.png "RadixEngine")
 
-Radix is a modern, free and open-source 3D game engine with an Entity Component System and physics simulation.
+Radix is a modern, free and open-source 3D game engine, featuring, among other things, physics simulation.
 It runs on all modern operating systems including GNU/Linux, Mac and Windows.
 You can find the website at http://glportal.de .
 
@@ -22,4 +22,4 @@ Chat with us at irc.freenode.org in the channel [#glportal](http://webchat.freen
 for questions and discussions about the development of the game.
 Report Issues to http://bugs.glportal.de .
 
-Feel free to send us a pull request or issue on github if you have any changes/suggestions.
+Feel free to send us a pull request or issue on GitHub if you have any changes/suggestions.
