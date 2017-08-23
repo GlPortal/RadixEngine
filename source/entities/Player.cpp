@@ -6,6 +6,7 @@
 
 #include <radix/env/Environment.hpp>
 #include <radix/input/InputSource.hpp>
+#include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
 
 namespace radix {
@@ -55,11 +56,19 @@ Player::Player(const CreationParams &cp) :
   shape = std::make_shared<btCapsuleShape>(.4, 1);
   obj->setCollisionShape(shape.get());
   obj->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-  obj->setUserPointer(this);
+  obj->setUserPointer(static_cast<Entity*>(this));
   controller = new KinematicCharacterController(obj, shape.get(), 0.35);
+  auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
+  physWorld.addCollisionObject(obj,
+      btBroadphaseProxy::CharacterFilter,
+      btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
+  physWorld.addAction(controller);
 }
 
 Player::~Player() {
+  auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
+  physWorld.removeAction(controller);
+  physWorld.removeCollisionObject(obj);
   delete controller;
   delete obj;
 }

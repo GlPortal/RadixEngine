@@ -15,7 +15,7 @@ namespace radix {
 Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
-    world(window),
+    world(*this, window),
     config(),
     gameWorld(window),
     closed(false) {
@@ -38,9 +38,11 @@ void BaseGame::setup() {
   world.setConfig(config);
   world.create();
   renderer = std::make_unique<Renderer>(world);
-  SimulationManager::Transaction simulationTransaction = world.simulations.transact();
-  simulationTransaction.addSimulation<simulation::Player>(this);
-  simulationTransaction.addSimulation<simulation::Physics>(this);
+  { SimulationManager::Transaction simTransact = world.simulations.transact();
+    simTransact.addSimulation<simulation::Player>(this);
+    simTransact.addSimulation<simulation::Physics>(this);
+  }
+  world.initPlayer();
   createScreenshotCallbackHolder();
   nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
   renderer->setViewport(&window);

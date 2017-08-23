@@ -7,25 +7,25 @@
 
 namespace radix {
 
-World::World(InputSource &input) :
+World::World(BaseGame &game, InputSource &input) :
   gameTime(0),
   lastUpdateTime(0),
+  game(game),
   input(input),
   simulations(*this),
   entityManager(*this){
   input.addDispatcher(event);
-  initPlayer();
 }
 
 World::~World() {
   input.removeDispatcher(event);
 }
 
-void World::setConfig(radix::Config &config){
+void World::setConfig(radix::Config &config) {
   this->config = config;
 }
 
-radix::Config &World::getConfig(){
+radix::Config& World::getConfig() {
   return this->config;
 }
 

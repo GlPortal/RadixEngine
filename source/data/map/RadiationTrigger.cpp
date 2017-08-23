@@ -11,8 +11,8 @@ const std::string RadiationTrigger::TYPE = "radiation";
 
 void RadiationTrigger::addAction(Entity &ent) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(ent);
-  trigger.setActionOnUpdate([] (BaseGame &game) {
-    game.getWorld()->getPlayer().harm(0.1f);
+  trigger.setActionOnUpdate([] (entities::Trigger &trigger) {
+    trigger.world.getPlayer().harm(0.1f);
   });
 }
 

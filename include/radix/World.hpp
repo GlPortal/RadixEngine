@@ -36,16 +36,19 @@ private:
   radix::Config config;
   double gameTime;
   uint32_t lastUpdateTime;
-  void initPlayer();
 protected:
   entities::Player *player;
 public:
+  BaseGame &game;
   InputSource &input;
-  World(InputSource &input);
+
+  World(BaseGame &game, InputSource &input);
+  ~World();
+
   void setConfig(radix::Config &config);
   radix::Config &getConfig();
-  ~World();
   void create();
+  void initPlayer();
   void destroy();
 
   inline double getTime() const {

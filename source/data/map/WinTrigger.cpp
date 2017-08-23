@@ -11,8 +11,8 @@ const std::string WinTrigger::TYPE = "win";
 
 void WinTrigger::addAction(Entity &ent) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(ent);
-  trigger.setActionOnUpdate([] (BaseGame &game) {
-    game.getWorld()->event.dispatch(GameState::WinEvent());
+  trigger.setActionOnUpdate([] (entities::Trigger &trigger) {
+    trigger.world.event.dispatch(GameState::WinEvent());
   });
 }
 

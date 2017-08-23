@@ -17,8 +17,8 @@ MapTrigger::MapTrigger(std::string filePath) {
 void MapTrigger::addAction(Entity &ent) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(ent);
   std::string fileName = this->filePath;
-  trigger.setActionOnEnter([fileName] (BaseGame &game) {
-    XmlMapLoader mapLoader(*game.getWorld(), game.getCustomTriggers());
+  trigger.setActionOnEnter([fileName] (entities::Trigger &trigger) {
+    XmlMapLoader mapLoader(trigger.world, trigger.world.game.getCustomTriggers());
     mapLoader.load(Environment::getDataDir() + "maps/" + fileName);
   });
 }

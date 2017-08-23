@@ -16,14 +16,14 @@ void TeleportTrigger::addAction(Entity &ent) {
 
   std::string dest = destination;
 
-  trigger.setActionOnUpdate([dest] (BaseGame& game) {
-    entities::Player &player = game.getWorld()->getPlayer();
-    if (game.getWorld()->destinations.find(dest)
-        != game.getWorld()->destinations.end()) {
-      player.setPosition(game.getWorld()->destinations.at(dest).position);
-      player.setOrientation(Quaternion().fromAero(game.getWorld()->destinations.at(dest)
+  trigger.setActionOnUpdate([dest] (entities::Trigger &trigger) {
+    entities::Player &player = trigger.world.getPlayer();
+    if (trigger.world.destinations.find(dest)
+        != trigger.world.destinations.end()) {
+      player.setPosition(trigger.world.destinations.at(dest).position);
+      player.setOrientation(Quaternion().fromAero(trigger.world.destinations.at(dest)
                                                        .rotation));
-      player.setHeadOrientation(Quaternion().fromAero(game.getWorld()->destinations.at(dest)
+      player.setHeadOrientation(Quaternion().fromAero(trigger.world.destinations.at(dest)
                                                         .rotation));
     }
   });

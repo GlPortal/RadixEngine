@@ -23,7 +23,7 @@ void AudioTrigger::addAction(Entity &ent) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(ent);
   std::string datadir  = Environment::getDataDir();
   std::string fileName = datadir + "/audio/" + this->filePath;
-  trigger.setActionOnEnter([fileName] (BaseGame &game) {
+  trigger.setActionOnEnter([fileName] (entities::Trigger &trigger) {
     if (!SoundManager::isPlaying(fileName)) {
       SoundManager::playMusic(fileName);
     }

@@ -10,10 +10,10 @@ namespace entities {
 
 Trigger::Trigger(const CreationParams &cp)
   : Entity(cp),
-  actionOnEnter([] (BaseGame& game) {}),
-  actionOnExit([] (BaseGame& game) {}),
-  actionOnMove([] (BaseGame& game) {}),
-  actionOnUpdate([] (BaseGame& game) {}) {
+  actionOnEnter([] (Trigger&) {}),
+  actionOnExit([] (Trigger&) {}),
+  actionOnMove([] (Trigger&) {}),
+  actionOnUpdate([] (Trigger&) {}) {
   ghostObject = new btGhostObject;
   ghostObject->setWorldTransform(btTransform(getOrientation(), getPosition()));
   shape = std::make_shared<btBoxShape>(btVector3(getScale().x/2, getScale().y/2, getScale().z/2));
@@ -28,7 +28,7 @@ Trigger::Trigger(const CreationParams &cp)
       = (simulation::Physics::CollisionAddedEvent&) event;
 
     if (collisionAddedEvent.info.body1 == this->ghostObject) {
-      this->actionOnEnter(collisionAddedEvent.game);
+      this->actionOnEnter(*this);
     }
   });
   callbackOnExit = world.event.addObserver(simulation::Physics::
@@ -38,12 +38,12 @@ Trigger::Trigger(const CreationParams &cp)
       = (simulation::Physics::CollisionRemovedEvent&) event;
 
     if (collisionRemovedEvent.info.body1 == this->ghostObject) {
-      this->actionOnExit(collisionRemovedEvent.game);
+      this->actionOnExit(*this);
     }
   });
 }
 
-btGhostObject *Trigger::getBulletGhostObject(){
+btGhostObject* Trigger::getBulletGhostObject(){
   return ghostObject;
 }
 

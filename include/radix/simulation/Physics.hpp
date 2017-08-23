@@ -103,8 +103,8 @@ public:
     }
 
     CollisionInfo &info;
-    BaseGame &game;
-    CollisionAddedEvent(CollisionInfo &info, BaseGame &game) : info(info), game(game) { }
+    World &world;
+    CollisionAddedEvent(CollisionInfo &info, World &world) : info(info), world(world) { }
   };
 
   struct CollisionRemovedEvent : public Event {
@@ -118,8 +118,8 @@ public:
     }
 
     CollisionInfo &info;
-    BaseGame &game;
-    CollisionRemovedEvent(CollisionInfo &info, BaseGame &game) : info(info), game(game) { }
+    World &world;
+    CollisionRemovedEvent(CollisionInfo &info, World &world) : info(info), world(world) { }
   };
 };
 

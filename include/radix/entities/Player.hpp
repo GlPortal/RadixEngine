@@ -54,33 +54,25 @@ public:
 
 class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
 public:
-  ContactPlayerCallback(BaseGame &game) : btCollisionWorld::ContactResultCallback(), game(game) { };
-
-  BaseGame &game;
-
   virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
                                    int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
     Entity* playerEntity = (Entity*) colObj0Wrap->getCollisionObject()->getUserPointer();
     Entity* triggerEntity = (Entity*) colObj1Wrap->getCollisionObject()->getUserPointer();
 
     if (triggerEntity && playerEntity) {
-      if (triggerEntity->className() == "Trigger") {
-        Trigger* trigger = dynamic_cast<Trigger*>(triggerEntity);
-		if (!trigger) { 
-			return 0;
-		}
-        trigger->onUpdate(game);
+      Trigger *trigger = dynamic_cast<Trigger*>(triggerEntity);
+      if (!trigger) {
+        return 0;
+      }
+      trigger->onUpdate();
 
-        if (playerEntity->className() == "Player") {
-          Player* player = dynamic_cast<Player*>(playerEntity);
-		  if (player) {
-			player->trigger = trigger;
-		  }
-        }
+      Player *player = dynamic_cast<Player*>(playerEntity);
+      if (player) {
+        player->trigger = trigger;
       }
     }
     return 0;
-  };
+  }
 };
 
 } /* namespace entities */

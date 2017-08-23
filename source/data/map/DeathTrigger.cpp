@@ -11,8 +11,8 @@ const std::string DeathTrigger::TYPE = "death";
 
 void DeathTrigger::addAction(Entity &ent) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(ent);
-  trigger.setActionOnEnter([] (BaseGame &game) {
-    game.getWorld()->getPlayer().kill();
+  trigger.setActionOnEnter([] (entities::Trigger &trigger) {
+    trigger.world.getPlayer().kill();
   });
 }
 

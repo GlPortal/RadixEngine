@@ -23,7 +23,7 @@ public:
   btGhostObject *getBulletGhostObject();
   // TODO: replace BaseGame& with Trigger&, because it prevents you from distinguishing
   // on what Trigger in which World the event happens when using the same Action
-  using Action = std::function<void(BaseGame&)>;
+  using Action = std::function<void(Trigger&)>;
 
   Action actionOnEnter;
   Action actionOnExit;
@@ -37,10 +37,6 @@ public:
   Trigger(const CreationParams&);
   ~Trigger();
 
-  const char* getName() const {
-    return "Trigger";
-  }
-
   void setActionOnExit(Action action);
   void setActionOnEnter(Action action);
   void setActionOnMove(Action action);
@@ -49,10 +45,10 @@ public:
   void serialize(serine::Archiver &ar) {
   }
 
-  void onEnter(BaseGame& game) { actionOnEnter(game); }
-  void onExit(BaseGame& game) { actionOnExit(game); }
-  void onMove(BaseGame& game) { actionOnMove(game); }
-  void onUpdate(BaseGame& game) { actionOnUpdate(game); }
+  void onEnter() { actionOnEnter(*this); }
+  void onExit() { actionOnExit(*this); }
+  void onMove() { actionOnMove(*this); }
+  void onUpdate() { actionOnUpdate(*this); }
 
   std::string fullClassName() const override {
     return "radix/entities/Trigger";

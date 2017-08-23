@@ -37,20 +37,13 @@ Physics::Physics(World &world, BaseGame *game) :
   physicsWorld->setGravity(btVector3(0, -9.80665, 0));
 
   gContactProcessedCallback = reinterpret_cast<ContactProcessedCallback>
-  (&Physics::contactProcessedCallback);
+      (&Physics::contactProcessedCallback);
 
   cbEntityAdd = world.event.addObserver(EntityManager::EntityCreatedEvent::Type,
                                       [this](const radix::Event &ebase) {
       const EntityManager::EntityCreatedEvent &e =
           static_cast<const EntityManager::EntityCreatedEvent&>(ebase);
-      if (typeid(e.entity) == typeid(Player)) {
-        Util::Log(Verbose, Tag) << "Adding Player(" << e.entity.id << ')';
-        Player &player = dynamic_cast<Player&>(e.entity);
-        physicsWorld->addCollisionObject(player.obj,
-            btBroadphaseProxy::CharacterFilter,
-            btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
-        physicsWorld->addAction(player.controller);
-      } else if (typeid(e.entity) == typeid(Trigger)) {
+      if (typeid(e.entity) == typeid(Trigger)) {
         Util::Log(Verbose, Tag) << "Adding Trigger(" << e.entity.id << ')';
         Trigger &trigger = dynamic_cast<Trigger&>(e.entity);
         trigger.getBulletGhostObject()->setCollisionFlags(
@@ -63,15 +56,9 @@ Physics::Physics(World &world, BaseGame *game) :
                                       [this](const radix::Event &ebase) {
       const EntityManager::EntityRemovedEvent &e =
           static_cast<const EntityManager::EntityRemovedEvent&>(ebase);
-      if (typeid(e.entity) == typeid(Player)) {
-        Player &player = dynamic_cast<Player&>(e.entity);
-        physicsWorld->removeAction(player.controller);
-        physicsWorld->removeCollisionObject(player.obj);
-      } else {
-        RigidBodyTrait *rbtp = dynamic_cast<RigidBodyTrait*>(&e.entity);
-        if (rbtp) {
-          physicsWorld->removeRigidBody(rbtp->body);
-        }
+      RigidBodyTrait *rbtp = dynamic_cast<RigidBodyTrait*>(&e.entity);
+      if (rbtp) {
+        physicsWorld->removeRigidBody(rbtp->body);
       }
     });
 
@@ -104,23 +91,22 @@ void Physics::update(TDelta timeDelta) {
     }
   }
 
-  ContactPlayerCallback callback(*game);
+  ContactPlayerCallback callback;
   physicsWorld->contactTest(world.getPlayer().obj, callback);
   checkCollisions();
 }
 
 bool Physics::contactProcessedCallback(btManifoldPoint &cp, void *body0, void *body1) {
   CollisionInfo pair((btCollisionObject*) body0, (btCollisionObject*) body1);
-  if (!collisions.empty()) {
-    auto found = collisions.find(pair);
-    if (found == collisions.end()) {
-      collisions.insert(pair);
-      instance->world.event.dispatch(CollisionAddedEvent(pair, *instance->game));
-    }
-  } else {
-    collisions.insert(pair);
+  auto found = collisions.find(pair);
+  if (found == collisions.end()) {
+    found = collisions.insert(pair).first;
+    World &world = reinterpret_cast<Entity*>(
+            reinterpret_cast<btCollisionObject*>(body0)->getUserPointer()
+        )->world;
+    world.event.dispatch(CollisionAddedEvent(pair, world));
   }
-  cp.m_userPersistentData = (void*) &*collisions.find(pair);
+  cp.m_userPersistentData = (void*) &*found;
   return true; /* the return value is ignored */
 }
 
@@ -143,7 +129,7 @@ void Physics::checkCollisions() {
     if (!toRemove.empty()) {
       for (CollisionInfo *info : toRemove) {
         collisions.erase(*info);
-        world.event.dispatch(CollisionRemovedEvent(*info, *game));
+        world.event.dispatch(CollisionRemovedEvent(*info, world));
       }
     }
   }
