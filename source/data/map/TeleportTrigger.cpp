@@ -1,6 +1,7 @@
 #include <radix/data/map/TeleportTrigger.hpp>
 
 #include <radix/entities/Trigger.hpp>
+#include <radix/BaseGame.hpp>
 #include <radix/entities/Player.hpp>
 #include <radix/simulation/Physics.hpp>
 

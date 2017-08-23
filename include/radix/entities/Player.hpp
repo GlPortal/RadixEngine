@@ -10,11 +10,10 @@
 #include <radix/entities/traits/SoundSourceTrait.hpp>
 #include <radix/Entity.hpp>
 #include <radix/physics/KinematicCharacterController.hpp>
+#include <radix/entities/Trigger.hpp>
 
 namespace radix {
 namespace entities {
-
-class Trigger;
 
 class Player :
     public virtual Entity,
@@ -30,7 +29,7 @@ public:
   float speed;
   float stepCounter;
 
-  entities::Trigger *trigger;
+  Trigger *trigger;
 
   Player(const CreationParams&);
   ~Player();
@@ -51,6 +50,37 @@ public:
   std::string className() const override {
     return "Player";
   }
+};
+
+class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
+public:
+  ContactPlayerCallback(BaseGame &game) : btCollisionWorld::ContactResultCallback(), game(game) { };
+
+  BaseGame &game;
+
+  virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
+                                   int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
+    Entity* playerEntity = (Entity*) colObj0Wrap->getCollisionObject()->getUserPointer();
+    Entity* triggerEntity = (Entity*) colObj1Wrap->getCollisionObject()->getUserPointer();
+
+    if (triggerEntity && playerEntity) {
+      if (triggerEntity->className() == "Trigger") {
+        Trigger* trigger = dynamic_cast<Trigger*>(triggerEntity);
+		if (!trigger) { 
+			return 0;
+		}
+        trigger->onUpdate(game);
+
+        if (playerEntity->className() == "Player") {
+          Player* player = dynamic_cast<Player*>(playerEntity);
+		  if (player) {
+			player->trigger = trigger;
+		  }
+        }
+      }
+    }
+    return 0;
+  };
 };
 
 } /* namespace entities */

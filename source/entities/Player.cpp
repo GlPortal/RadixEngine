@@ -66,6 +66,7 @@ Player::~Player() {
 
 void Player::tick(TDelta dtime) {
   (void) dtime;
+  trigger = nullptr;
   if (frozen) {
     return;
   }

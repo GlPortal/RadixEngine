@@ -1,6 +1,7 @@
 #include <radix/data/map/DeathTrigger.hpp>
 
 #include <radix/entities/Trigger.hpp>
+#include <radix/BaseGame.hpp>
 
 using namespace std;
 
