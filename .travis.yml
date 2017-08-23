@@ -1,69 +1,96 @@
-sudo: required
-
 language: cpp
 
 matrix:
   include:
+    #- os: linux
+    #  sudo: required
+    #  services: docker
+    #  before_install: 
+    #    - docker pull glportal/whale-gcc:coverall
+    #  script:
+    #    - set -e
+    #    - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake -DCOVERAGE:BOOL=ON ./; make -j$(nproc) tests; ctest -j$(nproc); coveralls -i include -i source -e tests --gcov-options \'-lp\' ;"
     - os: linux
-      services: docker
-      before_install: 
-        - docker pull glportal/whale-gcc:coverall
+      dist: trusty
+      sudo: false
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - cmake3
+          - ninja-build
+          - gcc-6
+          - g++-6
+          - libassimp-dev
+          - libepoxy-dev
+          - libsdl2-dev
+          - libsdl2-mixer-dev
+          - libbullet-dev
+          - libtinyxml2-dev
+          - libgl1-mesa-dev
+          - libunittest++-dev
+          - libfreeimage-dev
       script:
         - set -e
-        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake -DCOVERAGE:BOOL=ON ./; make -j$(nproc) tests; ctest -j$(nproc); coveralls -i include -i source -e tests --gcov-options \'-lp\' ;"
-    - os: osx
-      osx_image: xcode8.3
-      compiler: gcc
-      git:
-        submodules: false
-      before_install:
-        - wget "https://github.com/macports/macports-base/releases/download/v2.4.1/MacPorts-2.4.1-10.12-Sierra.pkg"
-        - travis_wait sudo installer -pkg MacPorts-2.4.1-10.12-Sierra.pkg -target /
-        - export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-        - brew update
-      install:
-        - sudo port -v install bullet
-        - brew install assimp
-        - brew install libepoxy
-        - brew install sdl2
-        - brew install sdl2_mixer
-        - brew install bullet
-        - brew install tinyxml2
-        - brew install unittest-cpp
-        - brew install freeimage
-      before_script:
-        - git submodule update --init --recursive
-        - mkdir build && cd build
-      script:
-        - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install ..
-        - make -j4
-    - os: osx
-      osx_image: xcode8.3
-      compiler: clang
-      git:
-        submodules: false
-      before_install:
-        - wget "https://github.com/macports/macports-base/releases/download/v2.4.1/MacPorts-2.4.1-10.12-Sierra.pkg"      
-        - travis_wait sudo installer -pkg MacPorts-2.4.1-10.12-Sierra.pkg -target /
-        - export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-        - brew update
-      install:
-        - sudo port -v install bullet
-        - brew install assimp
-        - brew install libepoxy
-        - brew install sdl2
-        - brew install sdl2_mixer
-        - brew install bullet
-        - brew install tinyxml2
-        - brew install unittest-cpp
-        - brew install freeimage
-      before_script:
-        - git submodule update --init --recursive
-        - mkdir build && cd build
-      script:
-        - set -e
-        - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install ..
-        - make -j4
+        - if [ "$CXX" = "g++" ]; then export CXX="g++-6" CC="gcc-6"; fi
+        - cmake -DCOVERAGE:BOOL=ON -GNinja ./
+        - ninja -j$(nproc) tests
+        - ctest -j$(nproc)
+        #- coveralls -i include -i source -e tests --gcov-options '-lp'
+    #- os: osx
+    #  osx_image: xcode8.3
+    #  compiler: gcc
+    #  git:
+    #    submodules: false
+    #  before_install:
+    #    - wget "https://github.com/macports/macports-base/releases/download/v2.4.1/MacPorts-2.4.1-10.12-Sierra.pkg"
+    #    - travis_wait sudo installer -pkg MacPorts-2.4.1-10.12-Sierra.pkg -target /
+    #    - export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    #    - brew update
+    #  install:
+    #    - sudo port -v install bullet
+    #    - brew install assimp
+    #    - brew install libepoxy
+    #    - brew install sdl2
+    #    - brew install sdl2_mixer
+    #    - brew install bullet
+    #    - brew install tinyxml2
+    #    - brew install unittest-cpp
+    #    - brew install freeimage
+    #  before_script:
+    #    - git submodule update --init --recursive
+    #    - mkdir build && cd build
+    #  script:
+    #    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install ..
+    #    - make -j4
+    #- os: osx
+    #  osx_image: xcode8.3
+    #  compiler: clang
+    #  git:
+    #    submodules: false
+    #  before_install:
+    #    - wget "https://github.com/macports/macports-base/releases/download/v2.4.1/MacPorts-2.4.1-10.12-Sierra.pkg"      
+    #    - travis_wait sudo installer -pkg MacPorts-2.4.1-10.12-Sierra.pkg -target /
+    #    - export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    #    - brew update
+    #  install:
+    #    - sudo port -v install bullet
+    #    - brew install assimp
+    #    - brew install libepoxy
+    #    - brew install sdl2
+    #    - brew install sdl2_mixer
+    #    - brew install bullet
+    #    - brew install tinyxml2
+    #    - brew install unittest-cpp
+    #    - brew install freeimage
+    #  before_script:
+    #    - git submodule update --init --recursive
+    #    - mkdir build && cd build
+    #  script:
+    #    - set -e
+    #    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/install ..
+    #    - make -j4
 
 notifications:
   irc: "chat.freenode.net#glportal"
