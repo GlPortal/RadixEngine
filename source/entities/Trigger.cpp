@@ -2,6 +2,7 @@
 
 #include <bullet/BulletCollision/CollisionShapes/btBoxShape.h>
 
+#include <radix/BaseGame.hpp>
 #include <radix/simulation/Physics.hpp>
 
 namespace radix {

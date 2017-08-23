@@ -18,27 +18,6 @@ namespace radix {
 class CollisionDispatcher;
 class Uncollider;
 
-// TODO: find a better place to put that
-class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
-public:
-  ContactPlayerCallback(BaseGame &game) : btCollisionWorld::ContactResultCallback(), game(game) {}
-  BaseGame &game;
-
-  virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
-                                   int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
-    entities::Player *player = dynamic_cast<entities::Player*>(
-        reinterpret_cast<Entity*>(colObj0Wrap->getCollisionObject()->getUserPointer()));
-    entities::Trigger *trigger = dynamic_cast<entities::Trigger*>(
-        reinterpret_cast<Entity*>(colObj1Wrap->getCollisionObject()->getUserPointer()));
-
-    if (trigger && player) {
-      trigger->onUpdate(game);
-      player->trigger = trigger;
-    }
-    return 0;
-  }
-};
-
 namespace simulation {
 
 class CheckCollisionCallback : public btCollisionWorld::ContactResultCallback {

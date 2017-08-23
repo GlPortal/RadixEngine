@@ -1,7 +1,7 @@
 #ifndef RADIX_COMPONENT_TRIGGER_HPP
 #define RADIX_COMPONENT_TRIGGER_HPP
 
-#include <radix/BaseGame.hpp>
+#include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
 
@@ -11,6 +11,9 @@
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
 
 namespace radix {
+
+class BaseGame;
+
 namespace entities {
 
 class Trigger : public Entity {
