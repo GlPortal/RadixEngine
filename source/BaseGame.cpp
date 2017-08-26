@@ -119,8 +119,10 @@ void BaseGame::close() {
 
 void BaseGame::loadMap() {
   XmlMapLoader mapLoader(world, customTriggers);
-  std::string mapPath = config.getMapPath();
-  if (mapPath.length() > 0) {
+  std::string map = config.getMap(), mapPath = config.getMapPath();
+  if (map.length() > 0) {
+    mapLoader.load(Environment::getDataDir() + map);
+  } else if (mapPath.length() > 0) {
     mapLoader.load(mapPath);
   } else {
     mapLoader.load(Environment::getDataDir() + defaultMap);

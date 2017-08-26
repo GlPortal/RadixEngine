@@ -35,7 +35,6 @@ void Config::load() {
   this->loadLoglevelSettings(configJson["logging"]);
 
   glContextEnableDebug = configJson["debug"]["gl_context_debug"].bool_value();
-  map = "n1";
   loaded = true;
 }
 
