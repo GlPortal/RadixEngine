@@ -26,6 +26,9 @@ public:
 
   ~RigidBodyTrait();
 
+  virtual int getCollisionFlags() const;
+  virtual int getCollisionGroup() const;
+  virtual int getCollisionMask() const;
   void setRigidBody(float mass,
     const std::shared_ptr<btCollisionShape> &collisionshape);
 

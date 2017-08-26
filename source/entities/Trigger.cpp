@@ -48,9 +48,7 @@ Trigger::Trigger(const CreationParams &cp) :
   });
   auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
   Util::Log(Verbose, Tag) << "Adding trigger to phys world (" << id << ')';
-  physWorld.addCollisionObject(ghostObject,
-      getBulletGhostObject()->getCollisionFlags() |
-      btCollisionObject::CF_NO_CONTACT_RESPONSE);
+  physWorld.addCollisionObject(ghostObject, btBroadphaseProxy::SensorTrigger);
 }
 
 Trigger::~Trigger() {

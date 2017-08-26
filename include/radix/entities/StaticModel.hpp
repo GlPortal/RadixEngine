@@ -16,6 +16,10 @@ public:
   StaticModel(const CreationParams&);
   ~StaticModel();
 
+  int getCollisionFlags() const override;
+  int getCollisionGroup() const override;
+  int getCollisionMask() const override;
+
   std::string fullClassName() const override {
     return "radix/entities/StaticModel";
   }

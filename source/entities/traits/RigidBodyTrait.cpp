@@ -13,6 +13,18 @@ RigidBodyTrait::RigidBodyTrait() :
   body(nullptr) {
 }
 
+int RigidBodyTrait::getCollisionFlags() const {
+  return 0;
+}
+
+int RigidBodyTrait::getCollisionGroup() const {
+  return 0;
+}
+
+int RigidBodyTrait::getCollisionMask() const {
+  return 0;
+}
+
 void RigidBodyTrait::setRigidBody(float mass,
   const std::shared_ptr<btCollisionShape> &collisionshape) {
   shape = collisionshape;
@@ -21,13 +33,13 @@ void RigidBodyTrait::setRigidBody(float mass,
   collisionshape->calculateLocalInertia(mass, localInertia);
   btRigidBody::btRigidBodyConstructionInfo ci(mass, &motionState, shape.get(), localInertia);
   body = new btRigidBody(ci);
-  body->setCollisionFlags(btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+  body->setCollisionFlags(getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
   body->setUserPointer(&m_btPtrInfo);
   body->setUserIndex(id);
 
   auto &phys = world.simulations.findFirstOfType<simulation::Physics>();
   Util::Log(Verbose, Tag) << "Adding body to phys world (" << id << ')';
-  phys.getPhysicsWorld().addRigidBody(body);
+  phys.getPhysicsWorld().addRigidBody(body, getCollisionGroup(), getCollisionMask());
 }
 
 RigidBodyTrait::~RigidBodyTrait() {
