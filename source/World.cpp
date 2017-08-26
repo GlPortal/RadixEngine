@@ -14,7 +14,7 @@ World::World(BaseGame &game, InputSource &input) :
   input(input),
   simulations(*this),
   entityManager(*this){
-  event.debugLogLevel = EventDispatcher::DebugLogLevel::DispatchedEvents;
+  event.debugLogLevel = EventDispatcher::DebugLogLevel::DispatchedEventsRepr;
   input.addDispatcher(event);
 }
 

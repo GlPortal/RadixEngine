@@ -133,5 +133,19 @@ void Physics::checkCollisions() {
   }
 }
 
+std::string Physics::CollisionAddedEvent::debugStringRepr() const {
+  const Entity *ent0 = util::getBtPtrInfo(info.body0).entity;
+  const Entity *ent1 = util::getBtPtrInfo(info.body1).entity;
+  return ent0->className() + "(#" + std::to_string(ent0->id) + ",\"" + ent0->name() + "\") x " +
+         ent1->className() + "(#" + std::to_string(ent1->id) + ",\"" + ent1->name() + "\")";
+}
+
+std::string Physics::CollisionRemovedEvent::debugStringRepr() const {
+  const Entity *ent0 = util::getBtPtrInfo(info.body0).entity;
+  const Entity *ent1 = util::getBtPtrInfo(info.body1).entity;
+  return ent0->className() + "(#" + std::to_string(ent0->id) + ",\"" + ent0->name() + "\") x " +
+         ent1->className() + "(#" + std::to_string(ent1->id) + ",\"" + ent1->name() + "\")";
+}
+
 } /* namespace simulation */
 } /* namespace radix */

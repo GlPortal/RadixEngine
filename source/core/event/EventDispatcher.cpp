@@ -13,13 +13,17 @@ EventDispatcher::EventDispatcher() :
 void EventDispatcher::dispatch(const Event &event) {
   ObserverMap::iterator it;
   it = observerMap.find(event.getType());
-  if (debugLogLevel == DebugLogLevel::DispatchedEvents) {
+  if (debugLogLevel == DebugLogLevel::DispatchedEvents or
+      debugLogLevel == DebugLogLevel::DispatchedEventsRepr) {
     uint obsCount = 0;
     if (it != observerMap.end()) {
       obsCount = it->second.size();
     }
     Util::Log(Verbose, Tag) << "Dispatch " << event.getTypeName() << " to " << obsCount <<
                                '+' << wildcardObservers.size() << " observers";
+    if (debugLogLevel == DebugLogLevel::DispatchedEventsRepr) {
+      Util::Log(Verbose, Tag) << event.debugStringRepr();
+    }
   }
   if (it != observerMap.end()) {
     CallbackList &observers = it->second;

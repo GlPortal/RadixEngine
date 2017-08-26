@@ -73,7 +73,8 @@ private:
 public:
   enum class DebugLogLevel {
     Silent = 0,
-    DispatchedEvents
+    DispatchedEvents,
+    DispatchedEventsRepr
   } debugLogLevel;
 
   EventDispatcher();

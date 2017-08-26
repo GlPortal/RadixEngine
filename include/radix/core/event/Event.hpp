@@ -28,6 +28,7 @@ struct Event {
 
   virtual const EventType getType() const = 0;
   virtual const EventTypeName getTypeName() const = 0;
+  virtual std::string debugStringRepr() const { return ""; }
 };
 
 } /* namespace radix */

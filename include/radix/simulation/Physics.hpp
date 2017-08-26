@@ -94,33 +94,21 @@ public:
   void checkCollisions();
 
   struct CollisionAddedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/simulation/Physics:CollisionAdded";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
+    radix_event_declare("radix/simulation/Physics:CollisionAdded")
 
     const CollisionInfo &info;
     World &world;
     CollisionAddedEvent(const CollisionInfo &info, World &world) : info(info), world(world) { }
+    std::string debugStringRepr() const override;
   };
 
   struct CollisionRemovedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/simulation/Physics:CollisionRemoved";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
+    radix_event_declare("radix/simulation/Physics:CollisionRemoved")
 
     const CollisionInfo &info;
     World &world;
     CollisionRemovedEvent(const CollisionInfo &info, World &world) : info(info), world(world) { }
+    std::string debugStringRepr() const override;
   };
 };
 
