@@ -58,8 +58,6 @@ public:
 
 class Physics final : public Simulation {
 private:
-  EventDispatcher::CallbackHolder cbEntityAdd, cbEntityRem;
-
   friend class Uncollider;
   Uncollider *filterCallback;
   BaseGame *game;
@@ -88,7 +86,10 @@ public:
   static std::unordered_set<CollisionInfo, CollisionInfoHash,
     CollisionInfoEqual> collisions;
 
-  static bool contactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1);
+  static bool contactAddedCallback(btManifoldPoint &cp, const btCollisionObjectWrapper *colObj0,
+      int partId0, int index0, const btCollisionObjectWrapper *colObj1, int partId1, int index1);
+  static bool contactProcessedCallback(btManifoldPoint &cp, void *body0, void *body1);
+  static bool contactDestroyedCallback(void *userPersistentData);
 
   void checkCollisions();
 
@@ -102,9 +103,9 @@ public:
       return Type;
     }
 
-    CollisionInfo &info;
+    const CollisionInfo &info;
     World &world;
-    CollisionAddedEvent(CollisionInfo &info, World &world) : info(info), world(world) { }
+    CollisionAddedEvent(const CollisionInfo &info, World &world) : info(info), world(world) { }
   };
 
   struct CollisionRemovedEvent : public Event {
@@ -117,9 +118,9 @@ public:
       return Type;
     }
 
-    CollisionInfo &info;
+    const CollisionInfo &info;
     World &world;
-    CollisionRemovedEvent(CollisionInfo &info, World &world) : info(info), world(world) { }
+    CollisionRemovedEvent(const CollisionInfo &info, World &world) : info(info), world(world) { }
   };
 };
 

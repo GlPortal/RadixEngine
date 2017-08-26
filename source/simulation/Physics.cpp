@@ -1,12 +1,14 @@
 #include <radix/simulation/Physics.hpp>
 
 #include <typeinfo>
+#include <utility>
 
 #include <radix/entities/Player.hpp>
 #include <radix/entities/Trigger.hpp>
 #include <radix/entities/traits/RigidBodyTrait.hpp>
 #include <radix/physics/CollisionDispatcher.hpp>
 #include <radix/physics/Uncollider.hpp>
+#include <radix/util/BulletUserPtrInfo.hpp>
 #include <radix/World.hpp>
 
 using namespace radix::entities;
@@ -15,6 +17,10 @@ static const std::string Tag = "sim::Physics";
 
 namespace radix {
 namespace simulation {
+
+static ContactAddedCallback prevContactAddedCallback;
+static ContactProcessedCallback prevContactProcessedCallback;
+static ContactDestroyedCallback prevContactDestroyedCallback;
 
 std::unordered_set<CollisionInfo, CollisionInfoHash, CollisionInfoEqual> Physics::collisions;
 Physics *instance; //< TODO: get rid of this
@@ -36,40 +42,15 @@ Physics::Physics(World &world, BaseGame *game) :
   dispatcher->setNearCallback(Uncollider::nearCallback);
   physicsWorld->setGravity(btVector3(0, -9.80665, 0));
 
+  prevContactAddedCallback = gContactAddedCallback;
+  gContactAddedCallback = reinterpret_cast<ContactAddedCallback>
+      (&Physics::contactAddedCallback);
+  prevContactProcessedCallback = gContactProcessedCallback;
   gContactProcessedCallback = reinterpret_cast<ContactProcessedCallback>
       (&Physics::contactProcessedCallback);
-
-  cbEntityAdd = world.event.addObserver(EntityManager::EntityCreatedEvent::Type,
-                                      [this](const radix::Event &ebase) {
-      const EntityManager::EntityCreatedEvent &e =
-          static_cast<const EntityManager::EntityCreatedEvent&>(ebase);
-      if (typeid(e.entity) == typeid(Trigger)) {
-        Util::Log(Verbose, Tag) << "Adding Trigger(" << e.entity.id << ')';
-        Trigger &trigger = dynamic_cast<Trigger&>(e.entity);
-        trigger.getBulletGhostObject()->setCollisionFlags(
-            trigger.getBulletGhostObject()->getCollisionFlags() |
-            btCollisionObject::CF_NO_CONTACT_RESPONSE);
-        physicsWorld->addCollisionObject(trigger.getBulletGhostObject());
-      }
-    });
-  cbEntityRem = world.event.addObserver(EntityManager::EntityRemovedEvent::Type,
-                                      [this](const radix::Event &ebase) {
-      const EntityManager::EntityRemovedEvent &e =
-          static_cast<const EntityManager::EntityRemovedEvent&>(ebase);
-      RigidBodyTrait *rbtp = dynamic_cast<RigidBodyTrait*>(&e.entity);
-      if (rbtp) {
-        physicsWorld->removeRigidBody(rbtp->body);
-      }
-    });
-
-  for (Entity &entity : world.entityManager) {
-    if (dynamic_cast<RigidBodyTrait*>(&entity) != nullptr) {
-      cbEntityAdd(EntityManager::EntityCreatedEvent(entity));
-    }
-    if (typeid(entity) == typeid(Player)) {
-      cbEntityAdd(EntityManager::EntityCreatedEvent(entity));
-    }
-  }
+  prevContactDestroyedCallback = prevContactDestroyedCallback;
+  gContactDestroyedCallback = reinterpret_cast<ContactDestroyedCallback>
+      (&Physics::contactDestroyedCallback);
 
   instance = this;
 }
@@ -93,21 +74,37 @@ void Physics::update(TDelta timeDelta) {
 
   ContactPlayerCallback callback;
   physicsWorld->contactTest(world.getPlayer().obj, callback);
-  checkCollisions();
+  //checkCollisions();
+}
+
+
+bool Physics::contactAddedCallback(btManifoldPoint &cp, const btCollisionObjectWrapper *colObj0,
+    int partId0, int index0, const btCollisionObjectWrapper *colObj1, int partId1, int index1) {
+  // is const_casting really safe?
+  CollisionInfo pair(const_cast<btCollisionObject*>(colObj0->getCollisionObject()),
+                     const_cast<btCollisionObject*>(colObj1->getCollisionObject()));
+  auto inserted = collisions.insert(std::move(pair));
+  if (inserted.second) {
+    World &world = util::getBtPtrInfo(colObj0->getCollisionObject()).entity->world;
+    world.event.dispatch(CollisionAddedEvent(*inserted.first, world));
+    cp.m_userPersistentData = (void*) &*inserted.first;
+  }
+  return true; /* the return value is ignored */
 }
 
 bool Physics::contactProcessedCallback(btManifoldPoint &cp, void *body0, void *body1) {
-  CollisionInfo pair((btCollisionObject*) body0, (btCollisionObject*) body1);
-  auto found = collisions.find(pair);
-  if (found == collisions.end()) {
-    found = collisions.insert(pair).first;
-    World &world = reinterpret_cast<Entity*>(
-            reinterpret_cast<btCollisionObject*>(body0)->getUserPointer()
-        )->world;
-    world.event.dispatch(CollisionAddedEvent(pair, world));
+  return true;
+}
+
+bool Physics::contactDestroyedCallback(void *userPersistentData) {
+  auto it = collisions.find(*reinterpret_cast<CollisionInfo*>(userPersistentData));
+  if (it != collisions.end()) {
+    CollisionInfo info = *it; // Copy because we're going to erase it from the container
+    collisions.erase(it);
+    World &world = util::getBtPtrInfo(info.body0).entity->world;
+    world.event.dispatch(CollisionRemovedEvent(info, world));
   }
-  cp.m_userPersistentData = (void*) &*found;
-  return true; /* the return value is ignored */
+  return true;
 }
 
 void Physics::checkCollisions() {
@@ -128,8 +125,9 @@ void Physics::checkCollisions() {
 
     if (!toRemove.empty()) {
       for (CollisionInfo *info : toRemove) {
+        CollisionInfo infoCopy = *info;
         collisions.erase(*info);
-        world.event.dispatch(CollisionRemovedEvent(*info, world));
+        world.event.dispatch(CollisionRemovedEvent(infoCopy, world));
       }
     }
   }

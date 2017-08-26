@@ -9,6 +9,7 @@ namespace radix {
 namespace entities {
 
 RigidBodyTrait::RigidBodyTrait() :
+  m_btPtrInfo(this, this),
   body(nullptr) {
 }
 
@@ -20,7 +21,9 @@ void RigidBodyTrait::setRigidBody(float mass,
   collisionshape->calculateLocalInertia(mass, localInertia);
   btRigidBody::btRigidBodyConstructionInfo ci(mass, &motionState, shape.get(), localInertia);
   body = new btRigidBody(ci);
-  body->setUserPointer(static_cast<Entity*>(this));
+  body->setCollisionFlags(btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+  body->setUserPointer(&m_btPtrInfo);
+  body->setUserIndex(id);
 
   auto &phys = world.simulations.findFirstOfType<simulation::Physics>();
   Util::Log(Verbose, Tag) << "Adding body to phys world (" << id << ')';
@@ -28,7 +31,12 @@ void RigidBodyTrait::setRigidBody(float mass,
 }
 
 RigidBodyTrait::~RigidBodyTrait() {
-  delete body;
+  if (body) {
+    auto &phys = world.simulations.findFirstOfType<simulation::Physics>();
+    Util::Log(Verbose, Tag) << "Removing body from phys world (" << id << ')';
+    phys.getPhysicsWorld().removeRigidBody(body);
+    delete body;
+  }
 }
 
 void RigidBodyTrait::setPosition(const Vector3f &val) {

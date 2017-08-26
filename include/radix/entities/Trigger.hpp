@@ -1,14 +1,16 @@
 #ifndef RADIX_COMPONENT_TRIGGER_HPP
 #define RADIX_COMPONENT_TRIGGER_HPP
 
+#include <memory>
+#include <functional>
+
+#include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
+#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
-
-#include <memory>
-#include <functional>
-#include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <radix/util/BulletUserPtrInfo.hpp>
 
 namespace radix {
 
@@ -18,7 +20,9 @@ namespace entities {
 
 class Trigger : public Entity {
 private:
+  util::BulletUserPtrInfo m_btPtrInfo;
   btGhostObject *ghostObject;
+
 public:
   btGhostObject *getBulletGhostObject();
   // TODO: replace BaseGame& with Trigger&, because it prevents you from distinguishing

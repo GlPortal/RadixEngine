@@ -8,12 +8,15 @@
 #include <bullet/LinearMath/btDefaultMotionState.h>
 
 #include <radix/entities/traits/Trait.hpp>
+#include <radix/util/BulletUserPtrInfo.hpp>
 
 namespace radix {
 namespace entities {
 
 class RigidBodyTrait : public Trait {
 protected:
+  util::BulletUserPtrInfo m_btPtrInfo;
+
   RigidBodyTrait();
 
 public:

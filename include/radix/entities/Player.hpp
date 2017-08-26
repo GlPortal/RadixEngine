@@ -11,6 +11,7 @@
 #include <radix/Entity.hpp>
 #include <radix/physics/KinematicCharacterController.hpp>
 #include <radix/entities/Trigger.hpp>
+#include <radix/util/BulletUserPtrInfo.hpp>
 
 namespace radix {
 namespace entities {
@@ -19,6 +20,9 @@ class Player :
     public virtual Entity,
     public HealthTrait,
     public SoundSourceTrait {
+protected:
+  util::BulletUserPtrInfo m_btPtrInfo;
+
 public:
   std::shared_ptr<btConvexShape> shape;
   btPairCachingGhostObject *obj;
@@ -56,8 +60,8 @@ class ContactPlayerCallback : public btCollisionWorld::ContactResultCallback {
 public:
   virtual btScalar addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,
                                    int partId0, int index0,const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
-    Entity* playerEntity = (Entity*) colObj0Wrap->getCollisionObject()->getUserPointer();
-    Entity* triggerEntity = (Entity*) colObj1Wrap->getCollisionObject()->getUserPointer();
+    Entity* playerEntity = util::getBtPtrInfo(colObj0Wrap->getCollisionObject()).entity;
+    Entity* triggerEntity = util::getBtPtrInfo(colObj1Wrap->getCollisionObject()).entity;
 
     if (triggerEntity && playerEntity) {
       Trigger *trigger = dynamic_cast<Trigger*>(triggerEntity);

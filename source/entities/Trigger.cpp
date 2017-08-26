@@ -5,11 +5,14 @@
 #include <radix/BaseGame.hpp>
 #include <radix/simulation/Physics.hpp>
 
+const static std::string Tag = "Trigger";
+
 namespace radix {
 namespace entities {
 
-Trigger::Trigger(const CreationParams &cp)
-  : Entity(cp),
+Trigger::Trigger(const CreationParams &cp) :
+  Entity(cp),
+  m_btPtrInfo(this),
   actionOnEnter([] (Trigger&) {}),
   actionOnExit([] (Trigger&) {}),
   actionOnMove([] (Trigger&) {}),
@@ -18,8 +21,10 @@ Trigger::Trigger(const CreationParams &cp)
   ghostObject->setWorldTransform(btTransform(getOrientation(), getPosition()));
   shape = std::make_shared<btBoxShape>(btVector3(getScale().x/2, getScale().y/2, getScale().z/2));
   ghostObject->setCollisionShape(shape.get());
-  ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-  ghostObject->setUserPointer(this);
+  ghostObject->setCollisionFlags(btCollisionObject::CF_NO_CONTACT_RESPONSE |
+                                 btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+  ghostObject->setUserPointer(&m_btPtrInfo);
+  ghostObject->setUserIndex(id);
 
   callbackOnEnter = world.event.addObserver(simulation::Physics::
                                                            CollisionAddedEvent::Type,
@@ -41,9 +46,21 @@ Trigger::Trigger(const CreationParams &cp)
       this->actionOnExit(*this);
     }
   });
+  auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
+  Util::Log(Verbose, Tag) << "Adding trigger to phys world (" << id << ')';
+  physWorld.addCollisionObject(ghostObject,
+      getBulletGhostObject()->getCollisionFlags() |
+      btCollisionObject::CF_NO_CONTACT_RESPONSE);
 }
 
-btGhostObject* Trigger::getBulletGhostObject(){
+Trigger::~Trigger() {
+  auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
+  Util::Log(Verbose, Tag) << "Removing trigger from phys world (" << id << ')';
+  physWorld.removeCollisionObject(ghostObject);
+  delete ghostObject;
+}
+
+btGhostObject* Trigger::getBulletGhostObject() {
   return ghostObject;
 }
 
@@ -61,10 +78,6 @@ void Trigger::setActionOnUpdate(Action action){
 
 void Trigger::setActionOnExit(Action action){
   actionOnExit = action;
-}
-
-Trigger::~Trigger() {
-  delete ghostObject;
 }
 
 } /* namespace entities */

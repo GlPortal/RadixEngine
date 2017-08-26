@@ -5,6 +5,7 @@ namespace entities {
 
 StaticModel::StaticModel(const CreationParams &cp) :
   Entity(cp) {
+
 }
 
 StaticModel::~StaticModel() {

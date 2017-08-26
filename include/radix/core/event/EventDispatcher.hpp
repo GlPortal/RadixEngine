@@ -71,6 +71,11 @@ private:
   CallbackList wildcardObservers;
 
 public:
+  enum class DebugLogLevel {
+    Silent = 0,
+    DispatchedEvents
+  } debugLogLevel;
+
   EventDispatcher();
 
 
