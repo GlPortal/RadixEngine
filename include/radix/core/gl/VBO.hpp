@@ -48,7 +48,7 @@ public:
   }
   template <typename T>
   void setData(const T *data, std::size_t count, Usage usage = DefaultUsage) {
-    setData(data, count*sizeof(T), usage);
+    setData(reinterpret_cast<const void*>(data), count*sizeof(T), usage);
   }
 
   void update(const void *data, std::size_t count = 0, std::size_t offset = 0);
