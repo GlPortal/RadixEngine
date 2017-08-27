@@ -59,6 +59,14 @@ Physics::~Physics() {
   delete filterCallback;
 }
 
+void Physics::setDebugDraw(btIDebugDraw *debugDraw) {
+  physicsWorld->setDebugDrawer(debugDraw);
+}
+
+btIDebugDraw* Physics::getDebugDraw() const {
+  return physicsWorld->getDebugDrawer();
+}
+
 void Physics::update(TDelta timeDelta) {
   filterCallback->beforePhysicsStep();
   physicsWorld->stepSimulation(timeDelta.sec(), 10);

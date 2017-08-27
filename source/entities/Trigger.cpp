@@ -21,8 +21,10 @@ Trigger::Trigger(const CreationParams &cp) :
   ghostObject->setWorldTransform(btTransform(getOrientation(), getPosition()));
   shape = std::make_shared<btBoxShape>(btVector3(getScale().x/2, getScale().y/2, getScale().z/2));
   ghostObject->setCollisionShape(shape.get());
-  ghostObject->setCollisionFlags(btCollisionObject::CF_NO_CONTACT_RESPONSE |
-                                 btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+  ghostObject->setCollisionFlags(
+      btCollisionObject::CF_STATIC_OBJECT |
+      btCollisionObject::CF_NO_CONTACT_RESPONSE |
+      btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
   ghostObject->setUserPointer(&m_btPtrInfo);
   ghostObject->setUserIndex(id);
 
@@ -48,7 +50,9 @@ Trigger::Trigger(const CreationParams &cp) :
   });
   auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
   Util::Log(Verbose, Tag) << "Adding trigger to phys world (" << id << ')';
-  physWorld.addCollisionObject(ghostObject, btBroadphaseProxy::SensorTrigger);
+  physWorld.addCollisionObject(ghostObject,
+      btBroadphaseProxy::SensorTrigger,
+      btBroadphaseProxy::AllFilter ^ btBroadphaseProxy::StaticFilter);
 }
 
 Trigger::~Trigger() {

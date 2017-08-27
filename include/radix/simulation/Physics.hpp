@@ -69,6 +69,8 @@ private:
   btDiscreteDynamicsWorld *physicsWorld;
   btGhostPairCallback *gpCallback;
 
+  btIDebugDraw *m_debugDraw;
+
 public:
   Physics(World&, BaseGame *game);
   ~Physics();
@@ -80,6 +82,9 @@ public:
   btDiscreteDynamicsWorld& getPhysicsWorld() const {
     return *physicsWorld;
   }
+
+  void setDebugDraw(btIDebugDraw*);
+  btIDebugDraw* getDebugDraw() const;
 
   void update(TDelta timeDelta);
 
