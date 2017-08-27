@@ -35,6 +35,11 @@ LogInput& LogInput::operator<<(const std::string &s) {
   return *this;
 }
 
+LogInput& LogInput::operator<<(const stx::string_view &s) {
+  buf.append(s.cbegin(), s.cend());
+  return *this;
+}
+
 
 LogInput& LogInput::operator<<(bool b) {
   buf.append(b ? "true" : "false");
