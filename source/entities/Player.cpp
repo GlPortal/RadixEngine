@@ -64,7 +64,7 @@ Player::Player(const CreationParams &cp) :
   auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
   physWorld.addCollisionObject(obj,
       btBroadphaseProxy::CharacterFilter,
-      btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
+      btBroadphaseProxy::AllFilter ^ btBroadphaseProxy::DebrisFilter);
   physWorld.addAction(controller);
 }
 
