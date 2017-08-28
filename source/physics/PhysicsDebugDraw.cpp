@@ -92,7 +92,7 @@ void PhysicsDebugDraw::render(RenderContext &rc) {
   }
 
   glBindVertexArray(vao);
-  glDrawArrays(GL_TRIANGLES, 0, points.size());
+  glDrawArrays(GL_LINES, 0, points.size());
   glBindVertexArray(0);
   points.clear();
   sh.release();
