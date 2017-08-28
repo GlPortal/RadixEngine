@@ -108,7 +108,7 @@ void BaseGame::prepareCamera() {
   window.getSize(&viewportWidth, &viewportHeight);
   world.camera->setAspect((float)viewportWidth / viewportHeight);
   const entities::Player &player = world.getPlayer();
-  Vector3f headOffset(0, player.getScale().y, 0);
+  Vector3f headOffset(0, player.getScale().y / 2, 0);
   world.camera->setPosition(player.getPosition() + headOffset);
   world.camera->setOrientation(player.getHeadOrientation());
 }
