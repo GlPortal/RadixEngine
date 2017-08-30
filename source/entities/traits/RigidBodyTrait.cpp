@@ -3,7 +3,7 @@
 #include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
 
-const static std::string Tag = "RigidBodyTrait";
+static const char *Tag = "RigidBodyTrait";
 
 namespace radix {
 namespace entities {

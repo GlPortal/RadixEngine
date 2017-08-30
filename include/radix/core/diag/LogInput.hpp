@@ -22,7 +22,8 @@ protected:
   std::string buf, tag;
 
 public:
-  LogInput(Logger &sink, LogLevel lvl, const std::string &tag = "");
+  LogInput(Logger &sink, LogLevel lvl, const char *tag = "");
+  LogInput(Logger &sink, LogLevel lvl, const std::string &tag);
   ~LogInput();
 
   LogInput(const LogInput&) = delete;

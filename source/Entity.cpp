@@ -4,7 +4,7 @@
 
 #include <radix/World.hpp>
 
-const static std::string Tag = "Entity";
+static const char *Tag = "Entity";
 
 namespace radix {
 
