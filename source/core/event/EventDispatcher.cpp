@@ -2,7 +2,7 @@
 
 #include <radix/env/Util.hpp>
 
-const static std::string Tag = "EventDispatcher";
+static const char *Tag = "EventDispatcher";
 
 namespace radix {
 

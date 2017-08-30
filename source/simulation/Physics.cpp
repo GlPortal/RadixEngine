@@ -13,7 +13,7 @@
 
 using namespace radix::entities;
 
-static const std::string Tag = "sim::Physics";
+static const char *Tag = "sim::Physics";
 
 namespace radix {
 namespace simulation {

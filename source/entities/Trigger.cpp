@@ -5,7 +5,7 @@
 #include <radix/BaseGame.hpp>
 #include <radix/simulation/Physics.hpp>
 
-const static std::string Tag = "Trigger";
+static const char *Tag = "Trigger";
 
 namespace radix {
 namespace entities {
