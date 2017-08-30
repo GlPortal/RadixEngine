@@ -15,7 +15,7 @@ void EventDispatcher::dispatch(const Event &event) {
   it = observerMap.find(event.getType());
   if (debugLogLevel == DebugLogLevel::DispatchedEvents or
       debugLogLevel == DebugLogLevel::DispatchedEventsRepr) {
-    uint obsCount = 0;
+    unsigned int obsCount = 0;
     if (it != observerMap.end()) {
       obsCount = it->second.size();
     }
