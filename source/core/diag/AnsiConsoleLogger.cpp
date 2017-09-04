@@ -26,8 +26,8 @@ static const struct LogLevelOutputInfo {
 AnsiConsoleLogger::AnsiConsoleLogger() :
   enableColors(true),
   enableBackground(false) {
-  std::string term = getenv("TERM");
-  if (term == "linux") {
+  auto term = getenv("TERM");
+  if (term != nullptr && std::string(term) == "linux") {
     // Linux fbcon VTs don't handle extended colors
     // This is also what's reported by some IDEs' output window which aren't full fledged terminals
     enableColors = false;
