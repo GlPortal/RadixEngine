@@ -34,19 +34,6 @@ class MaterialLoader {
   static constexpr const char *typeToString(const materialAttrib _type);
 
   /**
-  * @brief load attribute from xml memory
-  *
-  * @param root xml root tree
-  * @param dir  xml file root directory
-  * @param mat  material object
-  *
-  * @return status of xml attribute
-  */
-  template <materialAttrib _type>
-  static bool loadAttrib(tinyxml2::XMLHandle *root, const std::string &dir,
-                         Material &mat);
-
-  /**
   * @brief create material from xml file
   *
   * @param path xml file path
@@ -74,6 +61,19 @@ class MaterialLoader {
   static const Material &fromTexture(const std::string &name);
 
   private:
+  /**
+  * @brief load attribute from xml memory
+  *
+  * @param root xml root tree
+  * @param dir  xml file root directory
+  * @param mat  material object
+  *
+  * @return status of xml attribute
+  */
+  template <materialAttrib _type>
+  static bool loadAttrib(tinyxml2::XMLHandle *root, const std::string &dir,
+                         Material &mat);
+
   /**< Cached map from created material*/
   static std::map<std::string, Material> materialCache;
 };
