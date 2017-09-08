@@ -95,6 +95,11 @@ LogInput& LogInput::operator<<(int64_t i) {
   return *this;
 }
 
+LogInput& LogInput::operator<<(long unsigned l) {
+  buf.append(std::to_string(l));
+  return *this;
+}
+
 LogInput& LogInput::operator<<(float f) {
   buf.append(std::to_string(f));
   return *this;

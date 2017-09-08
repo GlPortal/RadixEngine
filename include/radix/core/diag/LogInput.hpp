@@ -46,6 +46,7 @@ public:
   LogInput& operator<<(int32_t);
   LogInput& operator<<(uint64_t);
   LogInput& operator<<(int64_t);
+  LogInput& operator<<(unsigned long);
   LogInput& operator<<(float);
   LogInput& operator<<(double);
   LogInput& operator<<(const void*);
