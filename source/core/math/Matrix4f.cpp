@@ -140,6 +140,10 @@ float* Matrix4f::toArray() {
   return a;
 }
 
+const float* Matrix4f::toArray() const {
+  return a;
+}
+
 std::string Matrix4f::str() const {
   std::stringstream ss;
   ss << "[" << a[0] << ", " << a[4] << ", " << a[8] << ", " << a[12] << "]\n";

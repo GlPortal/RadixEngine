@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include <stx/string_view.hpp>
+
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Vector4f.hpp>
@@ -20,7 +22,8 @@ protected:
   std::string buf, tag;
 
 public:
-  LogInput(Logger &sink, LogLevel lvl, const std::string &tag = "");
+  LogInput(Logger &sink, LogLevel lvl, const char *tag = "");
+  LogInput(Logger &sink, LogLevel lvl, const std::string &tag);
   ~LogInput();
 
   LogInput(const LogInput&) = delete;
@@ -31,6 +34,7 @@ public:
 
   LogInput& operator<<(const char*);
   LogInput& operator<<(const std::string&);
+  LogInput& operator<<(const stx::string_view&);
 
   LogInput& operator<<(bool);
   LogInput& operator<<(char);

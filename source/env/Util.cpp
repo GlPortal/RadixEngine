@@ -39,18 +39,6 @@ void Util::Init() {
   }
 }
 
-LogInput Util::_Log::operator()() {
-  return LogInput(*Util::logger, Environment::getConfig().getLoglevel());
-}
-
-LogInput Util::_Log::operator()(LogLevel lvl) {
-  return LogInput(*Util::logger, lvl);
-}
-
-LogInput Util::_Log::operator()(LogLevel lvl, const std::string &tag) {
-  return LogInput(*Util::logger, lvl, tag);
-}
-
 #ifdef _WIN32
 static void WinSetThreadName(uint32_t dwThreadID, const char **threadName) {
   THREADNAME_INFO info;

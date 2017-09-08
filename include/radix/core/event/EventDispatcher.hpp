@@ -71,6 +71,12 @@ private:
   CallbackList wildcardObservers;
 
 public:
+  enum class DebugLogLevel {
+    Silent = 0,
+    DispatchedEvents,
+    DispatchedEventsRepr
+  } debugLogLevel;
+
   EventDispatcher();
 
 
@@ -80,7 +86,7 @@ public:
 
   void removeObserver(const CallbackPointer &ptr);
   template<class... CPTypes>
-  void removeObserver(CallbackPointer cb0, const CPTypes & ...cbN) {
+  void removeObserver(const CallbackPointer cb0, const CPTypes & ...cbN) {
     removeObserver(cb0);
     removeObserver(cbN...);
   }

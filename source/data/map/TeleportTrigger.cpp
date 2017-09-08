@@ -1,8 +1,9 @@
 #include <radix/data/map/TeleportTrigger.hpp>
 
-#include <radix/component/Trigger.hpp>
-#include <radix/component/Player.hpp>
-#include <radix/system/PhysicsSystem.hpp>
+#include <radix/entities/Trigger.hpp>
+#include <radix/BaseGame.hpp>
+#include <radix/entities/Player.hpp>
+#include <radix/simulation/Physics.hpp>
 
 namespace radix {
 
@@ -10,23 +11,22 @@ const std::string TeleportTrigger::TYPE = "teleport";
 
 TeleportTrigger::TeleportTrigger(std::string destination) : destination(destination) {}
 
-void TeleportTrigger::addAction(Entity &trigger) {
-  std::function<void(BaseGame&)> action;
+void TeleportTrigger::addAction(Entity &ent) {
+  entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(ent);
+
   std::string dest = destination;
 
-  action = [dest] (BaseGame& game) {
-    Transform& transform = game.getWorld()->getPlayer().getComponent<Transform>();
-    Player& player = game.getWorld()->getPlayer().getComponent<Player>();
-    if (game.getWorld()->destinations.find(dest)
-        != game.getWorld()->destinations.end()) {
-      transform.setPosition(game.getWorld()->destinations.at(dest).position);
-      transform.setOrientation(Quaternion().fromAero(game.getWorld()->destinations.at(dest)
+  trigger.setActionOnUpdate([dest] (entities::Trigger &trigger) {
+    entities::Player &player = trigger.world.getPlayer();
+    if (trigger.world.destinations.find(dest)
+        != trigger.world.destinations.end()) {
+      player.setPosition(trigger.world.destinations.at(dest).position);
+      player.setOrientation(Quaternion().fromAero(trigger.world.destinations.at(dest)
                                                        .rotation));
-      player.setHeadOrientation(Quaternion().fromAero(game.getWorld()->destinations.at(dest)
+      player.setHeadOrientation(Quaternion().fromAero(trigger.world.destinations.at(dest)
                                                         .rotation));
     }
-  };
-  trigger.getComponent<Trigger>().setActionOnUpdate(action);
+  });
 }
 
 } /* namespace radix */

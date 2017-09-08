@@ -1,7 +1,6 @@
 #include <radix/data/model/MeshLoader.hpp>
 #include <radix/Entity.hpp>
 #include <radix/env/Environment.hpp>
-#include <radix/component/Transform.hpp>
 #include <radix/core/gl/OpenGL.hpp>
 #include <radix/core/gl/TightDataPacker.hpp>
 
@@ -196,8 +195,7 @@ Mesh MeshLoader::getPortalBox(const Entity &wall) {
       1, 0, 4, 1, 4, 5  // Bottom
   };
 
-  const Transform &t = wall.getComponent<Transform>();
-  const Vector3f &scale = t.getScale();
+  const Vector3f &scale = wall.getScale();
 
   const float texCoords[8][2] = {
       {0, 0},       {scale.x, 0},       {scale.z, 0},       {0, scale.y},

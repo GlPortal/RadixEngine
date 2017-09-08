@@ -9,11 +9,11 @@
 
 namespace radix {
 
-  class DeathTrigger: public BaseTrigger {
-  public:
-    static const std::string TYPE;
-    void addAction(Entity& trigger);
-  };
+class DeathTrigger: public BaseTrigger {
+public:
+  static const std::string TYPE;
+  void addAction(Entity& trigger);
+};
 
 } /* namespace radix */
 

@@ -17,9 +17,15 @@ private:
 public:
 /*! \cond PRIVATE */
   struct _Log {
-    LogInput operator()();
-    LogInput operator()(LogLevel);
-    LogInput operator()(LogLevel, const std::string &tag);
+    inline LogInput operator()(LogLevel lvl) {
+      return LogInput(*Util::logger, lvl);
+    }
+    inline LogInput operator()(LogLevel lvl, const std::string &tag) {
+      return LogInput(*Util::logger, lvl, tag);
+    }
+    inline LogInput operator()(LogLevel lvl, const char *tag) {
+      return LogInput(*Util::logger, lvl, tag);
+    }
   };
 /*! \endcond */
   static _Log Log;

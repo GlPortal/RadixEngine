@@ -10,6 +10,10 @@
 
 namespace radix {
 
+LogInput::LogInput(Logger &sink, LogLevel lvl, const char *tag) :
+  sink(sink), lvl(lvl), tag(tag) {
+}
+
 LogInput::LogInput(Logger &sink, LogLevel lvl, const std::string &tag) :
   sink(sink), lvl(lvl), tag(tag) {
 }
@@ -32,6 +36,11 @@ LogInput& LogInput::operator<<(const char *s) {
 
 LogInput& LogInput::operator<<(const std::string &s) {
   buf.append(s);
+  return *this;
+}
+
+LogInput& LogInput::operator<<(const stx::string_view &s) {
+  buf.append(s.cbegin(), s.cend());
   return *this;
 }
 

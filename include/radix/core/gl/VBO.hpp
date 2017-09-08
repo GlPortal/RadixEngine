@@ -44,11 +44,11 @@ public:
 
   template <typename T>
   void setData(const std::vector<T> &data, Usage usage = DefaultUsage) {
-    setData(data.data(), data.size()*sizeof(T), usage);
+    setData(reinterpret_cast<const void*>(data.data()), data.size()*sizeof(T), usage);
   }
   template <typename T>
   void setData(const T *data, std::size_t count, Usage usage = DefaultUsage) {
-    setData(data, count*sizeof(T), usage);
+    setData(reinterpret_cast<const void*>(data), count*sizeof(T), usage);
   }
 
   void update(const void *data, std::size_t count = 0, std::size_t offset = 0);
@@ -58,7 +58,7 @@ public:
     if (count == 0) {
       count = data.size();
     }
-    update(data.data(), count*sizeof(T), offset);
+    update(reinterpret_cast<const void*>(data.data()), count*sizeof(T), offset);
   }
   template <typename T>
   void update(const T *data, std::size_t count, std::size_t offset = 0) {

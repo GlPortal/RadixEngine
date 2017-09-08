@@ -7,7 +7,7 @@
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
-#include <radix/component/Trigger.hpp>
+#include <radix/entities/Trigger.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/data/map/TeleportTrigger.hpp>
 
@@ -16,11 +16,10 @@ using namespace tinyxml2;
 
 namespace radix {
 
-void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlElement,
-                                             const std::list<CustomTrigger>& customTriggers) {
+void XmlTriggerHelper::extractTriggerActions(entities::Trigger &trigger, XMLElement *xmlElement,
+                                             const std::list<CustomTrigger> &customTriggers) {
   std::function<void(BaseGame&)> action;
   std::string type = xmlElement->Attribute("type");
-  trigger.addComponent<Trigger>();
 
   /* first go through custom triggers */
   auto it = customTriggers.begin();
@@ -52,14 +51,14 @@ void XmlTriggerHelper::extractTriggerActions(Entity& trigger, XMLElement *xmlEle
   }
 }
 
-void XmlTriggerHelper::extractMapTriggerActions(Entity& trigger, XMLElement *xmlElement) {
+void XmlTriggerHelper::extractMapTriggerActions(entities::Trigger &trigger, XMLElement *xmlElement) {
   std::string fileName;
   XmlHelper::extractFileAttribute(xmlElement, fileName);
   MapTrigger mapTrigger = MapTrigger(fileName);
   mapTrigger.addAction(trigger);
 }
 
-void XmlTriggerHelper::extractAudioTriggerActions(Entity& trigger, XMLElement *xmlElement) {
+void XmlTriggerHelper::extractAudioTriggerActions(entities::Trigger &trigger, XMLElement *xmlElement) {
   bool loop = XmlHelper::extractBooleanAttribute(xmlElement, "loop", false);
 
   std::string fileName;
@@ -70,7 +69,7 @@ void XmlTriggerHelper::extractAudioTriggerActions(Entity& trigger, XMLElement *x
   audioTrigger.addAction(trigger);
 }
 
-void XmlTriggerHelper::extractDestinationTriggerActions(Entity &trigger, XMLElement *xmlElement) {
+void XmlTriggerHelper::extractDestinationTriggerActions(entities::Trigger &trigger, XMLElement *xmlElement) {
   std::string destination = XmlHelper::extractStringMandatoryAttribute(xmlElement, "destination");
   TeleportTrigger teleportTrigger = TeleportTrigger(destination);
   teleportTrigger.addAction(trigger);

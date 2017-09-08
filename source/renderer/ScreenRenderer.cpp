@@ -14,7 +14,7 @@ ScreenRenderer::ScreenRenderer(World &w, Renderer &ren, GameWorld &gw) :
   gameWorld(gw) { }
 
 void ScreenRenderer::render() {
-  for(Screen *screen : *gameWorld.getScreens()) {
+  for (Screen *screen : *gameWorld.getScreens()) {
     renderScreen(screen);
   }
 }
