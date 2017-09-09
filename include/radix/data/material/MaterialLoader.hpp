@@ -14,25 +14,6 @@ namespace radix {
 
 class MaterialLoader {
   public:
-  enum class materialAttrib : int {
-    diffuse = 0,
-    normal = 1,
-    specular = 2,
-    surface = 3,
-    scale = 4,
-    kind = 5,
-    tags = 6
-  };
-
-  /**
-  * @brief convert enum class to string
-  *
-  * @param _type enumerate type 
-  *
-  * @return const c string type name
-  */
-  static constexpr const char *typeToString(const materialAttrib _type);
-
   /**
   * @brief create material from xml file
   *
@@ -61,19 +42,6 @@ class MaterialLoader {
   static const Material &fromTexture(const std::string &name);
 
   private:
-  /**
-  * @brief load attribute from xml memory
-  *
-  * @param root xml root tree
-  * @param dir  xml file root directory
-  * @param mat  material object
-  *
-  * @return status of xml attribute
-  */
-  template <materialAttrib _type>
-  static bool loadAttrib(tinyxml2::XMLHandle *root, const std::string &dir,
-                         Material &mat);
-
   /**< Cached map from created material*/
   static std::map<std::string, Material> materialCache;
 };
