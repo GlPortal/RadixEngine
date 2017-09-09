@@ -12,7 +12,7 @@ namespace entities {
 
 Trigger::Trigger(const CreationParams &cp) :
   Entity(cp),
-  m_btPtrInfo(this),
+  m_btGpCallbacks(this),
   actionOnEnter([] (Trigger&) {}),
   actionOnExit([] (Trigger&) {}),
   actionOnMove([] (Trigger&) {}),
@@ -25,34 +25,33 @@ Trigger::Trigger(const CreationParams &cp) :
       btCollisionObject::CF_STATIC_OBJECT |
       btCollisionObject::CF_NO_CONTACT_RESPONSE |
       btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
-  ghostObject->setUserPointer(&m_btPtrInfo);
+  ghostObject->setUserPointer(&m_btGpCallbacks);
   ghostObject->setUserIndex(id);
 
-  callbackOnEnter = world.event.addObserver(simulation::Physics::
-                                                           CollisionAddedEvent::Type,
-  [this](const Event &event) {
-    simulation::Physics::CollisionAddedEvent& collisionAddedEvent
-      = (simulation::Physics::CollisionAddedEvent&) event;
-
-    if (collisionAddedEvent.info.body1 == this->ghostObject) {
-      this->actionOnEnter(*this);
-    }
-  });
-  callbackOnExit = world.event.addObserver(simulation::Physics::
-                                                          CollisionRemovedEvent::Type,
-  [this](const Event &event) {
-    simulation::Physics::CollisionRemovedEvent& collisionRemovedEvent
-      = (simulation::Physics::CollisionRemovedEvent&) event;
-
-    if (collisionRemovedEvent.info.body1 == this->ghostObject) {
-      this->actionOnExit(*this);
-    }
-  });
+  m_btGpCallbacks.onEnter = [this](const util::BulletGhostPairCallbacks::CallbackParams &params) {
+    this->actionOnEnter(*this);
+  };
+  m_btGpCallbacks.onExit = [this](const util::BulletGhostPairCallbacks::CallbackParams &params) {
+    this->actionOnExit(*this);
+  };
   auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
   Util::Log(Verbose, Tag) << "Adding trigger to phys world (" << id << ')';
   physWorld.addCollisionObject(ghostObject,
       btBroadphaseProxy::SensorTrigger,
       btBroadphaseProxy::AllFilter ^ btBroadphaseProxy::StaticFilter);
+
+  /*btRigidBody *obj = new btRigidBody(btRigidBodyConstructionInfo);
+  obj->setWorldTransform(btTransform(getOrientation(), getPosition()));
+  obj->setCollisionShape(shape.get());
+  obj->setCollisionFlags(
+      btCollisionObject::CF_STATIC_OBJECT |
+      btCollisionObject::CF_NO_CONTACT_RESPONSE |
+      btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+  obj->setUserPointer(&m_btPtrInfo);
+  obj->setUserIndex(id);
+  physWorld.addRigidBody(obj,
+      btBroadphaseProxy::SensorTrigger,
+      btBroadphaseProxy::AllFilter ^ btBroadphaseProxy::StaticFilter);*/
 }
 
 Trigger::~Trigger() {

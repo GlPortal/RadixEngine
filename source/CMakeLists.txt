@@ -64,6 +64,7 @@ set(RADIX_SOURCES
   ${D}/data/shader/Shader.cpp
   ${D}/data/shader/ShaderLoader.cpp
   ${D}/physics/CollisionDispatcher.cpp
+  ${D}/physics/GhostPairCallback.cpp
   ${D}/physics/KinematicCharacterController.cpp
   ${D}/physics/PhysicsDebugDraw.cpp
   ${D}/physics/PhysicsHelper.cpp

@@ -10,7 +10,7 @@
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
-#include <radix/util/BulletUserPtrInfo.hpp>
+#include <radix/util/BulletGhostPairCallbacks.hpp>
 
 namespace radix {
 
@@ -20,7 +20,7 @@ namespace entities {
 
 class Trigger : public Entity {
 private:
-  util::BulletUserPtrInfo m_btPtrInfo;
+  util::BulletGhostPairCallbacks m_btGpCallbacks;
   btGhostObject *ghostObject;
 
 public:
@@ -33,8 +33,6 @@ public:
   Action actionOnExit;
   Action actionOnMove;
   Action actionOnUpdate;
-
-  EventDispatcher::CallbackHolder callbackOnEnter, callbackOnExit;
 
   std::shared_ptr<btConvexShape> shape;
 

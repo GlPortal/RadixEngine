@@ -7,6 +7,7 @@
 #include <radix/entities/Trigger.hpp>
 #include <radix/entities/traits/RigidBodyTrait.hpp>
 #include <radix/physics/CollisionDispatcher.hpp>
+#include <radix/physics/GhostPairCallback.hpp>
 #include <radix/physics/Uncollider.hpp>
 #include <radix/util/BulletUserPtrInfo.hpp>
 #include <radix/World.hpp>
@@ -35,8 +36,8 @@ Physics::Physics(World &world, BaseGame *game) :
   solver(new btSequentialImpulseConstraintSolver),
   physicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver,
                                            collisionConfiguration)),
-  gpCallback(new btGhostPairCallback) {
-  broadphase->getOverlappingPairCache()->setInternalGhostPairCallback(gpCallback);
+  gpCallback(new GhostPairCallback) {
+  broadphase->getOverlappingPairCache()->setInternalGhostPairCallback(gpCallback.get());
   filterCallback = new Uncollider(world);
   //physWorld->getPairCache()->setOverlapFilterCallback(filterCallback);
   dispatcher->setNearCallback(Uncollider::nearCallback);
