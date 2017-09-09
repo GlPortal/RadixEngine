@@ -49,6 +49,9 @@ std::string Environment::getDataDir() {
 
 void Environment::setDataDir(const std::string &string) {
   dataDir = string;
+  if (dataDir[dataDir.size() - 1] != '/') {
+    dataDir += '/';
+  }
 }
 
 } /* namespace radix */
