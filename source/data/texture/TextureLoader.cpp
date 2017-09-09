@@ -28,7 +28,7 @@ Texture TextureLoader::getEmptyDiffuse() {
 }
 
 Texture TextureLoader::getEmptyNormal() {
-  return TextureLoader::getEmptyTexture("engine@empty/normal", "\xFF\x7F\x7F");
+  return TextureLoader::getEmptyTexture("engine@empty/normal", "\x7F\x7F\xFF");
 }
 
 Texture TextureLoader::getEmptySpecular() {
