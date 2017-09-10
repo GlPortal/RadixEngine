@@ -55,58 +55,9 @@ LogInput& LogInput::operator<<(char c) {
   return *this;
 }
 
-LogInput& LogInput::operator<<(uint8_t i) {
-  buf.append(std::to_string(i));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(int8_t i) {
-  buf.append(std::to_string(i));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(uint16_t i) {
-  buf.append(std::to_string(i));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(int16_t i) {
-  buf.append(std::to_string(i));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(uint32_t i) {
-  buf.append(std::to_string(i));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(int32_t i) {
-  buf.append(std::to_string(i));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(uint64_t i) {
-  buf.append(std::to_string(i));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(int64_t i) {
-  buf.append(std::to_string(i));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(long unsigned l) {
-  buf.append(std::to_string(l));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(float f) {
-  buf.append(std::to_string(f));
-  return *this;
-}
-
-LogInput& LogInput::operator<<(double f) {
-  buf.append(std::to_string(f));
+template <typename N>
+LogInput & LogInput::operator<<(N number) {
+  buf.append(std::to_string(number));
   return *this;
 }
 
