@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/GlPortal/RadixEngine.svg?branch=master)](https://travis-ci.org/GlPortal/RadixEngine)
-[![Coverage Status](https://coveralls.io/repos/github/GlPortal/RadixEngine/badge.svg?branch=master)](https://coveralls.io/github/GlPortal/RadixEngine?branch=HEAD)
+[![Coverage Status](https://coveralls.io/repos/github/GlPortal/RadixEngine/badge.svg?branch=HEAD)](https://coveralls.io/github/GlPortal/RadixEngine?branch=HEAD)
 [![RadixEngine subreddit](https://img.shields.io/badge/reddit-/r/RadixEngine-brightgreen.svg)](https://www.reddit.com/r/RadixEngine/)
 [![Chat on Gitter](https://img.shields.io/gitter/room/GlPortal/glPortal.svg)](https://gitter.im/GlPortal/glPortal)
 
