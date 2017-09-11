@@ -19,7 +19,7 @@ For instructions on how to compile the game engine please [read COMPILE.md](COMP
 ## Join the team
 Chat with us at irc.freenode.org in the channel [#glportal](http://webchat.freenode.net/?channels=%23glportal&uio=d4)
 for questions and discussions about the development of the game.
-Report Issues to [https://github.com/GlPortal/RadixEngine/issues](github).
+Report Issues to [github](https://github.com/GlPortal/RadixEngine/issues).
 
 Feel free to send us a pull request or issue on GitHub if you have any changes/suggestions.
 
