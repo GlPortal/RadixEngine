@@ -81,5 +81,10 @@ void Trigger::setActionOnExit(Action action){
   actionOnExit = action;
 }
 
+void Trigger::setPosition(const Vector3f &pos) {
+  position = pos;
+  ghostObject->setWorldTransform(*this);
+}
+
 } /* namespace entities */
 } /* namespace radix */

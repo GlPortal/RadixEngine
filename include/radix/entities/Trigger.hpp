@@ -52,6 +52,8 @@ public:
   void onMove() { actionOnMove(*this); }
   void onUpdate() { actionOnUpdate(*this); }
 
+  virtual void setPosition(const Vector3f&) override;
+
   std::string fullClassName() const override {
     return "radix/entities/Trigger";
   }
