@@ -55,12 +55,6 @@ LogInput& LogInput::operator<<(char c) {
   return *this;
 }
 
-template <typename N>
-LogInput & LogInput::operator<<(N number) {
-  buf.append(std::to_string(number));
-  return *this;
-}
-
 LogInput& LogInput::operator<<(const void *ptr) {
   std::stringbuf hbuf;
   std::ostream os(&hbuf);
