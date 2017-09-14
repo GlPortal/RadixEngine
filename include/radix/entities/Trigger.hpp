@@ -21,20 +21,16 @@ namespace entities {
 class Trigger : public Entity {
 private:
   util::BulletGhostPairCallbacks m_btGpCallbacks;
-  btGhostObject *ghostObject;
+  std::unique_ptr<btGhostObject> ghostObject;
+  std::unique_ptr<btConvexShape> shape;
 
 public:
-  btGhostObject *getBulletGhostObject();
-  // TODO: replace BaseGame& with Trigger&, because it prevents you from distinguishing
-  // on what Trigger in which World the event happens when using the same Action
   using Action = std::function<void(Trigger&)>;
 
   Action actionOnEnter;
   Action actionOnExit;
   Action actionOnMove;
   Action actionOnUpdate;
-
-  std::shared_ptr<btConvexShape> shape;
 
   Trigger(const CreationParams&);
   Trigger(const CreationParams&, const Transform&);
@@ -54,6 +50,10 @@ public:
   void onUpdate() { actionOnUpdate(*this); }
 
   virtual void setPosition(const Vector3f&) override;
+  virtual void setOrientation(const Quaternion&) override;
+  virtual void setScale(const Vector3f&) override;
+
+  btGhostObject* getBulletGhostObject() const;
 
   std::string fullClassName() const override {
     return "radix/entities/Trigger";

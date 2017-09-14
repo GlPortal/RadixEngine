@@ -22,9 +22,10 @@ Trigger::Trigger(const CreationParams &cp, const Transform &tform) :
   actionOnMove([] (Trigger&) {}),
   actionOnUpdate([] (Trigger&) {}) {
   static_cast<Transform&>(*this) = tform;
-  ghostObject = new btGhostObject;
+  ghostObject = std::make_unique<btGhostObject>();
   ghostObject->setWorldTransform(btTransform(getOrientation(), getPosition()));
-  shape = std::make_shared<btBoxShape>(btVector3(getScale().x/2, getScale().y/2, getScale().z/2));
+  shape = std::make_unique<btBoxShape>(btVector3(.5, .5, .5));
+  shape->setLocalScaling(scale);
   ghostObject->setCollisionShape(shape.get());
   ghostObject->setCollisionFlags(
       btCollisionObject::CF_STATIC_OBJECT |
@@ -41,33 +42,19 @@ Trigger::Trigger(const CreationParams &cp, const Transform &tform) :
   };
   auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
   Util::Log(Verbose, Tag) << "Adding trigger to phys world (" << id << ')';
-  physWorld.addCollisionObject(ghostObject,
+  physWorld.addCollisionObject(ghostObject.get(),
       btBroadphaseProxy::SensorTrigger,
       btBroadphaseProxy::AllFilter ^ btBroadphaseProxy::StaticFilter);
-
-  /*btRigidBody *obj = new btRigidBody(btRigidBodyConstructionInfo);
-  obj->setWorldTransform(btTransform(getOrientation(), getPosition()));
-  obj->setCollisionShape(shape.get());
-  obj->setCollisionFlags(
-      btCollisionObject::CF_STATIC_OBJECT |
-      btCollisionObject::CF_NO_CONTACT_RESPONSE |
-      btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
-  obj->setUserPointer(&m_btPtrInfo);
-  obj->setUserIndex(id);
-  physWorld.addRigidBody(obj,
-      btBroadphaseProxy::SensorTrigger,
-      btBroadphaseProxy::AllFilter ^ btBroadphaseProxy::StaticFilter);*/
 }
 
 Trigger::~Trigger() {
   auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
   Util::Log(Verbose, Tag) << "Removing trigger from phys world (" << id << ')';
-  physWorld.removeCollisionObject(ghostObject);
-  delete ghostObject;
+  physWorld.removeCollisionObject(ghostObject.get());
 }
 
-btGhostObject* Trigger::getBulletGhostObject() {
-  return ghostObject;
+btGhostObject* Trigger::getBulletGhostObject() const {
+  return ghostObject.get();
 }
 
 void Trigger::setActionOnEnter(Action action){
@@ -89,6 +76,18 @@ void Trigger::setActionOnExit(Action action){
 void Trigger::setPosition(const Vector3f &pos) {
   position = pos;
   ghostObject->setWorldTransform(*this);
+}
+
+void Trigger::setOrientation(const Quaternion &q) {
+  orientation = q;
+  ghostObject->setWorldTransform(*this);
+}
+
+void Trigger::setScale(const Vector3f &s) {
+  scale = s;
+  shape->setLocalScaling(scale);
+  world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld()
+      .updateSingleAabb(ghostObject.get());
 }
 
 } /* namespace entities */
