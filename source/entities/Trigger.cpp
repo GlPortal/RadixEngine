@@ -11,12 +11,17 @@ namespace radix {
 namespace entities {
 
 Trigger::Trigger(const CreationParams &cp) :
+  Trigger(cp, {}) {
+}
+
+Trigger::Trigger(const CreationParams &cp, const Transform &tform) :
   Entity(cp),
   m_btGpCallbacks(this),
   actionOnEnter([] (Trigger&) {}),
   actionOnExit([] (Trigger&) {}),
   actionOnMove([] (Trigger&) {}),
   actionOnUpdate([] (Trigger&) {}) {
+  static_cast<Transform&>(*this) = tform;
   ghostObject = new btGhostObject;
   ghostObject->setWorldTransform(btTransform(getOrientation(), getPosition()));
   shape = std::make_shared<btBoxShape>(btVector3(getScale().x/2, getScale().y/2, getScale().z/2));

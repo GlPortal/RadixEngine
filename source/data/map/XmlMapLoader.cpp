@@ -219,18 +219,15 @@ void XmlMapLoader::extractTriggers() {
   if (triggerElement) {
     do {
       //! [Creating an Entity.]
-      entities::Trigger &trigger = world.entityManager.create<entities::Trigger>();
-
-      //! [Creating an Entity.]
-      Vector3f position;
-      XmlHelper::extractPosition(triggerElement, position);
-      trigger.setPosition(position);
+      Transform tform;
+      XmlHelper::extractPosition(triggerElement, tform.position);
       Vector3f angles;
       XmlHelper::extractRotation(triggerElement, angles);
-      trigger.setOrientation(Quaternion().fromAero(angles));
-      Vector3f scale;
-      XmlHelper::extractScale(triggerElement, scale);
-      trigger.setScale(scale);
+      tform.orientation = Quaternion().fromAero(angles);
+      XmlHelper::extractScale(triggerElement, tform.scale);
+
+      //! [Creating an Entity.]
+      entities::Trigger &trigger = world.entityManager.create<entities::Trigger>(tform);
       XmlTriggerHelper::extractTriggerActions(trigger, triggerElement, customTriggers);
 
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);

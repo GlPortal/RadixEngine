@@ -37,6 +37,7 @@ public:
   std::shared_ptr<btConvexShape> shape;
 
   Trigger(const CreationParams&);
+  Trigger(const CreationParams&, const Transform&);
   ~Trigger();
 
   void setActionOnExit(Action action);
