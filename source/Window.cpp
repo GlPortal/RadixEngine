@@ -6,17 +6,10 @@
 
 #include <radix/core/gl/OpenGL.hpp>
 
-#include <Gwen/Controls/WindowControl.h>
-#include <Gwen/Controls/CheckBox.h>
-#include <Gwen/Controls/TextBox.h>
-#include <Gwen/Controls/TreeControl.h>
-
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/gl/DebugOutput.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 #include <radix/core/diag/Throwables.hpp>
-#include <radix/input/GWENInput.hpp>
-#include <radix/renderer/GlGwenRenderer.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
 
@@ -63,20 +56,6 @@ void Window::initGl() {
                              " is unsupported, " "required minimum is 3.2");
     }
   }
-}
-
-void Window::initGwen() {
-  gwenRenderer = std::make_unique<GlGwenRenderer>();
-  gwenSkin     = std::make_unique<Gwen::Skin::TexturedBase>(gwenRenderer.get());
-
-  const auto defaultSkinPath = Environment::getDataDir() + "/gui/DefaultSkin.png";
-  gwenSkin->Init(defaultSkinPath.c_str());
-
-  gwenCanvas   = std::make_unique<Gwen::Controls::Canvas>(gwenSkin.get());
-  gwenInput    = std::make_unique<GWENInput>();
-
-  gwenRenderer->Init();
-  gwenInput->init(gwenCanvas.get());
 }
 
 void Window::create(const char *title) {
@@ -132,7 +111,6 @@ void Window::create(const char *title) {
 
   // Lock cursor in the middle of the screen
   lockMouse();
-  initGwen();
 }
 
 Vector2i Window::getWindowDimensions() {
@@ -170,11 +148,6 @@ void Window::getSize(int *width, int *height) const {
 
 void Window::close() {
   SDL_HideWindow(window);
-
-  gwenInput.release();
-  gwenCanvas.release();
-  gwenSkin.release();
-  gwenRenderer.release();
 
   SDL_GL_DeleteContext(context);
   SDL_DestroyWindow(window);
@@ -483,41 +456,4 @@ void Window::setSdlGlAttributes() {
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 }
 
-void Window::testGwen() {
-  using namespace Gwen::Controls;
-
-  auto win = std::unique_ptr<WindowControl>(new WindowControl(gwenCanvas.get()));
-  win->SetTitle("Texture cache");
-  win->SetBounds(30, 30, 500, 200);
-
-  auto tree = std::unique_ptr<TreeControl>(new TreeControl(win.get(), "tree"));
-  tree->SetBounds(0, 0, 200, 186);
-
-  // pass tree control to lambda c++14
-  // https://isocpp.org/blog/2013/04/trip-report-iso-c-spring-2013-meeting
-  // Lambda generalized capture
-  std::thread thr([ tree{std::move(tree)} ]() {
-      while (true) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-
-        Base::List &l = tree->GetChildNodes();
-        for (auto it : TextureLoader::getTextureCache()) {
-          bool add = true;
-          for (Base *b : l) {
-            if (((TreeNode*)b)->GetName() == it.first) {
-              add = false;
-              break;
-            }
-          }
-          if (add) {
-            TreeNode *n = tree->AddNode(it.first);
-            n->SetName(it.first);
-          }
-        }
-
-      }
-    });
-
-  thr.detach();
-}
 } /* namespace radix */

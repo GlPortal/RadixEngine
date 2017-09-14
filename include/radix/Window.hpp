@@ -7,18 +7,12 @@
 
 #include <SDL2/SDL_video.h>
 
-#include <Gwen/Controls/Canvas.h>
-#include <Gwen/Skins/TexturedBase.h>
-
 #include <radix/input/InputSource.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/core/math/Vector2i.hpp>
 
 namespace radix {
-
-class GlGwenRenderer;
-class GWENInput;
 
 class Window : public Viewport, public InputSource {
 public:
@@ -81,10 +75,6 @@ public:
   void unlockMouse();
   /**@} */
 
-  std::unique_ptr<radix::GlGwenRenderer>    gwenRenderer; /**< Rendering subsystem */
-  std::unique_ptr<Gwen::Skin::TexturedBase> gwenSkin;     /**< Texture subsystem */
-  std::unique_ptr<Gwen::Controls::Canvas>   gwenCanvas;   /**< Canvas subsystem */
-  std::unique_ptr<radix::GWENInput>         gwenInput;    /**< Input subsystem */
   radix::Config                             config;       /**< System Configuration */
 
   /**
@@ -206,15 +196,6 @@ private:
    */
   void initGl();
 
-  /**
-   * @brief initGwen Initlize Gwen subsystem
-   */
-  void initGwen();
-
-  /**
-   * @brief testGwen
-   */
-  void testGwen();
 
   unsigned int  width;          /**< main screen width */
   unsigned int  height;         /**< main screen height */
