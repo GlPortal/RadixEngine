@@ -50,7 +50,7 @@ void XmlMapLoader::load(const std::string &path) {
     extractTriggers();
     Util::Log(Info, "XmlMapLoader") << "Map " << path << " loaded";
   } else {
-    Util::Log(Error, "XmlMapLoader") << "Failed to load map " << path << ".xml:" <<
+    Util::Log(Error, "XmlMapLoader") << "Failed to load map " << path << ":" <<
 #if TINYXML2_MAJOR_VERSION >= 5
         tinyxml2::XMLDocument::ErrorIDToName(error);
 #else

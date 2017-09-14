@@ -19,7 +19,7 @@ void MapTrigger::addAction(Entity &ent) {
   std::string fileName = this->filePath;
   trigger.setActionOnEnter([fileName] (entities::Trigger &trigger) {
     XmlMapLoader mapLoader(trigger.world, trigger.world.game.getCustomTriggers());
-    mapLoader.load(Environment::getDataDir() + "maps/" + fileName);
+    mapLoader.load(Environment::getDataDir() + "/maps/" + fileName + ".xml");
   });
 }
 
