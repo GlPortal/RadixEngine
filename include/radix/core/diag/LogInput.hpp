@@ -38,14 +38,9 @@ public:
 
   LogInput& operator<<(bool);
   LogInput& operator<<(char);
-  LogInput& operator<<(uint8_t);
-  LogInput& operator<<(int8_t);
-  LogInput& operator<<(uint16_t);
-  LogInput& operator<<(int16_t);
-  LogInput& operator<<(uint32_t);
-  LogInput& operator<<(int32_t);
-  LogInput& operator<<(uint64_t);
-  LogInput& operator<<(int64_t);
+  template <typename N>
+  LogInput& operator<<(N number);
+  LogInput& operator<<(unsigned long);
   LogInput& operator<<(float);
   LogInput& operator<<(double);
   LogInput& operator<<(const void*);

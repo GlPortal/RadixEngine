@@ -9,8 +9,7 @@ matrix:
       before_install: 
         - docker pull glportal/whale-gcc:coverall
       script:
-        - set -e
-        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake -DCOVERAGE:BOOL=ON ./; make tests; ctest; coveralls --dryrun -i include -i source -e tests --gcov-options \'-lp\' ; cmake -DCOVERAGE:BOOL=ON ./; make tests; ctest; coveralls -i include -i source -e tests --gcov-options \'-lp\' ;"
+        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake -DCOVERAGE:BOOL=ON ./&& make tests&& ctest&& coveralls --dryrun -i include -i source -e tests --gcov-options \'-lp\' && cmake -DCOVERAGE:BOOL=ON ./&& make tests&& ctest&& coveralls -i include -i source -e tests --gcov-options \'-lp\' ;"
     - os: osx
       osx_image: xcode8.3
       compiler: gcc
@@ -67,3 +66,9 @@ matrix:
 
 notifications:
   irc: "chat.freenode.net#glportal"
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/ea210c016747790b4fa4
+    on_success: always
+    on_failure: always
+    on_start: never

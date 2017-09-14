@@ -37,7 +37,8 @@ Except for Windows-specific source files, any file only containing it will be re
 more spaces can be added if their count is low; else, just increase the identation level by one.
 - Trailing whitespace isn't allowed.
 - Maximum line length is 100 UTF-8 codepoints. In layman terms, 100 characters.
-    ```cpp
+
+```cpp
 namespace radix {
 
 void func() {
@@ -64,12 +65,14 @@ void func() {
   // Here, the line wrapped because we hit the 100-character limit
 }
 
-}
-     ```
+} /* namespace radix */
+```
+
 ### Pointer and References
 Pointer/reference mark sticks to the *variable* name (*not* function name), 
 or when there is no variable name, to the type itself.
-     ```cpp
+
+```cpp
 Type var1, *var2, &var3 = thing;
 Type* getPtr(Type *namedParm);
 Type& getRef(UnnamedParm*);
@@ -77,12 +80,14 @@ Type& getRef(UnnamedParm*);
 // The following is inherently stupid legibility-wise:
 Type *idiotGetPtr(Type *namedParm);
 // because it doesn't return Type, it returns Type* !
-    ```
+```
+
 ### Blocks of code
 - *Always* open a new block of code after a control structure
 - Open them on the line of the control statement
 - Put code on the next line
-     ```cpp
+
+```cpp
 if (cond) {
   code();
 }
@@ -97,4 +102,4 @@ if (cond)
   code();
 
 if (cond) code();
- ```
+```
