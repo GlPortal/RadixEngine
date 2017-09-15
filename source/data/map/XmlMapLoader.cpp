@@ -20,6 +20,8 @@
 #include <radix/data/model/MeshLoader.hpp>
 #include <radix/data/material/MaterialLoader.hpp>
 
+#include <radix/util/XmlLoader.hpp>
+
 using namespace std;
 
 namespace radix {
@@ -51,11 +53,7 @@ void XmlMapLoader::load(const std::string &path) {
     Util::Log(Info, "XmlMapLoader") << "Map " << path << " loaded";
   } else {
     Util::Log(Error, "XmlMapLoader") << "Failed to load map " << path << ":" <<
-#if TINYXML2_MAJOR_VERSION >= 5
-        tinyxml2::XMLDocument::ErrorIDToName(error);
-#else
-        tinyxml2::XMLDocument::ErrorName(error);
-#endif
+        XmlLoader::errorName(error);
   }
 }
 

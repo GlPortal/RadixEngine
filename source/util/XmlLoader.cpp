@@ -20,6 +20,7 @@ void XmlLoader::handleFailureForElement(std::string module, std::string element,
   Util::Log(Error, module) << "Failed to load element " << element << " in " << path;
 }
 
+#if TINYXML2_MAJOR_VERSION < 5
 static const char *errorNames[] = {
   "XML_SUCCESS",
   "XML_NO_ATTRIBUTE",
@@ -42,9 +43,14 @@ static const char *errorNames[] = {
   "XML_CAN_NOT_CONVERT_TEXT",
   "XML_NO_TEXT_NODE"
 };
+#endif
 
 std::string XmlLoader::errorName(XMLError err) {
+#if TINYXML2_MAJOR_VERSION >= 5
+  return tinyxml2::XMLDocument::ErrorIDToName(err);
+#else
   return errorNames[err];
+#endif
 }
 
 } /* namespace radix */

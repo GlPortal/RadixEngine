@@ -10,10 +10,12 @@
 namespace radix {
 
 class XmlLoader {
+public:
+  static std::string errorName(tinyxml2::XMLError err);
+
 protected:
   static bool extractColor(tinyxml2::XMLElement* currElement, Vector4f* color);
   static void handleFailureForElement(std::string module, std::string element, std::string path);
-  static std::string errorName(tinyxml2::XMLError err);
 };
 
 } /* namespace radix */
