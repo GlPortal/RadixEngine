@@ -15,8 +15,12 @@ std::map<std::string, Material> MaterialLoader::materialCache = {};
 const Material MaterialLoader::loadFromXML(const std::string &path) {
   std::string dir = path.substr(0, path.find_last_of("/\\"));
   XMLDocument doc;
+<<<<<<< HEAD
+  XMLError error = doc.LoadFile((Environment::getDataDir() + "/textures/" + path + ".rmdx").c_str());
+=======
   std::string fileName = Environment::getDataDir() + "/textures/" + path + ".gmd";
   XMLError error = doc.LoadFile(fileName.c_str());
+>>>>>>> f0cfe90fd45e18e11c7d0b59dbc4c2bb23ef4150
 
   if (error != 0) {
     Util::Log(Error, "MaterialLoader") << "XML Error " << doc.ErrorID() << ": " <<
