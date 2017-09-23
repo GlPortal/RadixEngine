@@ -43,11 +43,11 @@ void BaseGame::setup() {
   lastUpdate = 0;
   lastRender = 0;
 
+  loadMap(*newWorld);
   setWorld(std::move(newWorld));
   // From this point on, this->world is the moved newWorld
 
   createScreenshotCallbackHolder();
-  loadMap();
 
   screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
@@ -173,8 +173,8 @@ void BaseGame::setWorld(std::unique_ptr<World> &&newWorld) {
   }
 }
 
-void BaseGame::loadMap() {
-  XmlMapLoader mapLoader(*world, customTriggers);
+void BaseGame::loadMap(World &targetWorld) {
+  XmlMapLoader mapLoader(targetWorld, customTriggers);
   std::string map = config.getMap(), mapPath = config.getMapPath();
   if (map.length() > 0) {
     mapLoader.load(Environment::getDataDir() + map);

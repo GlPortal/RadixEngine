@@ -88,7 +88,7 @@ protected:
   void setWorld(std::unique_ptr<World>&&);
   void createWorld(World&);
 
-  void loadMap();
+  void loadMap(World&);
   virtual void prepareCamera();
   virtual void initHook();
   virtual void customTriggerHook();
