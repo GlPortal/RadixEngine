@@ -1,5 +1,6 @@
 #include <radix/World.hpp>
 
+#include <radix/BaseGame.hpp>
 #include <radix/data/map/MapLoader.hpp>
 #include <radix/data/map/MapListLoader.hpp>
 #include <radix/renderer/Renderer.hpp>
@@ -7,19 +8,16 @@
 
 namespace radix {
 
-World::World(BaseGame &game, InputSource &input) :
+World::World(BaseGame &game) :
   gameTime(0),
   lastUpdateTime(0),
   game(game),
-  input(input),
   simulations(*this),
-  entityManager(*this){
+  entityManager(*this) {
   event.debugLogLevel = EventDispatcher::DebugLogLevel::DispatchedEventsRepr;
-  input.addDispatcher(event);
 }
 
 World::~World() {
-  input.removeDispatcher(event);
 }
 
 void World::setConfig(radix::Config &config) {
@@ -30,14 +28,15 @@ radix::Config& World::getConfig() {
   return this->config;
 }
 
-void World::create() {
+void World::onCreate() {
   lastUpdateTime = SDL_GetTicks();
   camera = std::make_unique<Camera>();
-  std::vector<EntityPair> portalPairs;
-  entityPairs.insert(std::pair<std::string, std::vector<EntityPair>>("portalPairs", portalPairs));
+  entityPairs.insert(std::make_pair("portalPairs", std::vector<EntityPair>()));
 }
 
-void World::destroy() {
+void World::onStart() {
+  input = &game.getWindow();
+  input->addDispatcher(event);
 }
 
 void World::update(TDelta dtime) {
@@ -48,13 +47,20 @@ void World::update(TDelta dtime) {
   }
 }
 
+void World::onStop() {
+  input->removeDispatcher(event);
+  input = nullptr;
+}
+
+void World::onDestroy() {
+}
+
 entities::Player& World::getPlayer() {
   return *player;
 }
 
 void World::initPlayer() {
   player = &entityManager.create<entities::Player>();
-  player->setPosition(Vector3f(2.5, 1, 5));
 }
 
 } /* namespace radix */

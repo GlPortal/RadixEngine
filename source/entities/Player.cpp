@@ -100,7 +100,7 @@ void Player::tick(TDelta dtime) {
   // Restrict rotation in horizontal axis
   headAngle.attitude = Math::clamp(headAngle.attitude, rad(-89.99), rad(89.99));
 
-  InputSource &input = world.input;
+  InputSource &input = *world.input;
   bool movingFwd     = input.isKeyDown(SDL_SCANCODE_W) or input.isKeyDown(SDL_SCANCODE_UP),
        movingBack    = input.isKeyDown(SDL_SCANCODE_S) or input.isKeyDown(SDL_SCANCODE_DOWN),
        strafingLeft  = input.isKeyDown(SDL_SCANCODE_A) or input.isKeyDown(SDL_SCANCODE_LEFT),

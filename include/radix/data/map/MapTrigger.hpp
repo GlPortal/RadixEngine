@@ -8,15 +8,15 @@
 
 namespace radix {
 
-  class MapTrigger: public BaseTrigger {
-  private:
-    std::string filePath;
-    bool loop;
-  public:
-    static const std::string TYPE;
-    MapTrigger(std::string filePath);
-    void addAction(Entity& trigger);
-  };
+class MapTrigger: public BaseTrigger {
+private:
+  std::string filePath;
+  bool loop;
+public:
+  static const std::string TYPE;
+  MapTrigger(const std::string &filePath);
+  void addAction(Entity& trigger);
+};
 
 } /* namespace radix */
 

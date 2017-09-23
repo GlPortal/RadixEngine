@@ -1,8 +1,8 @@
 #ifndef RADIX_BASEGAME_HPP
 #define RADIX_BASEGAME_HPP
 
-#include <utility>
 #include <functional>
+#include <utility>
 
 #include <radix/util/sdl/Fps.hpp>
 #include <radix/World.hpp>
@@ -38,14 +38,43 @@ public:
   BaseGame(BaseGame&&) = delete;
   BaseGame operator=(BaseGame&&) = delete;
 
+  virtual void onPreCreateWorld(World &world) {}
+  virtual void onPostCreateWorld(World &world) {}
+  virtual void onPreStartWorld() {}
+  virtual void onPostStartWorld() {}
+  virtual void onPreStopWorld() {}
+  virtual void onPostStopWorld() {}
+  virtual void onPreDestroyWorld(World &world) {}
+  virtual void onPostDestroyWorld(World &world) {}
+
   bool isRunning();
+  void preCycle();
   virtual void processInput();
   virtual void update();
   virtual void cleanUp();
   virtual void close();
   virtual void render();
+  void postCycle();
   void setup();
+
+  void deferPostCycle(const std::function<void()>&);
+
   World* getWorld();
+
+  template<class T, typename... Args>
+  T& createOtherWorld(const std::string &name, Args&&... args) {
+    auto r = otherWorlds.emplace(std::piecewise_construct,
+        std::forward_as_tuple(name),
+        std::forward_as_tuple(new T(*this, std::forward(args)...)));
+    createWorld(*r.first->second);
+    return static_cast<T&>(*r.first->second);
+  }
+  World& getOtherWorld(const std::string &name) const {
+    return *otherWorlds.at(name);
+  }
+  void switchToOtherWorld(const std::string &name);
+  void clearOtherWorldList();
+
   ScreenRenderer* getScreenRenderer();
   GameWorld* getGameWorld();
   inline Window& getWindow() {
@@ -56,15 +85,20 @@ public:
   }
 
 protected:
+  void setWorld(std::unique_ptr<World>&&);
+  void createWorld(World&);
+
   void loadMap();
   virtual void prepareCamera();
   virtual void initHook();
   virtual void customTriggerHook();
 
   Window window;
-  World world;
+  std::map<std::string, std::unique_ptr<World>> otherWorlds;
+  std::unique_ptr<World> world;
   Config config;
   GameWorld gameWorld;
+  std::vector<std::function<void()>> postCycleDeferred;
 
   std::shared_ptr<ScreenRenderer> screenRenderer;
   std::unique_ptr<Renderer> renderer;
@@ -77,7 +111,7 @@ protected:
   std::list<CustomTrigger> customTriggers;
 
   bool closed;
-  unsigned int currentTime = 0, nextUpdate = 0, lastUpdate = 0, lastRender = 0;
+  unsigned int currentTime = 0, lastUpdate = 0, lastRender = 0;
 private:
   void createWindow();
   void createScreenshotCallbackHolder();

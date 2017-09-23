@@ -1,18 +1,11 @@
 #ifndef RADIX_WORLD_HPP
 #define RADIX_WORLD_HPP
 
-#include <algorithm>
-#include <condition_variable>
-#include <functional>
+#include <cstdint>
 #include <map>
-#include <mutex>
-#include <set>
+#include <memory>
 #include <stack>
-#include <stdexcept>
 #include <string>
-#include <queue>
-#include <thread>
-#include <utility>
 #include <vector>
 
 #include <radix/Camera.hpp>
@@ -36,26 +29,31 @@ private:
   radix::Config config;
   double gameTime;
   uint32_t lastUpdateTime;
+
 protected:
   entities::Player *player;
+
 public:
   BaseGame &game;
-  InputSource &input;
+  InputSource *input;
 
-  World(BaseGame &game, InputSource &input);
+  World(BaseGame&);
   ~World();
 
   void setConfig(radix::Config &config);
-  radix::Config &getConfig();
-  void create();
+  radix::Config& getConfig();
   void initPlayer();
-  void destroy();
 
   inline double getTime() const {
     return gameTime;
   }
 
+  void onCreate();
+  void onStart();
   void update(TDelta dtime);
+  void onStop();
+  void onDestroy();
+
   entities::Player& getPlayer();
   std::map<int, Material> materials;
   EventDispatcher event;

@@ -10,16 +10,21 @@ namespace radix {
 
 const std::string MapTrigger::TYPE = "map";
 
-MapTrigger::MapTrigger(std::string filePath) {
-  this->filePath = filePath;
+MapTrigger::MapTrigger(const std::string &filePath) :
+  filePath(filePath) {
 }
 
 void MapTrigger::addAction(Entity &ent) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(ent);
-  std::string fileName = this->filePath;
+  std::string fileName = filePath;
   trigger.setActionOnEnter([fileName] (entities::Trigger &trigger) {
-    XmlMapLoader mapLoader(trigger.world, trigger.world.game.getCustomTriggers());
+    BaseGame &game = trigger.world.game;
+    World &newWorld = game.createOtherWorld<World>(fileName);
+    XmlMapLoader mapLoader(newWorld, game.getCustomTriggers());
     mapLoader.load(Environment::getDataDir() + "/maps/" + fileName + ".xml");
+    game.deferPostCycle([fileName, &game] () {
+      game.switchToOtherWorld(fileName);
+    });
   });
 }
 
