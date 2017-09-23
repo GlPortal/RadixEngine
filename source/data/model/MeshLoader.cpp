@@ -168,7 +168,7 @@ Mesh MeshLoader::uploadMesh(const aiMesh *mesh) {
 
 Mesh MeshLoader::getPortalBox(const Entity &wall) {
   // Generate vertex array object
-  GLuint vao;
+  GLuint vao = 0;
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 

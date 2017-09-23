@@ -20,9 +20,9 @@ void MapTrigger::addAction(Entity &ent) {
   trigger.setActionOnEnter([fileName] (entities::Trigger &trigger) {
     BaseGame &game = trigger.world.game;
     World &newWorld = game.createOtherWorld<World>(fileName);
-    XmlMapLoader mapLoader(newWorld, game.getCustomTriggers());
-    mapLoader.load(Environment::getDataDir() + "/maps/" + fileName + ".xml");
-    game.deferPostCycle([fileName, &game] () {
+    game.deferPostCycle([fileName, &game, &newWorld] () {
+      XmlMapLoader mapLoader(newWorld, game.getCustomTriggers());
+      mapLoader.load(Environment::getDataDir() + "/maps/" + fileName + ".xml");
       game.switchToOtherWorld(fileName);
     });
   });
