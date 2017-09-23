@@ -2,7 +2,7 @@
 #define RADIX_SHADER_HPP
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 namespace radix {
 
@@ -14,17 +14,19 @@ public:
     Geometry
   };
 
-  Shader(unsigned int handle) : handle(handle) { }
+  Shader(unsigned int handle) : handle(handle) {}
   void bind() const;
   void release() const;
 
   unsigned int handle;
 
   int uni(const std::string&);
+  int uni(const char*);
   int att(const std::string&);
-private:
+  int att(const char*);
 
-  std::map<std::string, int> locationMap;
+private:
+  std::unordered_map<std::string, int> locationMap;
 };
 
 } /* namespace radix */

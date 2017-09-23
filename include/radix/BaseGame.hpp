@@ -71,8 +71,8 @@ protected:
   std::shared_ptr<radix::Screen> screen;
   EventDispatcher::CallbackHolder screenshotCallbackHolder;
 
-  std::string defaultMap  = "/maps/n1.xml";
-  std::string windowTitle = "RadixEngine";
+  std::string defaultMap;
+  std::string windowTitle;
 
   std::list<CustomTrigger> customTriggers;
 

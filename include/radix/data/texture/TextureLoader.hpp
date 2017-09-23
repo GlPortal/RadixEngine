@@ -11,12 +11,19 @@ namespace radix {
 class TextureLoader {
     using CachedTexture = std::map<std::string, Texture>;
 public:
+  enum class PixelFormat : uint8_t {
+    RGB8,
+    BGR8,
+    RGBA8,
+    BGRA8
+  };
+
   /**
- * @brief getEmptyTexture get Empty texture
- * @param name            Texture name for caching
- * @param pixel           pointer to image
- * @return                return Empty Texture
- */
+   * @brief getEmptyTexture get Empty texture
+   * @param name            Texture name for caching
+   * @param pixel           pointer to image
+   * @return                return Empty Texture
+   */
   static Texture getEmptyTexture(const std::string &name,
                                  const char *pixel = "\xFF\xFF\xFF");
 
@@ -61,8 +68,8 @@ private:
    * @param height        Texture height.
    * @return              get Texture Object
    */
-  static Texture uploadTexture(const unsigned char *data, unsigned int width,
-                               unsigned int height);
+  static Texture uploadTexture(const unsigned char *data, PixelFormat,
+                               unsigned int width, unsigned int height);
 
   static CachedTexture textureCache; /**< Cached Texture Object*/
 };

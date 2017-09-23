@@ -1,9 +1,18 @@
-#ifndef EVENT_HPP
-#define EVENT_HPP
+#ifndef RADIX_CORE_EVENT_EVENT_HPP
+#define RADIX_CORE_EVENT_EVENT_HPP
 
 #include <string>
 
 #include <radix/util/Hash.hpp>
+
+#define radix_event_declare(TN) static constexpr StaticEventTypeName TypeName = TN; \
+    const EventTypeName getTypeName() const override { \
+      return TypeName; \
+    } \
+    static constexpr StaticEventType Type = TypeNameHash(TypeName); \
+    const EventType getType() const override { \
+      return Type; \
+    }
 
 namespace radix {
 
@@ -19,18 +28,9 @@ struct Event {
 
   virtual const EventType getType() const = 0;
   virtual const EventTypeName getTypeName() const = 0;
+  virtual std::string debugStringRepr() const { return ""; }
 };
 
 } /* namespace radix */
 
-#endif /* EVENT_HPP */
-
-/*
- * constexpr static EventType TypeNameHash(StaticEventTypeName etn) {
-    return static_cast<EventType>(Hash32(etn));
-  }
-
-  virtual ~Event();
-
-  virtual EventType getType() const = 0;
-  virtual const EventTypeName getTypeName() const = 0;*/
+#endif /* RADIX_CORE_EVENT_EVENT_HPP */

@@ -1,38 +1,40 @@
 #include <radix/Entity.hpp>
 
-#include <radix/EntityManager.hpp>
+#include <utility>
+
 #include <radix/World.hpp>
+
+static const char *Tag = "Entity";
 
 namespace radix {
 
+Entity::Entity(const CreationParams &cp) :
+  world(cp.world), id(cp.id) {
+}
+Entity::~Entity() {
+}
+
+void Entity::init() {
+  Util::Log(Verbose, Tag) << "Create " << className() << '(' << id << ')';
+}
+
+void Entity::setPosition(const Vector3f &val) {
+  position = val;
+}
+
+void Entity::setScale(const Vector3f &val) {
+  scale = val;
+}
+
+void Entity::setOrientation(const Quaternion &val) {
+  orientation = val;
+}
+
 void Entity::setName(const std::string &newName) {
-  if (newName != name) {
-    manager.changeEntityName(*this, name, newName);
-    const std::string oldName = name;
-    name = newName;
-    manager.world.event.dispatch(NameChangedEvent(*this, oldName));
-  }
+  std::string oldName(std::move(m_name));
+  m_name = newName;
+  world.entityManager.changeEntityName(*this, oldName, newName);
+  world.event.dispatch(NameChangedEvent(*this, oldName));
 }
 
-void Entity::addComponent(ComponentTypeId id, Component *comp) {
-  components[id].reset(comp);
-  manager.world.event.dispatch(ComponentAddedEvent(*this, *comp));
 }
-
-void Entity::removeComponent(ComponentTypeId id) {
-  manager.world.event.dispatch(ComponentRemovedEvent(*this, *components[id]));
-  components[id].reset(nullptr);
-}
-
-void Entity::clearComponents() {
-  for (std::unique_ptr<Component> &p : components) {
-    if (p) {
-      manager.world.event.dispatch(ComponentRemovedEvent(*this, *p));
-      p.reset(nullptr);
-    }
-  }
-}
-
-};
-
-

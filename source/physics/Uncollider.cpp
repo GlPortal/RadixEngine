@@ -3,7 +3,7 @@
 #include <bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 
 #include <radix/physics/PhysicsHelper.hpp>
-#include <radix/system/PhysicsSystem.hpp>
+#include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
 
 namespace radix {
@@ -75,9 +75,9 @@ void Uncollider::nearCallback(btBroadphasePair &collisionPair,
   btCollisionObject *colObj1 = (btCollisionObject*)collisionPair.m_pProxy1->m_clientObject;
 
   if (dispatcher.needsCollision(colObj0, colObj1)) {
-    btCollisionObjectWrapper obj0Wrap(0, colObj0->getCollisionShape(),
+    btCollisionObjectWrapper obj0Wrap(nullptr, colObj0->getCollisionShape(),
       colObj0, colObj0->getWorldTransform(), -1, -1);
-    btCollisionObjectWrapper obj1Wrap(0, colObj1->getCollisionShape(),
+    btCollisionObjectWrapper obj1Wrap(nullptr, colObj1->getCollisionShape(),
       colObj1, colObj1->getWorldTransform(), -1, -1);
 
     btManifoldResult contactPointResult(&obj0Wrap, &obj1Wrap);
@@ -89,7 +89,7 @@ void Uncollider::nearCallback(btBroadphasePair &collisionPair,
                                  contactPointResult.getPersistentManifold(),
                                  ebtDispatcherQueryType::BT_CONTACT_POINT_ALGORITHMS);
 #else
-    collisionPair.m_algorithm = dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap);
+      collisionPair.m_algorithm = dispatcher.findAlgorithm(&obj0Wrap, &obj1Wrap);
 #endif
     }
     if (collisionPair.m_algorithm) {

@@ -36,7 +36,8 @@ public:
   void scale(const Vector3f &scale);
   Vector3f transform(const Vector3f &v) const;
 
-  float* toArray();
+  float *toArray();
+  const float* toArray() const;
   std::string str() const;
 
   Quaternion getRotation() const;

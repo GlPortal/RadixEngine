@@ -9,8 +9,9 @@
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Matrix3f.hpp>
-#include <radix/component/LightSource.hpp>
-#include <radix/component/Transform.hpp>
+#include <radix/entities/traits/LightSourceTrait.hpp>
+
+using namespace radix::entities;
 
 namespace radix {
 
@@ -42,19 +43,19 @@ void Renderer::updateLights(Shader& shader) {
 
   int numLights = 0;
   for (const Entity &e : world.entityManager) {
-    if (not e.hasComponent<LightSource>()) {
+    const LightSourceTrait *lstp = dynamic_cast<const LightSourceTrait*>(&e);
+    if (lstp == nullptr) {
       continue;
     }
 
-    LightSource &ls = e.getComponent<LightSource>();
-    const Transform &t = e.getComponent<Transform>();
+    const LightSourceTrait &ls = *lstp;
     std::string index = std::to_string(numLights);
     std::string position = "lights[" + index + "].position";
     std::string color    = "lights[" + index + "].color";
     std::string distance = "lights[" + index + "].distance";
     std::string energy   = "lights[" + index + "].energy";
     std::string specular = "lights[" + index + "].specular";
-    const Vector3f &tposition = t.getPosition();
+    const Vector3f &tposition = ls.getPosition();
     glUniform3f(shader.uni(position.c_str()), tposition.x, tposition.y, tposition.z);
     glUniform3f(shader.uni(color.c_str()), ls.color.x, ls.color.y, ls.color.z);
     glUniform1f(shader.uni(distance.c_str()), ls.distance);
@@ -64,7 +65,7 @@ void Renderer::updateLights(Shader& shader) {
     ++numLights;
   }
 
-  int numLightsLoc = shader.uni("numLights");
+  const int numLightsLoc = shader.uni("numLights");
   glUniform1i(numLightsLoc, numLights);
 
   shader.release();

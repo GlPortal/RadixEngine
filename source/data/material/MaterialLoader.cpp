@@ -15,7 +15,12 @@ std::map<std::string, Material> MaterialLoader::materialCache = {};
 const Material MaterialLoader::loadFromXML(const std::string &path) {
   std::string dir = path.substr(0, path.find_last_of("/\\"));
   XMLDocument doc;
+<<<<<<< HEAD
   XMLError error = doc.LoadFile((Environment::getDataDir() + "/textures/" + path + ".rmdx").c_str());
+=======
+  std::string fileName = Environment::getDataDir() + "/textures/" + path + ".gmd";
+  XMLError error = doc.LoadFile(fileName.c_str());
+>>>>>>> f0cfe90fd45e18e11c7d0b59dbc4c2bb23ef4150
 
   if (error != 0) {
     Util::Log(Error, "MaterialLoader") << "XML Error " << doc.ErrorID() << ": " <<
@@ -26,13 +31,13 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
   XMLElement *root = docHandle.FirstChildElement().ToElement();
   XMLHandle rootH(root);
 
-  std::string name = root->Attribute("name");
+  std::string name      = root->Attribute("name");
   std::string fancyname = root->Attribute("fancyname");
 
   Material mat;
 
-  mat.name = name;
-  mat.fancyname = fancyname;
+  mat.name.swap(name);
+  mat.fancyname.swap(fancyname);
 
   XMLElement *diffE = rootH.FirstChildElement("diffuse").ToElement();
   if (diffE) {
@@ -103,35 +108,40 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
     }
   }
 
-  // TODO
-
   return mat;
 }
 
-const Material& MaterialLoader::getMaterial(const std::string &name) {
+const Material &MaterialLoader::getMaterial(const std::string &name) {
+  // make sure that texture is not exist in cache
   auto it = materialCache.find(name);
   if (it != materialCache.end()) {
     return it->second;
   }
-  std::string path = /*Environment::getDataDir() + "/textures/" +*/ name;
-  Material m = loadFromXML(path);
-  auto inserted = materialCache.insert(std::pair<std::string, Material>(m.name, m));
+
+  Material m = loadFromXML(name);
+  auto inserted = materialCache.insert(std::make_pair(m.name, m));
+
   // Return reference to newly inserted Material
   return inserted.first->second;
 }
 
-const Material& MaterialLoader::fromTexture(const std::string &name) {
-  auto it = materialCache.find("rawtex/" + name);
+const Material &MaterialLoader::fromTexture(const std::string &name) {
+  // make sure that texture is not exist in cache
+  std::string materialName = "rawtex/" + name;
+  auto it = materialCache.find(materialName);
   if (it != materialCache.end()) {
     return it->second;
   }
+
   Material m;
-  m.name = "rawtex/" + name;
-  m.diffuse = TextureLoader::getTexture(name);
-  m.normal = TextureLoader::getEmptyNormal();
-  m.specular = TextureLoader::getEmptySpecular();
+  m.name.swap(materialName);
+  m.diffuse   = TextureLoader::getTexture(name);
+  m.normal    = TextureLoader::getEmptyNormal();
+  m.specular  = TextureLoader::getEmptySpecular();
   m.shininess = 1;
-  auto inserted = materialCache.insert(std::pair<std::string, Material>(m.name, m));
+
+  auto inserted = materialCache.insert(std::make_pair(m.name, m));
+
   // Return reference to newly inserted Material
   return inserted.first->second;
 }

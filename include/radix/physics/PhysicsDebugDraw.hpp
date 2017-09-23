@@ -9,13 +9,14 @@
 #include <bullet/LinearMath/btIDebugDraw.h>
 
 #include <radix/core/gl/VBO.hpp>
-#include <radix/Camera.hpp>
+#include <radix/renderer/RenderContext.hpp>
 
 namespace radix {
 
 class PhysicsDebugDraw : public btIDebugDraw {
 private:
   int dbgMode;
+  GLuint vao;
   std::unique_ptr<VBO> vbo;
   struct PtData {
     float x, y, z, r, g, b;
@@ -24,6 +25,7 @@ private:
 
 public:
   PhysicsDebugDraw();
+  ~PhysicsDebugDraw();
 
   void drawLine(const btVector3 &from, const btVector3 &to, const btVector3 &color);
   void drawLine(const btVector3 &from, const btVector3 &to, const btVector3 &fromColor,
@@ -35,7 +37,7 @@ public:
   void setDebugMode(int debugMode);
   int getDebugMode() const;
 
-  void render(const Camera &cam);
+  void render(RenderContext &rc);
 };
 
 } /* namespace radix */

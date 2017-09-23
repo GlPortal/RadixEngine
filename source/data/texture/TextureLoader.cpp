@@ -18,7 +18,7 @@ Texture TextureLoader::getEmptyTexture(const std::string &name,
 
   // upload texture to GPU
   Texture texture =
-      uploadTexture(reinterpret_cast<const unsigned char *>(pixel), 1, 1);
+      uploadTexture(reinterpret_cast<const unsigned char *>(pixel), PixelFormat::RGB8, 1, 1);
   textureCache.insert(std::make_pair(name, texture)); // Cache texture
   return texture;
 }
@@ -56,7 +56,7 @@ Texture TextureLoader::getTexture(const std::string &path) {
   unsigned int height = FreeImage_GetHeight(image); // get height image
 
   // upload texture to GPU
-  Texture texture = uploadTexture(FreeImage_GetBits(image), width, height);
+  Texture texture = uploadTexture(FreeImage_GetBits(image), PixelFormat::BGRA8, width, height);
   // add new texture to cache
   textureCache.insert(std::make_pair(path, texture));
 
@@ -65,7 +65,27 @@ Texture TextureLoader::getTexture(const std::string &path) {
   return texture;
 }
 
-Texture TextureLoader::uploadTexture(const unsigned char *data,
+static constexpr GLenum pixelFormatToGl[] = {
+  GL_RGB,
+  GL_BGR,
+  GL_RGBA,
+  GL_BGRA
+};
+static constexpr GLenum getGlPixelFormat(TextureLoader::PixelFormat f) {
+  return pixelFormatToGl[static_cast<int>(f)];
+}
+
+static constexpr GLint pixelFormatToGlInternal[] = {
+  GL_RGB8,
+  GL_RGB8,
+  GL_RGBA8,
+  GL_RGBA8,
+};
+static constexpr GLint getGlInternalPixelFormat(TextureLoader::PixelFormat f) {
+  return pixelFormatToGlInternal[static_cast<int>(f)];
+}
+
+Texture TextureLoader::uploadTexture(const unsigned char *data, PixelFormat pixFormat,
                                      unsigned int width, unsigned int height) {
   GLuint handle;
   glGenTextures(1, &handle); // Create Texture OpenGL handler
@@ -73,8 +93,9 @@ Texture TextureLoader::uploadTexture(const unsigned char *data,
                 handle); // Bind and Set OpenGL Texture type 2D Texture
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // sets pixel storage modes
   // Allocate texture with (width x height x 4) and copy data from CPU to GPU
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, static_cast<int>(width),
-               static_cast<int>(height), 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, getGlInternalPixelFormat(pixFormat),
+               static_cast<GLsizei>(width), static_cast<GLsizei>(height),
+               0, getGlPixelFormat(pixFormat), GL_UNSIGNED_BYTE, data);
   // Set texture Filters
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,

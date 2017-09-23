@@ -2,9 +2,9 @@
 #include <radix/BaseGame.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/SoundManager.hpp>
-#include <radix/system/PlayerSystem.hpp>
-#include <radix/system/PhysicsSystem.hpp>
-#include <radix/component/Player.hpp>
+#include <radix/simulation/Player.hpp>
+#include <radix/simulation/Physics.hpp>
+#include <radix/entities/Player.hpp>
 #include <radix/env/ArgumentsParser.hpp>
 #include <radix/env/GameConsole.hpp>
 
@@ -15,7 +15,7 @@ namespace radix {
 Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
-    world(window),
+    world(*this, window),
     config(),
     gameWorld(window),
     closed(false) {
@@ -38,9 +38,11 @@ void BaseGame::setup() {
   world.setConfig(config);
   world.create();
   renderer = std::make_unique<Renderer>(world);
-  SystemManager::Transaction systemTransaction = world.systems.transact();
-  systemTransaction.addSystem<PlayerSystem>(this);
-  systemTransaction.addSystem<PhysicsSystem>(this);
+  { SimulationManager::Transaction simTransact = world.simulations.transact();
+    simTransact.addSimulation<simulation::Player>(this);
+    simTransact.addSimulation<simulation::Physics>(this);
+  }
+  world.initPlayer();
   createScreenshotCallbackHolder();
   nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
   renderer->setViewport(&window);
@@ -105,11 +107,10 @@ void BaseGame::prepareCamera() {
   int viewportWidth, viewportHeight;
   window.getSize(&viewportWidth, &viewportHeight);
   world.camera->setAspect((float)viewportWidth / viewportHeight);
-  const Transform &playerTransform = world.getPlayer().getComponent<Transform>();
-  Vector3f headOffset(0, playerTransform.getScale().y, 0);
-  world.camera->setPosition(playerTransform.getPosition() + headOffset);
-  const Player &playerComponent = world.getPlayer().getComponent<Player>();
-  world.camera->setOrientation(playerComponent.getHeadOrientation());
+  const entities::Player &player = world.getPlayer();
+  Vector3f headOffset(0, player.getScale().y / 2, 0);
+  world.camera->setPosition(player.getPosition() + headOffset);
+  world.camera->setOrientation(player.getHeadOrientation());
 }
 
 void BaseGame::close() {
@@ -118,8 +119,10 @@ void BaseGame::close() {
 
 void BaseGame::loadMap() {
   XmlMapLoader mapLoader(world, customTriggers);
-  std::string mapPath = config.getMapPath();
-  if (mapPath.length() > 0) {
+  std::string map = config.getMap(), mapPath = config.getMapPath();
+  if (map.length() > 0) {
+    mapLoader.load(Environment::getDataDir() + map);
+  } else if (mapPath.length() > 0) {
     mapLoader.load(mapPath);
   } else {
     mapLoader.load(Environment::getDataDir() + defaultMap);

@@ -13,3 +13,6 @@
 [submodule "external/linenoise"]
 	path = external/linenoise
 	url = https://github.com/GlPortal/cpp-linenoise.git
+[submodule "external/RadixEntity"]
+	path = external/RadixEntity
+	url = https://github.com/GlPortal/RadixEntity.git

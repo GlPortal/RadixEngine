@@ -1,6 +1,6 @@
-# License
+# zlib License
 
-Copyright (c) 2016 GlPortal Team: Julian Thijssen, Henry Hirsch, Dorian Wouters
+Copyright (c) 2016-2017 RadixEngine Team: Julian Thijssen, Henry Hirsch, Dorian Wouters
 Original Software (c) 2012 Simon Jonas Larsen
 Contributors: xantares, faust, fraang
 

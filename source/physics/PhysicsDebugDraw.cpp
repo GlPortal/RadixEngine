@@ -4,10 +4,21 @@
 #include <radix/data/texture/TextureLoader.hpp>
 #include <radix/env/Util.hpp>
 
+#include <radix/core/gl/DebugOutput.hpp>
+
 namespace radix {
 
-PhysicsDebugDraw::PhysicsDebugDraw() {
+PhysicsDebugDraw::PhysicsDebugDraw() :
+  vao(0) {
+  //gl::DebugOutput::enable();
   setDebugMode(btIDebugDraw::DBG_DrawWireframe | btIDebugDraw::DBG_DrawContactPoints);
+  vbo = std::make_unique<VBO>();
+}
+
+PhysicsDebugDraw::~PhysicsDebugDraw() {
+  if (vao != 0) {
+    glDeleteVertexArrays(1, &vao);
+  }
 }
 
 void PhysicsDebugDraw::draw3dText(const btVector3 &location, const char *textString) {
@@ -23,7 +34,7 @@ void PhysicsDebugDraw::setDebugMode(int debugMode) {
 }
 
 void PhysicsDebugDraw::reportErrorWarning(const char *warningString) {
-  Util::Log(Warning) << "PhysDbg: " << warningString;
+  Util::Log(Warning, "PhysDbg") << warningString;
 }
 
 void PhysicsDebugDraw::drawLine(const btVector3 &from,
@@ -46,37 +57,43 @@ void PhysicsDebugDraw::drawContactPoint(const btVector3 &PointOnB, const btVecto
 }
 
 
-void PhysicsDebugDraw::render(const Camera &cam) {
+void PhysicsDebugDraw::render(RenderContext &rc) {
   if (points.size() == 0) {
     return;
   }
-  if (not vbo) {
-    vbo = std::make_unique<VBO>(12*4*sizeof(PtData));
-  }
+
+  glDisable(GL_CULL_FACE);
   Shader &sh = ShaderLoader::getShader("unshaded.frag");
   sh.bind();
-  Matrix4f projMatrix; cam.getProjMatrix(projMatrix);
-  glUniformMatrix4fv(sh.uni("projectionMatrix"), 1, false, projMatrix.toArray());
-  Matrix4f viewMatrix; cam.getViewMatrix(viewMatrix);
-  glUniformMatrix4fv(sh.uni("viewMatrix"), 1, false, viewMatrix.toArray());
-  Matrix4f modelMatrix; // identity
-  glUniformMatrix4fv(sh.uni("modelMatrix"), 1, false, modelMatrix.toArray());
+  glUniformMatrix4fv(sh.uni("projectionMatrix"), 1, false, rc.getProj().toArray());
+  glUniformMatrix4fv(sh.uni("viewMatrix"), 1, false, rc.getView().toArray());
+  glUniformMatrix4fv(sh.uni("modelMatrix"), 1, false, Matrix4f::Identity.toArray());
 
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, TextureLoader::getEmptyDiffuse().handle);
   glUniform1i(sh.uni("diffuse"), 0);
 
   if (vbo->getSize() < points.size()*sizeof(PtData)) {
-    vbo->update(points);
+    vbo->setData(points, VBO::Stream | VBO::Draw);
   } else {
-    vbo->setData(points, VBO::Dynamic | VBO::Draw);
+    vbo->update(points);
   }
-  vbo->bind();
-  glVertexAttribPointer(0, 3, GL_FLOAT, 0, sizeof(PtData), 0);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(4, 3, GL_FLOAT, 0, sizeof(PtData), (GLvoid*)(3*sizeof(float)));
-  glEnableVertexAttribArray(4);
+
+  if (vao == 0) {
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    vbo->bind();
+    glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(PtData),
+        reinterpret_cast<GLvoid*>(offsetof(PtData, x)));
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(4, 3, GL_FLOAT, false, sizeof(PtData),
+        reinterpret_cast<GLvoid*>(offsetof(PtData, r)));
+    glEnableVertexAttribArray(4);
+  }
+
+  glBindVertexArray(vao);
   glDrawArrays(GL_LINES, 0, points.size());
+  glBindVertexArray(0);
   points.clear();
   sh.release();
 }

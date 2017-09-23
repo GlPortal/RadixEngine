@@ -21,10 +21,11 @@
 #include <radix/core/state/HandleGameFunction.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/data/material/Material.hpp>
-#include <radix/SystemManager.hpp>
+#include <radix/SimulationManager.hpp>
 #include <radix/data/map/Destination.hpp>
 #include <radix/input/InputSource.hpp>
 #include <radix/env/Config.hpp>
+#include <radix/entities/Player.hpp>
 
 namespace radix {
 
@@ -35,16 +36,19 @@ private:
   radix::Config config;
   double gameTime;
   uint32_t lastUpdateTime;
-  void initPlayer();
 protected:
-  Entity *player;
+  entities::Player *player;
 public:
+  BaseGame &game;
   InputSource &input;
-  World(InputSource &input);
+
+  World(BaseGame &game, InputSource &input);
+  ~World();
+
   void setConfig(radix::Config &config);
   radix::Config &getConfig();
-  ~World();
   void create();
+  void initPlayer();
   void destroy();
 
   inline double getTime() const {
@@ -52,10 +56,10 @@ public:
   }
 
   void update(TDelta dtime);
-  Entity& getPlayer();
+  entities::Player& getPlayer();
   std::map<int, Material> materials;
   EventDispatcher event;
-  SystemManager systems;
+  SimulationManager simulations;
   EntityManager entityManager;
   std::unique_ptr<Camera> camera;
 

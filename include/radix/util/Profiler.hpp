@@ -57,6 +57,24 @@ public:
   std::string dump() const;
 };
 
+class ScopedProfile {
+protected:
+  Profiler &m_prof;
+
+public:
+  ScopedProfile(Profiler &prof) :
+    m_prof(prof) {
+  }
+
+  ~ScopedProfile() {
+    m_prof.stop();
+  }
+
+  void stop() {
+    m_prof.stop();
+  }
+};
+
 } /* namespace util */
 } /* namespace radix */
 

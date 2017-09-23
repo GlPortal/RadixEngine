@@ -8,13 +8,6 @@ set(RADIX_SOURCES
   ${RADIX_SOURCES}
   ${D}/BaseGame.cpp
   ${D}/Camera.cpp
-  ${D}/PlayerTask.cpp
-  ${D}/component/Health.cpp
-  ${D}/component/Player.cpp
-  ${D}/component/RigidBody.cpp
-  ${D}/component/SoundSource.cpp
-  ${D}/component/Transform.cpp
-  ${D}/component/Trigger.cpp
   ${D}/core/diag/AnsiConsoleLogger.cpp
   ${D}/core/diag/Logger.cpp
   ${D}/core/diag/LogInput.cpp
@@ -35,6 +28,12 @@ set(RADIX_SOURCES
   ${D}/core/state/GameState.cpp
   ${D}/Entity.cpp
   ${D}/EntityManager.cpp
+  ${D}/entities/Player.cpp
+  ${D}/entities/StaticModel.cpp
+  ${D}/entities/traits/RigidBodyTrait.cpp
+  ${D}/entities/traits/SoundSourceTrait.cpp
+  ${D}/entities/traits/HealthTrait.cpp
+  ${D}/entities/Trigger.cpp
   ${D}/env/ArgumentsParser.cpp
   ${D}/env/GameConsole.cpp
   ${D}/env/Config.cpp
@@ -75,12 +74,14 @@ set(RADIX_SOURCES
   ${D}/renderer/ScreenRenderer.cpp
   ${D}/renderer/PortalRenderer.cpp
   ${D}/renderer/TextRenderer.cpp
+  ${D}/SimulationManager.cpp
+  ${D}/simulation/Physics.cpp
+  ${D}/simulation/Player.cpp
   ${D}/SoundManager.cpp
-  ${D}/SystemManager.cpp
-  ${D}/system/PhysicsSystem.cpp
-  ${D}/system/PlayerSystem.cpp
+  ${D}/Transform.cpp
   ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp
+  ${D}/util/NullReference.cpp
   ${D}/util/XmlLoader.cpp
   ${D}/Window.cpp
   ${D}/World.cpp
