@@ -19,7 +19,7 @@
 #include <radix/World.hpp>
 #include <radix/data/model/MeshLoader.hpp>
 #include <radix/data/material/MaterialLoader.hpp>
-
+#include <radix/util/Profiling.hpp>
 #include <radix/util/XmlLoader.hpp>
 
 using namespace std;
@@ -33,6 +33,7 @@ XmlMapLoader::XmlMapLoader(World &w, const std::list<CustomTrigger>& customTrigg
 }
 
 void XmlMapLoader::load(const std::string &path) {
+  PROFILER_BLOCK("XmlMapLoader::load", profiler::colors::Red50);
   tinyxml2::XMLDocument doc;
   tinyxml2::XMLError error = doc.LoadFile(path.c_str());
 
@@ -145,6 +146,7 @@ void XmlMapLoader::extractDoor() {
 }
 
 void XmlMapLoader::extractWalls() {
+  PROFILER_BLOCK("XmlMapLoader::extractWalls", profiler::colors::Red100);
   tinyxml2::XMLElement *wallBoxElement = rootHandle.FirstChildElement("wall").ToElement();
 
   if (wallBoxElement) {

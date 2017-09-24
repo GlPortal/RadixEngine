@@ -35,9 +35,9 @@ public:
 
   static void Init();
 
-  static void SetThreadName(std::thread&, const char*);
-  inline static void SetThreadName(std::thread &thread, const std::string &name) {
-    SetThreadName(thread, name.c_str());
+  static void SetCurrentThreadName(const char*);
+  inline static void SetCurrentThreadName(const std::string &name) {
+    SetCurrentThreadName(name.c_str());
   }
 };
 

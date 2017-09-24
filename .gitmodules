@@ -13,3 +13,6 @@
 [submodule "external/RadixEntity"]
 	path = external/RadixEntity
 	url = https://github.com/GlPortal/RadixEntity.git
+[submodule "external/easy_profiler"]
+	path = external/easy_profiler
+	url = https://github.com/yse/easy_profiler.git

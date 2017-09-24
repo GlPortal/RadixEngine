@@ -6,6 +6,7 @@
 #include <radix/data/model/MeshLoader.hpp>
 #include <radix/data/shader/ShaderLoader.hpp>
 #include <radix/data/text/FontLoader.hpp>
+#include <radix/util/Profiling.hpp>
 
 namespace radix {
 
@@ -20,6 +21,7 @@ void ScreenRenderer::render() {
 }
 
 void ScreenRenderer::renderScreen(Screen *screen) {
+  PROFILER_BLOCK("ScreenRenderer::renderScreen", profiler::colors::LightGreen100);
   glDepthMask(GL_FALSE);
 
   renderer.getViewport()->getSize(&viewportWidth, &viewportHeight);

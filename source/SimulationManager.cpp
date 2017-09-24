@@ -4,6 +4,7 @@
 
 #include <radix/env/Util.hpp>
 #include <radix/World.hpp>
+#include <radix/util/Profiling.hpp>
 
 namespace radix {
 
@@ -11,15 +12,17 @@ SimulationManager::SimulationRunner::SimulationRunner(SimulationManager &sysMan)
   threads(std::thread::hardware_concurrency()),
   exit(false) {
   for (unsigned i = 0; i < std::thread::hardware_concurrency(); ++i) {
-    threads.emplace_back(std::bind(&SimulationRunner::threadProc, this, std::ref(sysMan)));
-    Util::SetThreadName(threads.back(), ("SimRunnr " + std::to_string(i)).c_str());
+    threads.emplace_back(std::bind(&SimulationRunner::threadProc, this, i, std::ref(sysMan)));
   }
 }
 
-void SimulationManager::SimulationRunner::threadProc(SimulationManager &simMan) {
+void SimulationManager::SimulationRunner::threadProc(int i, SimulationManager &simMan) {
+  PROFILER_THREAD_SCOPE(("SimRunnr " + std::to_string(i)).c_str());
+  Util::SetCurrentThreadName("SimRunnr " + std::to_string(i));
   while (!exit) {
     GraphNode *node;
-    { std::unique_lock<std::mutex> lk(queueMutex);
+    { PROFILER_BLOCK("Awaiting queue", profiler::colors::White);
+      std::unique_lock<std::mutex> lk(queueMutex);
       queueCondVar.wait(lk, [this](){ return exit || queue.size() > 0; });
       if (exit) {
         return;
@@ -27,7 +30,9 @@ void SimulationManager::SimulationRunner::threadProc(SimulationManager &simMan) 
       node = queue.front();
       queue.pop();
     }
+    PROFILER_BLOCK(node->simulation->getName(), profiler::colors::Cyan200);
     node->simulation->update(dtime);
+    PROFILER_END_BLOCK;
     { std::unique_lock<std::mutex> lk(queueMutex);
       for (GraphNode *nextNode : node->successors) {
         unsigned int counter = ++(nextNode->counter);
@@ -199,6 +204,7 @@ void SimulationManager::dispatchEvent(const Event &evt) {
 }
 
 void SimulationManager::run(TDelta dtime) {
+  PROFILER_BLOCK("SimulationManager::run", profiler::colors::Coral);
   std::unique_lock<std::mutex> lk(systemRun.runCountMutex);
   // Reset previous run count and set the dtime parameter to pass to Simulations
   systemRun.runCount = 0;
@@ -226,6 +232,7 @@ void SimulationManager::run(TDelta dtime) {
   }
 
   // Wait for all Simulations to have run, i.e. runCount reached its target.
+  PROFILER_BLOCK("Awaiting threads");
   systemRun.runCountCondVar.wait(lk, [this, targetRunCount]() {
     return systemRun.runCount == targetRunCount;
   });

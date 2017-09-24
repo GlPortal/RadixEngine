@@ -79,7 +79,6 @@ set(RADIX_SOURCES
   ${D}/simulation/Player.cpp
   ${D}/SoundManager.cpp
   ${D}/Transform.cpp
-  ${D}/util/Profiler.cpp
   ${D}/util/sdl/Fps.cpp
   ${D}/util/NullReference.cpp
   ${D}/util/XmlLoader.cpp

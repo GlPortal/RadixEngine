@@ -8,6 +8,7 @@
 #include <radix/data/material/MaterialLoader.hpp>
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector4f.hpp>
+#include <radix/util/Profiling.hpp>
 
 namespace radix {
 
@@ -22,6 +23,7 @@ int TextRenderer::getTextWidth(std::string text, Font font) {
 }
 
 void TextRenderer::renderText(RenderContext &rc, Text text) {
+  PROFILER_BLOCK("TextRenderer::renderText");
   // FIXME This should be determined by the currently set font
   const Material &mat = MaterialLoader::fromTexture("Pacaya.png");
   Shader &shader = ShaderLoader::getShader("text.frag");

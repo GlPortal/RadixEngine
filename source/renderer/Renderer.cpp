@@ -10,6 +10,7 @@
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Matrix3f.hpp>
 #include <radix/entities/traits/LightSourceTrait.hpp>
+#include <radix/util/Profiling.hpp>
 
 using namespace radix::entities;
 
@@ -39,6 +40,7 @@ void Renderer::render() {
 }
 
 void Renderer::updateLights(Shader& shader) {
+  PROFILER_BLOCK("Renderer::updateLights");
   shader.bind();
 
   int numLights = 0;
@@ -79,16 +81,20 @@ void Renderer::renderMesh(RenderContext &rc, Shader &shader, Matrix4f &mdlMtx,
                           const Mesh &mesh, const Material *mat) {
   shader.bind();
 
+  PROFILER_BLOCK("GL pass matrices");
   glUniformMatrix4fv(shader.uni("projectionMatrix"), 1, false, rc.getProj().toArray());
   glUniformMatrix4fv(shader.uni("viewMatrix"), 1, false, rc.getView().toArray());
   glUniformMatrix4fv(shader.uni("invViewMatrix"), 1, false, rc.getInvView().toArray());
 
+  PROFILER_BLOCK("Matrix conversion");
   Matrix3f mdlMtx3 = toMatrix3f(mdlMtx);
   Matrix3f i3 = inverse(mdlMtx3);
   Matrix4f modelTrInv4Matrix = toMatrix4f(transpose(i3));
+  PROFILER_END_BLOCK;
   glUniformMatrix4fv(shader.uni("modelTrInv4Matrix"), 1, false, modelTrInv4Matrix.toArray());
 
   glUniformMatrix4fv(shader.uni("modelMatrix"), 1, false, mdlMtx.toArray());
+  PROFILER_END_BLOCK;
 
   // Per-vertex color multiplier
   if (shader.att("color") > -1) {

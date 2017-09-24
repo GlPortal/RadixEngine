@@ -67,7 +67,7 @@ protected:
     std::condition_variable runCountCondVar;
     SimulationRunner(SimulationManager&);
     ~SimulationRunner();
-    void threadProc(SimulationManager&);
+    void threadProc(int i, SimulationManager&);
   } systemRun;
 
   Graph graph;

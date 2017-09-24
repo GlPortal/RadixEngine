@@ -57,21 +57,27 @@ static void WinSetThreadName(uint32_t dwThreadID, const char **threadName) {
   }
 }
 
-void Util::SetThreadName(std::thread &thread, const char *name) {
-  DWORD threadId = ::GetThreadId(static_cast<HANDLE>(thread.native_handle()));
+void Util::SetCurrentThreadName(const char *name) {
+  DWORD threadId = ::GetThreadId(static_cast<HANDLE>(GetCurrentThreadId()));
   WinSetThreadName(threadId, &name);
 }
 #elif __APPLE__
-void Util::SetThreadName(std::thread &thread, const char *name) {
-  pthread_setname_np(name);
+void Util::SetCurrentThreadName(const char *name) {
+  if (std::strlen(name) > 15) {
+    throw std::length_error("Name exceeds lentgh of 15 characters");
+  }
+  int ret = pthread_setname_np(name);
+  if (ret != 0) {
+    throw std::system_error(ret, std::system_category(),
+        std::string("Setting thread name to \"") + name + '"');
+  }
 }
 #else
-void Util::SetThreadName(std::thread &thread, const char *name) {
-  if (std::strlen(name) > 16) {
-    throw std::length_error("Name exceeds lentgh of 16 characters");
+void Util::SetCurrentThreadName(const char *name) {
+  if (std::strlen(name) > 15) {
+    throw std::length_error("Name exceeds lentgh of 15 characters");
   }
-  auto handle = thread.native_handle();
-  int ret = pthread_setname_np(handle, name);
+  int ret = pthread_setname_np(pthread_self(), name);
   if (ret != 0) {
     throw std::system_error(ret, std::system_category(),
         std::string("Setting thread name to \"") + name + '"');

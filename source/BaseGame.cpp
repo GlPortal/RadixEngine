@@ -9,6 +9,7 @@
 #include <radix/entities/Player.hpp>
 #include <radix/env/ArgumentsParser.hpp>
 #include <radix/env/GameConsole.hpp>
+#include <radix/util/Profiling.hpp>
 
 namespace radix {
 
@@ -18,6 +19,9 @@ BaseGame::BaseGame() :
     config(),
     gameWorld(window),
     closed(false) {
+  PROFILER_PROFILER_ENABLE;
+  profiler::startListen();
+
   radix::Environment::init();
   config = Environment::getConfig();
   radix::ArgumentsParser::populateConfig(config);
@@ -25,6 +29,8 @@ BaseGame::BaseGame() :
 }
 
 BaseGame::~BaseGame() {
+  profiler::stopListen();
+  PROFILER_PROFILER_DISABLE;
 }
 
 void BaseGame::setup() {
@@ -83,6 +89,7 @@ GameWorld* BaseGame::getGameWorld() {
 }
 
 void BaseGame::preCycle() {
+  PROFILER_NONSCOPED_BLOCK("Game cycle");
 }
 
 void BaseGame::update() {
@@ -95,11 +102,13 @@ void BaseGame::update() {
 
 void BaseGame::postCycle() {
   if (postCycleDeferred.size() > 0) {
+    PROFILER_BLOCK("Post-gamecycle deferred");
     for (auto deferred : postCycleDeferred) {
       deferred();
     }
     postCycleDeferred.clear();
   }
+  PROFILER_END_BLOCK;
 }
 
 void BaseGame::deferPostCycle(const std::function<void()> &deferred) {
@@ -116,11 +125,14 @@ void BaseGame::cleanUp() {
 }
 
 void BaseGame::render() {
+  PROFILER_BLOCK("BaseGame::render");
   prepareCamera();
   renderer->render();
   gameWorld.getScreens()->clear();
   fps.countCycle();
+  PROFILER_BLOCK("SwapBuffers", profiler::colors::White);
   window.swapBuffers();
+  PROFILER_END_BLOCK;
   lastRender = currentTime;
 }
 
