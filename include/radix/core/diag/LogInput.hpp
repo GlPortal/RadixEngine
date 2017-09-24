@@ -2,6 +2,7 @@
 #define RADIX_LOGINPUT_HPP
 
 #include <string>
+#include <type_traits>
 
 #include <stx/string_view.hpp>
 
@@ -21,6 +22,12 @@ protected:
   LogLevel lvl;
   std::string buf, tag;
 
+  template <typename N>
+  inline LogInput& appendNumber(N number) {
+    buf.append(std::to_string(number));
+    return *this;
+  }
+
 public:
   LogInput(Logger &sink, LogLevel lvl, const char *tag = "");
   LogInput(Logger &sink, LogLevel lvl, const std::string &tag);
@@ -38,11 +45,23 @@ public:
 
   LogInput& operator<<(bool);
   LogInput& operator<<(char);
-  template <typename N>
-  LogInput& operator<<(N number);
-  LogInput& operator<<(unsigned long);
-  LogInput& operator<<(float);
-  LogInput& operator<<(double);
+
+  // std::to_string overloads
+  LogInput& operator<<(int v) { return appendNumber(v); }
+  LogInput& operator<<(long v) { return appendNumber(v); }
+  LogInput& operator<<(long long v) { return appendNumber(v); }
+  LogInput& operator<<(unsigned v) { return appendNumber(v); }
+  LogInput& operator<<(unsigned long v) { return appendNumber(v); }
+  LogInput& operator<<(unsigned long long v) { return appendNumber(v); }
+  LogInput& operator<<(float v) { return appendNumber(v); }
+  LogInput& operator<<(double v) { return appendNumber(v); }
+  LogInput& operator<<(long double v) { return appendNumber(v); }
+
+  // std::to_string-compatible upcasts
+  LogInput& operator<<(unsigned char v) { return appendNumber<unsigned>(v); }
+  LogInput& operator<<(short v) { return appendNumber<int>(v); }
+  LogInput& operator<<(unsigned short v) { return appendNumber<unsigned>(v); }
+
   LogInput& operator<<(const void*);
 
   LogInput& operator<<(const Vector2f&);

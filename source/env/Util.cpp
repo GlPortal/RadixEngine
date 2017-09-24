@@ -20,7 +20,9 @@
   } THREADNAME_INFO;
   #pragma pack(pop)
 #elif __linux__
+  #include <cstring>
   #include <sys/prctl.h>
+  #include <system_error>
 #endif
 
 namespace radix {
@@ -65,8 +67,15 @@ void Util::SetThreadName(std::thread &thread, const char *name) {
 }
 #else
 void Util::SetThreadName(std::thread &thread, const char *name) {
+  if (std::strlen(name) > 16) {
+    throw std::length_error("Name exceeds lentgh of 16 characters");
+  }
   auto handle = thread.native_handle();
-  pthread_setname_np(handle, name);
+  int ret = pthread_setname_np(handle, name);
+  if (ret != 0) {
+    throw std::system_error(ret, std::system_category(),
+        std::string("Setting thread name to \"") + name + '"');
+  }
 }
 #endif
 

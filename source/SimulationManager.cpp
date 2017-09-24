@@ -12,7 +12,7 @@ SimulationManager::SimulationRunner::SimulationRunner(SimulationManager &sysMan)
   exit(false) {
   for (unsigned i = 0; i < std::thread::hardware_concurrency(); ++i) {
     threads.emplace_back(std::bind(&SimulationRunner::threadProc, this, std::ref(sysMan)));
-    Util::SetThreadName(threads.back(), ("SimulationRunner thread " + std::to_string(i)).c_str());
+    Util::SetThreadName(threads.back(), ("SimRunnr " + std::to_string(i)).c_str());
   }
 }
 

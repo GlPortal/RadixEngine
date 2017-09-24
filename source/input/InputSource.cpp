@@ -9,7 +9,7 @@ using namespace std;
 namespace radix {
 
 void InputSource::removeDispatcher(EventDispatcher &d) {
-  dispatchers.erase(std::remove_if(dispatchers.begin(), dispatchers.end(), [d](EventDispatcher &e) {
+  dispatchers.erase(std::remove_if(dispatchers.begin(), dispatchers.end(), [&d](EventDispatcher &e) {
     return std::addressof(e) == std::addressof(d);
   }), dispatchers.end());
 }

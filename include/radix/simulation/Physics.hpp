@@ -1,6 +1,7 @@
 #ifndef RADIX_SIMULATION_PHYSICS_HPP
 #define RADIX_SIMULATION_PHYSICS_HPP
 
+#include <memory>
 #include <unordered_set>
 
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
@@ -16,6 +17,7 @@
 namespace radix {
 
 class CollisionDispatcher;
+class GhostPairCallback;
 class Uncollider;
 
 namespace simulation {
@@ -67,7 +69,7 @@ private:
   CollisionDispatcher *dispatcher;
   btSequentialImpulseConstraintSolver *solver;
   btDiscreteDynamicsWorld *physicsWorld;
-  btGhostPairCallback *gpCallback;
+  std::unique_ptr<GhostPairCallback> gpCallback;
 
   btIDebugDraw *m_debugDraw;
 

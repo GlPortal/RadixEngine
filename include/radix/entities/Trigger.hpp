@@ -10,7 +10,7 @@
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/Entity.hpp>
-#include <radix/util/BulletUserPtrInfo.hpp>
+#include <radix/util/BulletGhostPairCallbacks.hpp>
 
 namespace radix {
 
@@ -20,13 +20,11 @@ namespace entities {
 
 class Trigger : public Entity {
 private:
-  util::BulletUserPtrInfo m_btPtrInfo;
-  btGhostObject *ghostObject;
+  util::BulletGhostPairCallbacks m_btGpCallbacks;
+  std::unique_ptr<btGhostObject> ghostObject;
+  std::unique_ptr<btConvexShape> shape;
 
 public:
-  btGhostObject *getBulletGhostObject();
-  // TODO: replace BaseGame& with Trigger&, because it prevents you from distinguishing
-  // on what Trigger in which World the event happens when using the same Action
   using Action = std::function<void(Trigger&)>;
 
   Action actionOnEnter;
@@ -34,11 +32,8 @@ public:
   Action actionOnMove;
   Action actionOnUpdate;
 
-  EventDispatcher::CallbackHolder callbackOnEnter, callbackOnExit;
-
-  std::shared_ptr<btConvexShape> shape;
-
   Trigger(const CreationParams&);
+  Trigger(const CreationParams&, const Transform&);
   ~Trigger();
 
   void setActionOnExit(Action action);
@@ -53,6 +48,12 @@ public:
   void onExit() { actionOnExit(*this); }
   void onMove() { actionOnMove(*this); }
   void onUpdate() { actionOnUpdate(*this); }
+
+  virtual void setPosition(const Vector3f&) override;
+  virtual void setOrientation(const Quaternion&) override;
+  virtual void setScale(const Vector3f&) override;
+
+  btGhostObject* getBulletGhostObject() const;
 
   std::string fullClassName() const override {
     return "radix/entities/Trigger";

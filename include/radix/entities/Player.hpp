@@ -11,7 +11,7 @@
 #include <radix/Entity.hpp>
 #include <radix/physics/KinematicCharacterController.hpp>
 #include <radix/entities/Trigger.hpp>
-#include <radix/util/BulletUserPtrInfo.hpp>
+#include <radix/util/BulletGhostPairCallbacks.hpp>
 
 namespace radix {
 namespace entities {
@@ -21,7 +21,7 @@ class Player :
     public HealthTrait,
     public SoundSourceTrait {
 protected:
-  util::BulletUserPtrInfo m_btPtrInfo;
+  util::BulletGhostPairCallbacks m_btGpCallbacks;
 
 public:
   std::shared_ptr<btConvexShape> shape;

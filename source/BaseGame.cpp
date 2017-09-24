@@ -1,5 +1,7 @@
-
 #include <radix/BaseGame.hpp>
+
+#include <SDL2/SDL_timer.h>
+
 #include <radix/env/Environment.hpp>
 #include <radix/SoundManager.hpp>
 #include <radix/simulation/Player.hpp>
@@ -8,14 +10,11 @@
 #include <radix/env/ArgumentsParser.hpp>
 #include <radix/env/GameConsole.hpp>
 
-#include <SDL2/SDL_timer.h>
-
 namespace radix {
 
 Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
-    world(*this, window),
     config(),
     gameWorld(window),
     closed(false) {
@@ -35,22 +34,22 @@ void BaseGame::setup() {
   }
   SoundManager::init();
   createWindow();
-  world.setConfig(config);
-  world.create();
-  renderer = std::make_unique<Renderer>(world);
-  { SimulationManager::Transaction simTransact = world.simulations.transact();
-    simTransact.addSimulation<simulation::Player>(this);
-    simTransact.addSimulation<simulation::Physics>(this);
-  }
-  world.initPlayer();
-  createScreenshotCallbackHolder();
-  nextUpdate = SDL_GetTicks(), lastUpdate = 0, lastRender = 0;
-  renderer->setViewport(&window);
-  screenRenderer = std::make_unique<ScreenRenderer>(world, *renderer.get(), gameWorld);
   initHook();
   customTriggerHook();
-  loadMap();
-  renderer->init();
+
+  std::unique_ptr<World> newWorld = std::make_unique<World>(*this);
+  createWorld(*newWorld);
+
+  lastUpdate = 0;
+  lastRender = 0;
+
+  loadMap(*newWorld);
+  setWorld(std::move(newWorld));
+  // From this point on, this->world is the moved newWorld
+
+  createScreenshotCallbackHolder();
+
+  screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
 }
 
@@ -59,7 +58,20 @@ bool BaseGame::isRunning() {
 }
 
 World* BaseGame::getWorld() {
-  return &world;
+  return world.get();
+}
+
+void BaseGame::switchToOtherWorld(const std::string &name) {
+  auto it = otherWorlds.find(name);
+  if (it == otherWorlds.end()) {
+    throw std::out_of_range("No otherworld by this name");
+  }
+  setWorld(std::move(it->second));
+  otherWorlds.erase(it);
+}
+
+void BaseGame::clearOtherWorldList() {
+  otherWorlds.clear();
 }
 
 ScreenRenderer* BaseGame::getScreenRenderer() {
@@ -70,18 +82,28 @@ GameWorld* BaseGame::getGameWorld() {
   return &gameWorld;
 }
 
-void BaseGame::update() {
-  int skipped = 0;
-  currentTime = SDL_GetTicks();
+void BaseGame::preCycle() {
+}
 
-  while (currentTime > nextUpdate && skipped < MAX_SKIP) {
-    nextUpdate += SKIP_TIME;
-    skipped++;
-  }
+void BaseGame::update() {
+  currentTime = SDL_GetTicks();
   int elapsedTime = currentTime - lastUpdate;
-  SoundManager::update(world.getPlayer());
-  world.update(TimeDelta::msec(elapsedTime));
+  SoundManager::update(world->getPlayer());
+  world->update(TimeDelta::msec(elapsedTime));
   lastUpdate = currentTime;
+}
+
+void BaseGame::postCycle() {
+  if (postCycleDeferred.size() > 0) {
+    for (auto deferred : postCycleDeferred) {
+      deferred();
+    }
+    postCycleDeferred.clear();
+  }
+}
+
+void BaseGame::deferPostCycle(const std::function<void()> &deferred) {
+  postCycleDeferred.push_back(deferred);
 }
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
@@ -89,7 +111,7 @@ void BaseGame::initHook() { }
 void BaseGame::customTriggerHook() { }
 
 void BaseGame::cleanUp() {
-  world.destroy();
+  setWorld({});
   window.close();
 }
 
@@ -103,22 +125,56 @@ void BaseGame::render() {
 }
 
 void BaseGame::prepareCamera() {
-  world.camera->setPerspective();
+  world->camera->setPerspective();
   int viewportWidth, viewportHeight;
   window.getSize(&viewportWidth, &viewportHeight);
-  world.camera->setAspect((float)viewportWidth / viewportHeight);
-  const entities::Player &player = world.getPlayer();
+  world->camera->setAspect((float)viewportWidth / viewportHeight);
+  const entities::Player &player = world->getPlayer();
   Vector3f headOffset(0, player.getScale().y / 2, 0);
-  world.camera->setPosition(player.getPosition() + headOffset);
-  world.camera->setOrientation(player.getHeadOrientation());
+  world->camera->setPosition(player.getPosition() + headOffset);
+  world->camera->setOrientation(player.getHeadOrientation());
 }
 
 void BaseGame::close() {
   closed = true;
 }
 
-void BaseGame::loadMap() {
-  XmlMapLoader mapLoader(world, customTriggers);
+void BaseGame::createWorld(World &world) {
+  onPreCreateWorld(world);
+  world.setConfig(config);
+  world.onCreate();
+  { SimulationManager::Transaction simTransact = world.simulations.transact();
+    simTransact.addSimulation<simulation::Player>(this);
+    simTransact.addSimulation<simulation::Physics>(this);
+  }
+  world.initPlayer();
+  onPostCreateWorld(world);
+}
+
+void BaseGame::setWorld(std::unique_ptr<World> &&newWorld) {
+  if (world) {
+    onPreStopWorld();
+    world->onStop();
+    onPostStopWorld();
+    onPreDestroyWorld(*world);
+    world->onDestroy();
+    onPostDestroyWorld(*world);
+  }
+  world = std::move(newWorld);
+  if (world) {
+    // TODO move
+    renderer = std::make_unique<Renderer>(*world);
+    renderer->setViewport(&window);
+    renderer->init();
+
+    onPreStartWorld();
+    world->onStart();
+    onPostStartWorld();
+  }
+}
+
+void BaseGame::loadMap(World &targetWorld) {
+  XmlMapLoader mapLoader(targetWorld, customTriggers);
   std::string map = config.getMap(), mapPath = config.getMapPath();
   if (map.length() > 0) {
     mapLoader.load(Environment::getDataDir() + map);
@@ -140,7 +196,7 @@ void BaseGame::createWindow() {
 
 void BaseGame::createScreenshotCallbackHolder() {
   screenshotCallbackHolder =
-    world.event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
+    world->event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
         const int key =  ((InputSource::KeyReleasedEvent &) event).key;
         if (key == SDL_SCANCODE_G) {
           this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");

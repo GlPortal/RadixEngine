@@ -19,8 +19,13 @@ struct BulletUserPtrInfo {
   }
 };
 
+template<class T>
+inline T& getBtPtrAs(const btCollisionObject *o) {
+  return *reinterpret_cast<T*>(o->getUserPointer());
+}
+
 inline const BulletUserPtrInfo& getBtPtrInfo(const btCollisionObject *o) {
-  return *reinterpret_cast<BulletUserPtrInfo*>(o->getUserPointer());
+  return getBtPtrAs<BulletUserPtrInfo>(o);
 }
 
 } /* namespace util */

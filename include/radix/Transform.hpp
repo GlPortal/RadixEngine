@@ -11,7 +11,7 @@ namespace radix {
 
 class Transform {
 public:
-  Vector3f position, scale;
+  Vector3f position, scale{1};
   Quaternion orientation;
 
   void applyModelMtx(Matrix4f&) const;

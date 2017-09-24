@@ -44,7 +44,7 @@ static const std::array<const std::string, 6> PLAYER_FOOT_SOUND = {{
 
 Player::Player(const CreationParams &cp) :
   Entity(cp),
-  m_btPtrInfo(this),
+  m_btGpCallbacks(this),
   flying(false),
   noclip(false),
   frozen(false),
@@ -58,7 +58,7 @@ Player::Player(const CreationParams &cp) :
   obj->setCollisionShape(shape.get());
   obj->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT |
                          btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
-  obj->setUserPointer(&m_btPtrInfo);
+  obj->setUserPointer(&m_btGpCallbacks);
   obj->setUserIndex(id);
   controller = new KinematicCharacterController(obj, shape.get(), 0.35);
   auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
@@ -100,7 +100,7 @@ void Player::tick(TDelta dtime) {
   // Restrict rotation in horizontal axis
   headAngle.attitude = Math::clamp(headAngle.attitude, rad(-89.99), rad(89.99));
 
-  InputSource &input = world.input;
+  InputSource &input = *world.input;
   bool movingFwd     = input.isKeyDown(SDL_SCANCODE_W) or input.isKeyDown(SDL_SCANCODE_UP),
        movingBack    = input.isKeyDown(SDL_SCANCODE_S) or input.isKeyDown(SDL_SCANCODE_DOWN),
        strafingLeft  = input.isKeyDown(SDL_SCANCODE_A) or input.isKeyDown(SDL_SCANCODE_LEFT),

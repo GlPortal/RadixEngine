@@ -64,12 +64,12 @@ set(RADIX_SOURCES
   ${D}/data/shader/Shader.cpp
   ${D}/data/shader/ShaderLoader.cpp
   ${D}/physics/CollisionDispatcher.cpp
+  ${D}/physics/GhostPairCallback.cpp
   ${D}/physics/KinematicCharacterController.cpp
   ${D}/physics/PhysicsDebugDraw.cpp
   ${D}/physics/PhysicsHelper.cpp
   ${D}/physics/Uncollider.cpp
   ${D}/renderer/SubRenderer.cpp
-  ${D}/renderer/GlGwenRenderer.cpp
   ${D}/renderer/Renderer.cpp
   ${D}/renderer/ScreenRenderer.cpp
   ${D}/renderer/PortalRenderer.cpp
