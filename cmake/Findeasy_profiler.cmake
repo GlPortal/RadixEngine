@@ -6,6 +6,8 @@ set(EASY_PROFILER_LIBRARIES "${EASY_PROFILER_LIBRARY}")
 
 add_subdirectory("${EASY_PROFILER_ROOT_DIR}")
 
+set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "")
+
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(easy_profiler DEFAULT_MSG
   EASY_PROFILER_LIBRARIES EASY_PROFILER_INCLUDE_DIRS)
