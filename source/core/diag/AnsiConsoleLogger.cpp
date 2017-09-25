@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <unistd.h>
 
 using std::cout;
 
@@ -26,8 +27,10 @@ static const struct LogLevelOutputInfo {
 AnsiConsoleLogger::AnsiConsoleLogger() :
   enableColors(true),
   enableBackground(false) {
-  auto term = getenv("TERM");
-  if (term != nullptr && std::string(term) == "linux") {
+  const auto term = getenv("TERM");
+  const bool tty = isatty(fileno(stdout));
+  if (not tty or
+      (term != nullptr and std::string(term) == "linux")) {
     // Linux fbcon VTs don't handle extended colors
     // This is also what's reported by some IDEs' output window which aren't full fledged terminals
     enableColors = false;
