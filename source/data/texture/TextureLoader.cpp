@@ -4,6 +4,7 @@
 
 #include <FreeImagePlus.h>
 #include <radix/env/Environment.hpp>
+#include <radix/util/Profiling.hpp>
 
 namespace radix {
 
@@ -37,6 +38,7 @@ Texture TextureLoader::getEmptySpecular() {
 }
 
 Texture TextureLoader::getTexture(const std::string &path) {
+  PROFILER_BLOCK("MaterialLoader::getTexture", profiler::colors::Red400);
   // Check if texture is chached
   auto it = textureCache.find(path);
   if (it != textureCache.end())

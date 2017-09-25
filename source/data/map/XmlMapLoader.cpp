@@ -59,6 +59,7 @@ void XmlMapLoader::load(const std::string &path) {
 }
 
 void XmlMapLoader::extractMaterials() {
+  PROFILER_BLOCK("XmlMapLoader::extractMaterials", profiler::colors::Red100);
   tinyxml2::XMLElement *matIdxElm = rootHandle.FirstChildElement("materials").ToElement();
 
   if (matIdxElm) {
@@ -84,6 +85,7 @@ void XmlMapLoader::extractMaterials() {
 }
 
 void XmlMapLoader::extractSpawn() {
+  PROFILER_BLOCK("XmlMapLoader::extractSpawn", profiler::colors::Red100);
   tinyxml2::XMLElement *spawnElement = rootHandle.FirstChildElement("spawn").ToElement();
 
   if (spawnElement) {
@@ -103,6 +105,7 @@ void XmlMapLoader::extractSpawn() {
  * Extract light element containing position (x, y, z) and colour (r, g, b) attributes
  */
 void XmlMapLoader::extractLights() {
+  PROFILER_BLOCK("XmlMapLoader::extractLights", profiler::colors::Red100);
   Vector3f lightPos;
   Vector3f lightColor;
   float distance, energy, specular;
@@ -130,6 +133,7 @@ void XmlMapLoader::extractLights() {
 }
 
 void XmlMapLoader::extractDoor() {
+  PROFILER_BLOCK("XmlMapLoader::extractDoor", profiler::colors::Red100);
   tinyxml2::XMLElement *endElement = rootHandle.FirstChildElement("end").ToElement();
 
   if (endElement) {
@@ -174,6 +178,7 @@ void XmlMapLoader::extractWalls() {
 }
 
 void XmlMapLoader::extractAcids() {
+  PROFILER_BLOCK("XmlMapLoader::extractAcids", profiler::colors::Red100);
   tinyxml2::XMLElement *acidElement = rootHandle.FirstChildElement("acid").ToElement();
 
   if (acidElement) {
@@ -197,6 +202,7 @@ void XmlMapLoader::extractAcids() {
 }
 
 void XmlMapLoader::extractDestinations() {
+  PROFILER_BLOCK("XmlMapLoader::extractDestinations", profiler::colors::Red100);
   tinyxml2::XMLElement *destinationElement = rootHandle.FirstChildElement("destination")
     .ToElement();
 
@@ -214,6 +220,7 @@ void XmlMapLoader::extractDestinations() {
 }
 
 void XmlMapLoader::extractTriggers() {
+  PROFILER_BLOCK("XmlMapLoader::extractTriggers", profiler::colors::Red100);
   tinyxml2::XMLElement *triggerElement = rootHandle.FirstChildElement("trigger").ToElement();
 
   if (triggerElement) {
@@ -235,6 +242,7 @@ void XmlMapLoader::extractTriggers() {
 }
 
 void XmlMapLoader::extractModels() {
+  PROFILER_BLOCK("XmlMapLoader::extractModels", profiler::colors::Red100);
   int mid = -1;
   string mesh("none");
   tinyxml2::XMLElement *modelElement = rootHandle.FirstChildElement("model").ToElement();
