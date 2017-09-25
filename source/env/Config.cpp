@@ -7,7 +7,11 @@
 
 namespace radix {
 
-Config::Config() : loaded(false), ignoreGlVersion(false), consoleEnabled(false) {
+Config::Config() :
+  loaded(false),
+  ignoreGlVersion(false),
+  consoleEnabled(false),
+  profilerEnabled(false) {
 }
 
 
@@ -34,7 +38,9 @@ void Config::load() {
   this->loadMouseSettings(configJson["mouse"]);
   this->loadLoglevelSettings(configJson["logging"]);
 
-  glContextEnableDebug = configJson["debug"]["gl_context_debug"].bool_value();
+  const Json &debug = configJson["debug"];
+  glContextEnableDebug = debug["gl_context_debug"].bool_value();
+  profilerEnabled = debug["profiler"]["enable"].bool_value();
   loaded = true;
 }
 
@@ -42,7 +48,7 @@ bool Config::isLoaded() {
   return loaded;
 }
 
-void Config::loadVideoSettings(Json json) {
+void Config::loadVideoSettings(const Json &json) {
   fullscreen      = json["fullscreen"].bool_value();
   antialiasing    = json["antialiasing"].number_value();
   vsync           = json["vsync"].bool_value();
@@ -52,18 +58,18 @@ void Config::loadVideoSettings(Json json) {
 
 }
 
-void Config::loadSoundSettings(Json json) {
+void Config::loadSoundSettings(const Json &json) {
   sound = json["enabled"].bool_value();
 
 }
 
-void Config::loadMouseSettings(Json json) {
+void Config::loadMouseSettings(const Json &json) {
   sensitivity        = json["sensitivity"].number_value();
   hidePortalsByClick = json["hide_portals_by_click"].bool_value();
   cursorVisibility   = json["cursor_visibility"].bool_value();
 }
 
-void Config::loadLoglevelSettings(Json json) {
+void Config::loadLoglevelSettings(const Json &json) {
   std::string value = json["loglevel"].string_value();
   if (value == "verbose") {
     loglevel = LogLevel::Verbose;

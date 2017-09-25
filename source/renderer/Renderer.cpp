@@ -37,6 +37,8 @@ void Renderer::render() {
   for (SubRenderer *e : subRenderers) {
     e->render();
   }
+  glFlush();
+  glFinish();
 }
 
 void Renderer::updateLights(Shader& shader) {

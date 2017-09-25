@@ -19,18 +19,24 @@ BaseGame::BaseGame() :
     config(),
     gameWorld(window),
     closed(false) {
-  PROFILER_PROFILER_ENABLE;
-  profiler::startListen();
-
   radix::Environment::init();
   config = Environment::getConfig();
   radix::ArgumentsParser::populateConfig(config);
+
+  if (config.isProfilerEnabled()) {
+    Util::Log(Info, "BaseGame") << "Enabling profiler";
+    PROFILER_PROFILER_ENABLE;
+    profiler::startListen();
+  }
+
   window.setConfig(config);
 }
 
 BaseGame::~BaseGame() {
-  profiler::stopListen();
-  PROFILER_PROFILER_DISABLE;
+  if (config.isProfilerEnabled()) {
+    profiler::stopListen();
+    PROFILER_PROFILER_DISABLE;
+  }
 }
 
 void BaseGame::setup() {

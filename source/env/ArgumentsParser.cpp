@@ -18,6 +18,7 @@ bool ArgumentsParser::showCursor = false;
 bool ArgumentsParser::ignoreGlVersion = false;
 bool ArgumentsParser::debugMode = false;
 bool ArgumentsParser::consoleEnabled = false;
+bool ArgumentsParser::profilerEnabled = false;
 
 void ArgumentsParser::showUsage(char **argv) {
   std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
@@ -32,6 +33,7 @@ void ArgumentsParser::showUsage(char **argv) {
   std::cout << "  -G, --ignoreGlVersion    Disable OpenGl version check" << std::endl;
   std::cout << "  -D, --debugMode          Run game in debug mode" << std::endl;
   std::cout << "  -a, --console            Run game interactively" << std::endl;
+  std::cout << "  -p, --profiler           Enable profiler" << std::endl;
 }
 
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
@@ -45,13 +47,14 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     {"map",              required_argument, 0, 'm'},
     {"mapfrompath",      required_argument, 0, 'M'},
     {"console",          no_argument      , 0, 'a'},
+    {"profiler",         no_argument      , 0, 'p'},
     {0, 0, 0, 0}
   };
 
   while (1) {
     int optionIndex = 0;
     int argument;
-    argument = getopt_long(argc, argv, "cvhad:m:M:GD", longOptions, &optionIndex);
+    argument = getopt_long(argc, argv, "pvhacd:m:M:GD", longOptions, &optionIndex);
 
     if (argument == NO_ARGUMENT) {
       break;
@@ -90,6 +93,9 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     case 'a':
       consoleEnabled = true;
       break;
+    case 'p':
+      profilerEnabled = true;
+      break;
     default:
       break;
     }
@@ -121,6 +127,10 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
 
   if (consoleEnabled) {
     config.consoleEnabled = true;
+  }
+
+  if (profilerEnabled) {
+    config.profilerEnabled = true;
   }
 }
 

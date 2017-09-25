@@ -33,6 +33,7 @@ public:
   bool hasVsync() const { return vsync; }
   bool isHidePortalsByClick() const { return hidePortalsByClick; }
   bool isConsoleEnabled() const { return consoleEnabled; }
+  bool isProfilerEnabled() const { return profilerEnabled; }
   bool getCursorVisibility() const { return cursorVisibility; }
   bool getIgnoreGlVersion() const { return ignoreGlVersion; }
   bool getGlContextEnableDebug() const { return glContextEnableDebug; }
@@ -41,10 +42,10 @@ public:
   std::string getMapPath() const { return mapPath; }
 
 private:
-  void loadVideoSettings(Json json);
-  void loadSoundSettings(Json json);
-  void loadMouseSettings(Json json);
-  void loadLoglevelSettings(Json json);
+  void loadVideoSettings(const Json &json);
+  void loadSoundSettings(const Json &json);
+  void loadMouseSettings(const Json &json);
+  void loadLoglevelSettings(const Json &json);
 
   bool loaded;
   unsigned int width;
@@ -60,6 +61,7 @@ private:
   bool ignoreGlVersion;
   bool glContextEnableDebug;
   bool consoleEnabled;
+  bool profilerEnabled;
   LogLevel loglevel;
   std::string map;
   std::string mapPath;
