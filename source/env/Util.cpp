@@ -19,9 +19,12 @@
     DWORD dwFlags; // Reserved for future use, must be zero.
   } THREADNAME_INFO;
   #pragma pack(pop)
+#elif __APPLE__
+  #include <cstring> // std::strlen
+  #include <system_error>
 #elif __linux__
-  #include <cstring>
-  #include <sys/prctl.h>
+  #include <cstring> // std::strlen
+  #include <sys/prctl.h> // pthread_*
   #include <system_error>
 #endif
 
