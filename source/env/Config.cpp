@@ -41,8 +41,8 @@ void Config::load() {
 
   const Json &debug = configJson["debug"];
   glContextEnableDebug = debug["gl_context_debug"].bool_value();
-  profilerEnabled = debug["profiler"]["enabled"].bool_value();
-  debugViewEnabled = debug["wireframes"]["enabled"].bool_value();
+  profilerEnabled = debug["profiler"]["enable"].bool_value();
+  debugViewEnabled = debug["wireframes"]["enable"].bool_value();
   loaded = true;
 }
 
@@ -61,7 +61,7 @@ void Config::loadVideoSettings(const Json &json) {
 }
 
 void Config::loadSoundSettings(const Json &json) {
-  sound = json["enabled"].bool_value();
+  sound = json["enable"].bool_value();
 
 }
 
