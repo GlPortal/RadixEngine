@@ -78,7 +78,6 @@ Player::~Player() {
 
 void Player::tick(TDelta dtime) {
   (void) dtime;
-  trigger = nullptr;
   if (frozen) {
     return;
   }
@@ -117,11 +116,11 @@ void Player::tick(TDelta dtime) {
     controller->jump();
   }
 
-  /*if (movingFwd || movingBack || strafingLeft || strafingRight) {
+  if (movingFwd || movingBack || strafingLeft || strafingRight) {
     if (trigger) {
-      trigger->actionOnMove(game);
+      trigger->actionOnMove(*trigger);
     }
-  }*/
+  }
 
   if (movingFwd) {
     movement.x += -sin(rot);
@@ -152,6 +151,7 @@ void Player::tick(TDelta dtime) {
       stepCounter -= 2.5f;
     }
   }
+  trigger = nullptr;
 }
 
 Quaternion Player::getBaseHeadOrientation() const {
