@@ -129,7 +129,10 @@ public:
     return m_name;
   }
   void setName(const std::string&);
+  virtual void onNameChange(const std::string &newName) {}
 
+  void remove();
+  virtual void onRemove() {}
 
   virtual std::string fullClassName() const = 0;
   virtual std::string className() const  = 0;

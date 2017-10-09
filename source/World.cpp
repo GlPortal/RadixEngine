@@ -44,6 +44,7 @@ void World::update(TDelta dtime) {
   for (Entity &ent : entityManager) {
     ent.tick(dtime);
   }
+  entityManager.doMaintenance();
 }
 
 void World::onStop() {

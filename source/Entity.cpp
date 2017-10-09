@@ -31,10 +31,16 @@ void Entity::setOrientation(const Quaternion &val) {
 }
 
 void Entity::setName(const std::string &newName) {
+  onNameChange(newName);
   std::string oldName(std::move(m_name));
   m_name = newName;
   world.entityManager.changeEntityName(*this, oldName, newName);
   world.event.dispatch(NameChangedEvent(*this, oldName));
+}
+
+void Entity::remove() {
+  onRemove();
+  world.entityManager.queueDeleteEntity(this);
 }
 
 }

@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <utility>
 #include <type_traits>
+#include <vector>
 
 #include <radix/Entity.hpp>
 
@@ -28,6 +29,12 @@ private:
   }
 
   void entityAdded(Entity&);
+
+  std::vector<std::unique_ptr<Entity>> m_queuedDeletions;
+  /**
+   * @brief Queue entity for deletion and remove it from the entity list
+   */
+  void queueDeleteEntity(Entity*);
 
   using Base = std::list<std::unique_ptr<Entity>>;
 
@@ -106,6 +113,12 @@ public:
    * @throws std::out_of_range if no entity with this name is found.
    */
   Entity& getByName(const std::string &name);
+
+  /**
+   * @brief Executes internal maintenance routines.
+   * @warning Do not use unless you know what you're doing.
+   */
+  void doMaintenance();
 };
 
 } /* namespace radix */
