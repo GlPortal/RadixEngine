@@ -17,7 +17,8 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
   PROFILER_BLOCK("MaterialLoader::loadFromXML", profiler::colors::Red300);
   std::string dir = path.substr(0, path.find_last_of("/\\"));
   XMLDocument doc;
-  std::string fileName = Environment::getDataDir() + "/textures/" + path + ".gmd";
+
+  std::string fileName = Environment::getDataDir() + "/textures/" + path + ".rmdx";
   XMLError error = doc.LoadFile(fileName.c_str());
 
   if (error != 0) {
