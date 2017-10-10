@@ -16,12 +16,8 @@ matrix:
       git:
         submodules: false
       before_install:
-        - wget "https://github.com/macports/macports-base/releases/download/v2.4.1/MacPorts-2.4.1-10.12-Sierra.pkg"
-        - travis_wait sudo installer -pkg MacPorts-2.4.1-10.12-Sierra.pkg -target /
-        - export PATH=/opt/local/bin:/opt/local/sbin:$PATH
         - brew update
       install:
-        - sudo port -v install bullet
         - brew install assimp
         - brew install libepoxy
         - brew install sdl2
@@ -42,12 +38,8 @@ matrix:
       git:
         submodules: false
       before_install:
-        - wget "https://github.com/macports/macports-base/releases/download/v2.4.1/MacPorts-2.4.1-10.12-Sierra.pkg"      
-        - travis_wait sudo installer -pkg MacPorts-2.4.1-10.12-Sierra.pkg -target /
-        - export PATH=/opt/local/bin:/opt/local/sbin:$PATH
         - brew update
       install:
-        - sudo port -v install bullet
         - brew install assimp
         - brew install libepoxy
         - brew install sdl2
