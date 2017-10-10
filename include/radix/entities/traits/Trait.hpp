@@ -4,11 +4,27 @@
 #include <radix/Entity.hpp>
 
 namespace radix {
+
+class EntityManager;
+
 namespace entities {
 
-class Trait : public virtual Entity {
+class Trait : protected virtual Entity {
 protected:
-  Trait() = default;
+  friend EntityManager;
+  friend Entity;
+
+  Trait();
+
+  virtual void onRemoveTrait() {}
+
+public:
+  inline Entity& entity() {
+    return *this;
+  }
+  inline const Entity& entity() const {
+    return *this;
+  }
 };
 
 } /* namespace entities */

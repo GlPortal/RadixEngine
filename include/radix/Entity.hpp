@@ -5,6 +5,7 @@
 #include <memory>
 #include <stdexcept>
 #include <type_traits>
+#include <vector>
 
 #include <RadixEntity/Entity.hpp>
 
@@ -19,6 +20,10 @@ namespace radix {
 class World;
 
 using EntityId = uint32_t;
+
+namespace entities {
+class Trait;
+}
 
 /** \class Entity
  * It is created like this:
@@ -41,6 +46,11 @@ private:
   std::string m_name;
 
 protected:
+  /**
+   * List of traits contained within this entity instance.
+   */
+  std::vector<entities::Trait*> m_traits;
+
   Entity() :
     world(util::NullReference<World>) {
     throw std::invalid_argument("You forgot to properly instantiate the Entity base");
@@ -135,7 +145,7 @@ public:
   virtual void onRemove() {}
 
   virtual std::string fullClassName() const = 0;
-  virtual std::string className() const  = 0;
+  virtual std::string className() const = 0;
 
   virtual void tick(TDelta) {}
 };

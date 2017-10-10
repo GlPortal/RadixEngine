@@ -39,6 +39,9 @@ void Entity::setName(const std::string &newName) {
 }
 
 void Entity::remove() {
+  for (auto trit = m_traits.rbegin(); trit != m_traits.rend(); ++trit) {
+    (*trit)->onRemoveTrait();
+  }
   onRemove();
   world.entityManager.queueDeleteEntity(this);
 }

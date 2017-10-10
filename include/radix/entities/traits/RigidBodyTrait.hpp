@@ -24,6 +24,7 @@ public:
   btDefaultMotionState motionState;
   btRigidBody *body;
 
+  virtual void onRemoveTrait() override;
   ~RigidBodyTrait();
 
   virtual int getCollisionFlags() const;

@@ -42,13 +42,16 @@ void RigidBodyTrait::setRigidBody(float mass,
   phys.getPhysicsWorld().addRigidBody(body, getCollisionGroup(), getCollisionMask());
 }
 
-RigidBodyTrait::~RigidBodyTrait() {
+void RigidBodyTrait::onRemoveTrait() {
   if (body) {
     auto &phys = world.simulations.findFirstOfType<simulation::Physics>();
     Util::Log(Verbose, Tag) << "Removing body from phys world (" << id << ')';
     phys.getPhysicsWorld().removeRigidBody(body);
-    delete body;
   }
+}
+
+RigidBodyTrait::~RigidBodyTrait() {
+  delete body;
 }
 
 void RigidBodyTrait::setPosition(const Vector3f &val) {
