@@ -4,10 +4,12 @@
 namespace radix {
 
 struct Vector3f;
+struct Quaternion;
 
 struct Destination {
   Vector3f position;
   Vector3f rotation;
+  Quaternion orientation;
 };
 
 } /* namespace radix */

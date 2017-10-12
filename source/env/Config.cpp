@@ -12,7 +12,8 @@ Config::Config() :
   ignoreGlVersion(false),
   consoleEnabled(false),
   flyingEnabled(false),
-  profilerEnabled(false) {
+  profilerEnabled(false),
+  debugViewEnabled(false) {
 }
 
 
@@ -43,6 +44,7 @@ void Config::load() {
   glContextEnableDebug = debug["gl_context_debug"].bool_value();
   profilerEnabled = debug["profiler"]["enable"].bool_value();
   flyingEnabled = debug["flying"]["enable"].bool_value();
+  debugViewEnabled = debug["wireframes"]["enable"].bool_value();
   loaded = true;
 }
 
@@ -61,7 +63,7 @@ void Config::loadVideoSettings(const Json &json) {
 }
 
 void Config::loadSoundSettings(const Json &json) {
-  sound = json["enabled"].bool_value();
+  sound = json["enable"].bool_value();
 
 }
 

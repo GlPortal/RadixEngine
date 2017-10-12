@@ -31,7 +31,6 @@ radix::Config& World::getConfig() {
 void World::onCreate() {
   lastUpdateTime = SDL_GetTicks();
   camera = std::make_unique<Camera>();
-  entityPairs.insert(std::make_pair("portalPairs", std::vector<EntityPair>()));
 }
 
 void World::onStart() {
@@ -45,6 +44,7 @@ void World::update(TDelta dtime) {
   for (Entity &ent : entityManager) {
     ent.tick(dtime);
   }
+  entityManager.doMaintenance();
 }
 
 void World::onStop() {

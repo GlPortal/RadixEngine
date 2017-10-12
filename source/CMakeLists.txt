@@ -30,9 +30,10 @@ set(RADIX_SOURCES
   ${D}/EntityManager.cpp
   ${D}/entities/Player.cpp
   ${D}/entities/StaticModel.cpp
+  ${D}/entities/traits/HealthTrait.cpp
   ${D}/entities/traits/RigidBodyTrait.cpp
   ${D}/entities/traits/SoundSourceTrait.cpp
-  ${D}/entities/traits/HealthTrait.cpp
+  ${D}/entities/traits/Trait.cpp
   ${D}/entities/Trigger.cpp
   ${D}/env/ArgumentsParser.cpp
   ${D}/env/GameConsole.cpp

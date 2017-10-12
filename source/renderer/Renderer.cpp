@@ -59,7 +59,7 @@ void Renderer::updateLights(Shader& shader) {
     std::string distance = "lights[" + index + "].distance";
     std::string energy   = "lights[" + index + "].energy";
     std::string specular = "lights[" + index + "].specular";
-    const Vector3f &tposition = ls.getPosition();
+    const Vector3f &tposition = e.getPosition();
     glUniform3f(shader.uni(position.c_str()), tposition.x, tposition.y, tposition.z);
     glUniform3f(shader.uni(color.c_str()), ls.color.x, ls.color.y, ls.color.z);
     glUniform1f(shader.uni(distance.c_str()), ls.distance);
