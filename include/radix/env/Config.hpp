@@ -34,6 +34,7 @@ public:
   bool isHidePortalsByClick() const { return hidePortalsByClick; }
   bool isConsoleEnabled() const { return consoleEnabled; }
   bool isProfilerEnabled() const { return profilerEnabled; }
+  bool isFlyingEnabled() const { return flyingEnabled; }
   bool isDebugViewEnabled() const { return debugViewEnabled; }
   bool getCursorVisibility() const { return cursorVisibility; }
   bool getIgnoreGlVersion() const { return ignoreGlVersion; }
@@ -63,6 +64,7 @@ private:
   bool glContextEnableDebug;
   bool consoleEnabled;
   bool profilerEnabled;
+  bool flyingEnabled;
   bool debugViewEnabled;
   LogLevel loglevel;
   std::string map;

@@ -11,6 +11,7 @@ Config::Config() :
   loaded(false),
   ignoreGlVersion(false),
   consoleEnabled(false),
+  flyingEnabled(false),
   profilerEnabled(false),
   debugViewEnabled(false) {
 }
@@ -42,6 +43,7 @@ void Config::load() {
   const Json &debug = configJson["debug"];
   glContextEnableDebug = debug["gl_context_debug"].bool_value();
   profilerEnabled = debug["profiler"]["enable"].bool_value();
+  flyingEnabled = debug["flying"]["enable"].bool_value();
   debugViewEnabled = debug["wireframes"]["enable"].bool_value();
   loaded = true;
 }
