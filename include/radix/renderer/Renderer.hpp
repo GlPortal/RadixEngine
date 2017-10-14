@@ -94,6 +94,11 @@ public:
    * Remove a renderer from the render queue
    */
   void removeRenderer(SubRenderer& subRenderer);
+  
+  /**
+   * Get a renderer from its type_index
+   */
+  SubRenderer *getRenderer(const std::type_index &index);
 
   static Matrix4f getFrameView(const Matrix4f &src, const Matrix4f &in, const Matrix4f &out);
   static Matrix4f getFrameView(const Matrix4f &src, const Transform &in, const Transform &out) {

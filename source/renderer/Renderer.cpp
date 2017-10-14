@@ -211,4 +211,8 @@ void Renderer::removeRenderer(SubRenderer &subRenderer) {
   subRendererMap.erase(typeid(subRenderer));
 }
 
+SubRenderer *Renderer::getRenderer(const std::type_index &index) {
+  return subRendererMap.at(index);
+}
+
 } /* namespace radix */
