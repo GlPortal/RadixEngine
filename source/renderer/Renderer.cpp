@@ -202,10 +202,13 @@ bool Renderer::clipViewFrame(const RenderContext &rc, const Mesh &frame,
 
 void Renderer::addRenderer(SubRenderer &subRenderer) {
   subRenderers.push_back(&subRenderer);
+  subRendererMap.insert(std::make_pair<const std::type_index, SubRenderer*>(typeid(subRenderer),
+                                                                            &subRenderer));
 }
 
 void Renderer::removeRenderer(SubRenderer &subRenderer) {
   subRenderers.erase(std::remove(subRenderers.begin(), subRenderers.end(), &subRenderer), subRenderers.end());
+  subRendererMap.erase(typeid(subRenderer));
 }
 
 } /* namespace radix */

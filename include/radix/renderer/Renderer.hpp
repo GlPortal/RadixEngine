@@ -2,6 +2,8 @@
 #define RADIX_RENDERER_HPP
 
 #include <string>
+#include <map>
+#include <typeindex>
 
 #include <radix/Transform.hpp>
 #include <radix/World.hpp>
@@ -121,6 +123,7 @@ private:
   TextRenderer textRenderer;
 
   std::vector<SubRenderer*> subRenderers;
+  std::map<const std::type_index, SubRenderer*> subRendererMap;
   int vpWidth, vpHeight;
 };
 
