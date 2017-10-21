@@ -4,6 +4,19 @@ endif()
 
 set(D ${CMAKE_CURRENT_SOURCE_DIR})
 
+set(glxInfo 
+  ${D}/util/DebugInfo.cpp
+  ${D}/util/sdlInfo.cpp
+)
+if(WIN32)
+else()
+  list(APPEND glxInfo
+    ${D}/util/linux/glibcInfo.cpp
+    ${D}/util/linux/distroInfo.cpp
+    ${D}/util/linux/kernelInfo.cpp
+    ${D}/util/linux/hardwareInfo.cpp)
+endif()
+
 set(RADIX_SOURCES
   ${RADIX_SOURCES}
   ${D}/BaseGame.cpp
@@ -85,5 +98,6 @@ set(RADIX_SOURCES
   ${D}/util/XmlLoader.cpp
   ${D}/Window.cpp
   ${D}/World.cpp
+  ${glxInfo}
   PARENT_SCOPE
 )
