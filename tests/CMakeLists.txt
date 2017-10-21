@@ -18,3 +18,12 @@ endfunction(test)
 test(XmlHelperTest XmlHelperTest.cpp)
 test(QuaternionTest ./core/math/QuaternionTest.cpp)
 test(MathTest ./core/math/MathTest.cpp)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/util)
+test(DistroTest        ./util/DistroTest.cpp)
+test(KernelTest        ./util/KernelTest.cpp)
+test(CpuTest           ./util/CpuTest.cpp)
+test(MemTest           ./util/MemTest.cpp)
+test(SDL2Test          ./util/SDL2Test.cpp)
+test(OpenGLVersionTest ./util/OpenGLVersionTest.cpp)
+
