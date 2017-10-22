@@ -2,6 +2,7 @@
 #include <radix/data/map/WinTrigger.hpp>
 #include <radix/data/map/DeathTrigger.hpp>
 #include <radix/data/map/RadiationTrigger.hpp>
+#include <radix/data/map/ScreenTrigger.hpp>
 #include <radix/data/map/AudioTrigger.hpp>
 #include <radix/data/map/MapTrigger.hpp>
 #include <radix/data/map/XmlHelper.hpp>
@@ -46,6 +47,8 @@ void XmlTriggerHelper::extractTriggerActions(entities::Trigger &trigger, XMLElem
     extractMapTriggerActions(trigger, xmlElement);
   } else if (type == TeleportTrigger::TYPE) {
     extractDestinationTriggerActions(trigger, xmlElement);
+  } else if (type == ScreenTrigger::TYPE) {
+    extractScreenTriggerActions(trigger, xmlElement);
   } else {
     XmlHelper::throwMandatoryAttributeException("trigger type");
   }
@@ -73,6 +76,12 @@ void XmlTriggerHelper::extractDestinationTriggerActions(entities::Trigger &trigg
   std::string destination = XmlHelper::extractStringMandatoryAttribute(xmlElement, "destination");
   TeleportTrigger teleportTrigger = TeleportTrigger(destination);
   teleportTrigger.addAction(trigger);
+}
+
+void XmlTriggerHelper::extractScreenTriggerActions(entities::Trigger &trigger, XMLElement *xmlElement) {
+  std::string fileName = XmlHelper::extractStringMandatoryAttribute(xmlElement, "file");
+  ScreenTrigger screenTrigger = ScreenTrigger(fileName);
+  screenTrigger.addAction(trigger);
 }
 
 } /* namespace radix */
