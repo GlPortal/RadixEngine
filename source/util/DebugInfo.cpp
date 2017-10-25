@@ -5,6 +5,7 @@
 #include "windows\systemInfo.hpp"
 #elif defined(__MINGW32__)
 #endif //!_MSC_VER
+#include "radix/util/windows/systemInfo.hpp
 #else
 #include "radix/util/linux/kernelInfo.hpp"
 #include "radix/util/linux/hardwareInfo.hpp"

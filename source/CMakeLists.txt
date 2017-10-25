@@ -9,6 +9,8 @@ set(glxInfo
   ${D}/util/sdlInfo.cpp
 )
 if(WIN32)
+  list(APPEND glxInfo
+    ${D}/util/windows/systemInfo.cpp)
 else()
   list(APPEND glxInfo
     ${D}/util/linux/glibcInfo.cpp
