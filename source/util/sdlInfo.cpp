@@ -10,8 +10,7 @@ using map = SdlInfo::map;
 bool SdlInfo::isinitialized = false;
 
 bool SdlInfo::init_SDL() {
-  if (isinitialized)
-    return true;
+  if (isinitialized) return true;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "Can not Create SDL init\n";
@@ -22,20 +21,20 @@ bool SdlInfo::init_SDL() {
 }
 
 bool SdlInfo::destory_SDL() {
-  if (!isinitialized)
-    return false;
+  if (!isinitialized) return false;
 
   SDL_Quit();
   return (isinitialized = false);
 }
 
 bool SdlInfo::read_SDL(map& sdlVersion, map& displayServer, map& glVersionInfo,
-  map& gpu, map& cpuInfo, map& memInfo) {
+                       map& gpu, map& cpuInfo, map& memInfo) {
   if (!init_SDL()) return false;
 
   SDL_SysWMinfo sysinfo = {};
   // Create SDL window with OpenGL and Hidden
-  auto window = SDL_CreateWindow("", 0, 0, 0, 0, SDL_WINDOW_HIDDEN | SDL_WINDOW_OPENGL);
+  auto window =
+      SDL_CreateWindow("", 0, 0, 0, 0, SDL_WINDOW_HIDDEN | SDL_WINDOW_OPENGL);
   if (!window) {
     destory_SDL();
     return false;
@@ -92,13 +91,15 @@ bool SdlInfo::read_SDL(map& sdlVersion, map& displayServer, map& glVersionInfo,
 #endif
   }
   // Get GPU Vendor
-  std::string glVendor =  reinterpret_cast<char const*>(glGetString(GL_VENDOR));
+  std::string glVendor = reinterpret_cast<char const*>(glGetString(GL_VENDOR));
   gpu["glVendor"].swap(glVendor);
   // Get OpenGL Version
-  std::string glVersion = reinterpret_cast<char const*>(glGetString(GL_VERSION));
+  std::string glVersion =
+      reinterpret_cast<char const*>(glGetString(GL_VERSION));
   glVersionInfo["glVersion"].swap(glVersion);
   // Get Renderer
-  std::string glRenderer = reinterpret_cast<char const*>(glGetString(GL_RENDERER));
+  std::string glRenderer =
+      reinterpret_cast<char const*>(glGetString(GL_RENDERER));
   if (glRenderer.find("NVIDIA") != std::string::npos) {
     const GLenum GL_GPU_MEM_INFO_TOTAL_AVAILABLE_MEM_NVX = 0x9048;
     const GLenum GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX = 0x9049;
@@ -119,8 +120,8 @@ bool SdlInfo::read_SDL(map& sdlVersion, map& displayServer, map& glVersionInfo,
   gpu["glRenderer"].swap(glRenderer);
 
   cpuInfo["hyperThreadsCount"] = SDL_GetCPUCount();
-  cpuInfo["cacheSize"]         = SDL_GetCPUCacheLineSize();
-  memInfo["MemTotal"]          = SDL_GetSystemRAM();
+  cpuInfo["cacheSize"] = SDL_GetCPUCacheLineSize();
+  memInfo["MemTotal"] = SDL_GetSystemRAM();
 
   // CleanUp
   SDL_GL_DeleteContext(maincontext);

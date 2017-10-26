@@ -4,7 +4,7 @@
 using map = HardwareInfo::map;
 
 bool HardwareInfo::read_cpuInfo(map& info) {
-  //if (!info.empty()) return true;
+  // if (!info.empty()) return true;
   std::ifstream cpuInfo("/proc/cpuinfo");
 
   if (cpuInfo.is_open()) {

@@ -1,17 +1,14 @@
 #include "radix/util/DebugInfo.hpp"
 
 #ifdef _WINDOWS
-#if defined(_MSC_VER)
-#include "windows\systemInfo.hpp"
-#elif defined(__MINGW32__)
-#endif //!_MSC_VER
+#include "windows/systemInfo.hpp"
 #include "radix/util/windows/systemInfo.hpp
 #else
 #include "radix/util/linux/kernelInfo.hpp"
 #include "radix/util/linux/hardwareInfo.hpp"
 #include "radix/util/linux/distroInfo.hpp"
 #include "radix/util/linux/glibcInfo.hpp"
-#endif //!_WINDOWS
+#endif  //!_WINDOWS
 #include "radix/util/sdlInfo.hpp"
 #include <iostream>
 #include <fstream>
@@ -21,17 +18,16 @@ std::array<DebugInfo::stringMap, DebugInfo::COUNT> DebugInfo::mInfo;
 
 using map = std::unordered_map<std::string, std::string>;
 
-
 bool DebugInfo::isInitlized() {
   auto& kernelInfo = mInfo[DebugInfo::Kernel];
-  auto& cpuInfo    = mInfo[DebugInfo::CPU];
-  auto& memInfo    = mInfo[DebugInfo::Mem];
+  auto& cpuInfo = mInfo[DebugInfo::CPU];
+  auto& memInfo = mInfo[DebugInfo::Mem];
   auto& distroInfo = mInfo[DebugInfo::Distro];
-  auto& sdlInfo    = mInfo[DebugInfo::SDL_Version];
-  auto& disInfo    = mInfo[DebugInfo::DisplayServer];
-  auto& GPUInfo    = mInfo[DebugInfo::GPU];
-  auto& glInfo     = mInfo[DebugInfo::OpenGL];
-  auto& glibcInfo  = mInfo[DebugInfo::GLibC];
+  auto& sdlInfo = mInfo[DebugInfo::SDL_Version];
+  auto& disInfo = mInfo[DebugInfo::DisplayServer];
+  auto& GPUInfo = mInfo[DebugInfo::GPU];
+  auto& glInfo = mInfo[DebugInfo::OpenGL];
+  auto& glibcInfo = mInfo[DebugInfo::GLibC];
   SdlInfo::read_SDL(sdlInfo, disInfo, glInfo, GPUInfo, cpuInfo, memInfo);
   SdlInfo::destory_SDL();
 
@@ -45,7 +41,7 @@ bool DebugInfo::isInitlized() {
 #ifdef _WINDOWS
   systemInfo::readSystemInfo(kernelInfo, cpuInfo, memInfo);
 
-  distroInfo["NAME"]       = "Windows";
+  distroInfo["NAME"] = "Windows";
   distroInfo["VERSION_ID"] = systemInfo::getWindowsName();
 #else
   // Read Kernel Info
@@ -61,7 +57,6 @@ bool DebugInfo::isInitlized() {
 #endif
   return true;
 }
-
 
 std::string DebugInfo::getKernel_Name() {
   auto& kernel = mInfo[DebugInfo::Kernel];
