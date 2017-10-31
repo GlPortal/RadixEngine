@@ -9,6 +9,7 @@
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/core/math/Math.hpp>
+#include <radix/Radix.hpp>
 
 namespace radix {
 

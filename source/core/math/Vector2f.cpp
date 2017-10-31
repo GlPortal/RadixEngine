@@ -10,6 +10,7 @@
 ** -------------------------------------------------------------------------*/
 
 #include <radix/core/math/Vector2f.hpp>
+#include <radix/Radix.hpp>
 
 #include <cmath>
 #include <sstream>

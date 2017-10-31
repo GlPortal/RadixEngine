@@ -1,6 +1,6 @@
 #include <radix/core/event/EventDispatcher.hpp>
-
 #include <radix/env/Util.hpp>
+#include <radix/Radix.hpp>
 
 static const char *Tag = "EventDispatcher";
 

@@ -149,36 +149,48 @@ void ShaderLoader::checkShader(unsigned int shader, const std::string &path, Sha
   }
 }
 
+
+int file_get_contents(const char *path, char **buffer, size_t *out_filesize) {
+
+	FILE *file = fopen(path, "rb");
+	if (file == NULL) {
+		*buffer = NULL;
+		*out_filesize = 0;
+		return 0;
+	}
+	size_t filesize;
+	fseek(file, 0, SEEK_END);
+	filesize = ftell(file);
+	*buffer = (char *)malloc(filesize + 1); // no matter what, add \0 at end
+	fseek(file, 0L, SEEK_SET);
+	fread(*buffer, filesize, 1, file);
+	fclose(file);
+	(*buffer)[filesize] = 0; // end string
+	if (out_filesize)
+		*out_filesize = filesize;
+	return 1;
+}
+
 unsigned int ShaderLoader::loadShader(const std::string &path,
                                       Shader::Type type) {
-  // Read file and point to end of file
-  std::ifstream file(path, std::ifstream::ate);
-  if (not file.is_open()) {
-    Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
-  }
-  // Get file size
-  auto fileSize = static_cast<std::size_t>(file.tellg());
-  // Point back to beginning of the file
-  file.seekg(std::ifstream::beg);
-
-  // Create buffer with file size + 1
-  std::unique_ptr<char[]> file_contents(new char[fileSize+1]);
-  // Get pointer to the buffer
-  char *buffer = file_contents.get();
-  // Read file to buffer
-  file.read(buffer, static_cast<long>(fileSize));
-  // Set end of buffer to 0
-  file_contents[fileSize] = 0;
-
   // Create GL Shader
   GLuint shader = glCreateShader(getGlShaderType(type));
+
+  char *filecontent;
+  size_t filecontent_bytes;
+  int ret = file_get_contents(path.c_str(), &filecontent, &filecontent_bytes);
+  if (not ret)
+	  Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
+
   // Read buffer to OpenGL Driver
-  glShaderSource(shader, 1, &buffer, NULL);
+  glShaderSource(shader, 1, &filecontent, NULL);
   // Compile Shader
   glCompileShader(shader);
 
   // Error checking
   checkShader(shader, path, type);
+
+  free(filecontent);
 
   return shader;
 }

@@ -1,10 +1,11 @@
 #include <radix/core/diag/StdoutLogger.hpp>
+#include <radix/Radix.hpp>
 
 #include <iostream>
 
 namespace radix {
 
-const char* StdoutLogger::getName() const {
+const char *StdoutLogger::getName() const {
   return "stdout logger";
 }
 
