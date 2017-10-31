@@ -8,6 +8,8 @@
 #include <radix/core/diag/Logger.hpp>
 using namespace json11;
 
+#include <radix/Radix.hpp>
+
 namespace radix {
 
 class ArgumentsParser;

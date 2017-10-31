@@ -30,6 +30,7 @@ what we need.
 
 #include <radix/physics/KinematicCharacterController.hpp>
 #include <radix/physics/Uncollider.hpp>
+#include <radix/Radix.hpp>
 
 namespace radix {
 

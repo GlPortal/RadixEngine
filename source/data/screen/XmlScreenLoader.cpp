@@ -1,5 +1,6 @@
 #include <radix/data/screen/XmlScreenLoader.hpp>
 #include <radix/env/Util.hpp>
+#include <radix/Radix.hpp>
 
 using namespace tinyxml2;
 

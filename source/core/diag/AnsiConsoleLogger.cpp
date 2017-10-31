@@ -1,8 +1,12 @@
 #include <radix/core/diag/AnsiConsoleLogger.hpp>
+#include <radix/Radix.hpp>
 
 #include <algorithm>
 #include <iostream>
+
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 using std::cout;
 
@@ -27,6 +31,7 @@ static const struct LogLevelOutputInfo {
 AnsiConsoleLogger::AnsiConsoleLogger() :
   enableColors(true),
   enableBackground(false) {
+#ifndef _WIN32
   const auto term = getenv("TERM");
   const bool tty = isatty(fileno(stdout));
   if (not tty or
@@ -35,6 +40,7 @@ AnsiConsoleLogger::AnsiConsoleLogger() :
     // This is also what's reported by some IDEs' output window which aren't full fledged terminals
     enableColors = false;
   }
+#endif
 }
 
 const char* AnsiConsoleLogger::getName() const {

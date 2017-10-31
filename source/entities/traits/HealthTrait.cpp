@@ -3,6 +3,7 @@
 #include <serine/Archiver.hpp>
 
 #include <radix/core/math/Math.hpp>
+#include <radix/Radix.hpp>
 
 namespace radix {
 namespace entities {

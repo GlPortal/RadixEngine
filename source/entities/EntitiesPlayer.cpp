@@ -2,7 +2,7 @@
 
 #include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
 
-#include <SDL2/SDL_scancode.h>
+#include <SDL_scancode.h>
 
 #include <radix/env/Environment.hpp>
 #include <radix/input/InputSource.hpp>

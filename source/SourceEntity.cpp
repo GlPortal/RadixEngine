@@ -11,6 +11,10 @@ namespace radix {
 Entity::Entity(const CreationParams &cp) :
   world(cp.world), id(cp.id) {
 }
+
+entity::Entity::~Entity() {
+}
+
 Entity::~Entity() {
 }
 
