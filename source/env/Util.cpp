@@ -61,7 +61,7 @@ static void WinSetThreadName(uint32_t dwThreadID, const char **threadName) {
 }
 
 void Util::SetCurrentThreadName(const char *name) {
-  DWORD threadId = ::GetThreadId(static_cast<HANDLE>(GetCurrentThreadId()));
+  DWORD threadId = ::GetThreadId((HANDLE)(GetCurrentThreadId()));
   WinSetThreadName(threadId, &name);
 }
 #elif __APPLE__
