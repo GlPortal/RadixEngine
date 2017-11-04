@@ -2,12 +2,14 @@
 
 #include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
 
-#include <SDL2/SDL_scancode.h>
-
 #include <radix/env/Environment.hpp>
-#include <radix/input/InputSource.hpp>
 #include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
+#include <radix/BaseGame.hpp>
+
+#include <cmath>
+#include <array>
+#include <string>
 
 namespace radix {
 namespace entities {
@@ -82,64 +84,37 @@ void Player::tick(TDelta dtime) {
     return;
   }
 
-  // Head rotation
-  // TODO: don't use SDL directly
-  int mousedx, mousedy;
-  SDL_GetRelativeMouseState(&mousedx, &mousedy);
-  // Apply mouse movement to view
-  if (world.getConfig().isLoaded()) {
-    headAngle.attitude -= rad(mousedy * world.getConfig().getSensitivity());
-    headAngle.heading  -= rad(mousedx * world.getConfig().getSensitivity());
-  } else {
-    headAngle.attitude -= rad(mousedy * 0.30);
-    headAngle.heading  -= rad(mousedx * 0.30);
-  }
-  headAngle.tilt *= 0.8;
+  InputManager &input = world.game.getInputManager();
 
+  float look_x = input.getState(InputManager::PLAYER_LOOK_X);
+  float look_y = input.getState(InputManager::PLAYER_LOOK_Y);
+  headAngle.attitude -= look_y;
+  headAngle.heading  -= look_x;
+  headAngle.tilt *= 0.8f;
   // Restrict rotation in horizontal axis
-  headAngle.attitude = Math::clamp(headAngle.attitude, rad(-89.99), rad(89.99));
-
-  InputSource &input = *world.input;
-  bool movingFwd     = input.isKeyDown(SDL_SCANCODE_W) or input.isKeyDown(SDL_SCANCODE_UP),
-       movingBack    = input.isKeyDown(SDL_SCANCODE_S) or input.isKeyDown(SDL_SCANCODE_DOWN),
-       strafingLeft  = input.isKeyDown(SDL_SCANCODE_A) or input.isKeyDown(SDL_SCANCODE_LEFT),
-       strafingRight = input.isKeyDown(SDL_SCANCODE_D) or input.isKeyDown(SDL_SCANCODE_RIGHT),
-       jumping       = input.isKeyDown(SDL_SCANCODE_SPACE) or
-                       input.isKeyDown(SDL_SCANCODE_BACKSPACE);
+  headAngle.attitude = Math::clamp(headAngle.attitude, rad(-89.99f), rad(89.99f));
+  
   float rot = headAngle.heading;
-  Vector3f movement;
+  Vector3f movement = input.getPlayerMovementVector();
   privSetPosition(obj->getWorldTransform().getOrigin());
 
-  if (jumping and controller->canJump()) {
+  Matrix4f rotationMatrix;
+  rotationMatrix.rotate(rot, 0.0f, 1.0f, 0.0f);
+  movement = rotationMatrix * movement;
+  movement *= RUNNING_SPEED;
+
+  if ((input.getState(InputManager::PLAYER_JUMP) > 0.3f) and controller->canJump()) {
     std::uniform_int_distribution<> dis(0, PLAYER_JUMP_SOUND.size()-1);
     playSound(Environment::getDataDir() + PLAYER_JUMP_SOUND[dis(Util::Rand)]);
     controller->jump();
   }
 
-  if (movingFwd || movingBack || strafingLeft || strafingRight) {
+  if ((movement.x != 0.0f)||(movement.y != 0.0f)) {
     if (trigger) {
       trigger->actionOnMove(*trigger);
     }
   }
-
-  if (movingFwd) {
-    movement.x += -sin(rot);
-    movement.z += -cos(rot);
-  }
-  if (movingBack) {
-    movement.x += sin(rot);
-    movement.z += cos(rot);
-  }
-  if (strafingLeft) {
-    movement.x += -cos(rot);
-    movement.z += sin(rot);
-  }
-  if (strafingRight) {
-    movement.x += cos(rot);
-    movement.z += -sin(rot);
-  }
-
-  movement *= RUNNING_SPEED;
+  
   controller->setWalkDirection(movement);
 
   if (controller->onGround()) {
