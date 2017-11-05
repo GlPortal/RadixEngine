@@ -13,7 +13,7 @@ class InputSource;
 class InputManager {
 public:
 	enum Action : int8_t {
-		ACTION_INVALID = -1;
+		ACTION_INVALID = -1,
 		PLAYER_MOVE_X = 0,
 		PLAYER_MOVE_Y = 1,
 		PLAYER_LOOK_X = 2,
