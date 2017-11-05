@@ -1,5 +1,7 @@
 #include <radix/input/InputManager.hpp>
 
+#include <cmath>
+
 #include <radix/env/Config.hpp>
 #include <radix/input/InputSource.hpp>
 #include <radix/input/Bind.hpp>

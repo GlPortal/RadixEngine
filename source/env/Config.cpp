@@ -61,8 +61,6 @@ void Config::load() {
   }
   Json configJson = Json::parse(templateTxt, err);
 
-  Util::Log(Warning, "Config") << configJson["video"].is_number() << configJson["video"].is_object() << configJson["video"].is_array();
-
   this->loadVideoSettings(configJson["video"]);
   this->loadSoundSettings(configJson["sound"]);
   this->loadMouseSettings(configJson["mouse"]);

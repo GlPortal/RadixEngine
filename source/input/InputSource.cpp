@@ -45,6 +45,10 @@ int InputSource::mouseGetButtonFromString(const std::string &buttonStr) {
     return (int)MouseButton::MOUSE_BUTTON_MIDDLE;
   } else if (buttonStr == "mouse_right") {
     return (int)MouseButton::MOUSE_BUTTON_RIGHT;
+  } else if (buttonStr == "mouse_aux_1") {
+    return (int)MouseButton::MOUSE_BUTTON_AUX1;
+  } else if (buttonStr == "mouse_aux_2") {
+    return (int)MouseButton::MOUSE_BUTTON_AUX2;
   } else {
     return (int)MouseButton::MOUSE_BUTTON_INVALID;
   }

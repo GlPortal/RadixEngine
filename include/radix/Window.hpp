@@ -255,11 +255,11 @@ private:
   SDL_Joystick *joystick;
   SDL_GameController* controller;
 
-  std::vector<bool> keystates;              /**< Keyboard key pressed status */
-  std::vector<bool> controllerbuttonstates; /**< Controller button pressed status */
-  std::vector<bool> mousebuttonstates;  /**< Mouse button pressed status */
-  int mouse_xrel;                           /**< Mouse relative x movement */
-  int mouse_yrel;                           /**< Mouse relative y movement */
+  std::vector<bool> keyStates;              /**< Keyboard key pressed status */
+  std::vector<bool> controllerButtonStates; /**< Controller button pressed status */
+  std::vector<bool> mouseButtonStates;  /**< Mouse button pressed status */
+  int mouseRelativeX;                           /**< Mouse relative x movement */
+  int mouseRelativeY;                           /**< Mouse relative y movement */
   std::string       charbuffer;             /**< Text input buffer */
 
   static const char*        DEFAULT_TITLE;  /**< Default Title Name */

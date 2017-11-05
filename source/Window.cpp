@@ -30,9 +30,9 @@ Window::Window() :
   window(nullptr),
   controller(NULL),
   joystick(NULL),
-  keystates(SDL_NUM_SCANCODES),
-  controllerbuttonstates(SDL_CONTROLLER_BUTTON_MAX),
-  mousebuttonstates(10) {}
+  keyStates(SDL_NUM_SCANCODES),
+  controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
+  mouseButtonStates((int)MouseButton::MOUSE_BUTTON_MAX) {}
 
 Window::~Window() = default;
 
@@ -202,7 +202,7 @@ void Window::processEvents() {
   // SDL only creates mouse motion events if the relative motion is above some threshhold which is pretty high
   // so the relative movement must be acquired manually
 
-  SDL_GetRelativeMouseState(&mouse_xrel, &mouse_yrel);
+  SDL_GetRelativeMouseState(&mouseRelativeX, &mouseRelativeY);
 
   while (SDL_PollEvent(&event)) {
     int key = event.key.keysym.scancode;
@@ -258,7 +258,7 @@ void Window::processEvents() {
       break;
     }
     case SDL_MOUSEMOTION: {
-      const MouseMovedEvent mre(*this, mouse_xrel, mouse_yrel);
+      const MouseMovedEvent mre(*this, mouseRelativeX, mouseRelativeY);
       for (auto &d : dispatchers) {
         d.get().dispatch(mre);
       }
@@ -317,13 +317,13 @@ void Window::processMouseButtonEvents(const SDL_Event &event) {
 
   // Dispatch mouse event to subscribed listeners
   if (event.type == SDL_MOUSEBUTTONDOWN) {
-    mousebuttonstates[int(button)] = true;
+    mouseButtonStates[int(button)] = true;
     const MouseButtonPressedEvent mbpe(*this, button);
     for (auto &d : dispatchers) {
       d.get().dispatch(mbpe);
     }
   } else {
-    mousebuttonstates[int(button)] = false;
+    mouseButtonStates[int(button)] = false;
     const MouseButtonReleasedEvent mbre(*this, button);
     for (auto &d : dispatchers) {
       d.get().dispatch(mbre);
@@ -439,7 +439,7 @@ void Window::processWindowEvents(const SDL_Event &event) {
 }
 
 void Window::keyPressed(const KeyboardKey &key, const KeyboardModifier &mod) {
-  keystates[key] = true;
+  keyStates[key] = true;
   const KeyPressedEvent kpe(*this, key, mod);
   for (auto &d : dispatchers) {
     d.get().dispatch(kpe);
@@ -447,7 +447,7 @@ void Window::keyPressed(const KeyboardKey &key, const KeyboardModifier &mod) {
 }
 
 void Window::keyReleased(const KeyboardKey &key, const KeyboardModifier &mod) {
-  keystates[key] = false;
+  keyStates[key] = false;
   const KeyReleasedEvent kre(*this, key, mod);
   for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
     d.get().dispatch(kre);
@@ -455,12 +455,12 @@ void Window::keyReleased(const KeyboardKey &key, const KeyboardModifier &mod) {
 }
 
 bool Window::isKeyDown(const KeyboardKey &key) {
-  return keystates[key];
+  return keyStates[key];
 }
 
-// controller index is unused as of now as I only check the the first controller added
+// controller index is unused as of now, only the the first controller added is checked
 void Window::controllerButtonPressed(const ControllerButton &button, const ControllerIndex &index) {
-  this->controllerbuttonstates[button] = true;
+  this->controllerButtonStates[button] = true;
   const ControllerButtonPressedEvent cbpe(*this, button, index);
   for (auto &d : dispatchers) {
     d.get().dispatch(cbpe);
@@ -468,7 +468,7 @@ void Window::controllerButtonPressed(const ControllerButton &button, const Contr
 }
 
 void Window::controllerButtonReleased(const ControllerButton &button, const ControllerIndex &index) {
-  this->controllerbuttonstates[button] = false;
+  this->controllerButtonStates[button] = false;
   const ControllerButtonReleasedEvent cbre(*this, button, index);
   for (auto &d : dispatchers) {
     d.get().dispatch(cbre);
@@ -476,7 +476,7 @@ void Window::controllerButtonReleased(const ControllerButton &button, const Cont
 }
 
 bool Window::isControllerButtonDown(const ControllerButton &button, const ControllerIndex &index) {
-  return this->controllerbuttonstates[button];
+  return this->controllerButtonStates[button];
 }
 
 int Window::getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) {
@@ -484,14 +484,14 @@ int Window::getControllerAxisValue(const ControllerAxis &axis, const ControllerI
 }
 
 bool Window::isMouseButtonDown(const int &button) {
-  return this->mousebuttonstates[button];
+  return this->mouseButtonStates[button];
 }
 
 int Window::getRelativeMouseAxisValue(const int &axis) {
   if (axis == int(MouseAxis::MOUSE_AXIS_X)) {
-    return mouse_xrel;
+    return mouseRelativeX;
   } else if (axis == int(MouseAxis::MOUSE_AXIS_Y)) {
-    return mouse_yrel;
+    return mouseRelativeY;
   } else {
     return 0;
   }
@@ -518,7 +518,7 @@ void Window::truncateCharBuffer() {
 }
 
 void Window::clear() {
-  keystates.clear();
+  keyStates.clear();
 }
 
 void Window::printScreenToFile(const std::string& fileName) {
