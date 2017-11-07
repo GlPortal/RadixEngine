@@ -39,10 +39,6 @@ struct Vector2ui {
     return x != v.x || y != v.y;
   }
 
-  constexpr Vector2ui operator-() const {
-    return Vector2ui(-x, -y);
-  }
-
   constexpr Vector2ui operator+(const Vector2ui& v) const {
     return Vector2ui(x + v.x, y + v.y);
   }

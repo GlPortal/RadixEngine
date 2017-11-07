@@ -169,6 +169,7 @@ unsigned int ShaderLoader::loadShader(const std::string &path,
   file.read(buffer, static_cast<long>(fileSize));
   // Set end of buffer to 0
   file_contents[fileSize] = 0;
+  file_contents[file.gcount()] = 0; // might have read less bytes than fileSize
 
   // Create GL Shader
   GLuint shader = glCreateShader(getGlShaderType(type));
