@@ -18,6 +18,7 @@ Fps BaseGame::fps;
 BaseGame::BaseGame() :
     config(),
     gameWorld(window),
+    inputManager(window),
     closed(false) {
   radix::Environment::init();
   config = Environment::getConfig();
@@ -30,6 +31,7 @@ BaseGame::BaseGame() :
   }
 
   window.setConfig(config);
+  inputManager.setConfig(config);
 }
 
 BaseGame::~BaseGame() {
@@ -71,6 +73,10 @@ bool BaseGame::isRunning() {
 
 World* BaseGame::getWorld() {
   return world.get();
+}
+
+Config& BaseGame::getConfig() {
+  return config;
 }
 
 void BaseGame::switchToOtherWorld(const std::string &name) {

@@ -7,9 +7,9 @@
 
 #include <SDL2/SDL_video.h>
 
+#include <radix/env/Config.hpp>
 #include <radix/input/InputSource.hpp>
 #include <radix/Viewport.hpp>
-#include <radix/env/Config.hpp>
 #include <radix/core/math/Vector2i.hpp>
 
 namespace radix {
@@ -90,22 +90,72 @@ public:
    * @param key input keyboard type
    * @param mod input keyboard mode
    */
-  void keyPressed(KeyboardKey key, KeyboardModifier mod) override;
+  void keyPressed(const KeyboardKey &key, const KeyboardModifier &mod) override;
 
   /**
    * @brief keyReleased handle released keyboard input
    * @param key input keyboard type
    * @param mod input keyboard modifier
    */
-  void keyReleased(KeyboardKey key, KeyboardModifier mod) override;
+  void keyReleased(const KeyboardKey &key, const KeyboardModifier &mod) override;
 
   /**
    * @brief isKeyDown check keyboard status
    * @param key input keyboard type
    * @return if key is pressed
    */
-  bool isKeyDown(KeyboardKey key) override;
+  bool isKeyDown(const KeyboardKey &key) override;
   /**@} */
+
+  /**
+    * @name controller methods
+    *@{ */
+  /**
+   * @brief controllerButtonPressed handle pressed controller button input
+   * @param button input button type
+   */
+  void controllerButtonPressed(const ControllerButton &button, const ControllerIndex &index) override;
+
+  /**
+   * @brief controllerButtonPressed handle released controller button input
+   * @param button input button type
+   */
+  void controllerButtonReleased(const ControllerButton &button, const ControllerIndex &index) override;
+
+  /**
+   * @brief controllerButtonPressed check controller button status
+   * @param button input button type
+   * @return if button is depressed
+   */
+  bool isControllerButtonDown(const ControllerButton &button, const ControllerIndex &index) override;
+
+  /**
+   * @brief getControllerAxisValue check controller axis value
+   * @param axis axis index
+   * @param index controller index
+   */
+  int getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) override;
+  /**@} */
+
+  /**
+   * @brief controllerButtonPressed check mouse button status
+   * @param button input button type
+   * @return if button is depressed
+   */
+  bool isMouseButtonDown(const int &button) override;
+
+  /**
+   * @brief getMouseAxisValue get mouse axis value
+   * @param axis x or y
+   */
+  int getRelativeMouseAxisValue(const int &axis) override;
+
+  /**
+   * @brief getRelativeMouseState track mouse movement
+   * @param dx mouse x movement
+   * @param dy mouse y movement
+   */
+  void getRelativeMouseState(int *dx, int *dy) override;
 
   /**
    * @name CharBuffer methods
@@ -173,14 +223,14 @@ private:
    * and dispatch to subscribed listeners
    * @param event input mouse event
    */
-  void processMouseButtonEvents(SDL_Event &event);
+  void processMouseButtonEvents(const SDL_Event &event);
 
   /**
    * @brief processWindowEvents get window event
    * and dispatch to subscribed listeners
    * @param event input window event
    */
-  void processWindowEvents(SDL_Event &event);
+  void processWindowEvents(const SDL_Event &event);
 
   /** 
   * @brief  getOpenGlVersionString Create OpenGL version string
@@ -197,13 +247,20 @@ private:
   void initGl();
 
 
-  unsigned int  width;          /**< main screen width */
-  unsigned int  height;         /**< main screen height */
-  SDL_Window   *window;         /**< SDL identifier for current window */
-  SDL_GLContext context;        /**< SDL Handler for OpenGL Context */
+  unsigned int  width;                      /**< main screen width */
+  unsigned int  height;                     /**< main screen height */
+  SDL_Window   *window;                     /**< SDL identifier for current window */
+  SDL_GLContext context;                    /**< SDL Handler for OpenGL Context */
 
-  std::vector<bool> keystates;  /**< Keyboard pressed key status */
-  std::string       charbuffer; /**< Text input buffer */
+  SDL_Joystick *joystick;
+  SDL_GameController* controller;
+
+  std::vector<bool> keyStates;              /**< Keyboard key pressed status */
+  std::vector<bool> controllerButtonStates; /**< Controller button pressed status */
+  std::vector<bool> mouseButtonStates;  /**< Mouse button pressed status */
+  int mouseRelativeX;                           /**< Mouse relative x movement */
+  int mouseRelativeY;                           /**< Mouse relative y movement */
+  std::string       charbuffer;             /**< Text input buffer */
 
   static const char*        DEFAULT_TITLE;  /**< Default Title Name */
   static const unsigned int DEFAULT_WIDTH;  /**< Default Window width */

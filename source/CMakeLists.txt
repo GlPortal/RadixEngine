@@ -43,6 +43,7 @@ set(RADIX_SOURCES
   ${D}/env/Util.cpp
   ${D}/GameWorld.cpp
   ${D}/input/InputSource.cpp
+  ${D}/input/InputManager.cpp
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapLoader.cpp
