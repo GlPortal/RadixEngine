@@ -58,14 +58,14 @@ void InputManager::update() {
   states[PLAYER_MOVE_Y] += states[PLAYER_BACK] - states[PLAYER_FORWARD];
 
   for (int i(0); i < ACTION_MAX; ++i) {
-  	if ((i != PLAYER_LOOK_X) && (i != PLAYER_LOOK_Y)) {
+  	if (i != PLAYER_LOOK_X and i != PLAYER_LOOK_Y) {
   		states[i] = Math::clamp(states[i], -1.0f, 1.0f);
   	}
   }
 }
 
 float InputManager::getState(const int &state) const {
-	if ((state >= 0)&&(state < ACTION_MAX)) {
+	if (state >= 0 and state < ACTION_MAX) {
 		return states[state];
 	} else {
 		throw Exception::Error("InputManager", "Requested state out of bounds");

@@ -103,13 +103,13 @@ void Player::tick(TDelta dtime) {
   movement = rotationMatrix * movement;
   movement *= RUNNING_SPEED;
 
-  if ((input.getState(InputManager::PLAYER_JUMP) > 0.3f) and controller->canJump()) {
+  if (input.getState(InputManager::PLAYER_JUMP) > 0.3f and controller->canJump()) {
     std::uniform_int_distribution<> dis(0, PLAYER_JUMP_SOUND.size()-1);
     playSound(Environment::getDataDir() + PLAYER_JUMP_SOUND[dis(Util::Rand)]);
     controller->jump();
   }
 
-  if ((movement.x != 0.0f)||(movement.y != 0.0f)) {
+  if (movement.x != 0.0f or movement.y != 0.0f) {
     if (trigger) {
       trigger->actionOnMove(*trigger);
     }
