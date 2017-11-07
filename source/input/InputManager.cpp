@@ -1,6 +1,6 @@
 #include <radix/input/InputManager.hpp>
 
-#include <cmath>
+#include <cstdlib>
 
 #include <radix/env/Config.hpp>
 #include <radix/input/InputSource.hpp>
