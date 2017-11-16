@@ -76,7 +76,7 @@ World* BaseGame::getWorld() {
 void BaseGame::switchToOtherWorld(const std::string &name) {
   auto it = otherWorlds.find(name);
   if (it == otherWorlds.end()) {
-    throw std::out_of_range("No otherworld by this name");
+    throw std::out_of_range("No other world by this name");
   }
   setWorld(std::move(it->second));
   otherWorlds.erase(it);
