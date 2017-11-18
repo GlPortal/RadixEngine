@@ -9,14 +9,7 @@ namespace radix {
 class GameState {
 public:
   struct WinEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/GameState:Win";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
+    radix_event_declare("radix/GameState:Win")
 
     WinEvent() {}
   };

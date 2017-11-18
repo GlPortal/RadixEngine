@@ -2,6 +2,7 @@
 
 #include <utility>
 
+#include <radix/entities/traits/Trait.hpp>
 #include <radix/World.hpp>
 
 static const char *Tag = "Entity";

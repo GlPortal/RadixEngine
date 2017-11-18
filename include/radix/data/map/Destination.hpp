@@ -1,10 +1,10 @@
 #ifndef RADIX_DESTINATION_HPP
 #define RADIX_DESTINATION_HPP
 
-namespace radix {
+#include <radix/core/math/Quaternion.hpp>
+#include <radix/core/math/Vector3f.hpp>
 
-struct Vector3f;
-struct Quaternion;
+namespace radix {
 
 struct Destination {
   Vector3f position;
