@@ -15,12 +15,12 @@ ScreenRenderer::ScreenRenderer(World &w, Renderer &ren, GameWorld &gw) :
   gameWorld(gw) { }
 
 void ScreenRenderer::render() {
-  for (Screen *screen : *gameWorld.getScreens()) {
+  for (Screen &screen : *gameWorld.getScreens()) {
     renderScreen(screen);
   }
 }
 
-void ScreenRenderer::renderScreen(Screen *screen) {
+void ScreenRenderer::renderScreen(Screen &screen) {
   PROFILER_BLOCK("ScreenRenderer::renderScreen", profiler::colors::LightGreen100);
   glDepthMask(GL_FALSE);
 
@@ -38,20 +38,21 @@ void ScreenRenderer::renderScreen(Screen *screen) {
   Shader &shader = ShaderLoader::getShader("color.frag");
 
   shader.bind();
-  glUniform4f(shader.uni("color"), screen->color.r, screen->color.g, screen->color.b, screen->color.a);
+  glUniform4f(shader.uni("color"), screen.color.r, screen.color.g, screen.color.b, screen.color.a);
   renderer.renderMesh(*renderContext, shader, widget, mesh);
 
   shader.release();
 
-  for (unsigned int i = 0; i < screen->text.size(); i++) {
-    screen->text[i].font = "Pacaya";
-    Font font = FontLoader::getFont(screen->text[i].font);
-    font.size = screen->text[i].size;
-    int textWidth = font.getStringLength(screen->text[i].content);
-    Vector3f position(0, 0, screen->text[i].z);
+  for (unsigned int i = 0; i < screen.text.size(); i++) {
+    screen.text[i].font = "Pacaya";
+    Util::Log(Debug, "ScreenRenderer") << screen.text[i].content << " " << i;
+    Font font = FontLoader::getFont(screen.text[i].font);
+    font.size = screen.text[i].size;
+    int textWidth = font.getStringLength(screen.text[i].content);
+    Vector3f position(0, 0, screen.text[i].z);
 
-    position.y = viewportHeight - screen->text[i].top;
-    Text::Align textAlign = screen->text[i].align;
+    position.y = viewportHeight - screen.text[i].top;
+    Text::Align textAlign = screen.text[i].align;
     if (textAlign == Text::Center) {
       position.x = xAxisViewportCenter - (textWidth / 2);
     } else if (textAlign == Text::Left) {
@@ -60,9 +61,9 @@ void ScreenRenderer::renderScreen(Screen *screen) {
       position.x = (xAxisViewportCenter + viewportWidth / 4) - (textWidth / 2);
     }
 
-    screen->text[i].position = position;
+    screen.text[i].position = position;
 
-    renderer.renderText(*renderContext, screen->text[i]);
+    renderer.renderText(*renderContext, screen.text[i]);
   }
 
   glDepthMask(GL_TRUE);

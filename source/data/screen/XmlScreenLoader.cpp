@@ -1,39 +1,49 @@
 #include <radix/data/screen/XmlScreenLoader.hpp>
 #include <radix/env/Util.hpp>
+#include <radix/World.hpp>
+#include <radix/BaseGame.hpp>
+#include <radix/data/map/XmlHelper.hpp>
 
 using namespace tinyxml2;
 
 namespace radix {
 
-std::map<std::string, std::shared_ptr<Screen>> XmlScreenLoader::screenCache = { };
 const std::string XmlScreenLoader::MODULE_NAME = "XmlScreenLoader";
+std::map<std::string, ScreenConstructor> XmlScreenLoader::screenCache;
 
-Screen& XmlScreenLoader::getScreen(const std::string &path) {
+Screen& XmlScreenLoader::getScreen(World &world, const std::string &path) {
   auto it = screenCache.find(path);
   if (it != screenCache.end()) {
-    return *it->second;
+    Util::Log(Debug, "XmlScreenLoader") << "I am getting called!";
+    ScreenConstructor &constructor = it->second;
+    auto screen = construct(world, constructor);
+    return *screen;
   }
 
-  std::shared_ptr<Screen> screen = loadScreen(path);
-  screenCache.insert(std::make_pair(path, screen));
+  ScreenConstructor constructor = loadConstructor(path);
+  screenCache.insert(std::make_pair(path, constructor));
+  auto screen = construct(world, constructor);
   return *screen;
 }
 
-std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
+ScreenConstructor XmlScreenLoader::loadConstructor(const std::string &path) {
   XMLDocument doc(true, COLLAPSE_WHITESPACE);
   XMLError error = doc.LoadFile(path.c_str());
   const std::string &module = XmlScreenLoader::MODULE_NAME;
   
   if (error == 0) {
-    std::shared_ptr<Screen> screen = std::make_shared<Screen>(); //setup screen pointer
+    ScreenConstructor screen; //setup screen constructor
     XMLHandle docHandle(&doc);
     XMLElement *element  = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
 
-    if (not loadText(rootHandle, &screen->text)) {
+    std::string key = XmlHelper::extractStringAttribute(element, "key");
+    screen.key = key;
+    
+    if (not loadText(rootHandle, &screen.text)) {
       XmlScreenLoader::handleFailureForElement(module, std::string("text"), path);
     }
-    if (not extractColor(element, &screen->color)) {
+    if (not extractColor(element, &screen.color)) {
       XmlScreenLoader::handleFailureForElement(module, std::string("color"), path);
     }
 
@@ -42,6 +52,10 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
     return screen;
   }
   throw std::runtime_error("Failed to load " + path + ": " + errorName(error));
+}
+
+std::shared_ptr<Screen> XmlScreenLoader::construct(World &world, const ScreenConstructor &constructor) {
+  return std::make_shared<Screen>(world, constructor);
 }
 
 bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* textVector) {

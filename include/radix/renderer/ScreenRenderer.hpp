@@ -11,14 +11,14 @@
 
 namespace radix {
 
-class ScreenRenderer : public SubRenderer{
+class ScreenRenderer : public SubRenderer {
 public:
   ScreenRenderer(World& w, Renderer& ren, GameWorld& gw);
 
   void render();
 
 private:
-  void renderScreen(Screen* screen);
+  void renderScreen(Screen &screen);
 
   GameWorld &gameWorld;
 };

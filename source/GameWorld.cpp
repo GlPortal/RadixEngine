@@ -6,10 +6,11 @@ GameWorld::GameWorld(InputSource &input) :
 }
 
 void GameWorld::addScreen(Screen &screen) {
-  screens.push_back(&screen);
+  screens.push_back(std::move(screen));
 }
 
-std::list<Screen*>* GameWorld::getScreens() {
+std::list<Screen>* GameWorld::getScreens()
+{
   return &screens;
 }
 } /* namespace radix */

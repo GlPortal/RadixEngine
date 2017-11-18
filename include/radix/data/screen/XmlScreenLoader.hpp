@@ -11,14 +11,17 @@
 
 namespace radix {
 
+class World;
+  
 class XmlScreenLoader : public XmlLoader {
 public:
-  static Screen& getScreen(const std::string& path);
+  static Screen& getScreen(World &world, const std::string& path);
 private:
-  static std::map<std::string, std::shared_ptr<Screen>> screenCache;
-  static std::shared_ptr<Screen> loadScreen(const std::string& path);
+  static ScreenConstructor loadConstructor (const std::string& path);
+  static std::shared_ptr<Screen> construct(World &world, const ScreenConstructor &constructor);
   static const std::string MODULE_NAME;
   static bool loadText(tinyxml2::XMLHandle &rootHandle, std::vector<Text>* text);
+  static std::map<std::string, ScreenConstructor> screenCache;
 };
 
 } /* namespace radix */

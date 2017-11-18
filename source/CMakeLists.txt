@@ -60,6 +60,7 @@ set(RADIX_SOURCES
   ${D}/data/model/MeshLoader.cpp
   ${D}/data/text/FontLoader.cpp
   ${D}/data/texture/TextureLoader.cpp
+  ${D}/data/screen/Screen.cpp
   ${D}/data/screen/XmlScreenLoader.cpp
   ${D}/data/screen/Element.cpp
   ${D}/data/shader/Shader.cpp
@@ -83,6 +84,7 @@ set(RADIX_SOURCES
   ${D}/util/sdl/Fps.cpp
   ${D}/util/NullReference.cpp
   ${D}/util/XmlLoader.cpp
+  ${D}/util/KeyDecoder.cpp
   ${D}/Window.cpp
   ${D}/World.cpp
   PARENT_SCOPE

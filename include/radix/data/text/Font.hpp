@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 
+#include <radix/env/Util.hpp>
 #include <radix/data/text/Glyph.hpp>
 
 namespace radix {
@@ -21,6 +22,7 @@ public:
     int length = 0;
     const char *array = string.c_str();
     for (unsigned int i = 0; i < string.length(); i++) {
+      Util::Log(Debug, "Font") << array[i];
       const Glyph &letter = getGlyph(array[i]);
       length += letter.width * this->size;
     }
