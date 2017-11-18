@@ -11,6 +11,8 @@ namespace entities {
 
 class MeshDrawableTrait : public Trait {
 public:
+  radix_trait_declare("radix/entities/traits/", "MeshDrawable")
+
   Mesh mesh;
   // TODO: MaterialDrawable?
   Material material;
