@@ -112,10 +112,10 @@ public:
     radix_event_declare("radix/InputSource:WindowMoved")
     InputSource &source;
     Uint32 windowID;
-    Sint32 to;
-    Sint32 from;
-    WindowMovedEvent(InputSource &source, Uint32 windowID, Sint32 to, Sint32 from)
-        : source(source), windowID(windowID), to(to), from(from) {}
+    Sint32 x;
+    Sint32 y;
+    WindowMovedEvent(InputSource &source, Uint32 windowID, Sint32 x, Sint32 y)
+        : source(source), windowID(windowID), x(x), y(y) {}
   };
   struct WindowResizedEvent : public Event {
     radix_event_declare("radix/InputSource:WindowResized")
