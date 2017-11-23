@@ -31,10 +31,10 @@ Vector4f& Vector4f::operator=(const btVector4 &v) {
 }
 
 bool Vector4f::fuzzyEqual(const Vector4f &v, float threshold) const {
-  return (x > v.x - threshold and x < v.x + threshold) and
-         (y > v.y - threshold and y < v.y + threshold) and
-         (z > v.z - threshold and z < v.z + threshold) and
-         (w > v.w - threshold and w < v.w + threshold);
+  return (x > v.x - threshold && x < v.x + threshold) &&
+         (y > v.y - threshold && y < v.y + threshold) &&
+         (z > v.z - threshold && z < v.z + threshold) &&
+         (w > v.w - threshold && w < v.w + threshold);
 }
 
 Vector4f::operator btQuaternion() const {

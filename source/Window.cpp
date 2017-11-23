@@ -306,13 +306,13 @@ void Window::processMouseAxisEvents() {
 
   bool nonZero = mouseRelative != Vector2i::ZERO;
 
-  if (nonZero or lastNonZero) {
+  if (nonZero || lastNonZero) {
     const MouseAxisEvent mae(*this, Vector2f(mouseRelative));
-    for (auto &d : dispatchers) { 
+    for (auto &d : dispatchers) {
       d.get().dispatch(mae);
     }
   }
- 
+
   lastNonZero = nonZero;
 }
 
@@ -342,7 +342,7 @@ void Window::processControllerStickEvents() {
       } else {
         normalisedStickState.x = float(currentStickState.x) / float(controllerStickMax[i].x);
       }
-      
+
       if (currentStickState.y > 0) {
         normalisedStickState.y = float(currentStickState.y) / float(controllerStickMax[i].y);
       } else {
@@ -653,4 +653,3 @@ void Window::setSdlGlAttributes() {
 }
 
 } /* namespace radix */
-

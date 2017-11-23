@@ -73,7 +73,7 @@ void Physics::update(TDelta timeDelta) {
   physicsWorld->stepSimulation(timeDelta.sec(), 10);
   for (Entity &entity : world.entityManager) {
     RigidBodyTrait *rbtp = dynamic_cast<RigidBodyTrait*>(&entity);
-    if (rbtp and rbtp->body and not rbtp->body->isStaticObject()) {
+    if (rbtp && rbtp->body && !rbtp->body->isStaticObject()) {
       btTransform btTform;
       rbtp->body->getMotionState()->getWorldTransform(btTform);
       entity.privSetPosition(btTform.getOrigin());

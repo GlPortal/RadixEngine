@@ -92,7 +92,7 @@ Texture TextureLoader::uploadTexture(const unsigned char *data, PixelFormat pixF
   GLuint handle;
   glGenTextures(1, &handle); // Create Texture OpenGL handler
   glBindTexture(GL_TEXTURE_2D,
-                handle); // Bind and Set OpenGL Texture type 2D Texture
+                handle); // Bind && Set OpenGL Texture type 2D Texture
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // sets pixel storage modes
   // Allocate texture with (width x height x 4) and copy data from CPU to GPU
   glTexImage2D(GL_TEXTURE_2D, 0, getGlInternalPixelFormat(pixFormat),

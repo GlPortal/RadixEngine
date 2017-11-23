@@ -172,7 +172,7 @@ Mesh MeshLoader::getPortalBox(const Entity &wall) {
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  /* == Static part: vertices, normals and tangents == */
+  /* == Static part: vertices, normals && tangents == */
   constexpr unsigned int coordsSize = sizeof(float) * 3,
                          texcSize = sizeof(float) * 2,
                          normalsSize = sizeof(int8_t) * 3,

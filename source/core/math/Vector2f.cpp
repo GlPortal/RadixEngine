@@ -31,8 +31,8 @@ std::string Vector2f::str() const {
 }
 
 bool Vector2f::fuzzyEqual(const Vector2f &v, float threshold) const {
-  return (x > v.x - threshold and x < v.x + threshold) and
-         (y > v.y - threshold and y < v.y + threshold);
+  return (x > v.x - threshold && x < v.x + threshold) &&
+         (y > v.y - threshold && y < v.y + threshold);
 }
 
 } /* namespace radix */

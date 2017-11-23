@@ -121,40 +121,40 @@ void SimulationManager::computeSimulationOrder() {
     for (GraphNodeRef &node : graph) {
       if (node) {
         for (const GraphNodeRef &otherNode : graph) {
-          if (otherNode and
+          if (otherNode &&
               otherNode.get() != node.get()) {
             bool nodeRunsBeforeOther = node->simulation->runsBefore(*otherNode->simulation),
                  nodeRunsAfterOther = node->simulation->runsAfter(*otherNode->simulation),
                  otherRunsBeforeNode = otherNode->simulation->runsBefore(*node->simulation),
                  otherRunsAfterNode = otherNode->simulation->runsAfter(*node->simulation);
             // Sanity checks
-            if (nodeRunsBeforeOther and nodeRunsAfterOther) {
+            if (nodeRunsBeforeOther && nodeRunsAfterOther) {
               throw std::logic_error(
                   std::string("Simulation ") + node->simulation->getName() +
-                  " wants to run both before and after " + otherNode->simulation->getName());
+                  " wants to run both before && after " + otherNode->simulation->getName());
             }
-            if (otherRunsBeforeNode and otherRunsAfterNode) {
+            if (otherRunsBeforeNode && otherRunsAfterNode) {
               throw std::logic_error(
                   std::string("Simulation ") + otherNode->simulation->getName() +
-                  " wants to run both before and after " + node->simulation->getName());
+                  " wants to run both before && after " + node->simulation->getName());
             }
-            if (nodeRunsBeforeOther and otherRunsBeforeNode) {
+            if (nodeRunsBeforeOther && otherRunsBeforeNode) {
               throw std::logic_error(
-                  std::string("Both ") + node->simulation->getName() + " and " +
+                  std::string("Both ") + node->simulation->getName() + " && " +
                   otherNode->simulation->getName() + " want to run before each other");
             }
-            if (nodeRunsAfterOther and otherRunsAfterNode) {
+            if (nodeRunsAfterOther && otherRunsAfterNode) {
               throw std::logic_error(
-                  std::string("Both ") + node->simulation->getName() + " and " +
+                  std::string("Both ") + node->simulation->getName() + " && " +
                   otherNode->simulation->getName() + " want to run after each other");
             }
             // Node -> Other
-            if (nodeRunsBeforeOther or otherRunsAfterNode) {
+            if (nodeRunsBeforeOther || otherRunsAfterNode) {
               node->successors.insert(otherNode.get());
               otherNode->predecessors.insert(node.get());
             }
             // Other -> Node
-            else if (nodeRunsAfterOther or otherRunsBeforeNode) {
+            else if (nodeRunsAfterOther || otherRunsBeforeNode) {
               otherNode->successors.insert(node.get());
               node->predecessors.insert(otherNode.get());
             }
