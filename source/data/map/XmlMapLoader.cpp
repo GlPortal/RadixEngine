@@ -44,7 +44,6 @@ void XmlMapLoader::load(const std::string &path) {
 
     extractMaterials();
     extractSpawn();
-    extractDoor();
     extractModels();
     extractLights();
     extractWalls();
@@ -129,23 +128,6 @@ void XmlMapLoader::extractLights() {
       light.energy = energy;
       light.specular = specular;
     } while ((lightElement = lightElement->NextSiblingElement("light")) != nullptr);
-  }
-}
-
-void XmlMapLoader::extractDoor() {
-  PROFILER_BLOCK("XmlMapLoader::extractDoor", profiler::colors::Red100);
-  tinyxml2::XMLElement *endElement = rootHandle.FirstChildElement("end").ToElement();
-
-  if (endElement) {
-    entities::StaticModel &door = world.entityManager.create<entities::StaticModel>();
-    Vector3f position;
-    XmlHelper::extractPosition(endElement, position);
-    door.setPosition(position);
-    Vector3f angles;
-    XmlHelper::extractRotation(endElement, angles);
-    door.setOrientation(Quaternion().fromAero(angles));
-    door.material = MaterialLoader::loadFromXML("door/door");
-    door.mesh = MeshLoader::getMesh("Door.obj");
   }
 }
 
@@ -263,4 +245,5 @@ void XmlMapLoader::extractModels() {
     } while ((modelElement = modelElement->NextSiblingElement("model")) != nullptr);
   }
 }
+
 } /* namespace radix */

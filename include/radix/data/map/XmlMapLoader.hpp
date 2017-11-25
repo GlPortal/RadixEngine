@@ -33,7 +33,6 @@ private:
    */
   void extractSpawn();
   void extractLights();
-  void extractDoor();
   void extractWalls();
   void extractAcids();
   void extractDestinations();
