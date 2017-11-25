@@ -84,14 +84,7 @@ public:
   };
 
   struct SimulationAddedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/SimulationManager:SimulationAdded";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
+    radix_event_declare("radix/SimulationManager:SimulationAdded")
 
     SimulationManager &sysMan;
     Simulation &system;
@@ -99,14 +92,7 @@ public:
       sysMan(sm), system(s) {}
   };
   struct SimulationRemovedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/SimulationManager:SimulationRemoved";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
+    radix_event_declare("radix/SimulationManager:SimulationRemoved")
 
     SimulationManager &sysMan;
     Simulation &system;

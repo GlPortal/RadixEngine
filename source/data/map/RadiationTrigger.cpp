@@ -1,7 +1,9 @@
 #include <radix/data/map/RadiationTrigger.hpp>
 
+#include <radix/entities/Player.hpp>
 #include <radix/entities/Trigger.hpp>
 #include <radix/core/state/GameState.hpp>
+#include <radix/World.hpp>
 
 using namespace std;
 

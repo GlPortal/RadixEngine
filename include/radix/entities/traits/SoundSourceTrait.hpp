@@ -8,6 +8,8 @@ namespace entities {
 
 class SoundSourceTrait : public Trait {
 public:
+  radix_trait_declare("radix/entities/traits/", "SoundSource")
+
   void playSound(const std::string &path);
 };
 

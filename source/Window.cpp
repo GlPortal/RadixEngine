@@ -79,17 +79,23 @@ void Window::create(const char *title) {
 
   int flags = SDL_WINDOW_OPENGL;
 
-  if (config.isLoaded() && config.isFullscreen()) {
-    flags |= SDL_WINDOW_BORDERLESS;
-  }
-
   Vector2i windowDimensions = getWindowDimensions();
   width  = windowDimensions.width;
   height = windowDimensions.height;
 
+  if (config.isLoaded() && config.isFullscreen()) {
+    flags |= SDL_WINDOW_BORDERLESS;
+  } else {
+    flags |= SDL_WINDOW_RESIZABLE;
+    flags |= SDL_WINDOW_MAXIMIZED;
+    // window starts maximized, so this will be the width/height after "unmaximizing"
+    width  *= 0.90f;
+    height *= 0.90f;
+  }
+
   setSdlGlAttributes();
 
-  window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+  window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
       width, height, flags);
 
   context = SDL_GL_CreateContext(window);
