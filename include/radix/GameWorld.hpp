@@ -6,7 +6,7 @@
 namespace radix {
 
 class InputSource;
-class Screen;
+struct Screen;
 
 class GameWorld {
 public:
