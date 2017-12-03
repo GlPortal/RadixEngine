@@ -42,6 +42,7 @@ public:
   LogLevel getLoglevel() const { return loglevel; }
   std::string getMap() const { return map; }
   std::string getMapPath() const { return mapPath; }
+  int getScreen() const { return screen; }
 
 private:
   void loadVideoSettings(const Json &json);
@@ -69,6 +70,7 @@ private:
   LogLevel loglevel;
   std::string map;
   std::string mapPath;
+  int screen;
 };
 
 } /* namespace radix */

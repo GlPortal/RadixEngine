@@ -13,7 +13,8 @@ Config::Config() :
   consoleEnabled(false),
   flyingEnabled(false),
   profilerEnabled(false),
-  debugViewEnabled(false) {
+  debugViewEnabled(false),
+  screen(0) {
 }
 
 
@@ -59,6 +60,7 @@ void Config::loadVideoSettings(const Json &json) {
   width           = json["width"].number_value();
   height          = json["height"].number_value();
   recursivePortal = json["recursive_portal"].number_value();
+  screen          = json["screen"].number_value();
 
 }
 
