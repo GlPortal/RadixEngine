@@ -19,6 +19,7 @@ bool ArgumentsParser::ignoreGlVersion = false;
 bool ArgumentsParser::debugMode = false;
 bool ArgumentsParser::consoleEnabled = false;
 bool ArgumentsParser::profilerEnabled = false;
+int ArgumentsParser::screen = 0;
 
 void ArgumentsParser::showUsage(char **argv) {
   std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
@@ -34,6 +35,7 @@ void ArgumentsParser::showUsage(char **argv) {
   std::cout << "  -D, --debugMode          Run game in debug mode" << std::endl;
   std::cout << "  -a, --console            Run game interactively" << std::endl;
   std::cout << "  -p, --profiler           Enable profiler" << std::endl;
+  std::cout << "  -s, --screen             Use alternate display" << std::endl;
 }
 
 void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
@@ -48,6 +50,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
     {"mapfrompath",      required_argument, 0, 'M'},
     {"console",          no_argument      , 0, 'a'},
     {"profiler",         no_argument      , 0, 'p'},
+    {"screen",           required_argument, 0, 's'},
     {0, 0, 0, 0}
   };
 
@@ -95,6 +98,8 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       break;
     case 'p':
       profilerEnabled = true;
+    case 's':
+      screen = atoi(optarg);
       break;
     default:
       break;
@@ -132,6 +137,9 @@ void ArgumentsParser::populateConfig(radix::Config &config) {
   if (profilerEnabled) {
     config.profilerEnabled = true;
   }
+
+  config.screen = screen;
+
 }
 
 void ArgumentsParser::showVersion(){
