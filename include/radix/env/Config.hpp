@@ -24,8 +24,7 @@ class Config {
 friend class ArgumentsParser;
 
 public:
-
-  using Bindings = std::vector<Bind>;
+  using Bindings = std::vector<std::vector<Bind>>;
 
   Config();
   void load();
@@ -41,6 +40,7 @@ public:
   bool isHidePortalsByClick()     const { return hidePortalsByClick; }
   bool isConsoleEnabled()         const { return consoleEnabled; }
   bool isProfilerEnabled()        const { return profilerEnabled; }
+  bool isFlyingEnabled()          const { return flyingEnabled; }
   bool isDebugViewEnabled()       const { return debugViewEnabled; }
   bool getCursorVisibility()      const { return cursorVisibility; }
   bool getIgnoreGlVersion()       const { return ignoreGlVersion; }
@@ -49,6 +49,7 @@ public:
   LogLevel getLoglevel()          const { return loglevel; }
   std::string getMap()            const { return map; }
   std::string getMapPath()        const { return mapPath; }
+  int getScreen()                 const { return screen; }
 
   static std::string actionToString(const int &action);
 
@@ -59,29 +60,26 @@ private:
   void loadKeyboardSettings(const Json &json);
   void loadControllerSettings(const Json &json);
   void loadLoglevelSettings(const Json &json);
+  void loadDefaultBindings();
 
-  bool loaded;
   unsigned int width;
   unsigned int height;
   float mouseSensitivity;
   int antialiasing;
   int recursivePortal;
-  bool fullscreen;
-  bool sound;
-  bool vsync;
-  bool hidePortalsByClick;
-  bool cursorVisibility;
-  bool ignoreGlVersion;
-  bool glContextEnableDebug;
-  bool consoleEnabled;
-  bool profilerEnabled;
-  bool debugViewEnabled;
+  bool loaded, fullscreen, sound, vsync, flyingEnabled
+    , hidePortalsByClick, cursorVisibility
+    , ignoreGlVersion, glContextEnableDebug
+    , consoleEnabled, profilerEnabled, debugViewEnabled;
 
   Bindings bindings;
+
+  static const Bindings defaultBindings;
 
   LogLevel loglevel;
   std::string map;
   std::string mapPath;
+  int screen;
 };
 
 } /* namespace radix */

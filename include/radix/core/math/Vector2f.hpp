@@ -13,6 +13,8 @@
 #ifndef VECTOR2F_HPP
 #define VECTOR2F_HPP
 
+#include <radix/core/math/Vector2i.hpp>
+
 #include <string>
 
 namespace radix {
@@ -37,6 +39,9 @@ struct Vector2f {
     : x(x), y(y) {}
   constexpr Vector2f(float v)
     : x(v), y(v) {}
+
+  constexpr Vector2f(const Vector2i &v)
+    : x(v.x), y(v.y) {}
 
   float length() const;
   std::string str() const;
@@ -99,6 +104,9 @@ struct Vector2f {
     return *this;
   }
 
+  constexpr Vector2f operator/(const Vector2f& v) const {
+    return Vector2f(x / v.x, y / v.y);
+  }
   constexpr Vector2f operator/=(const Vector2f& v) const {
     return Vector2f(x / v.x, y / v.y);
   }

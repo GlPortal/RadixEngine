@@ -20,6 +20,8 @@ protected:
   RigidBodyTrait();
 
 public:
+  radix_trait_declare("radix/entities/traits/", "RigidBody")
+
   std::shared_ptr<btCollisionShape> shape;
   btDefaultMotionState motionState;
   btRigidBody *body;

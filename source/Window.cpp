@@ -4,6 +4,7 @@
 #include <chrono>
 #include <thread>
 #include <string>
+#include <cstdlib>
 
 #include <radix/core/gl/OpenGL.hpp>
 
@@ -28,11 +29,14 @@ Window::Window() :
   width(0),
   height(0),
   window(nullptr),
-  controller(NULL),
   joystick(NULL),
+  controller(NULL),
+  mouseButtonStates((int)MouseButton::Max),
   keyStates(SDL_NUM_SCANCODES),
   controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
-  mouseButtonStates((int)MouseButton::MOUSE_BUTTON_MAX) {}
+  controllerStickStates(2),
+  controllerStickMax(2, Vector2i(25000)),
+  controllerTriggerStates(2) {}
 
 Window::~Window() = default;
 
@@ -107,18 +111,30 @@ void Window::create(const char *title) {
 
   int flags = SDL_WINDOW_OPENGL;
 
-  if (config.isLoaded() && config.isFullscreen()) {
-    flags |= SDL_WINDOW_BORDERLESS;
-  }
-
   Vector2i windowDimensions = getWindowDimensions();
   width  = windowDimensions.width;
   height = windowDimensions.height;
 
+  if (config.isLoaded() && config.isFullscreen()) {
+    flags |= SDL_WINDOW_BORDERLESS;
+  } else {
+    flags |= SDL_WINDOW_RESIZABLE;
+    flags |= SDL_WINDOW_MAXIMIZED;
+    // window starts maximized, so this will be the width/height after "unmaximizing"
+    width  *= 0.90f;
+    height *= 0.90f;
+  }
+
   setSdlGlAttributes();
 
-  window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-      width, height, flags);
+  // get the screen offest
+  SDL_Rect rect;
+  rect.x=SDL_WINDOWPOS_CENTERED;
+  rect.y=SDL_WINDOWPOS_CENTERED;
+  if(config.getScreen()!=0) {
+      SDL_GetDisplayBounds(config.getScreen(),&rect);
+  }
+  window = SDL_CreateWindow(title, rect.x, rect.y, width, height, flags);
 
   context = SDL_GL_CreateContext(window);
 
@@ -148,7 +164,7 @@ Vector2i Window::getWindowDimensions() {
    * - screen height
    */
   SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
-  SDL_GetDesktopDisplayMode(0, &dispMode);
+  SDL_GetDesktopDisplayMode(config.getScreen(), &dispMode);
 
   unsigned int widthConfig = 0, heightConfig = 0;
   if (config.isLoaded()) {
@@ -199,10 +215,13 @@ void Window::unlockMouse() {
 void Window::processEvents() {
   SDL_Event event;
 
-  // SDL only creates mouse motion events if the relative motion is above some threshhold which is pretty high
-  // so the relative movement must be acquired manually
 
-  SDL_GetRelativeMouseState(&mouseRelativeX, &mouseRelativeY);
+  processMouseAxisEvents();
+
+  if (controller) {
+    processControllerStickEvents();
+    processControllerTriggerEvents();
+  }
 
   while (SDL_PollEvent(&event)) {
     int key = event.key.keysym.scancode;
@@ -257,13 +276,6 @@ void Window::processEvents() {
       }
       break;
     }
-    case SDL_MOUSEMOTION: {
-      const MouseMovedEvent mre(*this, mouseRelativeX, mouseRelativeY);
-      for (auto &d : dispatchers) {
-        d.get().dispatch(mre);
-      }
-      break;
-    }
     case SDL_MOUSEBUTTONDOWN:
     case SDL_MOUSEBUTTONUP: {
       processMouseButtonEvents(event);
@@ -281,7 +293,75 @@ void Window::processEvents() {
       processWindowEvents(event);
       break;
     }
+    default: {
+      break;
     }
+    }
+  }
+}
+
+void Window::processMouseAxisEvents() {
+  Vector2i mouseRelative;
+  getRelativeMouseState(&mouseRelative.x, &mouseRelative.y);
+
+  bool nonZero = mouseRelative != Vector2i::ZERO;
+
+  if (nonZero or lastNonZero) {
+    const MouseAxisEvent mae(*this, Vector2f(mouseRelative));
+    for (auto &d : dispatchers) { 
+      d.get().dispatch(mae);
+    }
+  }
+
+  lastNonZero = nonZero;
+}
+
+void Window::processControllerStickEvents() {
+  for (int i = 0; i < 2; ++i) {
+    Vector2i currentStickState;
+    currentStickState.x = SDL_GameControllerGetAxis(controller, SDL_GameControllerAxis(2*i));
+    currentStickState.y = SDL_GameControllerGetAxis(controller, SDL_GameControllerAxis(2*i + 1));
+
+    if (currentStickState.x > controllerStickMax.at(i).x) {
+      controllerStickMax.at(i).x = currentStickState.x;
+      Util::Log(Info, "InputSource") << i << " max x " << currentStickState.x;
+    }
+    if (currentStickState.y > controllerStickMax.at(i).y) {
+      controllerStickMax.at(i).y = currentStickState.y;
+      Util::Log(Info, "InputSource") << i << " max y " << currentStickState.y;
+    }
+
+    Vector2i stickDelta = currentStickState - controllerStickStates.at(i);
+
+    if (stickDelta != Vector2i::ZERO) {
+      Vector2f normalisedStickState = Vector2f(currentStickState) / Vector2f(controllerStickMax[i]);
+
+      const ControllerAxisEvent cae(*this, i, normalisedStickState, 0);
+      for (auto &d : dispatchers) {
+        d.get().dispatch(cae);
+      }
+    }
+
+    controllerStickStates[i] = currentStickState;
+  }
+}
+
+void Window::processControllerTriggerEvents() {
+  for (int i = 0; i < 2; ++i) {
+    int currentTriggerState = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(i+4));
+
+    int triggerDelta = currentTriggerState - controllerTriggerStates[i];
+
+    if (triggerDelta) {
+      float normalisedTriggerState = float(currentTriggerState) / 32767.0f;
+
+      const ControllerTriggerEvent cte(*this, i, normalisedTriggerState, 0);
+      for (auto &d : dispatchers) {
+        d.get().dispatch(cte);
+      }
+    }
+
+    controllerTriggerStates[i] = currentTriggerState;
   }
 }
 
@@ -290,40 +370,40 @@ void Window::processMouseButtonEvents(const SDL_Event &event) {
 
   switch (event.button.button) {
     case SDL_BUTTON_LEFT: {
-      button = MouseButton::MOUSE_BUTTON_LEFT;
+      button = MouseButton::Left;
       break;
     }
     case SDL_BUTTON_MIDDLE: {
-      button = MouseButton::MOUSE_BUTTON_MIDDLE;
+      button = MouseButton::Middle;
       break;
     }
     case SDL_BUTTON_RIGHT: {
-      button = MouseButton::MOUSE_BUTTON_RIGHT;
+      button = MouseButton::Right;
       break;
     }
     case SDL_BUTTON_X1: {
-      button = MouseButton::MOUSE_BUTTON_AUX1;
+      button = MouseButton::Aux1;
       break;
     }
     case SDL_BUTTON_X2: {
-      button = MouseButton::MOUSE_BUTTON_AUX2;
+      button = MouseButton::Aux2;
       break;
     }
     default: {
-      button = MouseButton::MOUSE_BUTTON_INVALID;
+      button = MouseButton::Invalid;
       break;
     }
   }
 
   // Dispatch mouse event to subscribed listeners
   if (event.type == SDL_MOUSEBUTTONDOWN) {
-    mouseButtonStates[int(button)] = true;
+    mouseButtonStates[(int)button] = true;
     const MouseButtonPressedEvent mbpe(*this, button);
     for (auto &d : dispatchers) {
       d.get().dispatch(mbpe);
     }
   } else {
-    mouseButtonStates[int(button)] = false;
+    mouseButtonStates[(int)button] = false;
     const MouseButtonReleasedEvent mbre(*this, button);
     for (auto &d : dispatchers) {
       d.get().dispatch(mbre);
@@ -479,22 +559,22 @@ bool Window::isControllerButtonDown(const ControllerButton &button, const Contro
   return this->controllerButtonStates[button];
 }
 
-int Window::getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) {
-  return SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)axis);
+float Window::getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) {
+  return float(SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)axis)) / 32767.0f;
 }
 
 bool Window::isMouseButtonDown(const int &button) {
   return this->mouseButtonStates[button];
 }
 
-int Window::getRelativeMouseAxisValue(const int &axis) {
+float Window::getRelativeMouseAxisValue(const int &axis) { /*
   if (axis == int(MouseAxis::MOUSE_AXIS_X)) {
-    return mouseRelativeX;
+    return (float)mouseRelativeX;
   } else if (axis == int(MouseAxis::MOUSE_AXIS_Y)) {
-    return mouseRelativeY;
+    return (float)mouseRelativeY;
   } else {
     return 0;
-  }
+  }*/
 }
 
 void Window::getRelativeMouseState(int *dx, int *dy) {

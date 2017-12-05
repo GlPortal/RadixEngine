@@ -14,6 +14,9 @@
 #include <radix/util/BulletGhostPairCallbacks.hpp>
 
 namespace radix {
+
+class Vector2f;
+
 namespace entities {
 
 class Player :
@@ -29,9 +32,11 @@ public:
   KinematicCharacterController *controller;
 
   Vector3f velocity, headAngle;
-  bool flying, noclip, frozen;
+  bool flying, noclip, frozen, attemptJump;
   float speed;
   float stepCounter;
+  Vector3f movement;
+  Vector3f headingChange;
 
   Trigger *trigger;
 
@@ -39,6 +44,11 @@ public:
   ~Player();
 
   void tick(TDelta) override;
+  void jump();
+  void move(const Vector2f &move);
+  void moveX(const float &move);
+  void moveY(const float &move);
+  void changeHeading(const Vector2f& lookVector);
 
   Quaternion getBaseHeadOrientation() const;
   Quaternion getHeadOrientation() const;

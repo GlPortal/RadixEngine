@@ -3,77 +3,119 @@
 #include <cstdlib>
 
 #include <radix/env/Config.hpp>
-#include <radix/input/InputSource.hpp>
 #include <radix/input/Bind.hpp>
-#include <radix/core/math/Vector3f.hpp>
-#include <radix/core/math/Math.hpp>
 #include <radix/core/diag/Throwables.hpp>
+#include <radix/core/event/EventDispatcher.hpp>
+#include <radix/entities/Player.hpp>
+#include <radix/BaseGame.hpp>
 
 namespace radix {
 
-InputManager::InputManager(InputSource &inputSource) :
-	inputSource(inputSource) {
-		states.fill(0.0f);
-	}
+InputManager::InputManager(BaseGame &game) :
+	game(game) {}
 
-void InputManager::setConfig(radix::Config &config) {
+void InputManager::setConfig(const Config &config) {
 	this->config = config;
 }
 
-void InputManager::update() {
-	states.fill(0.0f);
+void InputManager::init(EventDispatcher &event) {
+	if (not config.getBindings()[PLAYER_MOVE_ANALOGUE].empty()) {
+		analogueChannels[PLAYER_MOVE_ANALOGUE] = Channel<Vector2f>((ChannelListener*)this);
+		analogueChannels[PLAYER_MOVE_ANALOGUE].init(PLAYER_MOVE_ANALOGUE, event, config.getBindings()[PLAYER_MOVE_ANALOGUE]);
+	}
 
-	for (const Bind &bind : config.getBindings()) {
-		switch (bind.inputType) {
-		case Bind::KEYBOARD: {
-			states[bind.action] += float(inputSource.isKeyDown(bind.inputCode));
-		break;
-		}
-		case Bind::CONTROLLER_BUTTON: {
-			states[bind.action] += float(inputSource.isControllerButtonDown(bind.inputCode, 0));
-			break;
-		}
-		case Bind::CONTROLLER_AXIS: {
-			int value = inputSource.getControllerAxisValue(bind.inputCode, 0);
-			if (std::abs(value) > bind.deadZone) {
-				states[bind.action] += float(value) * bind.sensitivity / 32767.0f;
-			}
-			break;
-		}
-		case Bind::MOUSE_AXIS: {
-			states[bind.action] += float(inputSource.getRelativeMouseAxisValue(bind.inputCode))*bind.sensitivity;
-			break;
-		}
-		case Bind::MOUSE_BUTTON: {
-			states[bind.action] += float(inputSource.isMouseButtonDown(bind.inputCode));
-			break;
-		}
-		case Bind::INPUT_TYPE_INVALID:
-		case Bind::INPUT_TYPE_MAX:
-		default : break;
-    }
-  }
+	analogueChannels[PLAYER_LOOK_ANALOGUE] = Channel<Vector2f>((ChannelListener*)this);
+	analogueChannels[PLAYER_LOOK_ANALOGUE].init(PLAYER_LOOK_ANALOGUE, event, config.getBindings()[PLAYER_LOOK_ANALOGUE]);
 
-  states[PLAYER_MOVE_X] += states[PLAYER_RIGHT] - states[PLAYER_LEFT];
-  states[PLAYER_MOVE_Y] += states[PLAYER_BACK] - states[PLAYER_FORWARD];
-
-  for (int i(0); i < ACTION_MAX; ++i) {
-  	if (i != PLAYER_LOOK_X and i != PLAYER_LOOK_Y) {
-  		states[i] = Math::clamp(states[i], -1.0f, 1.0f);
-  	}
-  }
-}
-
-float InputManager::getState(const int &state) const {
-	if (state >= 0 and state < ACTION_MAX) {
-		return states[state];
-	} else {
-		throw Exception::Error("InputManager", "Requested state out of bounds");
+	for (int id = 2; id < ACTION_MAX; ++id) {
+		digitalChannels[id] = Channel<float>((ChannelListener*)this);
+		digitalChannels[id].init(id, event, config.getBindings()[id]);
 	}
 }
 
-Vector3f InputManager::getPlayerMovementVector() const {
-	return Vector3f(states[PLAYER_MOVE_X], 0.0f, states[PLAYER_MOVE_Y]);
+void InputManager::channelChanged(const int &id) {
+	entities::Player& player = game.getWorld()->getPlayer();
+
+	switch(id) {
+	case PLAYER_MOVE_ANALOGUE: {
+		Vector2f movement = analogueChannels[PLAYER_MOVE_ANALOGUE].get();
+		player.move(movement);
+		break;
+	}
+	case PLAYER_LOOK_ANALOGUE: {
+		Vector2f heading = analogueChannels[PLAYER_LOOK_ANALOGUE].get();
+		player.changeHeading(heading);
+		break;
+	}
+	case PLAYER_JUMP: {
+		if (digitalChannels[PLAYER_JUMP].get()) {
+			player.jump();
+		}
+		break;
+	}
+	case PLAYER_PORTAL_0: {
+		//
+	}
+	case PLAYER_PORTAL_1: {
+		//
+	}
+	case PLAYER_FORWARD:
+	case PLAYER_BACK: {
+		float moveY = digitalChannels[PLAYER_BACK].get() - digitalChannels[PLAYER_FORWARD].get();
+		player.moveY(moveY);
+		break;
+	}
+	case PLAYER_LEFT:
+	case PLAYER_RIGHT: {
+		float moveX = digitalChannels[PLAYER_RIGHT].get() - digitalChannels[PLAYER_LEFT].get();
+		player.moveX(moveX);
+		break;
+	}
+	case GAME_PAUSE: {
+
+	}
+	case GAME_QUIT: {
+		if (digitalChannels[GAME_QUIT].get()) {
+			game.close();
+		}
+		break;
+	}
+	default: {
+		return;
+	}
+	}
+}
+
+Vector2f InputManager::getPlayerMovementVector() const {
+	Vector2f movement = analogueChannels.at(PLAYER_MOVE_ANALOGUE).get();
+	movement.x += digitalChannels.at(PLAYER_RIGHT).get() - digitalChannels.at(PLAYER_LEFT).get();
+	movement.y += digitalChannels.at(PLAYER_BACK).get() - digitalChannels.at(PLAYER_FORWARD).get();
+	return movement;
+}
+
+bool InputManager::isActionDigital(const int &act) {
+	switch(act) {
+	case PLAYER_JUMP:
+	case PLAYER_PORTAL_0:
+	case PLAYER_PORTAL_1:
+	case PLAYER_FORWARD:
+	case PLAYER_BACK:
+	case PLAYER_LEFT:
+	case PLAYER_RIGHT :
+	case GAME_PAUSE :
+	case GAME_QUIT : {
+		return true;
+		break;
+	}
+	case PLAYER_MOVE_ANALOGUE:
+	case PLAYER_LOOK_ANALOGUE:
+	case ACTION_MAX :
+	case ACTION_INVALID :
+	default : {
+		return false;
+		break;
+	}
+	}
 }
 
 }

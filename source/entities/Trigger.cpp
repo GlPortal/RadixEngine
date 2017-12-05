@@ -4,6 +4,7 @@
 
 #include <radix/BaseGame.hpp>
 #include <radix/simulation/Physics.hpp>
+#include <radix/World.hpp>
 
 static const char *Tag = "Trigger";
 

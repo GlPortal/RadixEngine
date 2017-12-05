@@ -9,6 +9,8 @@ namespace entities {
 class SoundListenerTrait : public Trait {
 public:
   // TODO
+
+  radix_trait_declare("radix/entities/traits/", "SoundListener")
 };
 
 } /* namespace entities */

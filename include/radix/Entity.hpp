@@ -58,14 +58,7 @@ protected:
 
 public:
   struct NameChangedEvent : public Event {
-    static constexpr StaticEventTypeName TypeName = "radix/Entity:NameChanged";
-    const EventTypeName getTypeName() const {
-      return TypeName;
-    }
-    static constexpr StaticEventType Type = TypeNameHash(TypeName);
-    const EventType getType() const {
-      return Type;
-    }
+    radix_event_declare("radix/Entity:NameChanged")
 
     Entity &entity;
     const std::string oldName;

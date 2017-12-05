@@ -4,6 +4,7 @@
 #include <radix/BaseGame.hpp>
 #include <radix/entities/Player.hpp>
 #include <radix/simulation/Physics.hpp>
+#include <radix/World.hpp>
 
 namespace radix {
 

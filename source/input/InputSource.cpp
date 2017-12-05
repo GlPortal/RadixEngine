@@ -11,27 +11,40 @@ using namespace std;
 
 namespace radix {
 
+const InputSource::LookUpTable InputSource::mouseButtonLookUp = {
+  {"mouse_button_left",   (int)MouseButton::Left},
+  {"mouse_button_middle", (int)MouseButton::Middle},
+  {"mouse_button_right",  (int)MouseButton::Right},
+  {"mouse_button_aux_1",  (int)MouseButton::Aux1},
+  {"mouse_button_aux_2",  (int)MouseButton::Aux2},
+  {"mouse_button_aux_3",  (int)MouseButton::Aux3},
+  {"mouse_button_aux_4",  (int)MouseButton::Aux4},
+  {"mouse_button_aux_5",  (int)MouseButton::Aux5},
+  {"mouse_button_aux_6",  (int)MouseButton::Aux6}
+};
+
+const InputSource::LookUpTable InputSource::controllerButtonLookUp = {
+  {"button_a",        (int)SDL_CONTROLLER_BUTTON_A},
+  {"button_b",        (int)SDL_CONTROLLER_BUTTON_B},
+  {"button_x",        (int)SDL_CONTROLLER_BUTTON_X},
+  {"button_y",        (int)SDL_CONTROLLER_BUTTON_Y},
+  {"button_back",     (int)SDL_CONTROLLER_BUTTON_BACK},
+  {"button_guide",    (int)SDL_CONTROLLER_BUTTON_GUIDE},
+  {"button_start",    (int)SDL_CONTROLLER_BUTTON_START},
+  {"left_stick",      (int)SDL_CONTROLLER_BUTTON_LEFTSTICK},
+  {"right_stick",     (int)SDL_CONTROLLER_BUTTON_RIGHTSTICK},
+  {"left_shoulder",   (int)SDL_CONTROLLER_BUTTON_LEFTSHOULDER},
+  {"right_shoulder",  (int)SDL_CONTROLLER_BUTTON_RIGHTSHOULDER},
+  {"dpad_up",         (int)SDL_CONTROLLER_BUTTON_DPAD_UP},
+  {"dpad_down",       (int)SDL_CONTROLLER_BUTTON_DPAD_DOWN},
+  {"dpad_left",       (int)SDL_CONTROLLER_BUTTON_DPAD_LEFT},
+  {"dpad_right",      (int)SDL_CONTROLLER_BUTTON_DPAD_RIGHT}
+};
+
 void InputSource::removeDispatcher(EventDispatcher &d) {
   dispatchers.erase(std::remove_if(dispatchers.begin(), dispatchers.end(), [&d](EventDispatcher &e) {
     return std::addressof(e) == std::addressof(d);
   }), dispatchers.end());
-}
-
-std::string InputSource::mouseButtonToString(const int &mouseButton) {
-  switch ((MouseButton)mouseButton) {
-    case MouseButton::MOUSE_BUTTON_LEFT:    return "mouse_left";
-    case MouseButton::MOUSE_BUTTON_RIGHT:   return "mouse_right";
-    case MouseButton::MOUSE_BUTTON_MIDDLE:  return "mouse_middle";
-    default:                                return "";
-  }
-}
-
-std::string InputSource::mouseAxisToString(const int &mouseAxis) {
-  switch ((MouseAxis)mouseAxis) {
-    case MouseAxis::MOUSE_AXIS_X: return "mouse_x";
-    case MouseAxis::MOUSE_AXIS_Y: return "mouse_y";
-    default:                      return "";
-  }
 }
 
 int InputSource::keyboardGetKeyFromString(const std::string &key) {
@@ -39,82 +52,40 @@ int InputSource::keyboardGetKeyFromString(const std::string &key) {
 }
 
 int InputSource::mouseGetButtonFromString(const std::string &buttonStr) {
-  if (buttonStr == "mouse_left") {
-    return (int)MouseButton::MOUSE_BUTTON_LEFT;
-  } else if (buttonStr == "mouse_middle") {
-    return (int)MouseButton::MOUSE_BUTTON_MIDDLE;
-  } else if (buttonStr == "mouse_right") {
-    return (int)MouseButton::MOUSE_BUTTON_RIGHT;
-  } else if (buttonStr == "mouse_aux_1") {
-    return (int)MouseButton::MOUSE_BUTTON_AUX1;
-  } else if (buttonStr == "mouse_aux_2") {
-    return (int)MouseButton::MOUSE_BUTTON_AUX2;
+  LookUpTable::const_iterator button = mouseButtonLookUp.find(buttonStr);
+  if (button != mouseButtonLookUp.end()) {
+    return button->second;
   } else {
-    return (int)MouseButton::MOUSE_BUTTON_INVALID;
-  }
-}
-
-int InputSource::mouseGetAxisFromString(const std::string &axisStr) {
-  if (axisStr == "mouse_x") {
-    return (int)(MouseAxis::MOUSE_AXIS_X);
-  } else if (axisStr == "mouse_y") {
-    return (int)(MouseAxis::MOUSE_AXIS_Y);
-  } else {
-    return (int)(MouseAxis::MOUSE_AXIS_INVALID);
+    return -1;
   }
 }
 
 int InputSource::gameControllerGetButtonFromString(const std::string &buttonStr) {
-  if (buttonStr == "button_a") {
-    return (int)SDL_CONTROLLER_BUTTON_A;
-  } else if (buttonStr == "button_b") {
-    return (int)SDL_CONTROLLER_BUTTON_B;
-  } else if (buttonStr == "button_x") {
-    return (int)SDL_CONTROLLER_BUTTON_X;
-  } else if (buttonStr == "button_y") {
-    return (int)SDL_CONTROLLER_BUTTON_Y;
-  } else if (buttonStr == "button_back") {
-    return (int)SDL_CONTROLLER_BUTTON_BACK;
-  } else if (buttonStr == "button_guide") {
-    return (int)SDL_CONTROLLER_BUTTON_GUIDE;
-  } else if (buttonStr == "button_start") {
-    return (int)SDL_CONTROLLER_BUTTON_START;
-  } else if (buttonStr == "left_stick") {
-    return (int)SDL_CONTROLLER_BUTTON_LEFTSTICK;
-  } else if (buttonStr == "right_stick") {
-    return (int)SDL_CONTROLLER_BUTTON_RIGHTSTICK;
-  } else if (buttonStr == "left_shoulder") {
-    return (int)SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
-  } else if (buttonStr == "right_shoulder") {
-    return (int)SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
-  } else if (buttonStr == "dpad_up") {
-    return (int)SDL_CONTROLLER_BUTTON_DPAD_UP;
-  } else if (buttonStr == "dpad_down") {
-    return (int)SDL_CONTROLLER_BUTTON_DPAD_DOWN;
-  } else if (buttonStr == "dpad_left") {
-    return (int)SDL_CONTROLLER_BUTTON_DPAD_LEFT;
-  } else if (buttonStr == "dpad_right") {
-    return (int)SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+  LookUpTable::const_iterator button = controllerButtonLookUp.find(buttonStr);
+  if (button != controllerButtonLookUp.end()) {
+    return button->second;
   } else {
-    return (int)SDL_CONTROLLER_BUTTON_INVALID;
+    return -1;
   }
 }
 
 int InputSource::gameControllerGetAxisFromString(const std::string &axisStr) {
-  if (axisStr == "left_stick_x") {
-    return (int)SDL_CONTROLLER_AXIS_LEFTX;
-  } else if (axisStr == "left_stick_y") {
-    return (int)SDL_CONTROLLER_AXIS_LEFTY;
-  } else if (axisStr == "right_stick_x") {
-    return (int)SDL_CONTROLLER_AXIS_RIGHTX;
-  } else if (axisStr == "right_stick_y") {
-    return (int)SDL_CONTROLLER_AXIS_RIGHTY;
-  } else if (axisStr == "left_trigger") {
-    return (int)SDL_CONTROLLER_AXIS_TRIGGERLEFT;
-  } else if (axisStr == "right_trigger") {
-    return (int)SDL_CONTROLLER_AXIS_TRIGGERRIGHT;
+  if (axisStr == "stick_left") {
+    return 0;
+  } else if (axisStr == "stick_right") {
+    return 1;
   } else {
-    return (int)SDL_CONTROLLER_AXIS_INVALID;
+    return -1;
+  }
+}
+
+int InputSource::gameControllerGetTriggerFromString(const std::string &triggerStr) {
+  if (triggerStr == "trigger_left") {
+    return 0;
+  } else if (triggerStr == "trigger_right") {
+    return 1;
+  } else {
+    return -1;
   }
 }
 

@@ -1,7 +1,9 @@
 #include <radix/data/map/DeathTrigger.hpp>
 
+#include <radix/entities/Player.hpp>
 #include <radix/entities/Trigger.hpp>
 #include <radix/BaseGame.hpp>
+#include <radix/World.hpp>
 
 using namespace std;
 

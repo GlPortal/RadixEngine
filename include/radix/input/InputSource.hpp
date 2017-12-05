@@ -4,10 +4,12 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include <map>
 
 #include <SDL2/SDL.h>
 
 #include <radix/core/event/Event.hpp>
+#include <radix/core/math/Vector2f.hpp>
 
 namespace radix {
 
@@ -44,24 +46,20 @@ public:
   /* ================= */
   /*   Mouse buttons   */
   /* ================= */
+  using MouseAxisValue = Vector2f;
+
   enum class MouseButton : int8_t {
-    MOUSE_BUTTON_INVALID = -1,
-    MOUSE_BUTTON_LEFT = 0,
-    MOUSE_BUTTON_MIDDLE = 1,
-    MOUSE_BUTTON_RIGHT = 2,
-    MOUSE_BUTTON_AUX1,
-    MOUSE_BUTTON_AUX2,
-    MOUSE_BUTTON_AUX3,
-    MOUSE_BUTTON_AUX4,
-    MOUSE_BUTTON_AUX5,
-    MOUSE_BUTTON_AUX6,
-    MOUSE_BUTTON_MAX
-  };
-  enum class MouseAxis : int8_t {
-    MOUSE_AXIS_INVALID = -1,
-    MOUSE_AXIS_X = 0,
-    MOUSE_AXIS_Y = 1,
-    MOUSE_AXIS_MAX = 2
+    Invalid = -1,
+    Left = 0,
+    Middle = 1,
+    Right = 2,
+    Aux1,
+    Aux2,
+    Aux3,
+    Aux4,
+    Aux5,
+    Aux6,
+    Max
   };
   struct MouseButtonPressedEvent : public Event {
     radix_event_declare("radix/InputSource:MouseButtonPressed")
@@ -77,12 +75,12 @@ public:
     MouseButtonReleasedEvent(InputSource &source, const MouseButton &button)
       : source(source), button(button) {}
   };
-  struct MouseMovedEvent : public Event {
+  struct MouseAxisEvent : public Event {
     radix_event_declare("radix/InputSource:MouseMoved")
     InputSource &source;
-    const int xrel, yrel;
-    MouseMovedEvent(InputSource &source, const int& xrel, const int& yrel)
-      : source(source), xrel(xrel), yrel(yrel) {}
+    const MouseAxisValue value;
+    MouseAxisEvent(InputSource &source, const MouseAxisValue &value)
+      : source(source), value(value) {}
   };
   struct MouseWheelScrolledEvent : public Event {
     radix_event_declare("radix/InputSource:MouseWheelScrolled")
@@ -97,8 +95,11 @@ public:
   /*    Controller     */
   /* ================= */
   using ControllerButton = int;
-  using ControllerAxis = int;
+  using ControllerAxis = int;     // 0/1 for left/right respectively
+  using ControllerTrigger = int;  // 0/1 for left/right respectively
   using ControllerIndex = int;
+  using ControllerAxisValue = Vector2f;
+  using ControllerTriggerValue = float;
 
   struct ControllerButtonPressedEvent : public Event {
     radix_event_declare("radix/InputSource:ControllerButtonPressed")
@@ -116,8 +117,26 @@ public:
     ControllerButtonReleasedEvent(InputSource &source, const ControllerButton &button, const ControllerIndex &index)
       : source(source), button(button), index(index) {}
   };
+  struct ControllerAxisEvent : public Event {
+    radix_event_declare("radix/InputSource:ControllerAxis")
+    InputSource &source;
+    const ControllerAxis axis;
+    const ControllerAxisValue value;
+    const ControllerIndex index;
+    ControllerAxisEvent(InputSource &source, const ControllerAxis &axis, const ControllerAxisValue &value, const ControllerIndex &index)
+      : source(source), axis(axis), value(value), index(index) {}
+  };
+  struct ControllerTriggerEvent : public Event {
+    radix_event_declare("radix/InputSource:ControllerTrigger")
+    InputSource &source;
+    const ControllerTrigger trigger;
+    const ControllerTriggerValue value;
+    const ControllerIndex index;
+    ControllerTriggerEvent(InputSource &source, const ControllerTrigger &trigger, const ControllerTriggerValue &value , const ControllerIndex &index)
+      : source(source), trigger(trigger), value(value), index(index) {}
+  };
   struct ControllerAddedEvent : public Event {
-    radix_event_declare("radix/InputSource:ControllerAddedEvent")
+    radix_event_declare("radix/InputSource:ControllerAdded")
     InputSource &source;
     const ControllerIndex index;
     ControllerAddedEvent(InputSource &source, const ControllerIndex &index)
@@ -159,10 +178,10 @@ public:
     radix_event_declare("radix/InputSource:WindowMoved")
     InputSource &source;
     const Uint32 windowID;
-    const Sint32 to;
-    const Sint32 from;
-    WindowMovedEvent(InputSource &source, const Uint32 &windowID, const Sint32 &to, const Sint32 &from)
-        : source(source), windowID(windowID), to(to), from(from) {}
+    const Sint32 x;
+    const Sint32 y;
+    WindowMovedEvent(InputSource &source, Uint32 windowID, Sint32 x, Sint32 y)
+        : source(source), windowID(windowID), x(x), y(y) {}
   };
   struct WindowResizedEvent : public Event {
     radix_event_declare("radix/InputSource:WindowResized")
@@ -250,9 +269,9 @@ public:
   virtual void controllerButtonPressed(const ControllerButton &button, const ControllerIndex &index) = 0;
   virtual void controllerButtonReleased(const ControllerButton &button, const ControllerIndex &index) = 0;
   virtual bool isControllerButtonDown(const ControllerButton &button, const ControllerIndex &index) = 0;
-  virtual int getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) = 0;
+  virtual float getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) = 0;
   virtual bool isMouseButtonDown(const int &button) = 0;
-  virtual int getRelativeMouseAxisValue(const int &axis) = 0;
+  virtual float getRelativeMouseAxisValue(const int &axis) = 0;
   virtual void getRelativeMouseState(int *dx, int *dy) = 0;
   virtual std::string getCharBuffer() = 0;
   virtual void addToBuffer(const std::string &character) = 0;
@@ -260,13 +279,18 @@ public:
   virtual void truncateCharBuffer() = 0;
   virtual void clear() = 0;
 
-  static std::string mouseButtonToString(const int &mouseButton);
-  static std::string mouseAxisToString(const int &mouseAxis);
-  static int keyboardGetKeyFromString(const std::string &key);
-  static int mouseGetButtonFromString(const std::string &button);
-  static int mouseGetAxisFromString(const std::string &axis);
-  static int gameControllerGetButtonFromString(const std::string &button);
-  static int gameControllerGetAxisFromString(const std::string &axis);
+  using LookUpTable = std::map<std::string, int>;
+
+private:
+  static const LookUpTable mouseButtonLookUp;
+  static const LookUpTable controllerButtonLookUp;
+
+public:
+  static int keyboardGetKeyFromString(const std::string &keyStr);
+  static int mouseGetButtonFromString(const std::string &buttonStr);
+  static int gameControllerGetButtonFromString(const std::string &buttonStr);
+  static int gameControllerGetAxisFromString(const std::string &axisStr);
+  static int gameControllerGetTriggerFromString(const std::string &triggerStr);
 };
 
 } /* namespace radix */

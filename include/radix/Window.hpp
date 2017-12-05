@@ -134,7 +134,7 @@ public:
    * @param axis axis index
    * @param index controller index
    */
-  int getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) override;
+  float getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) override;
   /**@} */
 
   /**
@@ -148,7 +148,7 @@ public:
    * @brief getMouseAxisValue get mouse axis value
    * @param axis x or y
    */
-  int getRelativeMouseAxisValue(const int &axis) override;
+  float getRelativeMouseAxisValue(const int &axis) override;
 
   /**
    * @brief getRelativeMouseState track mouse movement
@@ -218,6 +218,12 @@ private:
    */
   void setSdlGlAttributes();
 
+  void processMouseAxisEvents();
+
+  void processControllerStickEvents();
+
+  void processControllerTriggerEvents();
+
   /**
    * @brief processMouseButtonEvents get mouse event
    * and dispatch to subscribed listeners
@@ -247,24 +253,26 @@ private:
   void initGl();
 
 
-  unsigned int  width;                      /**< main screen width */
-  unsigned int  height;                     /**< main screen height */
-  SDL_Window   *window;                     /**< SDL identifier for current window */
-  SDL_GLContext context;                    /**< SDL Handler for OpenGL Context */
+  unsigned int  width;                          /**< main screen width */
+  unsigned int  height;                         /**< main screen height */
+  SDL_Window   *window;                         /**< SDL identifier for current window */
+  SDL_GLContext context;                        /**< SDL Handler for OpenGL Context */
 
   SDL_Joystick *joystick;
-  SDL_GameController* controller;
+  SDL_GameController *controller;
 
-  std::vector<bool> keyStates;              /**< Keyboard key pressed status */
-  std::vector<bool> controllerButtonStates; /**< Controller button pressed status */
-  std::vector<bool> mouseButtonStates;  /**< Mouse button pressed status */
-  int mouseRelativeX;                           /**< Mouse relative x movement */
-  int mouseRelativeY;                           /**< Mouse relative y movement */
-  std::string       charbuffer;             /**< Text input buffer */
+  std::vector<bool> mouseButtonStates;          /**< Mouse button pressed status */
+  std::vector<bool> keyStates;                  /**< Keyboard key pressed status */
+  std::vector<bool> controllerButtonStates;     /**< Controller button pressed status */
+  std::vector<Vector2i> controllerStickStates;  /**< Controller button pressed status */
+  std::vector<Vector2i> controllerStickMax;     /**< Controller button pressed status */
+  std::vector<int> controllerTriggerStates;     /**< Controller button pressed status */
+  std::string       charbuffer;                 /**< Text input buffer */
+  bool lastNonZero;
 
-  static const char*        DEFAULT_TITLE;  /**< Default Title Name */
-  static const unsigned int DEFAULT_WIDTH;  /**< Default Window width */
-  static const unsigned int DEFAULT_HEIGHT; /**< Default Window Height */
+  static const char*        DEFAULT_TITLE;      /**< Default Title Name */
+  static const unsigned int DEFAULT_WIDTH;      /**< Default Window width */
+  static const unsigned int DEFAULT_HEIGHT;     /**< Default Window Height */
 };
 
 } /* namespace radix */

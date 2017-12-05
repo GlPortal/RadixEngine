@@ -66,23 +66,6 @@ SimulationManager::GraphNode::GraphNode(SimulationPtr &&simulation, Graph &graph
 
 using SimulationGraphNode = SimulationManager::GraphNode;
 
-/*static bool isReachableBySuccessors(const SimulationGraphNode &start, SimulationTypeId targetstid,
-  const SimulationGraphNodeVector &sinfo, std::stack<SimulationTypeId> &path) {
-  auto search = start.successors.find(targetstid);
-  if (search != start.successors.end()) {
-    path.push(targetstid);
-    return true;
-  } else {
-    for (SimulationTypeId stid : start.successors) {
-      if (isReachableBySuccessors(*sinfo[stid], targetstid, sinfo, path)) {
-        path.push(stid);
-        return true;
-      }
-    }
-  }
-  return false;
-}*/
-
 static void transitiveReduction(SimulationGraphNode &vertex0, SimulationGraphNode &child0,
         std::set<SimulationGraphNode*> &done) {
   if (done.find(&child0) != done.end()) {

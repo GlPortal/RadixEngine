@@ -8,19 +8,22 @@
 #include <string>
 #include <vector>
 
+#include <radix/core/event/EventDispatcher.hpp>
+#include <radix/core/state/HandleGameFunction.hpp>
+#include <radix/data/map/Destination.hpp>
+#include <radix/data/material/Material.hpp>
+#include <radix/env/Config.hpp>
 #include <radix/Camera.hpp>
 #include <radix/EntityManager.hpp>
-#include <radix/core/types/TimeDelta.hpp>
-#include <radix/core/state/HandleGameFunction.hpp>
-#include <radix/core/event/EventDispatcher.hpp>
-#include <radix/data/material/Material.hpp>
 #include <radix/SimulationManager.hpp>
-#include <radix/data/map/Destination.hpp>
-#include <radix/input/InputSource.hpp>
-#include <radix/env/Config.hpp>
-#include <radix/entities/Player.hpp>
 
 namespace radix {
+
+namespace entities {
+class Player;
+}
+class BaseGame;
+class InputSource;
 
 typedef std::pair<Entity*, Entity*> EntityPair;
 

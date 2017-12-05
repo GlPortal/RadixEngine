@@ -22,6 +22,7 @@ set(RADIX_SOURCES
   ${D}/core/math/Matrix3f.cpp
   ${D}/core/math/Matrix4f.cpp
   ${D}/core/math/Vector2f.cpp
+  ${D}/core/math/Vector2i.cpp
   ${D}/core/math/Vector2ui.cpp
   ${D}/core/math/Vector3f.cpp
   ${D}/core/math/Vector4f.cpp
@@ -44,6 +45,8 @@ set(RADIX_SOURCES
   ${D}/GameWorld.cpp
   ${D}/input/InputSource.cpp
   ${D}/input/InputManager.cpp
+  ${D}/input/ChannelBase.cpp
+  ${D}/input/Channel.cpp
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapLoader.cpp

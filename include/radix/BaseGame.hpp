@@ -2,10 +2,13 @@
 #define RADIX_BASEGAME_HPP
 
 #include <functional>
+#include <memory>
 #include <utility>
 
+#include <radix/core/event/EventDispatcher.hpp>
+#include <radix/data/map/CustomTrigger.hpp>
+#include <radix/env/Config.hpp>
 #include <radix/util/sdl/Fps.hpp>
-#include <radix/World.hpp>
 #include <radix/GameWorld.hpp>
 #include <radix/Window.hpp>
 #include <radix/renderer/Renderer.hpp>
@@ -19,6 +22,11 @@
 #include <radix/input/InputManager.hpp>
 
 namespace radix {
+
+class Renderer;
+class Screen;
+class ScreenRenderer;
+class World;
 
 const int UPDATE_RATE = 60;
 const int SKIP_TIME = 1000 / UPDATE_RATE;

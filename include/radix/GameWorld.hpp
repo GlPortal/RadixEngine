@@ -2,10 +2,11 @@
 #define RADIX_GAME_WORLD_HPP
 
 #include <list>
-#include <radix/input/InputSource.hpp>
-#include <radix/data/screen/Screen.hpp>
 
 namespace radix {
+
+class InputSource;
+struct Screen;
 
 class GameWorld {
 public:

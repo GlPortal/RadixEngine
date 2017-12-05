@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <array>
+#include <cstdlib>
 #include <string>
 
 namespace radix {
@@ -50,7 +51,8 @@ Player::Player(const CreationParams &cp) :
   flying(false),
   noclip(false),
   frozen(false),
-  stepCounter(0) {
+  stepCounter(0),
+  attemptJump(false) {
 
   setScale(PLAYER_SIZE);
 
@@ -84,41 +86,36 @@ void Player::tick(TDelta dtime) {
     return;
   }
 
-  InputManager &input = world.game.getInputManager();
-
-  float look_x = input.getState(InputManager::PLAYER_LOOK_X);
-  float look_y = input.getState(InputManager::PLAYER_LOOK_Y);
-  headAngle.attitude -= look_y;
-  headAngle.heading  -= look_x;
-  headAngle.tilt *= 0.8f;
-  // Restrict rotation in horizontal axis
+  headAngle.attitude -= headingChange.y;
   headAngle.attitude = Math::clamp(headAngle.attitude, rad(-89.99f), rad(89.99f));
-  
+  headAngle.heading -= headingChange.x;
+  headAngle.tilt *= 0.8f;
+
   float rot = headAngle.heading;
-  Vector3f movement = input.getPlayerMovementVector();
   privSetPosition(obj->getWorldTransform().getOrigin());
 
-  Matrix4f rotationMatrix;
-  rotationMatrix.rotate(rot, 0.0f, 1.0f, 0.0f);
-  movement = rotationMatrix * movement;
-  movement *= RUNNING_SPEED;
-
-  if (input.getState(InputManager::PLAYER_JUMP) > 0.3f and controller->canJump()) {
+  if (attemptJump and controller->canJump()) {
     std::uniform_int_distribution<> dis(0, PLAYER_JUMP_SOUND.size()-1);
     playSound(Environment::getDataDir() + PLAYER_JUMP_SOUND[dis(Util::Rand)]);
     controller->jump();
   }
 
-  if (movement.x != 0.0f or movement.y != 0.0f) {
+  if (movement != Vector3f::ZERO) {
     if (trigger) {
       trigger->actionOnMove(*trigger);
     }
   }
+
+  Matrix4f rotationMatrix;
+  rotationMatrix.rotate(rot, 0.0f, 1.0f, 0.0f);
+
+  Vector3f newMovement = rotationMatrix * movement;
+  newMovement *= RUNNING_SPEED;
   
-  controller->setWalkDirection(movement);
+  controller->setWalkDirection(newMovement);
 
   if (controller->onGround()) {
-    stepCounter += std::sqrt(movement.x*movement.x + movement.z*movement.z);
+    stepCounter += std::sqrt(newMovement.x*newMovement.x + newMovement.z*newMovement.z);
 
     if (stepCounter >= 2.5f) {
       std::uniform_int_distribution<> distribution(0, PLAYER_FOOT_SOUND.size()-1);
@@ -126,7 +123,30 @@ void Player::tick(TDelta dtime) {
       stepCounter -= 2.5f;
     }
   }
+  attemptJump = false;
   trigger = nullptr;
+}
+
+void Player::jump() {
+  attemptJump = true;
+}
+
+void Player::move(const Vector2f &move) {
+  movement.x = move.x;
+  movement.z = move.y;
+}
+
+void Player::moveX(const float &moveX) {
+  movement.x = moveX;
+}
+
+void Player::moveY(const float &moveY) {
+  movement.z = moveY;
+}
+
+void Player::changeHeading(const Vector2f &lookVector) {
+	headingChange.x = lookVector.x;
+	headingChange.y = lookVector.y;
 }
 
 Quaternion Player::getBaseHeadOrientation() const {
