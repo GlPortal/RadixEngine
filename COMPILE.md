@@ -50,7 +50,7 @@ pacman -S cmake make gcc pkg-config assimp libepoxy sdl2 sdl2_mixer bullet mesa 
 
 ### Debian 8 / Ubuntu 14.04 / Linux Mint 17.x
 ```bash
-apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2,sdl2-mixer,bullet,tinyxml2,gl1-mesa,unittest++,freeimage}-dev
+apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2,sdl2-mixer,bullet,tinyxml2,gl1-mesa,unittest++,freeimageplus}-dev
 ```
 
 ### Others
