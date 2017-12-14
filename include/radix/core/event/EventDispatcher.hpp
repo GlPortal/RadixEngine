@@ -32,6 +32,15 @@ public:
       dispatcher(dispatcher) {
     }
 
+    //TODO: This function is a hack. Do we need it?
+    void removeThis() {
+      if(!isStatic) {
+        if(dispatcher) {
+          dispatcher->removeObserver(*this);
+        }
+      }
+    }
+
     // Handy call operator to directly call the callback
     void operator()(const Event &e) {
       (*second)(e);
