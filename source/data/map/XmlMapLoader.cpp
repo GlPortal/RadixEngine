@@ -257,9 +257,12 @@ void XmlMapLoader::extractModels() {
       model.setPosition(position);
       Vector3f angles;
       XmlHelper::extractRotation(modelElement, angles);
+      Vector3f scale;
+      XmlHelper::extractScale(modelElement, scale);
       model.setOrientation(Quaternion().fromAero(angles));
       model.material = world.materials[mid];
       model.mesh = MeshLoader::getMesh(mesh);
+      model.setRigidBody(0, std::make_shared<btBoxShape>(static_cast<btVector3>(scale/2)));
     } while ((modelElement = modelElement->NextSiblingElement("model")) != nullptr);
   }
 }
