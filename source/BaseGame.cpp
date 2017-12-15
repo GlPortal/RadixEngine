@@ -27,8 +27,6 @@ BaseGame::BaseGame() :
     Util::Log(Info, "BaseGame") << "Enabling profiler";
     PROFILER_PROFILER_ENABLE;
     profiler::startListen();
-
-    screenshotCallbackHolder.removeThis();
   }
 
   window.setConfig(config);
@@ -38,6 +36,8 @@ BaseGame::~BaseGame() {
   if (config.isProfilerEnabled()) {
     profiler::stopListen();
     PROFILER_PROFILER_DISABLE;
+
+    screenshotCallbackHolder.removeThis();
   }
 }
 
