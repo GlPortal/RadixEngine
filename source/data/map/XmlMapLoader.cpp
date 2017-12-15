@@ -167,9 +167,9 @@ void XmlMapLoader::extractWalls() {
       XmlHelper::extractScale(wallBoxElement, scale);
       wall.setScale(scale);
 
-      int mid = -1;
-      wallBoxElement->QueryIntAttribute("material", &mid);
-      wall.material = world.materials[mid];
+      int materialId = -1;
+      wallBoxElement->QueryIntAttribute("material", &materialId);
+      wall.material = world.materials[materialId];
       wall.material.scaleU = wall.material.scaleV = 2.f;
       wall.mesh = MeshLoader::getPortalBox(wall);
       wall.setRigidBody(0, std::make_shared<btBoxShape>(static_cast<btVector3>(scale/2)));
