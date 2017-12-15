@@ -60,26 +60,26 @@ void XmlMapLoader::load(const std::string &path) {
 
 void XmlMapLoader::extractMaterials() {
   PROFILER_BLOCK("XmlMapLoader::extractMaterials", profiler::colors::Red100);
-  tinyxml2::XMLElement *matIdxElm = rootHandle.FirstChildElement("materials").ToElement();
+  tinyxml2::XMLElement *materialsElement = rootHandle.FirstChildElement("materials").ToElement();
 
-  if (matIdxElm) {
-    tinyxml2::XMLElement *matElm = matIdxElm->FirstChildElement("material");
-    if (matElm) {
+  if (materialsElement) {
+    tinyxml2::XMLElement *materialElement = materialsElement->FirstChildElement("material");
+    if (materialElement) {
       do {
         int mid = -1;
-        matElm->QueryIntAttribute("id", &mid);
+        materialElement->QueryIntAttribute("id", &mid);
         if (mid == -1) {
           Util::Log(Error) << "Invalid Material ID in map.";
           continue;
         }
-        std::string name = matElm->Attribute("name");
+        std::string name = materialElement->Attribute("name");
         if (name.length() > 0) {
           world.materials[mid] = MaterialLoader::getMaterial(name);
         } else {
           Util::Log(Error) << "Name is mandatory for material tag.";
           continue;
         }
-      } while ((matElm = matElm->NextSiblingElement("material")) != nullptr);
+      } while ((materialElement = materialElement->NextSiblingElement("material")) != nullptr);
     }
   }
 }
@@ -226,15 +226,15 @@ void XmlMapLoader::extractTriggers() {
   if (triggerElement) {
     do {
       //! [Creating an Entity.]
-      Transform tform;
-      XmlHelper::extractPosition(triggerElement, tform.position);
+      Transform transform;
+      XmlHelper::extractPosition(triggerElement, transform.position);
       Vector3f angles;
       XmlHelper::extractRotation(triggerElement, angles);
-      tform.orientation = Quaternion().fromAero(angles);
-      XmlHelper::extractScale(triggerElement, tform.scale);
+      transform.orientation = Quaternion().fromAero(angles);
+      XmlHelper::extractScale(triggerElement, transform.scale);
 
       //! [Creating an Entity.]
-      entities::Trigger &trigger = world.entityManager.create<entities::Trigger>(tform);
+      entities::Trigger &trigger = world.entityManager.create<entities::Trigger>(transform);
       XmlTriggerHelper::extractTriggerActions(trigger, triggerElement, customTriggers);
 
     } while ((triggerElement = triggerElement->NextSiblingElement("trigger")) != nullptr);

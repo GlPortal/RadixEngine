@@ -79,18 +79,30 @@ void Window::create(const char *title) {
 
   int flags = SDL_WINDOW_OPENGL;
 
-  if (config.isLoaded() && config.isFullscreen()) {
-    flags |= SDL_WINDOW_BORDERLESS;
-  }
-
   Vector2i windowDimensions = getWindowDimensions();
   width  = windowDimensions.width;
   height = windowDimensions.height;
 
+  if (config.isLoaded() && config.isFullscreen()) {
+    flags |= SDL_WINDOW_BORDERLESS;
+  } else {
+    flags |= SDL_WINDOW_RESIZABLE;
+    flags |= SDL_WINDOW_MAXIMIZED;
+    // window starts maximized, so this will be the width/height after "unmaximizing"
+    width  *= 0.90f;
+    height *= 0.90f;
+  }
+
   setSdlGlAttributes();
 
-  window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-      width, height, flags);
+  // get the screen offest
+  SDL_Rect rect;
+  rect.x=SDL_WINDOWPOS_CENTERED;
+  rect.y=SDL_WINDOWPOS_CENTERED;
+  if(config.getScreen()!=0) {
+      SDL_GetDisplayBounds(config.getScreen(),&rect);
+  }
+  window = SDL_CreateWindow(title, rect.x, rect.y, width, height, flags);
 
   context = SDL_GL_CreateContext(window);
 
@@ -120,7 +132,7 @@ Vector2i Window::getWindowDimensions() {
    * - screen height
    */
   SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
-  SDL_GetDesktopDisplayMode(0, &dispMode);
+  SDL_GetDesktopDisplayMode(config.getScreen(), &dispMode);
 
   unsigned int widthConfig = 0, heightConfig = 0;
   if (config.isLoaded()) {

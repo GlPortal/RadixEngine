@@ -15,6 +15,7 @@ private:
   static bool debugMode;
   static bool consoleEnabled;
   static bool profilerEnabled;
+  static int screen;
   static const int NO_ARGUMENT; 
 public:
   static void showUsage(char **argv);

@@ -11,6 +11,8 @@ public:
   /* TODO
   double speedOfSound;
   */
+
+  radix_trait_declare("radix/entities/traits/", "SoundPhysicalMedium")
 };
 
 } /* namespace entities */

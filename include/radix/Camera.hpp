@@ -20,7 +20,7 @@ public:
   static constexpr const float DEFAULT_LEFT = -0.5f;
   static constexpr const float DEFAULT_RIGHT = 0.5f;
 
-  Camera() {}
+  Camera() = default;
   Camera(float fovy, float aspect, float zNear, float zFar);
 
   void getProjMatrix(Matrix4f &m) const;

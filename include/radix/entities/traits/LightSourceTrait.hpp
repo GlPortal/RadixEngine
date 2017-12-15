@@ -24,6 +24,9 @@ protected:
     energy(10),
     specular(1) {
   }
+
+public:
+  radix_trait_declare("radix/entities/traits/", "LightSource")
 };
 
 } /* namespace entities */

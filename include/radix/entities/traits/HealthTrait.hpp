@@ -11,6 +11,8 @@ protected:
   HealthTrait();
 
 public:
+  radix_trait_declare("radix/entities/traits/", "Health")
+
   float maxHealth;
   float health;
 

@@ -11,7 +11,7 @@ Radix is a modern, free and open-source 3D game engine, featuring, among other t
 It runs on all modern operating systems including GNU/Linux, Mac and Windows.
 
 ## Team
-Henry Hirsch, Julian Thijssen, Dorian Wouters, Juraj Oravec, Geert Custers
+Henry Hirsch, Julian Thijssen, Dorian Wouters, Geert Custers [all contributors](https://github.com/GlPortal/RadixEngine/graphs/contributors)
 
 ## Compile the source
 For instructions on how to compile the game engine please [read COMPILE.md](COMPILE.md).

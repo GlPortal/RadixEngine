@@ -1,8 +1,11 @@
 #include <radix/data/map/MapTrigger.hpp>
+
+#include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/entities/Trigger.hpp>
 #include <radix/core/state/GameState.hpp>
 #include <radix/env/Environment.hpp>
+#include <radix/World.hpp>
 
 using namespace std;
 

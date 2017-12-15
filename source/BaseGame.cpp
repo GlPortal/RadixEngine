@@ -2,14 +2,18 @@
 
 #include <SDL2/SDL_timer.h>
 
+#include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/SoundManager.hpp>
+#include <radix/renderer/Renderer.hpp>
+#include <radix/renderer/ScreenRenderer.hpp>
 #include <radix/simulation/Player.hpp>
 #include <radix/simulation/Physics.hpp>
 #include <radix/entities/Player.hpp>
 #include <radix/env/ArgumentsParser.hpp>
 #include <radix/env/GameConsole.hpp>
 #include <radix/util/Profiling.hpp>
+#include <radix/World.hpp>
 
 namespace radix {
 
@@ -78,7 +82,7 @@ World* BaseGame::getWorld() {
 void BaseGame::switchToOtherWorld(const std::string &name) {
   auto it = otherWorlds.find(name);
   if (it == otherWorlds.end()) {
-    throw std::out_of_range("No otherworld by this name");
+    throw std::out_of_range("No other world by this name");
   }
   setWorld(std::move(it->second));
   otherWorlds.erase(it);
