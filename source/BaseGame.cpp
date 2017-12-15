@@ -40,9 +40,8 @@ BaseGame::~BaseGame() {
   if (config.isProfilerEnabled()) {
     profiler::stopListen();
     PROFILER_PROFILER_DISABLE;
-
-    screenshotCallbackHolder.removeThis();
   }
+  screenshotCallbackHolder.removeThis();
 }
 
 void BaseGame::setup() {
