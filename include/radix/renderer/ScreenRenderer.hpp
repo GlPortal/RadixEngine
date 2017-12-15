@@ -19,7 +19,7 @@ public:
 
 private:
   void renderScreen(Screen* screen);
-
+  int getHorizontalPositionByAlignment(Text::Align align, int viewportWidth, int textWidth);
   GameWorld &gameWorld;
 };
 

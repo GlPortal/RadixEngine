@@ -52,13 +52,7 @@ void ScreenRenderer::renderScreen(Screen *screen) {
 
     position.y = viewportHeight - screen->text[i].top;
     Text::Align textAlign = screen->text[i].align;
-    if (textAlign == Text::Center) {
-      position.x = xAxisViewportCenter - (textWidth / 2);
-    } else if (textAlign == Text::Left) {
-      position.x = (xAxisViewportCenter - viewportWidth / 4) - (textWidth / 2);
-    } else if (textAlign == Text::Right) {
-      position.x = (xAxisViewportCenter + viewportWidth / 4) - (textWidth / 2);
-    }
+    position.x = getHorizontalPositionByAlignment(textAlign, viewportWidth, textWidth);
 
     screen->text[i].position = position;
 
@@ -66,6 +60,17 @@ void ScreenRenderer::renderScreen(Screen *screen) {
   }
 
   glDepthMask(GL_TRUE);
+}
+
+int ScreenRenderer::getHorizontalPositionByAlignment(Text::Align align, int viewportWidth, int textWidth) {
+  int xAxisViewportCenter = viewportWidth / 2;
+  if (align == Text::Center) {
+    return xAxisViewportCenter - (textWidth / 2);
+  } else if (align == Text::Left) {
+    return (xAxisViewportCenter - viewportWidth / 4) - (textWidth / 2);
+  } else if (align == Text::Right) {
+    return (xAxisViewportCenter + viewportWidth / 4) - (textWidth / 2);
+  }
 }
 
 } /* namespace radix */
