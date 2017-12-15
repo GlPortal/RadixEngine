@@ -66,11 +66,12 @@ int ScreenRenderer::getHorizontalPositionByAlignment(Text::Align align, int view
   int xAxisViewportCenter = viewportWidth / 2;
   if (align == Text::Center) {
     return xAxisViewportCenter - (textWidth / 2);
-  } else if (align == Text::Left) {
-    return (xAxisViewportCenter - viewportWidth / 4) - (textWidth / 2);
   } else if (align == Text::Right) {
     return (xAxisViewportCenter + viewportWidth / 4) - (textWidth / 2);
   }
+
+  // Default assumes left alignment
+  return (xAxisViewportCenter - viewportWidth / 4) - (textWidth / 2);
 }
 
 } /* namespace radix */
