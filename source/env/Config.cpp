@@ -50,6 +50,7 @@ Config::Config() :
   loaded(false),
   ignoreGlVersion(false),
   consoleEnabled(false),
+  flyingEnabled(false),
   profilerEnabled(false),
   debugViewEnabled(false),
   bindings(InputManager::ACTION_MAX, std::vector<Bind>()),
@@ -78,12 +79,13 @@ void Config::load() {
   this->loadMouseSettings(configJson["mouse"]);
   this->loadControllerSettings(configJson["controller"]);
   this->loadKeyboardSettings(configJson["keyboard"]);
-  //this->loadDefaultBindings();
+  this->loadDefaultBindings();
   this->loadLoglevelSettings(configJson["logging"]);
 
   const Json &debug = configJson["debug"];
   glContextEnableDebug = debug["gl_context_debug"].bool_value();
   profilerEnabled = debug["profiler"]["enable"].bool_value();
+  flyingEnabled = debug["flying"]["enable"].bool_value();
   debugViewEnabled = debug["wireframes"]["enable"].bool_value();
   loaded = true;
 }
