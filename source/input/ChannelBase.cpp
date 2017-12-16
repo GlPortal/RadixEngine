@@ -3,7 +3,6 @@
 #include <radix/core/math/Math.hpp>
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/input/ChannelListener.hpp>
-#include <radix/env/Util.hpp>
 
 #include <cstdlib>
 
@@ -95,7 +94,6 @@ void ChannelBase<T>::set(T newValue) {
 
 template <>
 void ChannelBase<Vector2f>::set(Vector2f newValue) {
-	Util::Log(Info, "ChannelBase") << "before" << "x: " << newValue.x << " y: " << newValue.y;
 	if (isDigital) {
 		newValue.x = newValue.x >= actPoint ? 1.0f : 0.0f;
 		newValue.y = newValue.y >= actPoint ? 1.0f : 0.0f;
@@ -130,7 +128,6 @@ void ChannelBase<Vector2f>::set(Vector2f newValue) {
 	if (false) {
 		value = Vector2f(0.0f);
 	}
-	//Util::Log(Info, "ChannelBase") << "after" << "x: " << value.x << " y: " << value.y;
 }
 
 template <class T>
