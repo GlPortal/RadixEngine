@@ -11,16 +11,16 @@ struct Bind {
   union {
     float deadZone, actPoint;
   };
-	enum InputType : int8_t {
-	  INPUT_TYPE_INVALID = -1,
-	  KEYBOARD = 0,
-	  MOUSE_BUTTON = 1,
-	  MOUSE_AXIS = 2,
-	  CONTROLLER_BUTTON = 3,
+  enum InputType : int8_t {
+    INPUT_TYPE_INVALID = -1,
+    KEYBOARD = 0,
+    MOUSE_BUTTON = 1,
+    MOUSE_AXIS = 2,
+    CONTROLLER_BUTTON = 3,
     CONTROLLER_AXIS = 4,
-	  CONTROLLER_TRIGGER = 5,
-	  INPUT_TYPE_MAX = 6
-	};
+    CONTROLLER_TRIGGER = 5,
+    INPUT_TYPE_MAX = 6
+  };
   static bool isInputTypeDigital(const int& input) {
     switch (input) {
     case KEYBOARD:
@@ -40,18 +40,18 @@ struct Bind {
     }
   }
 
-  Bind()
-    :action(-1),
+  Bind() :
+    action(-1),
     inputType(-1),
     inputCode(-1),
     sensitivity(0.0f),
     deadZone(0.0f) {}
-  Bind(const int &action, const int &inputType, const int &inputCode, const float &sensitivity = 0.0f, const float &deadZone = 0.5)
-  : action(action),
-  inputType(inputType),
-  inputCode(inputCode),
-  sensitivity(sensitivity),
-  deadZone(deadZone) {}
+  Bind(const int &action, const int &inputType, const int &inputCode, const float &sensitivity = 0.0f, const float &deadZone = 0.5) : 
+    action(action),
+    inputType(inputType),
+    inputCode(inputCode),
+    sensitivity(sensitivity),
+    deadZone(deadZone) {}
 };
 
 }

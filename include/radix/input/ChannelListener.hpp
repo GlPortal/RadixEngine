@@ -5,7 +5,7 @@ namespace radix {
 
 class ChannelListener {
 public:
-	virtual void channelChanged(const int &id) = 0;
+  virtual void channelChanged(const int &id) = 0;
 
 };
 
