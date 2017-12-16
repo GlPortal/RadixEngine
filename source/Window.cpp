@@ -66,7 +66,7 @@ void Window::initGl() {
   } else {
     if (glversion < 32) {
       throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
-                             " is unsupported, required minimum is 3.2");
+                             " is unsupported, " "required minimum is 3.2");
     }
   }
 }
