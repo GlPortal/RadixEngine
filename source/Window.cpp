@@ -1,8 +1,10 @@
-﻿#include <radix/Window.hpp>
+#include <radix/Window.hpp>
 
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <string>
+#include <cstdlib>
 
 #include <radix/core/gl/OpenGL.hpp>
 
@@ -13,18 +15,28 @@
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
 
+#include <SDL2/SDL.h>
+
 namespace radix {
+
+class Config;
 
 const unsigned int Window::DEFAULT_WIDTH = 800;
 const unsigned int Window::DEFAULT_HEIGHT = 600;
 const char* Window::DEFAULT_TITLE = "Radix Engine";
 
 Window::Window() :
-  config(),
   width(0),
   height(0),
   window(nullptr),
-  keystates(SDL_NUM_SCANCODES) {}
+  joystick(NULL),
+  controller(NULL),
+  mouseButtonStates((int)MouseButton::Max),
+  keyStates(SDL_NUM_SCANCODES),
+  controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
+  controllerStickStates(2),
+  controllerStickMax(2, Vector2i(25000)),
+  controllerTriggerStates(2) {}
 
 Window::~Window() = default;
 
@@ -53,13 +65,33 @@ void Window::initGl() {
   } else {
     if (glversion < 32) {
       throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
-                             " is unsupported, " "required minimum is 3.2");
+                             " is unsupported, required minimum is 3.2");
     }
   }
 }
 
 void Window::create(const char *title) {
-  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
+
+  int numJoysticks = SDL_NumJoysticks();
+  Util::Log(Verbose, "Window") << "Number of joysticks " << std::to_string(numJoysticks);
+
+  for (int i = 0; i < numJoysticks; ++i) {
+    if (SDL_IsGameController(i)) {
+      controller = SDL_GameControllerOpen(i);
+      if (controller) {
+        Util::Log(Warning, "Window") << "Controller of index " << i << " loaded";
+
+        joystick = SDL_JoystickOpen(i);
+
+        break;
+      } else {
+        Util::Log(Warning, "Window") << "Controller of index " << i << " unable to load";
+      }
+    } else {
+      Util::Log(Warning, "Window") << "Joystick of index " << i << " not a controller";
+    }
+  }
 
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
@@ -159,6 +191,9 @@ void Window::getSize(int *width, int *height) const {
 }
 
 void Window::close() {
+  SDL_GameControllerClose( controller );
+  controller = NULL;
+
   SDL_HideWindow(window);
 
   SDL_GL_DeleteContext(context);
@@ -179,6 +214,14 @@ void Window::unlockMouse() {
 
 void Window::processEvents() {
   SDL_Event event;
+
+
+  processMouseAxisEvents();
+
+  if (controller) {
+    processControllerStickEvents();
+    processControllerTriggerEvents();
+  }
 
   while (SDL_PollEvent(&event)) {
     int key = event.key.keysym.scancode;
@@ -211,10 +254,32 @@ void Window::processEvents() {
       keyReleased(key, mod);
       break;
     }
+    case SDL_CONTROLLERBUTTONDOWN: {
+      controllerButtonPressed(event.cbutton.button, event.cbutton.which);
+      break;
+    }
+    case SDL_CONTROLLERBUTTONUP: {
+      controllerButtonReleased(event.cbutton.button, event.cbutton.which);
+      break;
+    }
+    case SDL_CONTROLLERDEVICEADDED: {
+      const ControllerAddedEvent cae(*this, event.cdevice.which);
+      for (auto &d : dispatchers) {
+        d.get().dispatch(cae);
+      }
+      break;
+    }
+    case SDL_CONTROLLERDEVICEREMOVED: {
+      const ControllerRemovedEvent cre(*this, event.cdevice.which);
+      for (auto &d : dispatchers) {
+        d.get().dispatch(cre);
+      }
+      break;
+    }
     case SDL_MOUSEBUTTONDOWN:
     case SDL_MOUSEBUTTONUP: {
-        processMouseButtonEvents(event);
-        break;
+      processMouseButtonEvents(event);
+      break;
     }
     case SDL_MOUSEWHEEL: {
       const int dirmult = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) ? -1 : 1;
@@ -228,11 +293,79 @@ void Window::processEvents() {
       processWindowEvents(event);
       break;
     }
+    default: {
+      break;
+    }
     }
   }
 }
 
-void Window::processMouseButtonEvents(SDL_Event &event) {
+void Window::processMouseAxisEvents() {
+  Vector2i mouseRelative;
+  getRelativeMouseState(&mouseRelative.x, &mouseRelative.y);
+
+  bool nonZero = mouseRelative != Vector2i::ZERO;
+
+  if (nonZero or lastNonZero) {
+    const MouseAxisEvent mae(*this, Vector2f(mouseRelative));
+    for (auto &d : dispatchers) { 
+      d.get().dispatch(mae);
+    }
+  }
+
+  lastNonZero = nonZero;
+}
+
+void Window::processControllerStickEvents() {
+  for (int i = 0; i < 2; ++i) {
+    Vector2i currentStickState;
+    currentStickState.x = SDL_GameControllerGetAxis(controller, SDL_GameControllerAxis(2*i));
+    currentStickState.y = SDL_GameControllerGetAxis(controller, SDL_GameControllerAxis(2*i + 1));
+
+    if (currentStickState.x > controllerStickMax.at(i).x) {
+      controllerStickMax.at(i).x = currentStickState.x;
+      Util::Log(Info, "InputSource") << i << " max x " << currentStickState.x;
+    }
+    if (currentStickState.y > controllerStickMax.at(i).y) {
+      controllerStickMax.at(i).y = currentStickState.y;
+      Util::Log(Info, "InputSource") << i << " max y " << currentStickState.y;
+    }
+
+    Vector2i stickDelta = currentStickState - controllerStickStates.at(i);
+
+    if (stickDelta != Vector2i::ZERO) {
+      Vector2f normalisedStickState = Vector2f(currentStickState) / Vector2f(controllerStickMax[i]);
+
+      const ControllerAxisEvent cae(*this, i, normalisedStickState, 0);
+      for (auto &d : dispatchers) {
+        d.get().dispatch(cae);
+      }
+    }
+
+    controllerStickStates[i] = currentStickState;
+  }
+}
+
+void Window::processControllerTriggerEvents() {
+  for (int i = 0; i < 2; ++i) {
+    int currentTriggerState = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(i+4));
+
+    int triggerDelta = currentTriggerState - controllerTriggerStates[i];
+
+    if (triggerDelta) {
+      float normalisedTriggerState = float(currentTriggerState) / 32767.0f;
+
+      const ControllerTriggerEvent cte(*this, i, normalisedTriggerState, 0);
+      for (auto &d : dispatchers) {
+        d.get().dispatch(cte);
+      }
+    }
+
+    controllerTriggerStates[i] = currentTriggerState;
+  }
+}
+
+void Window::processMouseButtonEvents(const SDL_Event &event) {
   MouseButton button;
 
   switch (event.button.button) {
@@ -257,18 +390,20 @@ void Window::processMouseButtonEvents(SDL_Event &event) {
       break;
     }
     default: {
-      button = MouseButton::Unknown;
+      button = MouseButton::Invalid;
       break;
     }
   }
 
   // Dispatch mouse event to subscribed listeners
   if (event.type == SDL_MOUSEBUTTONDOWN) {
+    mouseButtonStates[(int)button] = true;
     const MouseButtonPressedEvent mbpe(*this, button);
     for (auto &d : dispatchers) {
       d.get().dispatch(mbpe);
     }
   } else {
+    mouseButtonStates[(int)button] = false;
     const MouseButtonReleasedEvent mbre(*this, button);
     for (auto &d : dispatchers) {
       d.get().dispatch(mbre);
@@ -276,7 +411,7 @@ void Window::processMouseButtonEvents(SDL_Event &event) {
   }
 }
 
-void Window::processWindowEvents(SDL_Event &event) {
+void Window::processWindowEvents(const SDL_Event &event) {
   switch (event.window.event) {
     case SDL_WINDOWEVENT_SHOWN: {
       const WindowShownEvent wse(*this, event.window.windowID);
@@ -383,24 +518,67 @@ void Window::processWindowEvents(SDL_Event &event) {
   }
 }
 
-void Window::keyPressed(KeyboardKey key, KeyboardModifier mod) {
-  keystates[key] = true;
+void Window::keyPressed(const KeyboardKey &key, const KeyboardModifier &mod) {
+  keyStates[key] = true;
   const KeyPressedEvent kpe(*this, key, mod);
   for (auto &d : dispatchers) {
     d.get().dispatch(kpe);
   }
 }
 
-void Window::keyReleased(KeyboardKey key, KeyboardModifier mod) {
-  keystates[key] = false;
+void Window::keyReleased(const KeyboardKey &key, const KeyboardModifier &mod) {
+  keyStates[key] = false;
   const KeyReleasedEvent kre(*this, key, mod);
   for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
     d.get().dispatch(kre);
   }
 }
 
-bool Window::isKeyDown(KeyboardKey key) {
-  return keystates[key];
+bool Window::isKeyDown(const KeyboardKey &key) {
+  return keyStates[key];
+}
+
+// controller index is unused as of now, only the the first controller added is checked
+void Window::controllerButtonPressed(const ControllerButton &button, const ControllerIndex &index) {
+  this->controllerButtonStates[button] = true;
+  const ControllerButtonPressedEvent cbpe(*this, button, index);
+  for (auto &d : dispatchers) {
+    d.get().dispatch(cbpe);
+  }
+}
+
+void Window::controllerButtonReleased(const ControllerButton &button, const ControllerIndex &index) {
+  this->controllerButtonStates[button] = false;
+  const ControllerButtonReleasedEvent cbre(*this, button, index);
+  for (auto &d : dispatchers) {
+    d.get().dispatch(cbre);
+  }
+}
+
+bool Window::isControllerButtonDown(const ControllerButton &button, const ControllerIndex &index) {
+  return this->controllerButtonStates[button];
+}
+
+float Window::getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) {
+  return float(SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)axis)) / 32767.0f;
+}
+
+bool Window::isMouseButtonDown(const int &button) {
+  return this->mouseButtonStates[button];
+}
+
+float Window::getRelativeMouseAxisValue(const int &axis) { /*
+  if (axis == int(MouseAxis::MOUSE_AXIS_X)) {
+    return (float)mouseRelativeX;
+  } else if (axis == int(MouseAxis::MOUSE_AXIS_Y)) {
+    return (float)mouseRelativeY;
+  } else {
+    return 0;
+  }*/
+}
+
+void Window::getRelativeMouseState(int *dx, int *dy) {
+  SDL_GetRelativeMouseState(dx, dy);
 }
 
 std::string Window::getCharBuffer() {
@@ -420,7 +598,7 @@ void Window::truncateCharBuffer() {
 }
 
 void Window::clear() {
-  keystates.clear();
+  keyStates.clear();
 }
 
 void Window::printScreenToFile(const std::string& fileName) {
@@ -469,3 +647,4 @@ void Window::setSdlGlAttributes() {
 }
 
 } /* namespace radix */
+

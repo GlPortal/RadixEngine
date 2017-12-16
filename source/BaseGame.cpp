@@ -21,6 +21,7 @@ Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
     config(),
+    inputManager(*this),
     gameWorld(window),
     closed(false) {
   radix::Environment::init();
@@ -34,6 +35,7 @@ BaseGame::BaseGame() :
   }
 
   window.setConfig(config);
+  inputManager.setConfig(config);
 }
 
 BaseGame::~BaseGame() {
@@ -41,7 +43,6 @@ BaseGame::~BaseGame() {
     profiler::stopListen();
     PROFILER_PROFILER_DISABLE;
   }
-  screenshotCallbackHolder.removeThis();
 }
 
 void BaseGame::setup() {
@@ -68,6 +69,8 @@ void BaseGame::setup() {
 
   screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
+
+  inputManager.init(getWorld()->event);
 }
 
 bool BaseGame::isRunning() {
@@ -76,6 +79,10 @@ bool BaseGame::isRunning() {
 
 World* BaseGame::getWorld() {
   return world.get();
+}
+
+Config& BaseGame::getConfig() {
+  return config;
 }
 
 void BaseGame::switchToOtherWorld(const std::string &name) {
@@ -128,11 +135,9 @@ void BaseGame::deferPostCycle(const std::function<void()> &deferred) {
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
 void BaseGame::initHook() { }
-void BaseGame::removeHook() { }
 void BaseGame::customTriggerHook() { }
 
 void BaseGame::cleanUp() {
-  removeHook();
   setWorld({});
   window.close();
 }

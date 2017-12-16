@@ -11,6 +11,15 @@
 #include <radix/util/sdl/Fps.hpp>
 #include <radix/GameWorld.hpp>
 #include <radix/Window.hpp>
+#include <radix/renderer/Renderer.hpp>
+#include <radix/renderer/ScreenRenderer.hpp>
+#include <radix/core/event/EventDispatcher.hpp>
+#include <radix/data/map/XmlMapLoader.hpp>
+#include <radix/data/map/CustomTrigger.hpp>
+#include <radix/data/screen/Screen.hpp>
+#include <radix/renderer/ScreenRenderer.hpp>
+#include <radix/env/Config.hpp>
+#include <radix/input/InputManager.hpp>
 
 namespace radix {
 
@@ -60,6 +69,10 @@ public:
   void deferPostCycle(const std::function<void()>&);
 
   World* getWorld();
+  Config& getConfig();
+  inline InputManager& getInputManager() {
+    return inputManager;
+  }
 
   template<class T, typename... Args>
   T& createOtherWorld(const std::string &name, Args&&... args) {
@@ -91,10 +104,10 @@ protected:
   void loadMap(World&);
   virtual void prepareCamera();
   virtual void initHook();
-  virtual void removeHook();
   virtual void customTriggerHook();
 
   Window window;
+  InputManager inputManager;
   std::map<std::string, std::unique_ptr<World>> otherWorlds;
   std::unique_ptr<World> world;
   Config config;
