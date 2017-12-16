@@ -32,7 +32,6 @@ public:
       dispatcher(dispatcher) {
     }
 
-    //TODO: This function is a hack. Do we need it?
     void removeThis() {
       dispatcher = nullptr;
     }
