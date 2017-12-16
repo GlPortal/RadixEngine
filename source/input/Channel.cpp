@@ -7,7 +7,7 @@
 #include <cstdlib>
 
 namespace radix {
-
+  
 template<class T>
 void Channel<T>::init(const int &id, EventDispatcher &event, const std::vector<Bind> &binds) {
 	if (this->listeners.empty()) {
