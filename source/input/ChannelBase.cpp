@@ -18,7 +18,7 @@ ChannelBase<T>::ChannelBase()
 		isDigital(false),
 		autoZero(false),
 		alwaysNotifyListener(false),
-	  actPoint(0),
+	  	actPoint(0),
 		value() {}
 
 template <class T>
@@ -31,7 +31,7 @@ ChannelBase<T>::ChannelBase(ChannelListener *listener)
 		isDigital(false),
 		autoZero(false),
 		alwaysNotifyListener(false),
-	  actPoint(0),
+	  	actPoint(0),
 		value() {}
 
 template <class T>
