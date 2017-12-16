@@ -26,6 +26,7 @@ const unsigned int Window::DEFAULT_HEIGHT = 600;
 const char* Window::DEFAULT_TITLE = "Radix Engine";
 
 Window::Window() :
+  config(),
   width(0),
   height(0),
   window(nullptr),
