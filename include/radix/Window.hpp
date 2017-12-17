@@ -11,6 +11,7 @@
 #include <radix/input/InputSource.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Vector2i.hpp>
+#include <radix/core/math/Vector2f.hpp>
 
 namespace radix {
 
@@ -148,14 +149,7 @@ public:
    * @brief getMouseAxisValue get mouse axis value
    * @param axis x or y
    */
-  float getRelativeMouseAxisValue(const int &axis) override;
-
-  /**
-   * @brief getRelativeMouseState track mouse movement
-   * @param dx mouse x movement
-   * @param dy mouse y movement
-   */
-  void getRelativeMouseState(int *dx, int *dy) override;
+  Vector2f getRelativeMouseAxisValue() override;
 
   /**
    * @name CharBuffer methods

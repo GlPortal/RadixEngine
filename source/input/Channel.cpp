@@ -11,7 +11,7 @@ namespace radix {
 template<class T>
 void Channel<T>::init(const int &id, EventDispatcher &event, const std::vector<Bind> &binds) {
   if (this->listeners.empty()) {
-    throw Exception::Error("Channel", "Tried to initialise sub-channel, id: " + std::to_string(id) + ", without a listener");
+    throw Exception::Error("Channel", "Tried to initialise channel, id: " + std::to_string(id) + ", without a listener");
   }
 
   this->setId(id);

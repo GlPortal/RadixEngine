@@ -42,15 +42,21 @@ std::string Config::actionToString(const int &action) {
     case InputManager::GAME_QUIT :            return "quit";
     case InputManager::ACTION_INVALID :
     case InputManager::ACTION_MAX :
-    default :                             return "";
+    default :                                 return "";
   }
 }
 
 Config::Config() :
   loaded(false),
-  ignoreGlVersion(false),
-  consoleEnabled(false),
+  fullscreen(false),
+  sound(false),
+  vsync(false),
   flyingEnabled(false),
+  hidePortalsByClick(false),
+  cursorVisibility(false),
+  ignoreGlVersion(false),
+  glContextEnableDebug(false),
+  consoleEnabled(false),
   profilerEnabled(false),
   debugViewEnabled(false),
   bindings(InputManager::ACTION_MAX, std::vector<Bind>()),
@@ -85,7 +91,6 @@ void Config::load() {
   const Json &debug = configJson["debug"];
   glContextEnableDebug = debug["gl_context_debug"].bool_value();
   profilerEnabled = debug["profiler"]["enable"].bool_value();
-  flyingEnabled = debug["flying"]["enable"].bool_value();
   debugViewEnabled = debug["wireframes"]["enable"].bool_value();
   loaded = true;
 }

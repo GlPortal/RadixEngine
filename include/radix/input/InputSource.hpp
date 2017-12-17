@@ -271,8 +271,7 @@ public:
   virtual bool isControllerButtonDown(const ControllerButton &button, const ControllerIndex &index) = 0;
   virtual float getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) = 0;
   virtual bool isMouseButtonDown(const int &button) = 0;
-  virtual float getRelativeMouseAxisValue(const int &axis) = 0;
-  virtual void getRelativeMouseState(int *dx, int *dy) = 0;
+  virtual Vector2f getRelativeMouseAxisValue() = 0;
   virtual std::string getCharBuffer() = 0;
   virtual void addToBuffer(const std::string &character) = 0;
   virtual void clearBuffer() = 0;

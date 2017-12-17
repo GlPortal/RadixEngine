@@ -23,18 +23,19 @@ struct Bind {
   };
   static bool isInputTypeDigital(const int& input) {
     switch (input) {
-    case KEYBOARD:
-    case MOUSE_BUTTON:
-    case CONTROLLER_BUTTON: {
-      return true;
-      break;
-    }
     case MOUSE_AXIS:
     case CONTROLLER_AXIS:
-    case CONTROLLER_TRIGGER:
-    case INPUT_TYPE_INVALID:
-    case INPUT_TYPE_MAX: {
+    case CONTROLLER_TRIGGER: {
       return false;
+      break;
+    }
+    case KEYBOARD:
+    case MOUSE_BUTTON:
+    case CONTROLLER_BUTTON:
+    case INPUT_TYPE_INVALID:
+    case INPUT_TYPE_MAX:
+    default: {
+      return true;
       break;
     }
     }

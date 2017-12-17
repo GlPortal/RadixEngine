@@ -20,8 +20,8 @@ namespace radix {
 Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
-    config(),
     inputManager(*this),
+    config(),
     gameWorld(window),
     closed(false) {
   radix::Environment::init();

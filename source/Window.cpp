@@ -303,7 +303,7 @@ void Window::processEvents() {
 
 void Window::processMouseAxisEvents() {
   Vector2i mouseRelative;
-  getRelativeMouseState(&mouseRelative.x, &mouseRelative.y);
+  SDL_GetRelativeMouseState(&mouseRelative.x, &mouseRelative.y);
 
   bool nonZero = mouseRelative != Vector2i::ZERO;
 
@@ -313,15 +313,15 @@ void Window::processMouseAxisEvents() {
       d.get().dispatch(mae);
     }
   }
-
+ 
   lastNonZero = nonZero;
 }
 
 void Window::processControllerStickEvents() {
   for (int i = 0; i < 2; ++i) {
     Vector2i currentStickState;
-    currentStickState.x = SDL_GameControllerGetAxis(controller, SDL_GameControllerAxis(2*i));
-    currentStickState.y = SDL_GameControllerGetAxis(controller, SDL_GameControllerAxis(2*i + 1));
+    currentStickState.x = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2*i));
+    currentStickState.y = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2*i + 1));
 
     if (currentStickState.x > controllerStickMax.at(i).x) {
       controllerStickMax.at(i).x = currentStickState.x;
@@ -568,18 +568,11 @@ bool Window::isMouseButtonDown(const int &button) {
   return this->mouseButtonStates[button];
 }
 
-float Window::getRelativeMouseAxisValue(const int &axis) { /*
-  if (axis == int(MouseAxis::MOUSE_AXIS_X)) {
-    return (float)mouseRelativeX;
-  } else if (axis == int(MouseAxis::MOUSE_AXIS_Y)) {
-    return (float)mouseRelativeY;
-  } else {
-    return 0;
-  }*/
-}
+Vector2f Window::getRelativeMouseAxisValue() {
+  Vector2i mouseRelative;
+  SDL_GetRelativeMouseState(&mouseRelative.x, &mouseRelative.y);
 
-void Window::getRelativeMouseState(int *dx, int *dy) {
-  SDL_GetRelativeMouseState(dx, dy);
+  return Vector2f(mouseRelative);
 }
 
 std::string Window::getCharBuffer() {
