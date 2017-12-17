@@ -48,11 +48,11 @@ static const std::array<const std::string, 6> PLAYER_FOOT_SOUND = {{
 Player::Player(const CreationParams &cp) :
   Entity(cp),
   m_btGpCallbacks(this),
-  stepCounter(0),
   flying(false),
   noclip(false),
   frozen(false),
-  attemptJump(false) {
+  attemptJump(false),
+  stepCounter(0) {
 
   setScale(PLAYER_SIZE);
 
