@@ -53,12 +53,12 @@ void Renderer::updateLights(Shader& shader) {
     }
 
     const LightSourceTrait &ls = *lstp;
-    std::string index = std::to_string(numLights);
-    std::string position = "lights[" + index + "].position";
-    std::string color    = "lights[" + index + "].color";
-    std::string distance = "lights[" + index + "].distance";
-    std::string energy   = "lights[" + index + "].energy";
-    std::string specular = "lights[" + index + "].specular";
+    std::string light = "lights[" + std::to_string(numLights) + "]";
+    std::string position = light + ".position";
+    std::string color    = light + ".color";
+    std::string distance = light + ".distance";
+    std::string energy   = light + ".energy";
+    std::string specular = light + ".specular";
     const Vector3f &tposition = e.getPosition();
     glUniform3f(shader.uni(position.c_str()), tposition.x, tposition.y, tposition.z);
     glUniform3f(shader.uni(color.c_str()), ls.color.x, ls.color.y, ls.color.z);
