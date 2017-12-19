@@ -20,6 +20,7 @@ namespace radix {
 Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
+    inputManager(*this),
     config(),
     gameWorld(window),
     closed(false) {
@@ -34,6 +35,7 @@ BaseGame::BaseGame() :
   }
 
   window.setConfig(config);
+  inputManager.setConfig(config);
 }
 
 BaseGame::~BaseGame() {
@@ -68,6 +70,8 @@ void BaseGame::setup() {
 
   screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
+
+  inputManager.init(getWorld()->event);
 }
 
 bool BaseGame::isRunning() {
@@ -76,6 +80,10 @@ bool BaseGame::isRunning() {
 
 World* BaseGame::getWorld() {
   return world.get();
+}
+
+Config& BaseGame::getConfig() {
+  return config;
 }
 
 void BaseGame::switchToOtherWorld(const std::string &name) {
@@ -132,9 +140,9 @@ void BaseGame::removeHook() { }
 void BaseGame::customTriggerHook() { }
 
 void BaseGame::cleanUp() {
-  removeHook();
-  setWorld({});
-  window.close();
+        removeHook();
+        setWorld({});
+        window.close();
 }
 
 void BaseGame::render() {
