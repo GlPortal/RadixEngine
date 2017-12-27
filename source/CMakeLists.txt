@@ -18,6 +18,7 @@ set(RADIX_SOURCES
   ${D}/core/gl/OpenGL.cpp
   ${D}/core/gl/TightDataPacker.cpp
   ${D}/core/gl/VBO.cpp
+  ${D}/core/gl/Framebuffer.cpp
   ${D}/core/math/Math.cpp
   ${D}/core/math/Matrix3f.cpp
   ${D}/core/math/Matrix4f.cpp
