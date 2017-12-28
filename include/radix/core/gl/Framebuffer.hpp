@@ -1,6 +1,6 @@
 #ifndef FRAME_BUFFER_HPP
 #define FRAME_BUFFER_HPP
-//#include <glad/glad.h>
+
 #include <string>
 #include <utility>
 #include <radix/core/gl/OpenGL.hpp>
