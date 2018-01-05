@@ -34,7 +34,8 @@ public:
   InputManager() = delete;
   InputManager(BaseGame &baseGame);
   void setConfig(const Config &config);
-  void init(EventDispatcher &event);
+  void init();
+  void reInit();
 
   virtual void channelChanged(const int &id) override;
   Vector2f getPlayerMovementVector() const;

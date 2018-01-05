@@ -323,13 +323,11 @@ void Window::processControllerStickEvents() {
     currentStickState.x = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2*i));
     currentStickState.y = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2*i + 1));
 
-    if (currentStickState.x > controllerStickMax.at(i).x) {
-      controllerStickMax.at(i).x = currentStickState.x;
-      Util::Log(Info, "InputSource") << i << " max x " << currentStickState.x;
+    if (std::abs(currentStickState.x) > controllerStickMax[i].x) {
+      controllerStickMax.at(i).x = std::abs(currentStickState.x);
     }
-    if (currentStickState.y > controllerStickMax.at(i).y) {
-      controllerStickMax.at(i).y = currentStickState.y;
-      Util::Log(Info, "InputSource") << i << " max y " << currentStickState.y;
+    if (std::abs(currentStickState.y) > controllerStickMax[i].y) {
+      controllerStickMax.at(i).y = std::abs(currentStickState.y);
     }
 
     Vector2i stickDelta = currentStickState - controllerStickStates.at(i);

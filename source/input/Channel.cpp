@@ -34,6 +34,13 @@ void Channel<T>::init(const int &id, EventDispatcher &event, const std::vector<B
     this->subChannels[i].init(i, event, binds[i]);
   }
 }
+  
+template<class T>
+void Channel<T>::reInit(EventDispatcher &event) {
+  for (SubChannel<T> &subChannel : subChannels) {
+    subChannel.reInit(event);
+  }
+}
 
 template<class T>
 void Channel<T>::channelChanged(const int &id) {
@@ -53,12 +60,28 @@ void SubChannel<T>::init(const int &id, EventDispatcher &event, const Bind& bind
   if (InputManager::isActionDigital(bind.action) or Bind::isInputTypeDigital(bind.inputType)) {
     this->setDigital(bind.actPoint);
   } else {
-    this->setAnalogue(bind.deadZone);
-    this->setBound(1.0f);
+    if (bind.inputType == Bind::CONTROLLER_AXIS) {
+      this->setAnalogue(bind.deadZone);
+      if (bind.action != InputManager::PLAYER_LOOK_ANALOGUE){
+        this->setBound(0.6f);
+      }
+    } else if (bind.inputType == Bind::MOUSE_AXIS) {
+      this->setAnalogue(0.0f);
+      this->setAutoZero();
+    }
   }
 
-  switch (bind.inputType) {
+  this->addObservers(event);
+}
 
+template<class T>
+void SubChannel<T>::reInit(EventDispatcher &event) {
+  this->addObservers(event);
+}
+
+template<class T>
+void SubChannel<T>::addObservers(EventDispatcher &event) {
+  switch (bind.inputType) {
   case Bind::KEYBOARD: {
     this->callbacks[0] = event.addObserver(InputSource::KeyPressedEvent::Type, [this](const radix::Event& event) {
         const int key = ((radix::InputSource::KeyPressedEvent &) event).key;
@@ -121,33 +144,14 @@ void SubChannel<T>::init(const int &id, EventDispatcher &event, const Bind& bind
 }
 
 template<>
-void SubChannel<Vector2f>::init(const int &id, EventDispatcher &event, const Bind& bind) {
-  if (this->listeners.empty()) {
-    throw Exception::Error("SubChannel", "Tried to initialise sub-channel, id: " + std::to_string(id) + ", without a listener");
-  }
-
-  this->setId(id);
-  this->bind = bind;
-  this->setSensitivity(bind.sensitivity);
-  if (InputManager::isActionDigital(bind.action) or Bind::isInputTypeDigital(bind.inputType)) {
-  } else {
-    if (bind.inputType == Bind::CONTROLLER_AXIS) {
-      setAnalogue(bind.deadZone);
-      setBound(0.8f);
-    }
-    if (bind.inputType == Bind::MOUSE_AXIS) {
-      setAnalogue(0.0f);
-      setAutoZero();
-    }
-  }
-
+void SubChannel<Vector2f>::addObservers(EventDispatcher &event) {
   switch (bind.inputType) {
   case Bind::MOUSE_AXIS: {
     this->callbacks[0] = event.addObserver(InputSource::MouseAxisEvent::Type, [this](const radix::Event& event) {
-            const Vector2f value = ((radix::InputSource::MouseAxisEvent &) event).value;
+        const Vector2f value = ((radix::InputSource::MouseAxisEvent &) event).value;
     
-            this->set(value);
-          });
+        this->set(value);
+      });
     break;
   }
   case Bind::CONTROLLER_AXIS: {
@@ -156,7 +160,7 @@ void SubChannel<Vector2f>::init(const int &id, EventDispatcher &event, const Bin
         const Vector2f value = ((radix::InputSource::ControllerAxisEvent &) event).value;
 
         if (axis == this->bind.inputCode) {
-          this->SubChannel<Vector2f>::set(value);
+          this->set(value);
         }
       });
     break;
