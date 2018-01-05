@@ -73,7 +73,6 @@ void ChannelBase<T>::set(T newValue) {
     if (hasBound) {
       newValue = std::abs(newValue) >= bound ? 1.0f : newValue;
     }
-    
     newValue *= sensitivity;
   }
 
@@ -106,7 +105,6 @@ void ChannelBase<Vector2f>::set(Vector2f newValue) {
         newValue *= (length - deadZone) / length;
       }
     }
-  
     if (hasBound) {
       newValue.x = newValue.x >= bound ? 1.0f : newValue.x;
       newValue.y = newValue.y >= bound ? 1.0f : newValue.y;
