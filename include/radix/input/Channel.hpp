@@ -26,10 +26,11 @@ public:
     this->init(id, event, binds);
   }
   void init(const int &id, EventDispatcher &event, const std::vector<Bind> &binds);
+  void reInit(EventDispatcher &event);
 
   virtual void channelChanged(const int &id) override;
 
-protected:
+private:
   std::vector<SubChannel<T>> subChannels;
 
 };
@@ -45,8 +46,11 @@ public:
     this->init(id, event, bind);
   }
   void init(const int &id, EventDispatcher &event, const Bind &bind);
+  void reInit(EventDispatcher &event);
 
-protected:
+private:
+  void addObservers(EventDispatcher &event);
+
   Bind bind;
   std::array<EventDispatcher::CallbackHolder, 2> callbacks;
 

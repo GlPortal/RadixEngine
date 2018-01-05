@@ -123,6 +123,7 @@ void Player::tick(TDelta dtime) {
       stepCounter -= 2.5f;
     }
   }
+  
   attemptJump = false;
   trigger = nullptr;
 }
@@ -145,8 +146,8 @@ void Player::moveY(const float &moveY) {
 }
 
 void Player::changeHeading(const Vector2f &lookVector) {
-	headingChange.x = lookVector.x;
-	headingChange.y = lookVector.y;
+  headingChange.x = lookVector.x;
+  headingChange.y = lookVector.y;
 }
 
 Quaternion Player::getBaseHeadOrientation() const {

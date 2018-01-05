@@ -18,7 +18,9 @@ void InputManager::setConfig(const Config &config) {
   this->config = config;
 }
 
-void InputManager::init(EventDispatcher &event) {
+void InputManager::init() {
+  EventDispatcher& event = game.getWorld()->event;
+
   if (not config.getBindings()[PLAYER_MOVE_ANALOGUE].empty()) {
     analogueChannels[PLAYER_MOVE_ANALOGUE] = Channel<Vector2f>((ChannelListener*)this);
     analogueChannels[PLAYER_MOVE_ANALOGUE].init(PLAYER_MOVE_ANALOGUE, event, config.getBindings()[PLAYER_MOVE_ANALOGUE]);
@@ -30,6 +32,18 @@ void InputManager::init(EventDispatcher &event) {
   for (int id = 2; id < ACTION_MAX; ++id) {
     digitalChannels[id] = Channel<float>((ChannelListener*)this);
     digitalChannels[id].init(id, event, config.getBindings()[id]);
+  }
+}
+
+void InputManager::reInit() {
+  EventDispatcher& event = game.getWorld()->event;
+
+  for (auto& el : analogueChannels) {
+    el.second.reInit(event);
+  }
+
+  for (auto& el : digitalChannels) {
+    el.second.reInit(event);
   }
 }
 

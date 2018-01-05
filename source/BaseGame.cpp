@@ -71,7 +71,7 @@ void BaseGame::setup() {
   screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
 
-  inputManager.init(getWorld()->event);
+  inputManager.init();
 }
 
 bool BaseGame::isRunning() {
@@ -93,6 +93,8 @@ void BaseGame::switchToOtherWorld(const std::string &name) {
   }
   setWorld(std::move(it->second));
   otherWorlds.erase(it);
+
+  inputManager.reInit();
 }
 
 void BaseGame::clearOtherWorldList() {
