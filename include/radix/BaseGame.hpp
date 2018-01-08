@@ -17,6 +17,7 @@
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/data/map/CustomTrigger.hpp>
 #include <radix/data/screen/Screen.hpp>
+#include <radix/renderer/ImguiRenderer.hpp>
 #include <radix/renderer/ScreenRenderer.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/input/InputManager.hpp>
@@ -24,7 +25,7 @@
 namespace radix {
 
 class Renderer;
-class Screen;
+struct Screen;
 class ScreenRenderer;
 class World;
 
@@ -115,6 +116,7 @@ protected:
   GameWorld gameWorld;
   std::vector<std::function<void()>> postCycleDeferred;
 
+  std::unique_ptr<ImguiRenderer> imguiRenderer;
   std::shared_ptr<ScreenRenderer> screenRenderer;
   std::unique_ptr<Renderer> renderer;
   std::shared_ptr<radix::Screen> screen;
