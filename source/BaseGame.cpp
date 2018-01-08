@@ -44,6 +44,7 @@ BaseGame::~BaseGame() {
     PROFILER_PROFILER_DISABLE;
   }
   screenshotCallbackHolder.removeThis();
+  imguiRenderer->shutdown();
 }
 
 void BaseGame::setup() {
@@ -67,6 +68,15 @@ void BaseGame::setup() {
   // From this point on, this->world is the moved newWorld
 
   createScreenshotCallbackHolder();
+
+  imguiRenderer = std::make_unique<ImguiRenderer>(*world, *renderer.get());
+
+  window.registerImgui([this](SDL_Event* event) -> bool {
+      return imguiRenderer->processEvent(event);
+      },
+      [this](){
+      imguiRenderer->newFrame();
+      });
 
   screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
@@ -136,7 +146,8 @@ void BaseGame::deferPostCycle(const std::function<void()> &deferred) {
   postCycleDeferred.push_back(deferred);
 }
 
-void BaseGame::processInput() { } /* to avoid pure virtual function */
+void BaseGame::processInput() {
+}
 void BaseGame::initHook() { }
 void BaseGame::removeHook() { }
 void BaseGame::customTriggerHook() { }
@@ -151,6 +162,7 @@ void BaseGame::render() {
   PROFILER_BLOCK("BaseGame::render");
   prepareCamera();
   renderer->render();
+  imguiRenderer->render();
   gameWorld.getScreens()->clear();
   fps.countCycle();
   PROFILER_BLOCK("SwapBuffers", profiler::colors::White);

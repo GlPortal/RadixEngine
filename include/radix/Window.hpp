@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <functional>
 
 #include <SDL2/SDL_video.h>
 
@@ -12,6 +13,7 @@
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Vector2i.hpp>
 #include <radix/core/math/Vector2f.hpp>
+#include <radix/renderer/ImguiRenderer.hpp>
 
 namespace radix {
 
@@ -75,6 +77,14 @@ public:
    */
   void unlockMouse();
   /**@} */
+
+  void registerImgui(std::function<bool(SDL_Event*)> processEvents,
+                     std::function<void()> newFrame) {
+    imguiProcessEvents  = processEvents;
+    imguiNewFrame = newFrame;
+  }
+  std::function<bool(SDL_Event*)> imguiProcessEvents;
+  std::function<void()> imguiNewFrame;
 
   radix::Config                             config;       /**< System Configuration */
 
@@ -267,6 +277,8 @@ private:
   static const char*        DEFAULT_TITLE;      /**< Default Title Name */
   static const unsigned int DEFAULT_WIDTH;      /**< Default Window width */
   static const unsigned int DEFAULT_HEIGHT;     /**< Default Window Height */
+
+  friend ImguiRenderer;
 };
 
 } /* namespace radix */

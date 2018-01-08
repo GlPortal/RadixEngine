@@ -16,6 +16,7 @@
 #include <radix/env/Util.hpp>
 
 #include <SDL2/SDL.h>
+#include <imgui/imgui.h>
 
 namespace radix {
 
@@ -23,27 +24,25 @@ class Config;
 
 const unsigned int Window::DEFAULT_WIDTH = 800;
 const unsigned int Window::DEFAULT_HEIGHT = 600;
-const char* Window::DEFAULT_TITLE = "Radix Engine";
+const char *Window::DEFAULT_TITLE = "Radix Engine";
 
-Window::Window() :
-  config(),
-  width(0),
-  height(0),
-  window(nullptr),
-  joystick(NULL),
-  controller(NULL),
-  mouseButtonStates((int)MouseButton::Max),
-  keyStates(SDL_NUM_SCANCODES),
-  controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
-  controllerStickStates(2),
-  controllerStickMax(2, Vector2i(25000)),
-  controllerTriggerStates(2) {}
+Window::Window()
+    : config(),
+      width(0),
+      height(0),
+      window(nullptr),
+      joystick(NULL),
+      controller(NULL),
+      mouseButtonStates((int)MouseButton::Max),
+      keyStates(SDL_NUM_SCANCODES),
+      controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
+      controllerStickStates(2),
+      controllerStickMax(2, Vector2i(25000)),
+      controllerTriggerStates(2) {}
 
 Window::~Window() = default;
 
-void Window::setConfig(radix::Config &config){
-  this->config = config;
-}
+void Window::setConfig(radix::Config &config) { this->config = config; }
 
 inline std::string Window::getOpenGlVersionString(const int _glVersion) {
   const int glmajor = _glVersion / 10;
@@ -65,32 +64,39 @@ void Window::initGl() {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
   } else {
     if (glversion < 32) {
-      throw Exception::Error("Window", std::string("OpenGL Version ") + versionString +
-                             " is unsupported, " "required minimum is 3.2");
+      throw Exception::Error("Window", std::string("OpenGL Version ") +
+                                           versionString +
+                                           " is unsupported, "
+                                           "required minimum is 3.2");
     }
   }
 }
 
 void Window::create(const char *title) {
-  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
+  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK |
+           SDL_INIT_GAMECONTROLLER);
 
   int numJoysticks = SDL_NumJoysticks();
-  Util::Log(Verbose, "Window") << "Number of joysticks " << std::to_string(numJoysticks);
+  Util::Log(Verbose, "Window")
+      << "Number of joysticks " << std::to_string(numJoysticks);
 
   for (int i = 0; i < numJoysticks; ++i) {
     if (SDL_IsGameController(i)) {
       controller = SDL_GameControllerOpen(i);
       if (controller) {
-        Util::Log(Warning, "Window") << "Controller of index " << i << " loaded";
+        Util::Log(Warning, "Window")
+            << "Controller of index " << i << " loaded";
 
         joystick = SDL_JoystickOpen(i);
 
         break;
       } else {
-        Util::Log(Warning, "Window") << "Controller of index " << i << " unable to load";
+        Util::Log(Warning, "Window")
+            << "Controller of index " << i << " unable to load";
       }
     } else {
-      Util::Log(Warning, "Window") << "Joystick of index " << i << " not a controller";
+      Util::Log(Warning, "Window")
+          << "Joystick of index " << i << " not a controller";
     }
   }
 
@@ -103,7 +109,8 @@ void Window::create(const char *title) {
 
   int glFlags = 0;
 
-  const bool enableGlDebug = config.isLoaded() && config.getGlContextEnableDebug();
+  const bool enableGlDebug =
+      config.isLoaded() && config.getGlContextEnableDebug();
   if (enableGlDebug) {
     glFlags |= SDL_GL_CONTEXT_DEBUG_FLAG;
   }
@@ -113,7 +120,7 @@ void Window::create(const char *title) {
   int flags = SDL_WINDOW_OPENGL;
 
   Vector2i windowDimensions = getWindowDimensions();
-  width  = windowDimensions.width;
+  width = windowDimensions.width;
   height = windowDimensions.height;
 
   if (config.isLoaded() && config.isFullscreen()) {
@@ -121,8 +128,9 @@ void Window::create(const char *title) {
   } else {
     flags |= SDL_WINDOW_RESIZABLE;
     flags |= SDL_WINDOW_MAXIMIZED;
-    // window starts maximized, so this will be the width/height after "unmaximizing"
-    width  *= 0.90f;
+    // window starts maximized, so this will be the width/height after
+    // "unmaximizing"
+    width *= 0.90f;
     height *= 0.90f;
   }
 
@@ -130,10 +138,10 @@ void Window::create(const char *title) {
 
   // get the screen offest
   SDL_Rect rect;
-  rect.x=SDL_WINDOWPOS_CENTERED;
-  rect.y=SDL_WINDOWPOS_CENTERED;
-  if(config.getScreen()!=0) {
-      SDL_GetDisplayBounds(config.getScreen(),&rect);
+  rect.x = SDL_WINDOWPOS_CENTERED;
+  rect.y = SDL_WINDOWPOS_CENTERED;
+  if (config.getScreen() != 0) {
+    SDL_GetDisplayBounds(config.getScreen(), &rect);
   }
   window = SDL_CreateWindow(title, rect.x, rect.y, width, height, flags);
 
@@ -169,11 +177,11 @@ Vector2i Window::getWindowDimensions() {
 
   unsigned int widthConfig = 0, heightConfig = 0;
   if (config.isLoaded()) {
-    widthConfig  = config.getWidth();
+    widthConfig = config.getWidth();
     heightConfig = config.getHeight();
   }
 
-  width  = (widthConfig == 0) ? dispMode.w : widthConfig;
+  width = (widthConfig == 0) ? dispMode.w : widthConfig;
   height = (heightConfig == 0) ? dispMode.h : heightConfig;
 
   return Vector2i(width, height);
@@ -183,16 +191,14 @@ void Window::setFullscreen() {
   SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 }
 
-void Window::swapBuffers() {
-  SDL_GL_SwapWindow(window);
-}
+void Window::swapBuffers() { SDL_GL_SwapWindow(window); }
 
 void Window::getSize(int *width, int *height) const {
   SDL_GetWindowSize(window, width, height);
 }
 
 void Window::close() {
-  SDL_GameControllerClose( controller );
+  SDL_GameControllerClose(controller);
   controller = NULL;
 
   SDL_HideWindow(window);
@@ -204,9 +210,7 @@ void Window::close() {
   SDL_Quit();
 }
 
-void Window::lockMouse() {
-  SDL_SetRelativeMouseMode(SDL_TRUE);
-}
+void Window::lockMouse() { SDL_SetRelativeMouseMode(SDL_TRUE); }
 
 void Window::unlockMouse() {
   SDL_WarpMouseInWindow(window, width / 2, height / 2);
@@ -216,7 +220,6 @@ void Window::unlockMouse() {
 void Window::processEvents() {
   SDL_Event event;
 
-
   processMouseAxisEvents();
 
   if (controller) {
@@ -225,6 +228,10 @@ void Window::processEvents() {
   }
 
   while (SDL_PollEvent(&event)) {
+    if(imguiProcessEvents) {
+      imguiProcessEvents(&event);
+    }
+
     int key = event.key.keysym.scancode;
     int mod = event.key.keysym.mod;
     int sym = event.key.keysym.sym;
@@ -232,72 +239,75 @@ void Window::processEvents() {
     // int selection_len = event.edit.length;
 
     switch (event.type) {
-    case SDL_TEXTINPUT: {
-      addToBuffer(event.text.text);
-      break;
-    }
-    case SDL_TEXTEDITING: {
-      break;
-    }
-    case SDL_KEYDOWN: {
-      if (sym == SDLK_BACKSPACE) {
-        truncateCharBuffer();
+      case SDL_TEXTINPUT: {
+        addToBuffer(event.text.text);
+        break;
       }
+      case SDL_TEXTEDITING: {
+        break;
+      }
+      case SDL_KEYDOWN: {
+        if (sym == SDLK_BACKSPACE) {
+          truncateCharBuffer();
+        }
 
-      if (sym == SDLK_RETURN) {
-        clearBuffer();
-      }
+        if (sym == SDLK_RETURN) {
+          clearBuffer();
+        }
 
-      keyPressed(key, mod);
-      break;
-    }
-    case SDL_KEYUP: {
-      keyReleased(key, mod);
-      break;
-    }
-    case SDL_CONTROLLERBUTTONDOWN: {
-      controllerButtonPressed(event.cbutton.button, event.cbutton.which);
-      break;
-    }
-    case SDL_CONTROLLERBUTTONUP: {
-      controllerButtonReleased(event.cbutton.button, event.cbutton.which);
-      break;
-    }
-    case SDL_CONTROLLERDEVICEADDED: {
-      const ControllerAddedEvent cae(*this, event.cdevice.which);
-      for (auto &d : dispatchers) {
-        d.get().dispatch(cae);
+        keyPressed(key, mod);
+        break;
       }
-      break;
-    }
-    case SDL_CONTROLLERDEVICEREMOVED: {
-      const ControllerRemovedEvent cre(*this, event.cdevice.which);
-      for (auto &d : dispatchers) {
-        d.get().dispatch(cre);
+      case SDL_KEYUP: {
+        keyReleased(key, mod);
+        break;
       }
-      break;
-    }
-    case SDL_MOUSEBUTTONDOWN:
-    case SDL_MOUSEBUTTONUP: {
-      processMouseButtonEvents(event);
-      break;
-    }
-    case SDL_MOUSEWHEEL: {
-      const int dirmult = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) ? -1 : 1;
-      const MouseWheelScrolledEvent mwse(*this, event.wheel.x * dirmult, event.wheel.y * dirmult);
-      for (auto &d : dispatchers) {
-        d.get().dispatch(mwse);
+      case SDL_CONTROLLERBUTTONDOWN: {
+        controllerButtonPressed(event.cbutton.button, event.cbutton.which);
+        break;
       }
-      break;
+      case SDL_CONTROLLERBUTTONUP: {
+        controllerButtonReleased(event.cbutton.button, event.cbutton.which);
+        break;
+      }
+      case SDL_CONTROLLERDEVICEADDED: {
+        const ControllerAddedEvent cae(*this, event.cdevice.which);
+        for (auto &d : dispatchers) {
+          d.get().dispatch(cae);
+        }
+        break;
+      }
+      case SDL_CONTROLLERDEVICEREMOVED: {
+        const ControllerRemovedEvent cre(*this, event.cdevice.which);
+        for (auto &d : dispatchers) {
+          d.get().dispatch(cre);
+        }
+        break;
+      }
+      case SDL_MOUSEBUTTONDOWN:
+      case SDL_MOUSEBUTTONUP: {
+        processMouseButtonEvents(event);
+        break;
+      }
+      case SDL_MOUSEWHEEL: {
+        const int dirmult =
+            (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) ? -1 : 1;
+        const MouseWheelScrolledEvent mwse(*this, event.wheel.x * dirmult,
+                                           event.wheel.y * dirmult);
+        for (auto &d : dispatchers) {
+          d.get().dispatch(mwse);
+        }
+        break;
+      }
+      case SDL_WINDOWEVENT: {
+        processWindowEvents(event);
+        break;
+      }
+      default: { break; }
     }
-    case SDL_WINDOWEVENT: {
-      processWindowEvents(event);
-      break;
-    }
-    default: {
-      break;
-    }
-    }
+  }
+  if(imguiNewFrame) {
+    imguiNewFrame();
   }
 }
 
@@ -309,19 +319,21 @@ void Window::processMouseAxisEvents() {
 
   if (nonZero or lastNonZero) {
     const MouseAxisEvent mae(*this, Vector2f(mouseRelative));
-    for (auto &d : dispatchers) { 
+    for (auto &d : dispatchers) {
       d.get().dispatch(mae);
     }
   }
- 
+
   lastNonZero = nonZero;
 }
 
 void Window::processControllerStickEvents() {
   for (int i = 0; i < 2; ++i) {
     Vector2i currentStickState;
-    currentStickState.x = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2*i));
-    currentStickState.y = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2*i + 1));
+    currentStickState.x =
+        SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2 * i));
+    currentStickState.y = SDL_GameControllerGetAxis(
+        controller, (SDL_GameControllerAxis)(2 * i + 1));
 
     if (std::abs(currentStickState.x) > controllerStickMax[i].x) {
       controllerStickMax.at(i).x = std::abs(currentStickState.x);
@@ -333,7 +345,8 @@ void Window::processControllerStickEvents() {
     Vector2i stickDelta = currentStickState - controllerStickStates.at(i);
 
     if (stickDelta != Vector2i::ZERO) {
-      Vector2f normalisedStickState = Vector2f(currentStickState) / Vector2f(controllerStickMax[i]);
+      Vector2f normalisedStickState =
+          Vector2f(currentStickState) / Vector2f(controllerStickMax[i]);
 
       const ControllerAxisEvent cae(*this, i, normalisedStickState, 0);
       for (auto &d : dispatchers) {
@@ -347,7 +360,8 @@ void Window::processControllerStickEvents() {
 
 void Window::processControllerTriggerEvents() {
   for (int i = 0; i < 2; ++i) {
-    int currentTriggerState = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(i+4));
+    int currentTriggerState =
+        SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(i + 4));
 
     int triggerDelta = currentTriggerState - controllerTriggerStates[i];
 
@@ -434,14 +448,16 @@ void Window::processWindowEvents(const SDL_Event &event) {
       break;
     }
     case SDL_WINDOWEVENT_MOVED: {
-      const WindowMovedEvent wme(*this, event.window.windowID, event.window.data1, event.window.data2);
+      const WindowMovedEvent wme(*this, event.window.windowID,
+                                 event.window.data1, event.window.data2);
       for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
         d.get().dispatch(wme);
       }
       break;
     }
     case SDL_WINDOWEVENT_RESIZED: {
-      const WindowResizedEvent wre(*this, event.window.windowID, event.window.data1, event.window.data2);
+      const WindowResizedEvent wre(*this, event.window.windowID,
+                                   event.window.data1, event.window.data2);
       for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
         d.get().dispatch(wre);
       }
@@ -469,7 +485,7 @@ void Window::processWindowEvents(const SDL_Event &event) {
       break;
     }
     case SDL_WINDOWEVENT_RESTORED: {
-      const WindowRestoredEvent wree(*this, event.window.windowID); //REEEE
+      const WindowRestoredEvent wree(*this, event.window.windowID);  // REEEE
       for (std::reference_wrapper<EventDispatcher> &d : dispatchers) {
         d.get().dispatch(wree);
       }
@@ -533,12 +549,12 @@ void Window::keyReleased(const KeyboardKey &key, const KeyboardModifier &mod) {
   }
 }
 
-bool Window::isKeyDown(const KeyboardKey &key) {
-  return keyStates[key];
-}
+bool Window::isKeyDown(const KeyboardKey &key) { return keyStates[key]; }
 
-// controller index is unused as of now, only the the first controller added is checked
-void Window::controllerButtonPressed(const ControllerButton &button, const ControllerIndex &index) {
+// controller index is unused as of now, only the the first controller added is
+// checked
+void Window::controllerButtonPressed(const ControllerButton &button,
+                                     const ControllerIndex &index) {
   this->controllerButtonStates[button] = true;
   const ControllerButtonPressedEvent cbpe(*this, button, index);
   for (auto &d : dispatchers) {
@@ -546,7 +562,8 @@ void Window::controllerButtonPressed(const ControllerButton &button, const Contr
   }
 }
 
-void Window::controllerButtonReleased(const ControllerButton &button, const ControllerIndex &index) {
+void Window::controllerButtonReleased(const ControllerButton &button,
+                                      const ControllerIndex &index) {
   this->controllerButtonStates[button] = false;
   const ControllerButtonReleasedEvent cbre(*this, button, index);
   for (auto &d : dispatchers) {
@@ -554,12 +571,16 @@ void Window::controllerButtonReleased(const ControllerButton &button, const Cont
   }
 }
 
-bool Window::isControllerButtonDown(const ControllerButton &button, const ControllerIndex &index) {
+bool Window::isControllerButtonDown(const ControllerButton &button,
+                                    const ControllerIndex &index) {
   return this->controllerButtonStates[button];
 }
 
-float Window::getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) {
-  return float(SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)axis)) / 32767.0f;
+float Window::getControllerAxisValue(const ControllerAxis &axis,
+                                     const ControllerIndex &index) {
+  return float(SDL_GameControllerGetAxis(controller,
+                                         (SDL_GameControllerAxis)axis)) /
+         32767.0f;
 }
 
 bool Window::isMouseButtonDown(const int &button) {
@@ -573,55 +594,44 @@ Vector2f Window::getRelativeMouseAxisValue() {
   return Vector2f(mouseRelative);
 }
 
-std::string Window::getCharBuffer() {
-  return charbuffer;
-}
+std::string Window::getCharBuffer() { return charbuffer; }
 
-void Window::addToBuffer(const std::string& character) {
+void Window::addToBuffer(const std::string &character) {
   charbuffer.append(character);
 }
 
-void Window::clearBuffer() {
-  charbuffer.clear();
-}
+void Window::clearBuffer() { charbuffer.clear(); }
 
 void Window::truncateCharBuffer() {
   charbuffer = charbuffer.substr(0, charbuffer.size() - 1);
 }
 
-void Window::clear() {
-  keyStates.clear();
-}
+void Window::clear() { keyStates.clear(); }
 
-void Window::printScreenToFile(const std::string& fileName) {
+void Window::printScreenToFile(const std::string &fileName) {
   Util::Log(Verbose, "Window") << "Taking screenshot";
-  SDL_Surface * image =
-    SDL_CreateRGBSurface(SDL_SWSURFACE,
-                         width, height,
-                         24, 0x000000FF,
-                         0x0000FF00,
-                         0x00FF0000, 0);
+  SDL_Surface *image = SDL_CreateRGBSurface(
+      SDL_SWSURFACE, width, height, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
 
   // Read current OpenGL buffer to SDL_Surface
   glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-  SDL_Surface * flippedImage = flipVertical(image);
+  SDL_Surface *flippedImage = flipVertical(image);
   SDL_SaveBMP(flippedImage, fileName.c_str());
   // free image resources
   SDL_FreeSurface(flippedImage);
   SDL_FreeSurface(image);
 }
 
-SDL_Surface* Window::flipVertical(SDL_Surface* sfc) {
-  SDL_Surface* result =
-    SDL_CreateRGBSurface(sfc->flags, sfc->w, sfc->h,
-                         sfc->format->BytesPerPixel * 8,
-                         sfc->format->Rmask, sfc->format->Gmask,
-                         sfc->format->Bmask, sfc->format->Amask);
+SDL_Surface *Window::flipVertical(SDL_Surface *sfc) {
+  SDL_Surface *result = SDL_CreateRGBSurface(
+      sfc->flags, sfc->w, sfc->h, sfc->format->BytesPerPixel * 8,
+      sfc->format->Rmask, sfc->format->Gmask, sfc->format->Bmask,
+      sfc->format->Amask);
 
   const auto pitch = sfc->pitch;
-  const auto pxlength = pitch*sfc->h;
-  auto pixels = static_cast<unsigned char*>(sfc->pixels) + pxlength;
-  auto rpixels = static_cast<unsigned char*>(result->pixels);
+  const auto pxlength = pitch * sfc->h;
+  auto pixels = static_cast<unsigned char *>(sfc->pixels) + pxlength;
+  auto rpixels = static_cast<unsigned char *>(result->pixels);
 
   for (auto line = 0; line < sfc->h; ++line) {
     memcpy(rpixels, pixels, pitch);
@@ -639,4 +649,3 @@ void Window::setSdlGlAttributes() {
 }
 
 } /* namespace radix */
-

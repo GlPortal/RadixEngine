@@ -1,0 +1,16 @@
+set(IMGUI_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui")
+set(IMGUI_INCLUDE_DIR "${IMGUI_ROOT_DIR}/")
+set(IMGUI_INCLUDE_DIRS "${IMGUI_INCLUDE_DIR}")
+set(IMGUI_LIBRARY "imgui")
+set(IMGUI_LIBRARIES "${IMGUI_LIBRARY}")
+
+file(GLOB src ${IMGUI_ROOT_DIR}/*.cpp)
+add_library(${IMGUI_LIBRARY} STATIC ${src})
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(imgui DEFAULT_MSG
+  IMGUI_LIBRARIES IMGUI_INCLUDE_DIRS)
+
+mark_as_advanced(
+  IMGUI_LIBRARY IMGUI_LIBRARIES
+  IMGUI_INCLUDE_DIR IMGUI_INCLUDE_DIRS)

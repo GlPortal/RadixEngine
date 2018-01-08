@@ -75,6 +75,7 @@ set(RADIX_SOURCES
   ${D}/physics/PhysicsHelper.cpp
   ${D}/physics/Uncollider.cpp
   ${D}/renderer/SubRenderer.cpp
+  ${D}/renderer/ImguiRenderer.cpp
   ${D}/renderer/Renderer.cpp
   ${D}/renderer/ScreenRenderer.cpp
   ${D}/renderer/PortalRenderer.cpp
