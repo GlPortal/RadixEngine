@@ -8,6 +8,8 @@ struct SDL_Window;
 union  SDL_Event;
 struct ImDrawData;
 
+using uint = unsigned int;
+
 namespace radix {
 
 class ImguiRenderer : public SubRenderer {
