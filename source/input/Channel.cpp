@@ -43,6 +43,13 @@ void Channel<T>::reInit(EventDispatcher &event) {
 }
 
 template<class T>
+void Channel<T>::close() {
+  for (SubChannel<T> &subChannel : subChannels) {
+    subChannel.close();
+  }
+}
+
+template<class T>
 void Channel<T>::channelChanged(const int &id) {
   this->Channel<T>::set(this->subChannels.at(id).SubChannel<T>::get());
 }
@@ -77,6 +84,13 @@ void SubChannel<T>::init(const int &id, EventDispatcher &event, const Bind& bind
 template<class T>
 void SubChannel<T>::reInit(EventDispatcher &event) {
   this->addObservers(event);
+}
+
+template<class T>
+void SubChannel<T>::close() {
+  for (EventDispatcher::CallbackHolder& callback : callbacks) {
+    callback.removeThis();
+  }
 }
 
 template<class T>

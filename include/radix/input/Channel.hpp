@@ -28,6 +28,8 @@ public:
   void init(const int &id, EventDispatcher &event, const std::vector<Bind> &binds);
   void reInit(EventDispatcher &event);
 
+  void close();
+
   virtual void channelChanged(const int &id) override;
 
 private:
@@ -47,6 +49,8 @@ public:
   }
   void init(const int &id, EventDispatcher &event, const Bind &bind);
   void reInit(EventDispatcher &event);
+
+  void close();
 
 private:
   void addObservers(EventDispatcher &event);

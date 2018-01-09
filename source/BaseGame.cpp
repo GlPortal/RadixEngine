@@ -142,9 +142,10 @@ void BaseGame::removeHook() { }
 void BaseGame::customTriggerHook() { }
 
 void BaseGame::cleanUp() {
-        removeHook();
-        setWorld({});
-        window.close();
+  removeHook();
+  inputManager.close();
+  setWorld({});
+  window.close();
 }
 
 void BaseGame::render() {
