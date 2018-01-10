@@ -171,7 +171,6 @@ void Config::loadKeyboardSettings(const Json &json) {
 void Config::loadControllerSettings(const Json &json) {
   for (int action = 0; action < int(InputManager::Action::ACTION_MAX); ++action) {
     std::string actionStr = actionToString(action);
-    
     for (int index = 0; index < 5; ++index) {
       std::string buttonStr = json["bindings"][actionStr][index].string_value();
       if (buttonStr == "") {
