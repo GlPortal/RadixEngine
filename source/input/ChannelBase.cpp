@@ -102,7 +102,7 @@ void ChannelBase<Vector2f>::set(Vector2f newValue) {
       if (length <= deadZone) {
         newValue = Vector2f::ZERO;
       } else {
-        newValue *= (length - deadZone) / length;
+        newValue *= (length - deadZone) / (length * (1 - deadZone));
       }
     }
     if (hasBound) {
