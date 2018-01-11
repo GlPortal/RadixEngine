@@ -171,7 +171,6 @@ void Config::loadKeyboardSettings(const Json &json) {
 void Config::loadControllerSettings(const Json &json) {
   for (int action = 0; action < int(InputManager::Action::ACTION_MAX); ++action) {
     std::string actionStr = actionToString(action);
-
     for (int index = 0; index < 5; ++index) {
       std::string buttonStr = json["bindings"][actionStr][index].string_value();
       if (buttonStr == "") {
@@ -186,16 +185,17 @@ void Config::loadControllerSettings(const Json &json) {
           bindings[action].push_back(bind);
           Util::Log(Info, "Config") << buttonStr << " bound to " << actionStr;
         } else if (axis != -1) {
-          float sensitivity = json["sensitivity"][buttonStr].number_value();
           float deadZone = json["dead_zone"][buttonStr].number_value();
+          float sensitivity = json["sensitivity"][buttonStr].number_value();
           Bind bind(action, Bind::CONTROLLER_AXIS, axis, sensitivity, deadZone);
           bindings[action].push_back(bind);
           Util::Log(Info, "Config") << buttonStr << " bound to " << actionStr << " with sensitivity " << sensitivity << " and deadzone " << deadZone;
         } else if (trigger != -1) {
-          float sensitivity = json["sensitivity"][buttonStr].number_value();
           float actPoint = json["dead_zone"][buttonStr].number_value();
+          float sensitivity = 1.0f;
           Bind bind(action, Bind::CONTROLLER_TRIGGER, trigger, sensitivity, actPoint);
           bindings[action].push_back(bind);
+          Util::Log(Info, "Config") << buttonStr << " bound to " << actionStr << " with deadzone " << actPoint;
         } else {
           Util::Log(Info, "Config") << buttonStr << "is an invalid control name";
         }

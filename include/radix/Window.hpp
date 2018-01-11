@@ -258,9 +258,10 @@ private:
   std::vector<bool> mouseButtonStates;          /**< Mouse button pressed status */
   std::vector<bool> keyStates;                  /**< Keyboard key pressed status */
   std::vector<bool> controllerButtonStates;     /**< Controller button pressed status */
-  std::vector<Vector2i> controllerStickStates;  /**< Controller button pressed status */
-  std::vector<Vector2i> controllerStickMax;     /**< Controller button pressed status */
-  std::vector<int> controllerTriggerStates;     /**< Controller button pressed status */
+  std::vector<Vector2i> controllerStickStates;
+  std::vector<Vector2i> controllerStickMax;     
+  std::vector<Vector2i> controllerStickMin;
+  std::vector<int> controllerTriggerStates;
   std::string       charbuffer;                 /**< Text input buffer */
   bool lastNonZero;
 
