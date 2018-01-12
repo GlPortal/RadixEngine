@@ -2,6 +2,7 @@
 #define RADIX_GAME_WORLD_HPP
 
 #include <list>
+#include <algorithm>
 
 namespace radix {
 
@@ -13,6 +14,7 @@ public:
   InputSource &input;
   GameWorld(InputSource &input);
   void addScreen(Screen& screen);
+  void removeScreen(Screen& screen);
   std::list<Screen*>* getScreens();
 private:
   std::list<Screen*> screens;
