@@ -23,5 +23,5 @@ Report Issues to [github](https://github.com/GlPortal/RadixEngine/issues).
 
 Feel free to submit a pull request or suggest an issue on GitHub if you have any changes/suggestions for us.
 
-## Supporting
-Donate Bitcoin to 1JxrwJZgV9qBeEPH7BDF9qLJPSDcp6fqxz
+## Donate
+Donate Bitcoin to 1JxrwJZgV9qBeEPH7BDF9qLJPSDcp6fqxz to help us pay for hosting and domain names.
