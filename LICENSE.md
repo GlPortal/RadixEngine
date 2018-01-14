@@ -1,6 +1,6 @@
 # zlib License
 
-Copyright (c) 2016-2017 RadixEngine Team: Julian Thijssen, Henry Hirsch, Dorian Wouters
+Copyright (c) 2016-2018 RadixEngine Team
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
