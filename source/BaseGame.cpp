@@ -152,7 +152,6 @@ void BaseGame::render() {
   PROFILER_BLOCK("BaseGame::render");
   prepareCamera();
   renderer->render();
-  gameWorld.getScreens()->clear();
   fps.countCycle();
   PROFILER_BLOCK("SwapBuffers", profiler::colors::White);
   window.swapBuffers();
