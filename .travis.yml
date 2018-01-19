@@ -3,6 +3,7 @@ sudo: required
 language: cpp
 
 matrix:
+  fast_finish: true
   include:
     - os: linux
       services: docker
@@ -10,6 +11,7 @@ matrix:
         - docker pull glportal/whale-gcc:coverall
       script:
         - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake -DCOVERAGE:BOOL=ON ./&& make tests&& ctest&& coveralls --dryrun -i include -i source -e tests --gcov-options \'-lp\' && cmake -DCOVERAGE:BOOL=ON ./&& make tests&& ctest&& coveralls -i include -i source -e tests --gcov-options \'-lp\' > /dev/null;"
+  allow_failures:
     - os: osx
       osx_image: xcode8.3
       compiler: gcc
