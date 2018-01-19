@@ -4,6 +4,9 @@
 #include <list>
 #include <algorithm>
 
+#include <radix/data/screen/XmlScreenLoader.hpp>
+#include <radix/env/Environment.hpp>
+
 namespace radix {
 
 class InputSource;
@@ -12,6 +15,9 @@ struct Screen;
 class GameWorld {
 public:
   InputSource &input;
+  radix::Screen &splashScreen;
+  radix::Screen &pauseScreen;
+  radix::Screen &gameOverScreen;
   GameWorld(InputSource &input);
   void addScreen(Screen& screen);
   void removeScreen(Screen& screen);
