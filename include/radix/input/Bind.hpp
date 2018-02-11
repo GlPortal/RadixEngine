@@ -2,7 +2,7 @@
 #define RADIX_BIND_HPP
 
 namespace radix {
-	
+
 struct Bind {
   int8_t action;
   int8_t inputType;
@@ -47,7 +47,7 @@ struct Bind {
     inputCode(-1),
     sensitivity(0.0f),
     deadZone(0.0f) {}
-  Bind(const int &action, const int &inputType, const int &inputCode, const float &sensitivity = 0.0f, const float &deadZone = 0.5) : 
+  Bind(const int &action, const int &inputType, const int &inputCode, const float &sensitivity = 0.0f, const float &deadZone = 0.5) :
     action(action),
     inputType(inputType),
     inputCode(inputCode),

@@ -43,8 +43,15 @@ void Channel<T>::reInit(EventDispatcher &event) {
 }
 
 template<class T>
+void Channel<T>::close() {
+  for (SubChannel<T> &subChannel : subChannels) {
+    subChannel.close();
+  }
+}
+
+template<class T>
 void Channel<T>::channelChanged(const int &id) {
-  this->Channel<T>::set(this->subChannels.at(id).SubChannel<T>::get());
+  this->Channel<T>::set(this->subChannels[id].SubChannel<T>::get());
 }
 
 template<class T>
@@ -63,7 +70,7 @@ void SubChannel<T>::init(const int &id, EventDispatcher &event, const Bind& bind
     if (bind.inputType == Bind::CONTROLLER_AXIS) {
       this->setAnalogue(bind.deadZone);
       if (bind.action != InputManager::PLAYER_LOOK_ANALOGUE){
-        this->setBound(0.6f);
+        this->setBound(0.9f);
       }
     } else if (bind.inputType == Bind::MOUSE_AXIS) {
       this->setAnalogue(0.0f);
@@ -77,6 +84,13 @@ void SubChannel<T>::init(const int &id, EventDispatcher &event, const Bind& bind
 template<class T>
 void SubChannel<T>::reInit(EventDispatcher &event) {
   this->addObservers(event);
+}
+
+template<class T>
+void SubChannel<T>::close() {
+  for (EventDispatcher::CallbackHolder& callback : callbacks) {
+    callback.removeThis();
+  }
 }
 
 template<class T>

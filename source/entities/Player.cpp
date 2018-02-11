@@ -111,7 +111,7 @@ void Player::tick(TDelta dtime) {
 
   Vector3f newMovement = rotationMatrix * movement;
   newMovement *= RUNNING_SPEED;
-  
+
   controller->setWalkDirection(newMovement);
 
   if (controller->onGround()) {
@@ -123,7 +123,7 @@ void Player::tick(TDelta dtime) {
       stepCounter -= 2.5f;
     }
   }
-  
+
   attemptJump = false;
   trigger = nullptr;
 }

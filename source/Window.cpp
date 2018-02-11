@@ -24,21 +24,22 @@ class Config;
 
 const unsigned int Window::DEFAULT_WIDTH = 800;
 const unsigned int Window::DEFAULT_HEIGHT = 600;
-const char *Window::DEFAULT_TITLE = "Radix Engine";
+const char* Window::DEFAULT_TITLE = "Radix Engine";
 
-Window::Window()
-    : config(),
-      width(0),
-      height(0),
-      window(nullptr),
-      joystick(NULL),
-      controller(NULL),
-      mouseButtonStates((int)MouseButton::Max),
-      keyStates(SDL_NUM_SCANCODES),
-      controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
-      controllerStickStates(2),
-      controllerStickMax(2, Vector2i(25000)),
-      controllerTriggerStates(2) {}
+Window::Window() :
+  config(),
+  width(0),
+  height(0),
+  window(nullptr),
+  joystick(nullptr),
+  controller(nullptr),
+  mouseButtonStates(static_cast<int>(MouseButton::Max)),
+  keyStates(SDL_NUM_SCANCODES),
+  controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
+  controllerStickStates(2),
+  controllerStickMax(2, Vector2i(25000)),
+  controllerStickMin(2, Vector2i(-25000)),
+  controllerTriggerStates(2) {}
 
 Window::~Window() = default;
 
@@ -335,18 +336,32 @@ void Window::processControllerStickEvents() {
     currentStickState.y = SDL_GameControllerGetAxis(
         controller, (SDL_GameControllerAxis)(2 * i + 1));
 
-    if (std::abs(currentStickState.x) > controllerStickMax[i].x) {
-      controllerStickMax.at(i).x = std::abs(currentStickState.x);
+    if (currentStickState.x > controllerStickMax[i].x) {
+      controllerStickMax[i].x = currentStickState.x;
+    } else if (currentStickState.x < controllerStickMin[i].x) {
+      controllerStickMin[i].x = currentStickState.x;
     }
-    if (std::abs(currentStickState.y) > controllerStickMax[i].y) {
-      controllerStickMax.at(i).y = std::abs(currentStickState.y);
+    if (currentStickState.y > controllerStickMax[i].y) {
+      controllerStickMax[i].y = currentStickState.y;
+    } else if (currentStickState.y < controllerStickMin[i].y) {
+      controllerStickMin[i].y = currentStickState.y;
     }
 
-    Vector2i stickDelta = currentStickState - controllerStickStates.at(i);
+    Vector2i stickDelta = currentStickState - controllerStickStates[i];
 
     if (stickDelta != Vector2i::ZERO) {
-      Vector2f normalisedStickState =
-          Vector2f(currentStickState) / Vector2f(controllerStickMax[i]);
+      Vector2f normalisedStickState;
+      if (currentStickState.x > 0) {
+        normalisedStickState.x = float(currentStickState.x) / float(controllerStickMax[i].x);
+      } else {
+        normalisedStickState.x = float(currentStickState.x) / float(controllerStickMax[i].x);
+      }
+      
+      if (currentStickState.y > 0) {
+        normalisedStickState.y = float(currentStickState.y) / float(controllerStickMax[i].y);
+      } else {
+        normalisedStickState.y = float(currentStickState.y) / float(controllerStickMax[i].y);
+      }
 
       const ControllerAxisEvent cae(*this, i, normalisedStickState, 0);
       for (auto &d : dispatchers) {

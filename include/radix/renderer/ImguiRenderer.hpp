@@ -2,7 +2,6 @@
 #define IMGUI_RENDERER_HPP
 
 #include <radix/renderer/SubRenderer.hpp>
-//#include <radix/Window.hpp>
 
 struct SDL_Window;
 union  SDL_Event;
