@@ -229,7 +229,7 @@ void Window::processEvents() {
   }
 
   while (SDL_PollEvent(&event)) {
-    if(imguiProcessEvents) {
+    if(config.getCursorVisibility() && imguiProcessEvents) {
       imguiProcessEvents(&event);
     }
 
@@ -254,6 +254,17 @@ void Window::processEvents() {
 
         if (sym == SDLK_RETURN) {
           clearBuffer();
+        }
+        
+        if(sym == SDLK_F12) {
+          if(config.getCursorVisibility()) {
+            config.setCursorVisibility(false);
+            lockMouse();
+          }else{
+            config.setCursorVisibility(true);
+            unlockMouse();
+          }
+          break;
         }
 
         keyPressed(key, mod);
@@ -313,6 +324,10 @@ void Window::processEvents() {
 }
 
 void Window::processMouseAxisEvents() {
+  if(config.getCursorVisibility()) {
+    return;
+  }
+
   Vector2i mouseRelative;
   SDL_GetRelativeMouseState(&mouseRelative.x, &mouseRelative.y);
 

@@ -51,6 +51,8 @@ public:
   std::string getMapPath()        const { return mapPath; }
   int getScreen()                 const { return screen; }
 
+  void setCursorVisibility(bool visibilty) { cursorVisibility = visibilty; }
+
   static std::string actionToString(const int &action);
 
 private:
@@ -68,7 +70,7 @@ private:
   int antialiasing;
   int recursivePortal;
   bool loaded, fullscreen, sound, vsync, flyingEnabled
-    , hidePortalsByClick, cursorVisibility
+    , hidePortalsByClick, cursorVisibility = false
     , ignoreGlVersion, glContextEnableDebug
     , consoleEnabled, profilerEnabled, debugViewEnabled;
 

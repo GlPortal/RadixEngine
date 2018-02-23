@@ -132,11 +132,6 @@ bool ImguiRenderer::processEvent(SDL_Event* event) {
 }
 
 void ImguiRenderer::render() {
-  ImGui::Begin("Another Window");
-  static char buffer[256];
-  ImGui::InputText("Terminal", buffer, sizeof(buffer));
-  ImGui::End();
-
   ImGui::Render();
   renderDrawLists(ImGui::GetDrawData());
 }
