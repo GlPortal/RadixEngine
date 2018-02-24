@@ -1,7 +1,7 @@
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
-#include <radix/core/state/GameState.hpp>
+#include <radix/core/state/GameStateManager.hpp>
 #include <radix/SoundManager.hpp>
 #include <radix/env/Environment.hpp>
 

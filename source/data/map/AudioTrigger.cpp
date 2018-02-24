@@ -1,7 +1,7 @@
 #include <radix/data/map/AudioTrigger.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/entities/Trigger.hpp>
-#include <radix/core/state/GameState.hpp>
+#include <radix/core/state/GameStateManager.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/SoundManager.hpp>
 

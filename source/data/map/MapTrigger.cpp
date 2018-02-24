@@ -3,7 +3,7 @@
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/entities/Trigger.hpp>
-#include <radix/core/state/GameState.hpp>
+#include <radix/core/state/GameStateManager.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/World.hpp>
 

@@ -27,7 +27,7 @@ set(RADIX_SOURCES
   ${D}/core/math/Vector2ui.cpp
   ${D}/core/math/Vector3f.cpp
   ${D}/core/math/Vector4f.cpp
-  ${D}/core/state/GameState.cpp
+  ${D}/core/state/GameStateManager.cpp
   ${D}/Entity.cpp
   ${D}/EntityManager.cpp
   ${D}/entities/Player.cpp
