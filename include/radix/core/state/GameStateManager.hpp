@@ -1,5 +1,5 @@
-#ifndef RADIX_GAMESTATE_MANAGER_HPP
-#define RADIX_GAMESTATE_MANAGER_HPP
+#ifndef RADIX_GAME_STATE_MANAGER_HPP
+#define RADIX_GAME_STATE_MANAGER_HPP
 
 #include <radix/BaseGame.hpp>
 #include <radix/core/event/Event.hpp>
@@ -20,4 +20,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* RADIX_GAMESTATE_MANAGER_HPP */
+#endif /* RADIX_GAME_STATE_MANAGER_HPP */
