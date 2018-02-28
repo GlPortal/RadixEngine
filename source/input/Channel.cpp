@@ -37,15 +37,10 @@ void Channel<T>::init(const int &id, EventDispatcher &event, const std::vector<B
   
 template<class T>
 void Channel<T>::reInit(EventDispatcher &event) {
+  this->notifyListeners();
+
   for (SubChannel<T> &subChannel : subChannels) {
     subChannel.reInit(event);
-  }
-}
-
-template<class T>
-void Channel<T>::close() {
-  for (SubChannel<T> &subChannel : subChannels) {
-    subChannel.close();
   }
 }
 
@@ -87,24 +82,17 @@ void SubChannel<T>::reInit(EventDispatcher &event) {
 }
 
 template<class T>
-void SubChannel<T>::close() {
-  for (EventDispatcher::CallbackHolder& callback : callbacks) {
-    callback.removeThis();
-  }
-}
-
-template<class T>
 void SubChannel<T>::addObservers(EventDispatcher &event) {
   switch (bind.inputType) {
   case Bind::KEYBOARD: {
-    this->callbacks[0] = event.addObserver(InputSource::KeyPressedEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::KeyPressedEvent::Type, [this](const radix::Event& event) {
         const int key = ((radix::InputSource::KeyPressedEvent &) event).key;
         if (key == this->bind.inputCode) {
           this->set(1.0f);
         }
       });
 
-    this->callbacks[1] = event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::KeyReleasedEvent::Type, [this](const radix::Event& event) {
         const int key = ((radix::InputSource::KeyReleasedEvent &) event).key;
         if (key == this->bind.inputCode) {
           this->set(0.0f);
@@ -113,14 +101,14 @@ void SubChannel<T>::addObservers(EventDispatcher &event) {
     break;
   }
   case Bind::MOUSE_BUTTON: {
-    this->callbacks[0] = event.addObserver(InputSource::MouseButtonPressedEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::MouseButtonPressedEvent::Type, [this](const radix::Event& event) {
         const int button = (int)((radix::InputSource::MouseButtonPressedEvent &) event).button;
         if (button == this->bind.inputCode) {
           this->set((T)1.0f);
         }
       });
 
-    this->callbacks[1] = event.addObserver(InputSource::MouseButtonReleasedEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::MouseButtonReleasedEvent::Type, [this](const radix::Event& event) {
         const int button = (int)((radix::InputSource::MouseButtonPressedEvent &) event).button;
         if (button == this->bind.inputCode) {
           this->set((T)0.0f);
@@ -129,14 +117,14 @@ void SubChannel<T>::addObservers(EventDispatcher &event) {
     break;
   }
   case Bind::CONTROLLER_BUTTON: {
-    this->callbacks[0] = event.addObserver(InputSource::ControllerButtonPressedEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::ControllerButtonPressedEvent::Type, [this](const radix::Event& event) {
         const int button = ((radix::InputSource::ControllerButtonPressedEvent &) event).button;
         if (button == this->bind.inputCode) {
           this->set((T)1.0f);
         }
       });
 
-    this->callbacks[1] = event.addObserver(InputSource::ControllerButtonReleasedEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::ControllerButtonReleasedEvent::Type, [this](const radix::Event& event) {
         const int button = ((radix::InputSource::ControllerButtonReleasedEvent &) event).button;
         if (button == this->bind.inputCode) {
           this->set((T)0.0f);
@@ -145,7 +133,7 @@ void SubChannel<T>::addObservers(EventDispatcher &event) {
     break;
   }
   case Bind::CONTROLLER_TRIGGER: {
-    this->callbacks[0] = event.addObserver(InputSource::ControllerTriggerEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::ControllerTriggerEvent::Type, [this](const radix::Event& event) {
         const int trigger = ((radix::InputSource::ControllerTriggerEvent &) event).trigger;
         const float value = ((radix::InputSource::ControllerTriggerEvent &) event).value;
         if (trigger == this->bind.inputCode) {
@@ -161,7 +149,7 @@ template<>
 void SubChannel<Vector2f>::addObservers(EventDispatcher &event) {
   switch (bind.inputType) {
   case Bind::MOUSE_AXIS: {
-    this->callbacks[0] = event.addObserver(InputSource::MouseAxisEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::MouseAxisEvent::Type, [this](const radix::Event& event) {
         const Vector2f value = ((radix::InputSource::MouseAxisEvent &) event).value;
     
         this->set(value);
@@ -169,7 +157,7 @@ void SubChannel<Vector2f>::addObservers(EventDispatcher &event) {
     break;
   }
   case Bind::CONTROLLER_AXIS: {
-    this->callbacks[1] = event.addObserver(InputSource::ControllerAxisEvent::Type, [this](const radix::Event& event) {
+    event.addObserverRaw(InputSource::ControllerAxisEvent::Type, [this](const radix::Event& event) {
         const int axis = ((radix::InputSource::ControllerAxisEvent &) event).axis;
         const Vector2f value = ((radix::InputSource::ControllerAxisEvent &) event).value;
 
