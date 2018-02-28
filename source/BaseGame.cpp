@@ -48,6 +48,7 @@ BaseGame::~BaseGame() {
 }
 
 void BaseGame::setup() {
+  radix::Util::Log(radix::Info, "GameController") << "BaseGame::setup() start;";
   radix::GameConsole console;
   if (config.isConsoleEnabled()) {
     console.run(*this);
@@ -82,6 +83,7 @@ void BaseGame::setup() {
   renderer->addRenderer(*screenRenderer);
 
   inputManager.init();
+
 }
 
 bool BaseGame::isRunning() {
@@ -154,7 +156,6 @@ void BaseGame::customTriggerHook() { }
 
 void BaseGame::cleanUp() {
   removeHook();
-  inputManager.close();
   setWorld({});
   window.close();
 }
