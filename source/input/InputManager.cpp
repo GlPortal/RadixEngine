@@ -47,16 +47,6 @@ void InputManager::reInit() {
   }
 }
 
-void InputManager::close() {
-  for (auto& el : analogueChannels) {
-    el.second.close();
-  }
-
-  for (auto& el : digitalChannels) {
-    el.second.close();
-  }
-}
-
 void InputManager::channelChanged(const int &id) {
   entities::Player& player = game.getWorld()->getPlayer();
 

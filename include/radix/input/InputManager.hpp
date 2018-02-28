@@ -37,8 +37,6 @@ public:
   void init();
   void reInit();
 
-  void close();
-
   virtual void channelChanged(const int &id) override;
   Vector2f getPlayerMovementVector() const;
 
