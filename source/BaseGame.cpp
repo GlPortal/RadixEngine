@@ -14,10 +14,16 @@
 #include <radix/env/GameConsole.hpp>
 #include <radix/util/Profiling.hpp>
 #include <radix/World.hpp>
+#include <chaiscript/chaiscript.hpp>
+#include <chaiscript/chaiscript_stdlib.hpp>
 
 namespace radix {
 
 Fps BaseGame::fps;
+
+std::string helloWorld(const std::string &t_name){
+  return "Hello " + t_name + "!";
+}
 
 BaseGame::BaseGame() :
     gameWorld(window),
@@ -146,6 +152,10 @@ void BaseGame::cleanUp() {
   removeHook();
   setWorld({});
   window.close();
+  chaiscript::ChaiScript chai;
+  chai.add(chaiscript::fun(&helloWorld), "helloWorld");
+
+  chai.eval("puts(helloWorld(\"Bob\"));");
 }
 
 void BaseGame::render() {
