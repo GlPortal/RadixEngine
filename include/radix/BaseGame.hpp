@@ -38,7 +38,6 @@ public:
 
   BaseGame();
   virtual ~BaseGame();
-
   // No copy
   BaseGame(const BaseGame&) = delete;
   BaseGame operator=(const BaseGame&) = delete;
