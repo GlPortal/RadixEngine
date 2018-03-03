@@ -19,6 +19,8 @@
 [submodule "external/chaiScript"]
 	path = external/chaiScript
 	url = https://github.com/ChaiScript/ChaiScript.git
+
 [submodule "external/imgui"]
 	path = external/imgui
 	url = https://github.com/ocornut/imgui.git
+
