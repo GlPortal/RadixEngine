@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 set(RADIX_LIBRARY RadixEngine)
+# Disable ChaiScript unit tests
+set(BUILD_TESTING FALSE)
 
 if (COVERAGE)
   message("-- Coverage Enabled")
