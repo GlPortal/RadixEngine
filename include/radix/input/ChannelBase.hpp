@@ -1,20 +1,21 @@
 #ifndef RADIX_CHANNEL_BASE_HPP
 #define RADIX_CHANNEL_BASE_HPP
 
-#include <vector>
+#include <list>
 
 namespace radix {
 
+template <class T>
 class ChannelListener;
 
 template <class T>
 class ChannelBase {
 public:
   ChannelBase();
-  ChannelBase(ChannelListener *listener);
+  ChannelBase(ChannelListener<T> *listener);
 
   void setId(const int &id) { this->id = id; }
-  void addListener(ChannelListener* listener);
+  void addListener(ChannelListener<T> *listener);
   void setDigital(const float &actPoint);
   void setAnalogue(const float &deadZone);
   void setBound(const float& bound);
@@ -28,7 +29,7 @@ public:
 protected:
   void notifyListeners();
 
-  std::vector<ChannelListener*> listeners;
+  std::list<ChannelListener<T>*> listeners;
   int id;
   float bound, sensitivity;
   bool hasBound, isDigital, autoZero, alwaysNotifyListener;

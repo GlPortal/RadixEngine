@@ -35,8 +35,7 @@ public:
   bool flying, noclip, frozen, attemptJump;
   float speed;
   float stepCounter;
-  Vector3f movement;
-  Vector3f headingChange;
+  Vector3f newMovement, oldMovement, headingChange;
 
   Trigger *trigger;
 

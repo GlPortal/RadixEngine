@@ -47,6 +47,9 @@ public:
   BaseGame(BaseGame&&) = delete;
   BaseGame operator=(BaseGame&&) = delete;
 
+  void setup();
+  virtual void postSetup() {}
+
   virtual void onPreCreateWorld(World &world) {}
   virtual void onPostCreateWorld(World &world) {}
   virtual void onPreStartWorld() {}
@@ -64,14 +67,13 @@ public:
   virtual void close();
   virtual void render();
   void postCycle();
-  void setup();
 
   void deferPostCycle(const std::function<void()>&);
 
   World* getWorld();
   Config& getConfig();
-  inline InputManager& getInputManager() {
-    return inputManager;
+  inline InputManager* getInputManager() {
+    return inputManager.get();
   }
 
   template<class T, typename... Args>
@@ -108,7 +110,7 @@ protected:
   virtual void customTriggerHook();
 
   Window window;
-  InputManager inputManager;
+  std::unique_ptr<InputManager> inputManager;
   std::map<std::string, std::unique_ptr<World>> otherWorlds;
   std::unique_ptr<World> world;
   Config config;
