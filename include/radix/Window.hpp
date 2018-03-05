@@ -78,15 +78,14 @@ public:
   void unlockMouse();
   /**@} */
 
-  void registerImgui(std::function<bool(SDL_Event*)> processEvents,
-                     std::function<void()> newFrame) {
-    imguiProcessEvents  = processEvents;
-    imguiNewFrame = newFrame;
-  }
-  std::function<bool(SDL_Event*)> imguiProcessEvents;
   std::function<void()> imguiNewFrame;
-
-  radix::Config                             config;       /**< System Configuration */
+  std::function<bool(SDL_Event*)> imguiProcessEvents;
+  }
+    imguiNewFrame = newFrame;
+    imguiProcessEvents  = processEvents;
+                     std::function<void()> newFrame) {
+  void registerImgui(std::function<bool(SDL_Event*)> processEvents,
+  Config                             *config;       /**< System Configuration */
 
   /**
    * @brief processEvents main event loop handler

@@ -26,8 +26,6 @@ std::string helloWorld(const std::string &t_name){
 }
 
 BaseGame::BaseGame() :
-    inputManager(*this),
-    config(),
     gameWorld(window),
     closed(false) {
   radix::Environment::init();
@@ -41,7 +39,6 @@ BaseGame::BaseGame() :
   }
 
   window.setConfig(config);
-  inputManager.setConfig(config);
 }
 
 BaseGame::~BaseGame() {
@@ -54,7 +51,6 @@ BaseGame::~BaseGame() {
 }
 
 void BaseGame::setup() {
-  radix::Util::Log(radix::Info, "GameController") << "BaseGame::setup() start;";
   radix::GameConsole console;
   if (config.isConsoleEnabled()) {
     console.run(*this);
@@ -63,6 +59,10 @@ void BaseGame::setup() {
   createWindow();
   initHook();
   customTriggerHook();
+
+  if (!inputManager) {
+    inputManager = std::make_unique<InputManager>(this);
+  }
 
   std::unique_ptr<World> newWorld = std::make_unique<World>(*this);
   createWorld(*newWorld);
@@ -88,8 +88,7 @@ void BaseGame::setup() {
   screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
 
-  inputManager.init();
-
+  postSetup();
 }
 
 bool BaseGame::isRunning() {
@@ -111,8 +110,6 @@ void BaseGame::switchToOtherWorld(const std::string &name) {
   }
   setWorld(std::move(it->second));
   otherWorlds.erase(it);
-
-  inputManager.reInit();
 }
 
 void BaseGame::clearOtherWorldList() {
@@ -129,6 +126,7 @@ GameWorld* BaseGame::getGameWorld() {
 
 void BaseGame::preCycle() {
   PROFILER_NONSCOPED_BLOCK("Game cycle");
+  window.processEvents();
 }
 
 void BaseGame::update() {
@@ -225,6 +223,7 @@ void BaseGame::setWorld(std::unique_ptr<World> &&newWorld) {
     renderer = std::make_unique<Renderer>(*world);
     renderer->setViewport(&window);
     renderer->init();
+    inputManager->init();
 
     onPreStartWorld();
     world->onStart();
@@ -254,12 +253,11 @@ void BaseGame::createWindow() {
 }
 
 void BaseGame::createScreenshotCallbackHolder() {
-  screenshotCallbackHolder =
-    world->event.addObserver(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
-        const int key =  ((InputSource::KeyReleasedEvent &) event).key;
-        if (key == SDL_SCANCODE_G) {
-          this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");
-        }
-      });
+  world->event.addObserverRaw(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
+      const int key =  ((InputSource::KeyReleasedEvent &) event).key;
+      if (key == SDL_SCANCODE_G) {
+        this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");
+      }
+    });
 }
 } /* namespace radix */

@@ -10,7 +10,7 @@ namespace radix {
 
 template <class T>
 ChannelBase<T>::ChannelBase()
-    : listeners(1, nullptr),
+    : listeners(),
     id(0),
     bound(0),
     sensitivity(1.0f),
@@ -18,11 +18,11 @@ ChannelBase<T>::ChannelBase()
     isDigital(false),
     autoZero(false),
     alwaysNotifyListener(false),
-      actPoint(0),
+    actPoint(0),
     value() {}
 
 template <class T>
-ChannelBase<T>::ChannelBase(ChannelListener *listener)
+ChannelBase<T>::ChannelBase(ChannelListener<T>* listener)
     : listeners(1, listener),
     id(0),
     bound(0),
@@ -31,12 +31,12 @@ ChannelBase<T>::ChannelBase(ChannelListener *listener)
     isDigital(false),
     autoZero(false),
     alwaysNotifyListener(false),
-      actPoint(0),
+    actPoint(0),
     value() {}
 
 template <class T>
-void ChannelBase<T>::addListener(ChannelListener* listener) {
-  for (ChannelListener* mListener: listeners) {
+void ChannelBase<T>::addListener(ChannelListener<T>* listener) {
+  for (auto* mListener: listeners) {
     if (listener == mListener) {
       return;
     }
@@ -79,9 +79,7 @@ void ChannelBase<T>::set(T newValue) {
   if (value != newValue or alwaysNotifyListener) {
     value = newValue;
 
-    if (not listeners.empty()) {
-      notifyListeners();
-    }
+    notifyListeners();
   } else {
     return;
   }
@@ -119,26 +117,21 @@ void ChannelBase<Vector2f>::set(Vector2f newValue) {
   if (alwaysNotifyListener or !newValue.fuzzyEqual(value, 0.0001)) {
     value = newValue;
 
-    if (not listeners.empty()) {
-      notifyListeners();
-    }
+    notifyListeners();
   } else {
     return;
-  }
-
-  if (false) {
-    value = Vector2f(0.0f);
   }
 }
 
 template <class T>
 void ChannelBase<T>::notifyListeners() {
-  for (ChannelListener* listener: this->listeners) {
-    listener->channelChanged(id);
+  for (auto* listener: this->listeners) {
+    listener->channelChanged(value, this->id);
   }
 }
 
 template class ChannelBase<float>;
+template class ChannelBase<bool>;
 template class ChannelBase<Vector2f>;
 
 }

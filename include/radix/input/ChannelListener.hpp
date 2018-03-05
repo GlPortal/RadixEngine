@@ -3,11 +3,17 @@
 
 namespace radix {
 
+template<class T>
 class ChannelListener {
 public:
-  virtual void channelChanged(const int &id) = 0;
+  virtual void channelChanged(T newValue, const int &id) = 0;
 
 };
+
+class Vector2f;
+
+typedef ChannelListener<bool> 		DigitalChannelListener;
+typedef ChannelListener<Vector2f> 	VectorChannelListener;
 
 }
 

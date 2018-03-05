@@ -4,9 +4,9 @@
 namespace radix {
 
 struct Bind {
-  int8_t action;
-  int8_t inputType;
-  int8_t inputCode;
+  short action;
+  short inputType;
+  short inputCode;
   float sensitivity;
   union {
     float deadZone, actPoint;
@@ -45,9 +45,9 @@ struct Bind {
     action(-1),
     inputType(-1),
     inputCode(-1),
-    sensitivity(0.0f),
+    sensitivity(1.0f),
     deadZone(0.0f) {}
-  Bind(const int &action, const int &inputType, const int &inputCode, const float &sensitivity = 0.0f, const float &deadZone = 0.5) :
+  Bind(const int &action, const int &inputType, const int &inputCode, const float &sensitivity = 1.0f, const float &deadZone = 0.5) :
     action(action),
     inputType(inputType),
     inputCode(inputCode),
