@@ -44,6 +44,7 @@ BaseGame::~BaseGame() {
 }
 
 void BaseGame::setup() {
+  radix::Util::Log(radix::Info, "GameController") << "BaseGame::setup() start;";
   radix::GameConsole console;
   if (config.isConsoleEnabled()) {
     console.run(*this);
