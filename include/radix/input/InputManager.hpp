@@ -1,7 +1,7 @@
 #ifndef RADIX_INPUT_MANAGER_HPP
 #define RADIX_INPUT_MANAGER_HPP
 
-#include <array>
+#include <unordered_map>
 
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/env/Config.hpp>
@@ -11,42 +11,46 @@
 namespace radix {
 
 class BaseGame;
-class EventDispatcher;
 
-class InputManager : public ChannelListener {
+class InputManager : public DigitalChannelListener, VectorChannelListener {
 public:
   enum Action : int8_t {
     ACTION_INVALID = -1,
     PLAYER_MOVE_ANALOGUE = 0,
     PLAYER_LOOK_ANALOGUE,
-    PLAYER_JUMP,
-    PLAYER_PORTAL_0,
-    PLAYER_PORTAL_1,
     PLAYER_FORWARD,
     PLAYER_BACK,
     PLAYER_LEFT,
     PLAYER_RIGHT,
+    PLAYER_JUMP,
+    PLAYER_FIRE_PRIMARY,
+    PLAYER_FIRE_SECONDARY,
     GAME_PAUSE,
     GAME_QUIT,
+    GAME_START,
     ACTION_MAX
   };
 
   InputManager() = delete;
-  InputManager(BaseGame &baseGame);
-  void setConfig(const Config &config);
-  void init();
-  void reInit();
+  InputManager(BaseGame *baseGame);
 
-  virtual void channelChanged(const int &id) override;
+  void init();
+  virtual void postInit() {}
+  void reInit();
+  virtual void postReInit() {}
+
+  virtual void channelChanged(bool newValue, const int &id) override;     // DigitalChannelListener
+  virtual void channelChanged(Vector2f newValue, const int &id) override; // VectorChannelListener
+
   Vector2f getPlayerMovementVector() const;
 
   static bool isActionDigital(const int &act);
 
 protected:
-  BaseGame &game;
-  Config config;
-  std::map<int, Channel<float>> 	digitalChannels;
-  std::map<int, Channel<Vector2f>> analogueChannels;
+  bool initialised;
+  BaseGame *game;
+  std::unordered_map<int, DigitalChannel> digitalChannels;
+  std::unordered_map<int, VectorChannel>  vectorChannels;
 
 };
 

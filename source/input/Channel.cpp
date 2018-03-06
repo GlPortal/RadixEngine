@@ -8,8 +8,7 @@
 
 namespace radix {
   
-template<class T>
-void Channel<T>::init(const int &id, EventDispatcher &event, const std::vector<Bind> &binds) {
+void DigitalChannel::init(const int &id, EventDispatcher &event, const std::vector<Bind> &binds) {
   if (this->listeners.empty()) {
     throw Exception::Error("Channel", "Tried to initialise channel, id: " + std::to_string(id) + ", without a listener");
   }
@@ -26,33 +25,55 @@ void Channel<T>::init(const int &id, EventDispatcher &event, const std::vector<B
     this->setAnalogue(0.0f);
   }
 
-  for (int i = 0; i < (int)binds.size(); ++i) {
-    this->subChannels.push_back(SubChannel<T>(this));
-  }
-  //these have to be separate for some reason
-  for (int i = 0; i < (int)binds.size(); ++i) {
-    this->subChannels[i].init(i, event, binds[i]);
+  for (auto &bind: binds) {
+    this->subChannels.push_back(SubChannel<float>(this));
+    this->subChannels.back().init(id, event, bind);
   }
 }
   
-template<class T>
-void Channel<T>::reInit(EventDispatcher &event) {
+void DigitalChannel::reInit(EventDispatcher &event) {
   this->notifyListeners();
 
-  for (SubChannel<T> &subChannel : subChannels) {
+  for (auto &subChannel : subChannels) {
     subChannel.reInit(event);
   }
 }
 
-template<class T>
-void Channel<T>::channelChanged(const int &id) {
-  this->Channel<T>::set(this->subChannels[id].SubChannel<T>::get());
+void DigitalChannel::channelChanged(float newValue, const int &id) {
+  this->set(newValue > 0.5f ? true : false);
+}
+  
+void VectorChannel::init(const int &id, EventDispatcher &event, const std::vector<Bind> &binds) {
+  if (this->listeners.empty()) {
+    throw Exception::Error("Channel", "Tried to initialise channel, id: " + std::to_string(id) + ", without a listener");
+  }
+
+  setId(id);
+
+  this->setAnalogue(0.0f);
+
+  for (auto &bind: binds) {
+    this->subChannels.push_back(SubChannel<Vector2f>(this));
+    this->subChannels.back().init(bind.action, event, bind);
+  }
+}
+  
+void VectorChannel::reInit(EventDispatcher &event) {
+  this->notifyListeners();
+
+  for (auto &subChannel : subChannels) {
+    subChannel.reInit(event);
+  }
+}
+
+void VectorChannel::channelChanged(Vector2f newValue, const int &id) {
+  this->set(newValue);
 }
 
 template<class T>
 void SubChannel<T>::init(const int &id, EventDispatcher &event, const Bind& bind) {
   if (this->listeners.empty()) {
-    throw Exception::Error("SubChannel", "Tried to initialise sub-channel, id: " + std::to_string(id) + ", without a listener");
+    throw Exception::Error("SubChannel::init()", "Tried to initialise sub-channel, id: " + std::to_string(id) + ", without a listener");
   }
 
   this->setId(id);
@@ -104,14 +125,14 @@ void SubChannel<T>::addObservers(EventDispatcher &event) {
     event.addObserverRaw(InputSource::MouseButtonPressedEvent::Type, [this](const radix::Event& event) {
         const int button = (int)((radix::InputSource::MouseButtonPressedEvent &) event).button;
         if (button == this->bind.inputCode) {
-          this->set((T)1.0f);
+          this->set(1.0f);
         }
       });
 
     event.addObserverRaw(InputSource::MouseButtonReleasedEvent::Type, [this](const radix::Event& event) {
         const int button = (int)((radix::InputSource::MouseButtonPressedEvent &) event).button;
         if (button == this->bind.inputCode) {
-          this->set((T)0.0f);
+          this->set(0.0f);
         }
       });
     break;
@@ -120,14 +141,14 @@ void SubChannel<T>::addObservers(EventDispatcher &event) {
     event.addObserverRaw(InputSource::ControllerButtonPressedEvent::Type, [this](const radix::Event& event) {
         const int button = ((radix::InputSource::ControllerButtonPressedEvent &) event).button;
         if (button == this->bind.inputCode) {
-          this->set((T)1.0f);
+          this->set(1.0f);
         }
       });
 
     event.addObserverRaw(InputSource::ControllerButtonReleasedEvent::Type, [this](const radix::Event& event) {
         const int button = ((radix::InputSource::ControllerButtonReleasedEvent &) event).button;
         if (button == this->bind.inputCode) {
-          this->set((T)0.0f);
+          this->set(0.0f);
         }
       });
     break;
@@ -137,7 +158,7 @@ void SubChannel<T>::addObservers(EventDispatcher &event) {
         const int trigger = ((radix::InputSource::ControllerTriggerEvent &) event).trigger;
         const float value = ((radix::InputSource::ControllerTriggerEvent &) event).value;
         if (trigger == this->bind.inputCode) {
-          this->set((T)value);
+          this->set(value);
         }
       });
     break;
@@ -169,9 +190,6 @@ void SubChannel<Vector2f>::addObservers(EventDispatcher &event) {
   }
   }
 }
-
-template class Channel<float>;
-template class Channel<Vector2f>;
 
 template class SubChannel<float>;
 template class SubChannel<Vector2f>;

@@ -16,30 +16,32 @@ namespace radix {
 const std::vector<std::vector<Bind>> Config::defaultBindings = {
   {Bind()},
   {Bind(InputManager::PLAYER_LOOK_ANALOGUE, Bind::MOUSE_AXIS, 0, 1.0f)},
-  {Bind(InputManager::PLAYER_JUMP, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("Space"))},
-  {Bind(InputManager::PLAYER_PORTAL_0, Bind::MOUSE_BUTTON, (int)InputSource::MouseButton::Left)},
-  {Bind(InputManager::PLAYER_PORTAL_1, Bind::MOUSE_BUTTON, (int)InputSource::MouseButton::Right)},
   {Bind(InputManager::PLAYER_FORWARD, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("W"))},
   {Bind(InputManager::PLAYER_BACK, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("S"))},
   {Bind(InputManager::PLAYER_LEFT, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("A"))},
   {Bind(InputManager::PLAYER_RIGHT, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("D"))},
+  {Bind(InputManager::PLAYER_JUMP, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("Space"))},
+  {Bind(InputManager::PLAYER_FIRE_PRIMARY, Bind::MOUSE_BUTTON, (int)InputSource::MouseButton::Left)},
+  {Bind(InputManager::PLAYER_FIRE_SECONDARY, Bind::MOUSE_BUTTON, (int)InputSource::MouseButton::Right)},
   {Bind(InputManager::GAME_PAUSE, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("Escape"))},
-  {Bind(InputManager::GAME_QUIT, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("Q"))}
+  {Bind(InputManager::GAME_QUIT, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("Q"))},
+  {Bind(InputManager::GAME_START, Bind::KEYBOARD, InputSource::keyboardGetKeyFromString("Return"))}
 };
 
 std::string Config::actionToString(const int &action) {
   switch (InputManager::Action(action)) {
-    case InputManager::PLAYER_JUMP :          return "jump";
-    case InputManager::PLAYER_PORTAL_0 :      return "portal_0";
-    case InputManager::PLAYER_PORTAL_1 :      return "portal_1";
-    case InputManager::PLAYER_MOVE_ANALOGUE : return "move_analogue";
-    case InputManager::PLAYER_LOOK_ANALOGUE : return "look_analogue";
-    case InputManager::PLAYER_FORWARD :       return "forward";
-    case InputManager::PLAYER_BACK :          return "back";
-    case InputManager::PLAYER_LEFT :          return "left";
-    case InputManager::PLAYER_RIGHT :         return "right";
-    case InputManager::GAME_PAUSE :           return "pause";
-    case InputManager::GAME_QUIT :            return "quit";
+    case InputManager::PLAYER_JUMP :            return "jump";
+    case InputManager::PLAYER_FIRE_PRIMARY :    return "fire_pimary";
+    case InputManager::PLAYER_FIRE_SECONDARY :  return "fire_secondary";
+    case InputManager::PLAYER_MOVE_ANALOGUE :   return "move_analogue";
+    case InputManager::PLAYER_LOOK_ANALOGUE :   return "look_analogue";
+    case InputManager::PLAYER_FORWARD :         return "forward";
+    case InputManager::PLAYER_BACK :            return "back";
+    case InputManager::PLAYER_LEFT :            return "left";
+    case InputManager::PLAYER_RIGHT :           return "right";
+    case InputManager::GAME_PAUSE :             return "pause";
+    case InputManager::GAME_QUIT :              return "quit";
+    case InputManager::GAME_START :             return "start";
     case InputManager::ACTION_INVALID :
     case InputManager::ACTION_MAX :
     default :                                 return "";
@@ -132,13 +134,13 @@ void Config::loadMouseSettings(const Json &json) {
         if (button != -1) {
           Bind bind(action, Bind::MOUSE_BUTTON, button);
           bindings[action].push_back(bind);
-          Util::Log(Info, "Config") << buttonStr << button << " bound to " << actionStr;
+          Util::Log(Verbose, "Config") << buttonStr << " bound to " << actionStr;
         } else if (axis) {
           Bind bind(action, Bind::MOUSE_AXIS, 0, mouseSensitivity, 0);
           bindings[action].push_back(bind);
-          Util::Log(Info, "Config") << buttonStr << " bound to " << actionStr << " with sensitivity " << mouseSensitivity;
+          Util::Log(Verbose, "Config") << buttonStr << " bound to " << actionStr << " with sensitivity " << mouseSensitivity;
         } else {
-          Util::Log(Info, "Config") << buttonStr << "is an invalid control name";
+          Util::Log(Verbose, "Config") << buttonStr << " is an invalid control name";
         }
       }
     }
@@ -159,9 +161,9 @@ void Config::loadKeyboardSettings(const Json &json) {
         if (key > 0) {
           Bind bind(action, Bind::KEYBOARD, key);
           bindings[action].push_back(bind);
-          Util::Log(Info, "Config") << keyStr << " bound to " << actionStr;
+          Util::Log(Verbose, "Config") << keyStr << " bound to " << actionStr;
         } else {
-          Util::Log(Info, "Config") << keyStr << "is an invalid control name";
+          Util::Log(Verbose, "Config") << keyStr << " is an invalid control name";
         }
       }
     }
@@ -183,21 +185,21 @@ void Config::loadControllerSettings(const Json &json) {
         if (button != -1) {
           Bind bind(action, Bind::CONTROLLER_BUTTON, button);
           bindings[action].push_back(bind);
-          Util::Log(Info, "Config") << buttonStr << " bound to " << actionStr;
+          Util::Log(Verbose, "Config") << buttonStr << " bound to " << actionStr;
         } else if (axis != -1) {
           float deadZone = json["dead_zone"][buttonStr].number_value();
           float sensitivity = json["sensitivity"][buttonStr].number_value();
           Bind bind(action, Bind::CONTROLLER_AXIS, axis, sensitivity, deadZone);
           bindings[action].push_back(bind);
-          Util::Log(Info, "Config") << buttonStr << " bound to " << actionStr << " with sensitivity " << sensitivity << " and deadzone " << deadZone;
+          Util::Log(Verbose, "Config") << buttonStr << " bound to " << actionStr << " with sensitivity " << sensitivity << " and deadzone " << deadZone;
         } else if (trigger != -1) {
           float actPoint = json["dead_zone"][buttonStr].number_value();
           float sensitivity = 1.0f;
           Bind bind(action, Bind::CONTROLLER_TRIGGER, trigger, sensitivity, actPoint);
           bindings[action].push_back(bind);
-          Util::Log(Info, "Config") << buttonStr << " bound to " << actionStr << " with deadzone " << actPoint;
+          Util::Log(Verbose, "Config") << buttonStr << " bound to " << actionStr << " with deadzone " << actPoint;
         } else {
-          Util::Log(Info, "Config") << buttonStr << "is an invalid control name";
+          Util::Log(Verbose, "Config") << buttonStr << "is an invalid control name";
         }
       }
     }
@@ -208,7 +210,7 @@ void Config::loadDefaultBindings() {
   for (int i(0); i < InputManager::ACTION_MAX; ++i) {
     if (bindings[i].empty()) {
       bindings[i] = defaultBindings[i];
-      Util::Log(Info, "Config") << actionToString(i) << " set to default bind";
+      Util::Log(Verbose, "Config") << actionToString(i) << " set to default bind";
     }
   }
 }

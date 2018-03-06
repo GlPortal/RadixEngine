@@ -12,7 +12,6 @@
 #include <radix/core/state/HandleGameFunction.hpp>
 #include <radix/data/map/Destination.hpp>
 #include <radix/data/material/Material.hpp>
-#include <radix/env/Config.hpp>
 #include <radix/Camera.hpp>
 #include <radix/EntityManager.hpp>
 #include <radix/SimulationManager.hpp>
@@ -24,12 +23,13 @@ class Player;
 }
 class BaseGame;
 class InputSource;
+class Config;
 
 typedef std::pair<Entity*, Entity*> EntityPair;
 
 class World {
 private:
-  radix::Config config;
+  Config *config;
   double gameTime;
   uint32_t lastUpdateTime;
 

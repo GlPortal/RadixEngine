@@ -5,6 +5,7 @@
 #include <radix/env/Environment.hpp>
 #include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
+#include <radix/env/Util.hpp>
 #include <radix/BaseGame.hpp>
 
 #include <cmath>
@@ -18,6 +19,7 @@ namespace entities {
 static const Vector3f PLAYER_SIZE(0.5, 1, 0.5);
 
 static constexpr float RUNNING_SPEED = 0.1f;
+static constexpr float MAX_ACCELERATION = 10000.0f;
 static constexpr float JUMP_SPEED = 0.15f;
 static constexpr float HURT_VELOCITY = 0.18f;
 
@@ -100,22 +102,42 @@ void Player::tick(TDelta dtime) {
     controller->jump();
   }
 
+  float maxAcceleration = MAX_ACCELERATION/(float)dtime,
+        xVelocityDiff = newMovement.x - oldMovement.x,
+        zVelocityDiff = newMovement.z - oldMovement.z;
+
+  if (xVelocityDiff > maxAcceleration) {
+    oldMovement.x += maxAcceleration;
+  } else if (xVelocityDiff < -maxAcceleration) {
+    oldMovement.x -= maxAcceleration;
+  } else {
+    oldMovement.x = newMovement.x;
+  }
+
+  if (zVelocityDiff > maxAcceleration) {
+    oldMovement.z += maxAcceleration;
+  } else if (zVelocityDiff < -maxAcceleration) {
+    oldMovement.z -= maxAcceleration;
+  } else {
+    oldMovement.z = newMovement.z;
+  }
+
+  Matrix4f rotationMatrix;
+  rotationMatrix.rotate(rot, 0.0f, 1.0f, 0.0f);
+
+  Vector3f movement = rotationMatrix * oldMovement;
+  movement *= RUNNING_SPEED;
+
+  controller->setWalkDirection(movement);
+
   if (movement != Vector3f::ZERO) {
     if (trigger) {
       trigger->actionOnMove(*trigger);
     }
   }
 
-  Matrix4f rotationMatrix;
-  rotationMatrix.rotate(rot, 0.0f, 1.0f, 0.0f);
-
-  Vector3f newMovement = rotationMatrix * movement;
-  newMovement *= RUNNING_SPEED;
-
-  controller->setWalkDirection(newMovement);
-
   if (controller->onGround()) {
-    stepCounter += std::sqrt(newMovement.x*newMovement.x + newMovement.z*newMovement.z);
+    stepCounter += std::sqrt(movement.x*movement.x + movement.z*movement.z);
 
     if (stepCounter >= 2.5f) {
       std::uniform_int_distribution<> distribution(0, PLAYER_FOOT_SOUND.size()-1);
@@ -133,16 +155,16 @@ void Player::jump() {
 }
 
 void Player::move(const Vector2f &move) {
-  movement.x = move.x;
-  movement.z = move.y;
+  newMovement.x = move.x;
+  newMovement.z = move.y;
 }
 
 void Player::moveX(const float &moveX) {
-  movement.x = moveX;
+  newMovement.x = moveX;
 }
 
 void Player::moveY(const float &moveY) {
-  movement.z = moveY;
+  newMovement.z = moveY;
 }
 
 void Player::changeHeading(const Vector2f &lookVector) {

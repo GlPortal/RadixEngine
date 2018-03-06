@@ -22,11 +22,11 @@ World::~World() {
 }
 
 void World::setConfig(radix::Config &config) {
-  this->config = config;
+  this->config = &config;
 }
 
 radix::Config& World::getConfig() {
-  return this->config;
+  return *(this->config);
 }
 
 void World::onCreate() {

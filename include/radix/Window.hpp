@@ -76,7 +76,7 @@ public:
   void unlockMouse();
   /**@} */
 
-  radix::Config                             config;       /**< System Configuration */
+  Config                             *config;       /**< System Configuration */
 
   /**
    * @brief processEvents main event loop handler

@@ -8,10 +8,11 @@
 
 #include <radix/core/gl/OpenGL.hpp>
 
+#include <radix/core/diag/Throwables.hpp>
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/gl/DebugOutput.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
-#include <radix/core/diag/Throwables.hpp>
+#include <radix/env/Config.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
 
@@ -19,14 +20,11 @@
 
 namespace radix {
 
-class Config;
-
 const unsigned int Window::DEFAULT_WIDTH = 800;
 const unsigned int Window::DEFAULT_HEIGHT = 600;
 const char* Window::DEFAULT_TITLE = "Radix Engine";
 
 Window::Window() :
-  config(),
   width(0),
   height(0),
   window(nullptr),
@@ -43,7 +41,7 @@ Window::Window() :
 Window::~Window() = default;
 
 void Window::setConfig(radix::Config &config){
-  this->config = config;
+  this->config = &config;
 }
 
 inline std::string Window::getOpenGlVersionString(const int _glVersion) {
@@ -62,7 +60,7 @@ void Window::initGl() {
   const std::string versionString = getOpenGlVersionString(glversion);
 
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
-  if (config.getIgnoreGlVersion()) {
+  if (config->getIgnoreGlVersion()) {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
   } else {
     if (glversion < 32) {
@@ -97,14 +95,14 @@ void Window::create(const char *title) {
 
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-  if (config.isLoaded() && config.getAntialiasLevel() > 0) {
+  if (config->isLoaded() && config->getAntialiasLevel() > 0) {
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config.getAntialiasLevel());
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config->getAntialiasLevel());
   }
 
   int glFlags = 0;
 
-  const bool enableGlDebug = config.isLoaded() && config.getGlContextEnableDebug();
+  const bool enableGlDebug = config->isLoaded() && config->getGlContextEnableDebug();
   if (enableGlDebug) {
     glFlags |= SDL_GL_CONTEXT_DEBUG_FLAG;
   }
@@ -117,7 +115,7 @@ void Window::create(const char *title) {
   width  = windowDimensions.width;
   height = windowDimensions.height;
 
-  if (config.isLoaded() && config.isFullscreen()) {
+  if (config->isLoaded() && config->isFullscreen()) {
     flags |= SDL_WINDOW_BORDERLESS;
   } else {
     flags |= SDL_WINDOW_RESIZABLE;
@@ -133,8 +131,8 @@ void Window::create(const char *title) {
   SDL_Rect rect;
   rect.x=SDL_WINDOWPOS_CENTERED;
   rect.y=SDL_WINDOWPOS_CENTERED;
-  if(config.getScreen()!=0) {
-      SDL_GetDisplayBounds(config.getScreen(),&rect);
+  if(config->getScreen()!=0) {
+      SDL_GetDisplayBounds(config->getScreen(),&rect);
   }
   window = SDL_CreateWindow(title, rect.x, rect.y, width, height, flags);
 
@@ -149,8 +147,8 @@ void Window::create(const char *title) {
   glViewport(0, 0, width, height);
 
   // Allows unbound framerate if vsync is disabled
-  if (config.isLoaded()) {
-    SDL_GL_SetSwapInterval(config.hasVsync() ? 1 : 0);
+  if (config->isLoaded()) {
+    SDL_GL_SetSwapInterval(config->hasVsync() ? 1 : 0);
   } else {
     SDL_GL_SetSwapInterval(1);
   }
@@ -166,12 +164,12 @@ Vector2i Window::getWindowDimensions() {
    * - screen height
    */
   SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
-  SDL_GetDesktopDisplayMode(config.getScreen(), &dispMode);
+  SDL_GetDesktopDisplayMode(config->getScreen(), &dispMode);
 
   unsigned int widthConfig = 0, heightConfig = 0;
-  if (config.isLoaded()) {
-    widthConfig  = config.getWidth();
-    heightConfig = config.getHeight();
+  if (config->isLoaded()) {
+    widthConfig  = config->getWidth();
+    heightConfig = config->getHeight();
   }
 
   width  = (widthConfig == 0) ? dispMode.w : widthConfig;
