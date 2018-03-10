@@ -10,6 +10,7 @@
 #include <radix/entities/Trigger.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/data/map/TeleportTrigger.hpp>
+#include <radix/data/map/ScriptTrigger.hpp>
 
 using namespace std;
 using namespace tinyxml2;
@@ -46,6 +47,8 @@ void XmlTriggerHelper::extractTriggerActions(entities::Trigger &trigger, XMLElem
     extractMapTriggerActions(trigger, xmlElement);
   } else if (type == TeleportTrigger::TYPE) {
     extractDestinationTriggerActions(trigger, xmlElement);
+  } else if (type == ScriptTrigger::TYPE) {
+    extractScriptTriggerActions(trigger, xmlElement);
   } else {
     XmlHelper::throwMandatoryAttributeException("trigger type");
   }
@@ -75,4 +78,9 @@ void XmlTriggerHelper::extractDestinationTriggerActions(entities::Trigger &trigg
   teleportTrigger.addAction(trigger);
 }
 
+void XmlTriggerHelper::extractScriptTriggerActions(entities::Trigger &trigger, XMLElement *xmlElement) {
+  std::string code = xmlElement->GetText();
+  ScriptTrigger scriptTrigger = ScriptTrigger(code);
+  scriptTrigger.addAction(trigger);
+}
 } /* namespace radix */

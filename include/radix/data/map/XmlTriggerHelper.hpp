@@ -20,6 +20,7 @@ namespace radix {
     static void extractAudioTriggerActions(entities::Trigger &trigger, tinyxml2::XMLElement *xmlElement);
     static void extractDestinationTriggerActions(entities::Trigger &trigger,
                                                  tinyxml2::XMLElement *xmlElement);
+    static void extractScriptTriggerActions(entities::Trigger &trigger, tinyxml2::XMLElement *xmlElement);
   };
 
 } /* namespace radix */

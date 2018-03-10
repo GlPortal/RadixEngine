@@ -60,6 +60,7 @@ set(RADIX_SOURCES
   ${D}/data/map/AudioTrigger.cpp
   ${D}/data/map/MapTrigger.cpp
   ${D}/data/map/TeleportTrigger.cpp
+  ${D}/data/map/ScriptTrigger.cpp
   ${D}/data/map/XmlMapLoader.cpp
   ${D}/data/material/MaterialLoader.cpp
   ${D}/data/model/MeshLoader.cpp
