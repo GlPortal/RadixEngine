@@ -47,6 +47,20 @@ void XmlHelper::extractPosition(XMLElement *xmlElement, Vector3f &position) {
 void XmlHelper::extractRotation(XMLElement *xmlElement, Vector3f &rotation) {
   XMLElement *elm = xmlElement->FirstChildElement("rotation");
   if (elm) {
+    /*
+     * By convention the vector representing the rotation angles is
+     * order in the following way
+     * vector.x = angle around y
+     * vector.y = angle around x
+     * vector.z = angle around z
+     *
+     * But blender plugin gives the angles in the following order:
+     * vectorBlender.x = angle around x
+     * vectorBlender.y = angle around y
+     * vectorBlender.z = angle around z
+     *
+     * So some reordering i needed, see below
+     */
     Vector3f tmpRot;
     pushAttributeVertexToVector(elm, tmpRot);
     rotation.pitch = rad(tmpRot.x);
