@@ -116,6 +116,14 @@ Vector4f Quaternion::toAxAngle() const {
 
 
 Quaternion& Quaternion::fromAero(float tetha, float phi, float psi) {
+  /*
+   * thetha => rotation around Y
+   * phi => rotation around X
+   * psi => rotation around Z
+   *
+   * The convention used in term of rotation order is
+   * RyRxRz
+   */
   const float hY = tetha * 0.5, hP = phi * 0.5, hR = psi * 0.5;
   const float cY = std::cos(hY);
   const float sY = std::sin(hY);
@@ -128,6 +136,7 @@ Quaternion& Quaternion::fromAero(float tetha, float phi, float psi) {
   y = cRcP * sY - sRsP * cY;
   z = sRcP * cY - cRsP * sY;
   w = cRcP * cY + sRsP * sY;
+
   return *this;
 }
 
@@ -138,30 +147,54 @@ Quaternion& Quaternion::fromAero(const Vector3f &v) {
 
 Vector3f Quaternion::toAero() const {
   // http://www.geometrictools.com/Documentation/EulerAngles.pdf
-  float r00 = 1.0f - 2.0f*y*y - 2.0f*z*z;
-  float r01 = 2.0f*x*y + 2.0f*z*w;
-  float r02 = 2.0f*x*z - 2.0f*y*w;
-  float r11 = 1.0f - 2.0f*x*x - 2.0f*z*z;
-  float r20 = 2.0f*x*z + 2.0f*y*w;
-  float r21 = 2.0f*y*z - 2.0f*x*w;
-  float r22 = 1.0f - 2.0f*x*x - 2.0f*y*y;
+
+  //extract each column of the rotation matrix
+  const Vector3f firstColumn = (*this) * Vector3f{1,0,0};
+  const Vector3f secondColumn = (*this) * Vector3f{0,1,0};
+  const Vector3f thirdColumn = (*this) * Vector3f{0,0,1};
+
+  //extract each coefficient from the rotation matrice
+  const float r00 = firstColumn.x;
+  const float r10 = firstColumn.y;
+  const float r20 = firstColumn.z;
+
+  const float r01 = secondColumn.x;
+  const float r11 = secondColumn.y;
+  const float r21 = secondColumn.z;
+
+  const float r02 = thirdColumn.x;
+  const float r12 = thirdColumn.y;
+  const float r22 = thirdColumn.z;
+
   float thetaX, thetaY, thetaZ;
-  if (r21 < +1) {
-    if (r21 > -1) {
-      thetaX = asin(r21);
-      thetaZ = atan2(-r01, r11);
-      thetaY = atan2(-r20, r22);
+  /*
+   * Due to some numerical error
+   * a threeshold is needed
+   *
+   * when an angle is near 90 degree
+   * some comparisons can failed even though
+   * they souldn't. To avoid that we approximate
+   * any angle near 90 to be 90.
+   */
+  const float eps = 0.00001f;
+
+  if (r12 < 1 - eps) {
+    if (r12 > -1 + eps ) {
+      thetaX = std::asin(-r12);
+      thetaY = std::atan2(r02, r22);
+      thetaZ = std::atan2(r10, r11);
     } else {
-      thetaX = -Math::PI /2;
+      thetaX = Math::PI /2;
+      thetaY = -std::atan2(-r01, r00);
       thetaZ = 0;
-      thetaY = -atan2(r02, r00);
     }
   } else {
-    thetaX = +Math::PI/2;
+    thetaX = -Math::PI/2;
+    thetaY = std::atan2(-r01, r00);
     thetaZ = 0;
-    thetaY = atan2(r02, r00);
   }
-  return Vector3f(-thetaY, -thetaX, -thetaZ);
+
+  return Vector3f(thetaY, thetaX, thetaZ);
 }
 
 Matrix4f Quaternion::toMatrix() const {
