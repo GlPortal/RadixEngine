@@ -31,7 +31,7 @@ struct QuaternionTestFixtures {
 };
 
 bool fuzzyEq(float f1, float f2) {
-  return std::abs(f1-f2) <= 0.001f;
+  return std::abs(f1-f2) <= 0.0001f;
 }
 
 bool fuzzyEq(const Quaternion &q, float x, float y, float z, float w) {
