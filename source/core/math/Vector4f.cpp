@@ -168,13 +168,11 @@ Vector3f Quaternion::toAero() const {
 
   float thetaX, thetaY, thetaZ;
   /*
-   * Due to some numerical error
-   * a threeshold is needed
+   * Due to some numerical error a threeshold is needed.
    *
-   * when an angle is near 90 degree
-   * some comparisons can failed even though
-   * they souldn't. To avoid that we approximate
-   * any angle near 90 to be 90.
+   * When an angle is near 90 degree some comparisons can 
+   * fail even though they shouldn't. 
+   * To avoid that we approximate any angle near 90 to be 90.
    */
   const float eps = 0.00001f;
 
