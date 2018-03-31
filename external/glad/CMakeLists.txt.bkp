@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
+
+project(GLAD)
+
+#add_subdirectory(libtest_project)
+add_library(GLAD STATIC glad.c)
+
+install(TARGETS GLAD DESTINATION libglad)
+install(FILES glad.h DESTINATION libglad)
+
+#target_link_libraries(myapp test)
+#install(TARGETS myapp DESTINATION bin)
