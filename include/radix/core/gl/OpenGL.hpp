@@ -2,7 +2,8 @@
 #define RADIX_CORE_GL_OPENGL_HPP
 
 #if defined(RADIX_GL_USE_LIBEPOXY)
-#include <epoxy/gl.h>
+//#include <epoxy/gl.h>
+#include <epoxy/glx.h>
 #elif defined(RADIX_GL_USE_GLAD)
 #include <glad/glad.h>
 #else
