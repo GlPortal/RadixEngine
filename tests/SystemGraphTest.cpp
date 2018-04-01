@@ -26,7 +26,7 @@ public:
   }
 
   bool runsAfter(const System &s) {
-    return s.getTypeId() == System::getTypeId<radix::PlayerSystem>() or
+    return s.getTypeId() == System::getTypeId<radix::PlayerSystem>() ||
            s.getTypeId() == System::getTypeId<radix::PhysicsSystem>();
   }
   /*bool runsBefore(const System &s) {
@@ -102,7 +102,7 @@ public:
   }
 
   bool runsBefore(const System &s) {
-    return strncmp(s.getName(), "TinySystem", 10) == 0 and
+    return strncmp(s.getName(), "TinySystem", 10) == 0 &&
            atoi(s.getName() + 10) > I;
   }
 

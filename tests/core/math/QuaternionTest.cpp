@@ -35,11 +35,11 @@ bool fuzzyEq(float f1, float f2) {
 }
 
 bool fuzzyEq(const Quaternion &q, float x, float y, float z, float w) {
-  return fuzzyEq(q.x, x) and fuzzyEq(q.y, y) and fuzzyEq(q.z, z) and fuzzyEq(q.w, w);
+  return fuzzyEq(q.x, x) && fuzzyEq(q.y, y) && fuzzyEq(q.z, z) && fuzzyEq(q.w, w);
 }
 
 bool fuzzyEq(const Quaternion &q, const Quaternion &k) {
-  return fuzzyEq(q.x, k.x) and fuzzyEq(q.y, k.y) and fuzzyEq(q.z, k.z) and fuzzyEq(q.w, k.w);
+  return fuzzyEq(q.x, k.x) && fuzzyEq(q.y, k.y) && fuzzyEq(q.z, k.z) && fuzzyEq(q.w, k.w);
 }
 
 void printq(const Quaternion &q) {

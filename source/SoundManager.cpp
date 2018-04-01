@@ -34,7 +34,7 @@ void SoundManager::init() {
   music = nullptr;
   sounds.clear();
 
-  if (not isDisabled) {
+  if ( !isDisabled) {
     int flags = MIX_INIT_OGG;
 
     if ((Mix_Init(flags) & flags) != flags) {
@@ -44,7 +44,7 @@ void SoundManager::init() {
     }
   }
 
-  if (not isDisabled) {
+  if ( !isDisabled) {
     int audioRate = 22050;
     Uint16 audioFormat = AUDIO_S16;
     int audioChannels = 2;
@@ -118,7 +118,7 @@ void SoundManager::update(const Entity &listener) {
   std::vector<int> erase_list;
 
   for (auto sound : sounds) {
-    if (not Mix_Playing(sound.first)) {
+    if ( !Mix_Playing(sound.first)) {
       Mix_FreeChunk(sound.second.chunk);
       erase_list.push_back(sound.first);
     }

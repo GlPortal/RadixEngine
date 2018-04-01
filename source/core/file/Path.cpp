@@ -22,7 +22,7 @@ bool Path::DirectoryExist(std::string &directory) {
 #ifndef _WIN32
   struct stat sb;
 
-  if (stat(directory.c_str(), &sb) == 0 and S_ISDIR(sb.st_mode)) {
+  if (stat(directory.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode)) {
     return true;
   }
   return false;

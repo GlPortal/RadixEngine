@@ -21,11 +21,11 @@ bool fuzzyEq(float f1, float f2) {
 }
 
 bool fuzzyEq(const Quaternion &q, float x, float y, float z, float w) {
-  return fuzzyEq(q.x, x) and fuzzyEq(q.y, y) and fuzzyEq(q.z, z) and fuzzyEq(q.w, w);
+  return fuzzyEq(q.x, x) && fuzzyEq(q.y, y) && fuzzyEq(q.z, z) && fuzzyEq(q.w, w);
 }
 
 bool fuzzyEq(const Quaternion &q, const Quaternion &k) {
-  return fuzzyEq(q.x, k.x) and fuzzyEq(q.y, k.y) and fuzzyEq(q.z, k.z) and fuzzyEq(q.w, k.w);
+  return fuzzyEq(q.x, k.x) && fuzzyEq(q.y, k.y) && fuzzyEq(q.z, k.z) && fuzzyEq(q.w, k.w);
 }
 
 void printq(const Quaternion &q) {
@@ -86,14 +86,14 @@ TEST_CASE_METHOD(MathTestFixtures, "toDirection test") {
     Vector3f backward(0, 0, 1);
     REQUIRE(direction.fuzzyEqual(backward));
   }
-  
+
   SECTION("to forward") {
     quat.fromAxAngle(1, 0, 0, rad(0));
     Vector3f direction = Math::toDirection(quat);
     Vector3f forward(0, 0, -1);
     REQUIRE(direction.fuzzyEqual(forward));
   }
-  
+
   SECTION("to right") {
     quat.fromAxAngle(0, 1, 0, rad(-90));
     Vector3f direction = Math::toDirection(quat);
@@ -104,7 +104,7 @@ TEST_CASE_METHOD(MathTestFixtures, "toDirection test") {
     quat.fromAxAngle(0, 1, 0, rad(90));
     Vector3f direction = Math::toDirection(quat);
     Vector3f left(-1, 0, 0);
-    REQUIRE(direction.fuzzyEqual(left));    
+    REQUIRE(direction.fuzzyEqual(left));
   }
   SECTION("to up") {
     quat.fromAxAngle(1, 0, 0, rad(90));
@@ -116,59 +116,59 @@ TEST_CASE_METHOD(MathTestFixtures, "toDirection test") {
     quat.fromAxAngle(1, 0, 0, rad(-90));
     Vector3f direction = Math::toDirection(quat);
     Vector3f down(0, -1, 0);
-    REQUIRE(direction.fuzzyEqual(down));    
+    REQUIRE(direction.fuzzyEqual(down));
   }
 
 
-  
+
   // Now each quadrant (there are eight)
   SECTION("to first quadrant") {
     quat.fromAxAngle(1, -1, 0, rad(135));
     Vector3f direction = Math::toDirection(quat);
     Vector3f first(.5, .5, .7071);
-    REQUIRE(direction.fuzzyEqual(first));    
+    REQUIRE(direction.fuzzyEqual(first));
   }
   SECTION("to second quadrant") {
     quat.fromAxAngle(1, 1, 0, rad(135));
     Vector3f direction = Math::toDirection(quat);
     Vector3f second(-.5, .5, .7071);
-    REQUIRE(direction.fuzzyEqual(second));    
+    REQUIRE(direction.fuzzyEqual(second));
   }
   SECTION("to third quadrant") {
     quat.fromAxAngle(-1, 1, 0, rad(135));
     Vector3f direction = Math::toDirection(quat);
     Vector3f third(-.5, -.5, .7071);
-    REQUIRE(direction.fuzzyEqual(third));    
+    REQUIRE(direction.fuzzyEqual(third));
   }
   SECTION("to fourth quadrant") {
     quat.fromAxAngle(-1, -1, 0, rad(135));
     Vector3f direction = Math::toDirection(quat);
     Vector3f fourth(.5, -.5, .7071);
-    REQUIRE(direction.fuzzyEqual(fourth));    
+    REQUIRE(direction.fuzzyEqual(fourth));
   }
   SECTION("to fifth quadrant") {
     quat.fromAxAngle(1, -1, 0, rad(45));
     Vector3f direction = Math::toDirection(quat);
     Vector3f fifth(.5, .5, -.7071);
-    REQUIRE(direction.fuzzyEqual(fifth));    
+    REQUIRE(direction.fuzzyEqual(fifth));
   }
   SECTION("to sixth quadrant") {
     quat.fromAxAngle(1, 1, 0, rad(45));
     Vector3f direction = Math::toDirection(quat);
     Vector3f sixth(-.5, .5, -.7071);
-    REQUIRE(direction.fuzzyEqual(sixth));    
+    REQUIRE(direction.fuzzyEqual(sixth));
   }
   SECTION("to seventh quadrant") {
     quat.fromAxAngle(-1, 1, 0, rad(45));
     Vector3f direction = Math::toDirection(quat);
     Vector3f seventh(-.5, -.5, -.7071);
-    REQUIRE(direction.fuzzyEqual(seventh));    
+    REQUIRE(direction.fuzzyEqual(seventh));
   }
   SECTION("to eighth quadrant") {
     quat.fromAxAngle(-1, -1, 0, rad(45));
     Vector3f direction = Math::toDirection(quat);
     Vector3f eighth(.5, -.5, -.7071);
-    REQUIRE(direction.fuzzyEqual(eighth));    
+    REQUIRE(direction.fuzzyEqual(eighth));
   }
 }
 
@@ -210,4 +210,3 @@ TEST_CASE_METHOD(MathTestFixtures, "ToEuler test") {
     REQUIRE(euler.fuzzyEqual(correct, .001));
   }
 }
-

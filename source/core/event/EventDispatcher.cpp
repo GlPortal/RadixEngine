@@ -13,7 +13,7 @@ EventDispatcher::EventDispatcher() :
 void EventDispatcher::dispatch(const Event &event) {
   ObserverMap::iterator it;
   it = observerMap.find(event.getType());
-  if (debugLogLevel == DebugLogLevel::DispatchedEvents or
+  if (debugLogLevel == DebugLogLevel::DispatchedEvents || 
       debugLogLevel == DebugLogLevel::DispatchedEventsRepr) {
     unsigned int obsCount = 0;
     if (it != observerMap.end()) {

@@ -15,8 +15,8 @@ set(CMAKE_CXX_STANDARD 14)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-#### UTILITY ####
 
+#### UTILITY ####
 set(RADIX_DEFINITIONS "")
 function(radix_add_exported_definition)
   add_definitions("-D${ARGV0}")
@@ -24,8 +24,8 @@ function(radix_add_exported_definition)
   set(RADIX_DEFINITIONS "${RADIX_DEFINITIONS}" PARENT_SCOPE)
 endfunction(radix_add_exported_definition)
 
-#### COMPILE-TIME SETTINGS ####
 
+#### COMPILE-TIME SETTINGS ####
 set(RADIX_GL_LOADER "libepoxy" CACHE STRING "OpenGL loader to use. One of 'libepoxy', 'glad'")
 
 if ("${RADIX_GL_LOADER}" STREQUAL "libepoxy")
@@ -37,14 +37,14 @@ if ("${RADIX_GL_LOADER}" STREQUAL "glad")
   radix_add_exported_definition("RADIX_GL_USE_GLAD")
 endif()
 
-#### PLATFORM-SPECIFIC FIXES ####
 
-if(DEFINED WIN32)
+#### PLATFORM-SPECIFIC FIXES ####
+if(WIN32)
   add_definitions("-D_USE_MATH_DEFINES")
 endif()
 
-#### LIBRARIES ####
 
+#### LIBRARIES ####
 set(RADIX_INCLUDE_DIRS "")
 
 find_package(OpenGL REQUIRED)
@@ -53,10 +53,10 @@ list(APPEND RADIX_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/external/stx/include)
 
 set(RADIX_LIBRARIES ${OPENGL_gl_LIBRARY})
 
-find_package(PkgConfig REQUIRED)
+find_package(PkgConfig)
 
 if (RADIX_GL_USE_LIBEPOXY)
-  pkg_search_module(EPOXY REQUIRED epoxy)
+  find_package(EPOXY REQUIRED)
   list(APPEND RADIX_INCLUDE_DIRS ${EPOXY_INCLUDE_DIRS})
   list(APPEND RADIX_LIBRARIES ${EPOXY_LIBRARIES})
 elseif (RADIX_GL_USE_GLAD)
@@ -104,23 +104,27 @@ find_package(FreeImage REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${FREEIMAGE_INCLUDE_DIR})
 list(APPEND RADIX_LIBRARIES ${FREEIMAGE_LIBRARIES})
 
+set(RADIX_ENABLE_PROFILER OFF CACHE BOOL "Enable Radix's profiler")
 find_package(easy_profiler REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${EASY_PROFILER_INCLUDE_DIR})
-set(RADIX_ENABLE_PROFILER ON CACHE BOOL "Enable Radix's profiler")
 if (RADIX_ENABLE_PROFILER)
   list(APPEND RADIX_LIBRARIES ${EASY_PROFILER_LIBRARIES})
 else ()
   radix_add_exported_definition("DISABLE_EASY_PROFILER")
 endif ()
 
+
 set(PORTAL_TEST_LIBRARIES ${RADIX_LIBRARIES})
 
 list(APPEND RADIX_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/external/serine/include")
 
-#### ENGINE ####
 
+#### ENGINE ####
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
   add_definitions("-Wall")
+endif ()
+if (WIN32)
+  add_definitions("/w")
 endif ()
 
 find_package(RadixEntity REQUIRED)
@@ -148,8 +152,8 @@ if (RADIX_EXPORT_CMAKE_PACKAGE_VARS)
   set(RADIX_DEFINITIONS "${RADIX_DEFINITIONS}" PARENT_SCOPE)
 endif ()
 
-#### UNIT TESTING ####
 
+#### UNIT TESTING ####
 include_directories(${RADIX_INCLUDE_DIRS} ${UnitTestPlusPlus_INCLUDE_DIRS})
 enable_testing()
 add_subdirectory(tests)

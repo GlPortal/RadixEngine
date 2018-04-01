@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <stdexcept>
 #include <string>
-#include <getopt.h>
 #include <iostream>
+#include <radix/util/SimpleOpt.h>
 
 #include <radix/core/file/Path.hpp>
 #include <radix/env/Config.hpp>
@@ -20,6 +20,38 @@ bool ArgumentsParser::debugMode = false;
 bool ArgumentsParser::consoleEnabled = false;
 bool ArgumentsParser::profilerEnabled = false;
 int ArgumentsParser::screen = 0;
+
+
+// option identifiers
+enum {
+     OPT_VERSION,
+     OPT_HELP,
+     OPT_SHOWCURSOR,
+     OPT_IGNOREGLVERSION,
+     OPT_DEBUGMODE,
+     OPT_DATADIR,
+     OPT_MAP,
+     OPT_MAPFROMPATH,    
+     OPT_CONSOLE,        
+     OPT_PROFILER,         
+     OPT_SCREEN       
+};
+
+// option array
+CSimpleOpt::SOption cmdline_options[] = {
+    { OPT_VERSION,          ("-version"),         SO_NONE },
+    { OPT_HELP,             ("-help"),            SO_NONE },
+    { OPT_SHOWCURSOR,       ("-showcursor"),      SO_NONE },
+    { OPT_IGNOREGLVERSION,  ("-ignoreGlVersion"), SO_NONE },
+    { OPT_DEBUGMODE,        ("-debugMode"),       SO_NONE },
+    { OPT_DATADIR,          ("-datadir"),         SO_REQ_SEP },
+    { OPT_MAP,              ("-map"),             SO_REQ_SEP },
+    { OPT_MAPFROMPATH,      ("-mapfrompath"),     SO_REQ_SEP },
+    { OPT_CONSOLE,          ("-console"),         SO_NONE },
+    { OPT_PROFILER,         ("-profiler"),        SO_NONE },
+    { OPT_SCREEN,           ("-screen"),          SO_REQ_SEP },
+    SO_END_OF_OPTIONS
+};
 
 void ArgumentsParser::showUsage(char **argv) {
   std::cout << "Usage: " << argv[0]  << " [options]" << std::endl << std::endl;
@@ -38,81 +70,67 @@ void ArgumentsParser::showUsage(char **argv) {
   std::cout << "  -s, --screen             Use alternate display" << std::endl;
 }
 
-void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
-  static struct option longOptions[] = {
-    {"version",          no_argument,       0, 'v'},
-    {"help",             no_argument,       0, 'h'},
-    {"showcursor",       no_argument,       0, 'c'},
-    {"ignoreGlVersion",  no_argument,       0, 'G'},
-    {"debugMode",        no_argument,       0, 'D'},
-    {"datadir",          required_argument, 0, 'd'},
-    {"map",              required_argument, 0, 'm'},
-    {"mapfrompath",      required_argument, 0, 'M'},
-    {"console",          no_argument      , 0, 'a'},
-    {"profiler",         no_argument      , 0, 'p'},
-    {"screen",           required_argument, 0, 's'},
-    {0, 0, 0, 0}
-  };
+void ArgumentsParser::setEnvironmentFromArgs (const int argc, char **argv) {
 
-  while (1) {
-    int optionIndex = 0;
-    int argument;
-    argument = getopt_long(argc, argv, "pvhacd:m:M:GD", longOptions, &optionIndex);
+    CSimpleOpt args (argc, argv, cmdline_options);
 
-    if (argument == NO_ARGUMENT) {
-      break;
+    while (args.Next ())
+    {
+        if (args.LastError () != SO_SUCCESS)
+        {
+            showUsage (argv);
+            exit (1);
+        }
+        switch (args.OptionId ()) {
+        case OPT_VERSION:
+            showVersion ();
+            exit (0);
+        case OPT_DATADIR:
+            Environment::setDataDir (args.OptionArg ());
+            break;
+        case OPT_HELP:
+            showUsage (argv);
+            exit (0);
+        case OPT_MAP:
+            mapName = args.OptionArg ();
+            break;
+        case OPT_MAPFROMPATH:
+            mapPath = args.OptionArg ();
+            break;
+        case OPT_SHOWCURSOR:
+            showCursor = true;
+            break;
+        case OPT_IGNOREGLVERSION:
+            ignoreGlVersion = true;
+            break;
+        case OPT_DEBUGMODE:
+            debugMode = true;
+            showCursor = true;
+            ignoreGlVersion = true;
+            break;
+        case OPT_CONSOLE:
+            consoleEnabled = true;
+            break;
+        case OPT_PROFILER:
+            profilerEnabled = true;
+        case OPT_SCREEN:
+            screen = atoi (args.OptionArg ());
+            break;
+        default:
+            showUsage (argv);
+            exit (0);
+            break;
+        }
     }
-
-    switch (argument) {
-    case 'v':
-      showVersion();
-      exit(0);
-    case 'd':
-      Environment::setDataDir(optarg);
-      break;
-    case 'h':
-      showUsage(argv);
-      exit(0);
-    case 'm':
-      mapName = optarg;
-      break;
-    case 'M':
-      mapPath = optarg;
-      break;
-    case 'c':
-      showCursor = true;
-      break;
-    case '?':
-      showUsage(argv);
-      exit(1);
-    case 'G':
-      ignoreGlVersion = true;
-      break;
-    case 'D':
-      debugMode = true;
-      showCursor = true;
-      ignoreGlVersion = true;
-      break;
-    case 'a':
-      consoleEnabled = true;
-      break;
-    case 'p':
-      profilerEnabled = true;
-    case 's':
-      screen = atoi(optarg);
-      break;
-    default:
-      break;
-    }
-  }
 }
 
+
 void ArgumentsParser::populateConfig(radix::Config &config) {
-  if (not mapName.empty()) {
+  if ( !mapName.empty()) {
     config.map = mapName;
   }
 
-  if (not mapPath.empty()) {
+  if ( !mapPath.empty()) {
     config.mapPath = mapPath;
   }
 
