@@ -26,12 +26,8 @@ endfunction(radix_add_exported_definition)
 
 #### COMPILE-TIME SETTINGS ####
 
-set(RADIX_GL_LOADER "libepoxy" CACHE STRING "OpenGL loader to use. One of 'libepoxy', 'glad'")
+set(RADIX_GL_LOADER "glad" CACHE STRING "OpenGL loader to use. One of 'libepoxy', 'glad'")
 
-if ("${RADIX_GL_LOADER}" STREQUAL "libepoxy")
-  set(RADIX_GL_USE_LIBEPOXY TRUE)
-  radix_add_exported_definition("RADIX_GL_USE_LIBEPOXY")
-endif()
 if ("${RADIX_GL_LOADER}" STREQUAL "glad")
   set(RADIX_GL_USE_GLAD TRUE)
   radix_add_exported_definition("RADIX_GL_USE_GLAD")
@@ -55,17 +51,13 @@ set(RADIX_LIBRARIES ${OPENGL_gl_LIBRARY})
 
 find_package(PkgConfig REQUIRED)
 
-if (RADIX_GL_USE_LIBEPOXY)
-  pkg_search_module(EPOXY REQUIRED epoxy)
-  list(APPEND RADIX_INCLUDE_DIRS ${EPOXY_INCLUDE_DIRS})
-  list(APPEND RADIX_LIBRARIES ${EPOXY_LIBRARIES})
-elseif (RADIX_GL_USE_GLAD)
-  #find_package(GLAD)
-  set(GLAD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/glad")
-  set(GLAD_SRC "${GLAD_INCLUDE_DIR}/glad.c")
-  list(APPEND RADIX_INCLUDE_DIRS ${GLAD_INCLUDE_DIR})
-  list(APPEND RADIX_LIBRARIES ${GLAD_SRC})
-endif()
+#find_package(GLAD)
+set(GLAD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/glad")
+set(GLAD_SRC "${GLAD_INCLUDE_DIR}/glad.c")
+add_library("libglad" ${GLAD_SRC})
+list(APPEND RADIX_INCLUDE_DIRS ${GLAD_INCLUDE_DIR})
+list(APPEND RADIX_LIBRARIES libglad)
+
 
 find_package(Assimp REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${ASSIMP_INCLUDE_DIRS})
@@ -137,7 +129,7 @@ include_directories(${RADIX_INCLUDE_DIRS})
 add_subdirectory(source)
 
 add_library(${RADIX_LIBRARY} STATIC ${RADIX_SOURCES})
-target_link_libraries(${RADIX_LIBRARY} ${RADIX_LIBRARIES})
+target_link_libraries(${RADIX_LIBRARY} ${RADIX_LIBRARIES} dl)
 
 # Export
 list(APPEND RADIX_LIBRARIES ${RADIX_LIBRARY})
