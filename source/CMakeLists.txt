@@ -70,6 +70,7 @@ set(RADIX_SOURCES
   ${D}/data/screen/Element.cpp
   ${D}/data/shader/Shader.cpp
   ${D}/data/shader/ShaderLoader.cpp
+  ${D}/api/PlayerApi.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/GhostPairCallback.cpp
   ${D}/physics/KinematicCharacterController.cpp

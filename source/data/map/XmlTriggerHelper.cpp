@@ -79,7 +79,7 @@ void XmlTriggerHelper::extractDestinationTriggerActions(entities::Trigger &trigg
 }
 
 void XmlTriggerHelper::extractScriptTriggerActions(entities::Trigger &trigger, XMLElement *xmlElement) {
-  std::string code = xmlElement->GetText();
+  std::string code = xmlElement->FirstChildElement("code")->GetText();
   ScriptTrigger scriptTrigger = ScriptTrigger(code);
   scriptTrigger.addAction(trigger);
 }

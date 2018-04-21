@@ -115,6 +115,10 @@ GameWorld* BaseGame::getGameWorld() {
   return &gameWorld;
 }
 
+chaiscript::ChaiScript& BaseGame::getScriptEngine() {
+  return scriptEngine;
+}
+
 void BaseGame::preCycle() {
   PROFILER_NONSCOPED_BLOCK("Game cycle");
   window.processEvents();
