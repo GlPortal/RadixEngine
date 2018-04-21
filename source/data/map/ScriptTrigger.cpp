@@ -8,6 +8,7 @@
 #include <radix/World.hpp>
 #include <chaiscript/chaiscript.hpp>
 #include <chaiscript/chaiscript_stdlib.hpp>
+#include <radix/api/PlayerApi.hpp>
 
 using namespace std;
 
@@ -21,9 +22,15 @@ ScriptTrigger::ScriptTrigger(const std::string &code) :
 
 void ScriptTrigger::addAction(Entity &entity) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(entity);
-  chaiscript::ChaiScript scriptEngine;
-
-  trigger.setActionOnEnter([] (entities::Trigger &trigger) {
+  BaseGame &game = trigger.world.game;
+  chaiscript::ChaiScript& scriptEngine = game.getScriptEngine();
+  PlayerApi playerApi(trigger.world);
+  playerApi.registerFunctions(scriptEngine);
+  std::string sourceCode = code;
+  trigger.setActionOnEnter([sourceCode] (entities::Trigger &trigger) {
+      BaseGame &game = trigger.world.game;
+      //      chaiscript::ChaiScript& scriptEngine = game.getScriptEngine();
+      //      scriptEngine.eval(sourceCode);
   });
 }
 

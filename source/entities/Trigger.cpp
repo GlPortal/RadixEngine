@@ -5,6 +5,8 @@
 #include <radix/BaseGame.hpp>
 #include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
+#include <chaiscript/chaiscript.hpp>
+#include <chaiscript/chaiscript_stdlib.hpp>
 
 static const char *Tag = "Trigger";
 

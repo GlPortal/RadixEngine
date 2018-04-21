@@ -21,6 +21,8 @@
 #include <radix/renderer/ScreenRenderer.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/input/InputManager.hpp>
+#include <chaiscript/chaiscript.hpp>
+#include <chaiscript/chaiscript_stdlib.hpp>
 
 namespace radix {
 
@@ -89,9 +91,9 @@ public:
   }
   void switchToOtherWorld(const std::string &name);
   void clearOtherWorldList();
-
   ScreenRenderer* getScreenRenderer();
   GameWorld* getGameWorld();
+  chaiscript::ChaiScript& getScriptEngine();
   inline Window& getWindow() {
     return window;
   }
@@ -115,6 +117,7 @@ protected:
   std::unique_ptr<World> world;
   Config config;
   GameWorld gameWorld;
+  chaiscript::ChaiScript scriptEngine;
   std::vector<std::function<void()>> postCycleDeferred;
 
   std::unique_ptr<ImguiRenderer> imguiRenderer;
