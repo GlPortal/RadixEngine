@@ -5,13 +5,12 @@
 
 namespace radix {
 
-ScriptEngine::ScriptEngine(World &world): world(world){
-  chai.add(chaiscript::fun(&helloWorld), "helloWorld");
-
-  chai.eval("puts(helloWorld(\"Bob\"));");
+  ScriptEngine::ScriptEngine(World &world): world(world), playerApi(world){
+  playerApi.registerFunctions(chaiScriptEngine);
 }
 
-void ScriptEngine::runCode(std::string string) {
+void ScriptEngine::runCode(std::string code) {
+  chaiScriptEngine.eval(code);
 }
 
 } /* namespace radix */
