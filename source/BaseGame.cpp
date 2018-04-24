@@ -21,12 +21,9 @@ namespace radix {
 
 Fps BaseGame::fps;
 
-std::string helloWorld(const std::string &t_name){
-  return "Hello " + t_name + "!";
-}
-
 BaseGame::BaseGame() :
     gameWorld(window),
+    scriptEngine(*world),
     closed(false) {
   radix::Environment::init();
   config = Environment::getConfig();
@@ -115,7 +112,7 @@ GameWorld* BaseGame::getGameWorld() {
   return &gameWorld;
 }
 
-chaiscript::ChaiScript& BaseGame::getScriptEngine() {
+ScriptEngine& BaseGame::getScriptEngine() {
   return scriptEngine;
 }
 
@@ -156,10 +153,6 @@ void BaseGame::cleanUp() {
   removeHook();
   setWorld({});
   window.close();
-  chaiscript::ChaiScript chai;
-  chai.add(chaiscript::fun(&helloWorld), "helloWorld");
-
-  chai.eval("puts(helloWorld(\"Bob\"));");
 }
 
 void BaseGame::render() {
