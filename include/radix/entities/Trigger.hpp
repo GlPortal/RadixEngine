@@ -20,7 +20,7 @@ namespace entities {
 
 class Trigger : public Entity {
 private:
-  util::BulletGhostPairCallbacks m_btGpCallbacks;
+  util::BulletGhostPairCallbacks bulletGhostPairCallbacks;
   std::unique_ptr<btGhostObject> ghostObject;
   std::unique_ptr<btConvexShape> shape;
 
