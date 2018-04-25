@@ -18,16 +18,10 @@ const std::string ScriptTrigger::TYPE = "script";
 
 ScriptTrigger::ScriptTrigger(const std::string &code) :
   code(code) {
-  //  radixApi(trigger.world);
-  //  radixApi.registerFunctions(scriptEngine);
 }
 
 void ScriptTrigger::addAction(Entity &entity) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(entity);
-  //  BaseGame &game = trigger.world.game;
-  //  ScriptEngine& scriptEngine = game.getScriptEngine();
-  //  playerApi = PlayerApi(trigger.world);
-  //  playerApi.registerFunctions(scriptEngine);
   std::string sourceCode = code;
   trigger.setActionOnEnter([sourceCode] (entities::Trigger &trigger) {
       BaseGame &game = trigger.world.game;
