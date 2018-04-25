@@ -13,6 +13,8 @@ namespace radix {
     void registerFunctions(chaiscript::ChaiScript &scriptEngine);
     void kill();
     void moveY(float distance);
+    void moveX(float distance);
+    void jump();
   };
 
 } /* namespace radix */
