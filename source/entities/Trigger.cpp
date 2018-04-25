@@ -17,7 +17,7 @@ Trigger::Trigger(const CreationParams &cp) :
 
 Trigger::Trigger(const CreationParams &cp, const Transform &tform) :
   Entity(cp),
-  m_btGpCallbacks(this),
+  bulletGhostPairCallbacks(this),
   actionOnEnter([] (Trigger&) {}),
   actionOnExit([] (Trigger&) {}),
   actionOnMove([] (Trigger&) {}),
@@ -32,13 +32,13 @@ Trigger::Trigger(const CreationParams &cp, const Transform &tform) :
       btCollisionObject::CF_STATIC_OBJECT |
       btCollisionObject::CF_NO_CONTACT_RESPONSE |
       btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
-  ghostObject->setUserPointer(&m_btGpCallbacks);
+  ghostObject->setUserPointer(&bulletGhostPairCallbacks);
   ghostObject->setUserIndex(id);
 
-  m_btGpCallbacks.onEnter = [this](const util::BulletGhostPairCallbacks::CallbackParams &params) {
+  bulletGhostPairCallbacks.onEnter = [this](const util::BulletGhostPairCallbacks::CallbackParams &params) {
     this->actionOnEnter(*this);
   };
-  m_btGpCallbacks.onExit = [this](const util::BulletGhostPairCallbacks::CallbackParams &params) {
+  bulletGhostPairCallbacks.onExit = [this](const util::BulletGhostPairCallbacks::CallbackParams &params) {
     this->actionOnExit(*this);
   };
   auto &physWorld = world.simulations.findFirstOfType<simulation::Physics>().getPhysicsWorld();
