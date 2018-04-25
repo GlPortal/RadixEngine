@@ -22,9 +22,8 @@ namespace radix {
 Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
-    gameWorld(window),
-    scriptEngine(*world),
-    closed(false) {
+  gameWorld(window),
+  closed(false) {
   radix::Environment::init();
   config = Environment::getConfig();
   radix::ArgumentsParser::populateConfig(config);
@@ -75,7 +74,7 @@ void BaseGame::setup() {
 
   screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
-
+  scriptEngine = std::make_unique<ScriptEngine>(*world);
   postSetup();
 }
 
@@ -112,8 +111,8 @@ GameWorld* BaseGame::getGameWorld() {
   return &gameWorld;
 }
 
-ScriptEngine& BaseGame::getScriptEngine() {
-  return scriptEngine;
+ScriptEngine* BaseGame::getScriptEngine() {
+  return scriptEngine.get();
 }
 
 void BaseGame::preCycle() {
