@@ -92,7 +92,7 @@ public:
   void clearOtherWorldList();
   ScreenRenderer* getScreenRenderer();
   GameWorld* getGameWorld();
-  ScriptEngine& getScriptEngine();
+  ScriptEngine* getScriptEngine();
   inline Window& getWindow() {
     return window;
   }
@@ -116,7 +116,7 @@ protected:
   std::unique_ptr<World> world;
   Config config;
   GameWorld gameWorld;
-  ScriptEngine scriptEngine;
+  std::unique_ptr<ScriptEngine> scriptEngine;
   std::vector<std::function<void()>> postCycleDeferred;
 
   std::unique_ptr<ImguiRenderer> imguiRenderer;

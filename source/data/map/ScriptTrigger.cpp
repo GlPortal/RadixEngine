@@ -31,8 +31,8 @@ void ScriptTrigger::addAction(Entity &entity) {
   std::string sourceCode = code;
   trigger.setActionOnEnter([sourceCode] (entities::Trigger &trigger) {
       BaseGame &game = trigger.world.game;
-      ScriptEngine& scriptEngine = game.getScriptEngine();
-      scriptEngine.runCode(sourceCode);
+      ScriptEngine* scriptEngine = game.getScriptEngine();
+      scriptEngine->runCode(sourceCode);
   });
 }
 
