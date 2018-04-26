@@ -4,6 +4,7 @@
 #include <chaiscript/chaiscript_stdlib.hpp>
 #include <radix/World.hpp>
 #include <string>
+#include <radix/core/diag/Logger.hpp>
 
 namespace radix {
 
@@ -12,8 +13,7 @@ private:
   World &world;
 public:
   RadixApi(World &world);
-  void
-  registerFunctions(chaiscript::ChaiScript &scriptEngine);
+  void registerFunctions(chaiscript::ChaiScript &scriptEngine);
   void exit();
   void logDebug(std::string category, std::string message);
 };
