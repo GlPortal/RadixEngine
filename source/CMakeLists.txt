@@ -71,6 +71,7 @@ set(RADIX_SOURCES
   ${D}/data/shader/Shader.cpp
   ${D}/data/shader/ShaderLoader.cpp
   ${D}/api/PlayerApi.cpp
+  ${D}/api/RadixApi.cpp
   ${D}/api/ScriptEngine.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/GhostPairCallback.cpp
