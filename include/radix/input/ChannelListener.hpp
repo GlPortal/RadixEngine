@@ -7,7 +7,6 @@ template<class T>
 class ChannelListener {
 public:
   virtual void channelChanged(T newValue, const int &id) = 0;
-
 };
 
 class Vector2f;

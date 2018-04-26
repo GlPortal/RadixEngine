@@ -14,17 +14,20 @@ public:
   ChannelBase();
   ChannelBase(ChannelListener<T> *listener);
 
-  void setId(const int &id) { this->id = id; }
   void addListener(ChannelListener<T> *listener);
+  void removeListener(ChannelListener<T> *listener);
+
+  void set(T newValue);
+  void setId(const int &id) { this->id = id; }
   void setDigital(const float &actPoint);
   void setAnalogue(const float &deadZone);
   void setBound(const float& bound);
   void setSensitivity(const float& sensitivity) { this->sensitivity = sensitivity; }
   void setAutoZero() { autoZero = true; }
   void setAlwaysNotifyListener() { alwaysNotifyListener = true; }
-  void set(T newValue);
-  int getId() const { return id; }
+
   T get() const { return value; }
+  int getId() const { return id; }
 
 protected:
   void notifyListeners();

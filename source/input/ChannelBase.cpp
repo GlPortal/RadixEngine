@@ -10,39 +10,44 @@ namespace radix {
 
 template <class T>
 ChannelBase<T>::ChannelBase()
-    : listeners(),
-    id(0),
-    bound(0),
-    sensitivity(1.0f),
-    hasBound(false),
-    isDigital(false),
-    autoZero(false),
-    alwaysNotifyListener(false),
-    actPoint(0),
-    value() {}
+  : listeners(),
+  id(0),
+  bound(0),
+  sensitivity(1.0f),
+  hasBound(false),
+  isDigital(false),
+  autoZero(false),
+  alwaysNotifyListener(false),
+  actPoint(0),
+  value() {}
 
 template <class T>
 ChannelBase<T>::ChannelBase(ChannelListener<T>* listener)
-    : listeners(1, listener),
-    id(0),
-    bound(0),
-    sensitivity(1.0f),
-    hasBound(false),
-    isDigital(false),
-    autoZero(false),
-    alwaysNotifyListener(false),
-    actPoint(0),
-    value() {}
+  : listeners(1, listener),
+  id(0),
+  bound(0),
+  sensitivity(1.0f),
+  hasBound(false),
+  isDigital(false),
+  autoZero(false),
+  alwaysNotifyListener(false),
+  actPoint(0),
+  value() {}
 
 template <class T>
 void ChannelBase<T>::addListener(ChannelListener<T>* listener) {
-  for (auto* mListener: listeners) {
+  for (ChannelListener<T>* mListener: listeners) {
     if (listener == mListener) {
       return;
     }
   }
 
   listeners.push_back(listener);
+}
+
+template <class T>
+void ChannelBase<T>::removeListener(ChannelListener<T>* listener) {
+  listeners.remove(listener);
 }
 
 template <class T>
@@ -65,7 +70,7 @@ void ChannelBase<T>::setBound(const float &bound) {
 
 template <class T>
 void ChannelBase<T>::set(T newValue) {
-  if (isDigital) {
+  if (isDigital) {aforementioned
     newValue = std::abs(newValue) >= actPoint ? 1.0f : 0.0f;
   } else {
     newValue = std::abs(newValue) >= deadZone ? newValue : 0.0f;
@@ -86,6 +91,19 @@ void ChannelBase<T>::set(T newValue) {
 
   if (autoZero) {
     value = 0.0f;
+  }
+}
+
+template <>
+void ChannelBase<bool>::set(bool newValue) {
+  if (alwaysNotifyListener or newValue != value) {
+    value = newValue;
+
+    notifyListeners();
+  }
+
+  if (autoZero) {
+    value = false;
   }
 }
 
@@ -120,6 +138,10 @@ void ChannelBase<Vector2f>::set(Vector2f newValue) {
     notifyListeners();
   } else {
     return;
+  }
+
+  if (autoZero) {
+    value = Vector2f::ZERO;
   }
 }
 

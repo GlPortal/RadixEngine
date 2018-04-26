@@ -41,6 +41,46 @@ const InputSource::LookUpTable InputSource::controllerButtonLookUp = {
   {"dpad_right",      (int)SDL_CONTROLLER_BUTTON_DPAD_RIGHT}
 };
 
+| Mouse Button Name | Alias |
+| ------------------------ | ------------------ |
+| Left mouse button | mouse_button_left |
+| Middle mouse button | mouse_button_middle |
+| Right mouse button | mouse_button_right |
+| Auxiliary mouse button 1 | mouse_button_aux_1 |
+| Auxiliary mouse button 2 | mouse_button_aux_2 |
+| Auxiliary mouse button 3 | mouse_button_aux_3 |
+| Auxiliary mouse button 4 | mouse_button_aux_4 |
+| Auxiliary mouse button 5 | mouse_button_aux_5 |
+| Auxiliary mouse button 6 | mouse_button_aux_6 |
+
+| Controller Button Name | Alias |
+| ---------------------- | -------------- |
+| A button | button_a |
+| B button | button_b |
+| X button | button_x |
+| Y button | button_y |
+| Back button | button_back |
+| Guide button | button_guide |
+| Start button | button_start |
+| Left stick | left_stick |
+| Right stick | right_stick |
+| Left shoulder | left_shoulder |
+| Right shoulder | right_shoulder |
+| Dpad up | dpad_up |
+| Dpad down | dpad_down |
+| Dpad left | dpad_left |
+| Dpad right | dpad_right |
+
+| Controller Stick | Alias |
+| -------------------- | ----------- |
+| Left stick | stick_left |
+| Right stick | stick_right |
+
+| Controller Trigger | Alias |
+| ----------------------- | ------------- |
+| Left trigger | trigger_left |
+| Right trigger | trigger_right |
+
 void InputSource::removeDispatcher(EventDispatcher &d) {
   dispatchers.erase(std::remove_if(dispatchers.begin(), dispatchers.end(), [&d](EventDispatcher &e) {
     return std::addressof(e) == std::addressof(d);
