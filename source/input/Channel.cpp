@@ -90,7 +90,6 @@ void SubChannel<T>::init(const int &id, EventDispatcher &event, const Bind& bind
       }
     } else if (bind.inputType == Bind::MOUSE_AXIS) {
       this->setAnalogue(0.0f);
-      this->setAutoZero();
     }
   }
 
