@@ -70,7 +70,7 @@ void ChannelBase<T>::setBound(const float &bound) {
 
 template <class T>
 void ChannelBase<T>::set(T newValue) {
-  if (isDigital) {aforementioned
+  if (isDigital) {
     newValue = std::abs(newValue) >= actPoint ? 1.0f : 0.0f;
   } else {
     newValue = std::abs(newValue) >= deadZone ? newValue : 0.0f;
