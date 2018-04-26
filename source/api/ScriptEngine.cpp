@@ -5,8 +5,9 @@
 
 namespace radix {
 
-ScriptEngine::ScriptEngine(World &world): world(world), playerApi(world) {
+ScriptEngine::ScriptEngine(World &world): world(world), playerApi(world), radixApi(world) {
   playerApi.registerFunctions(chaiScriptEngine);
+  radixApi.registerFunctions(chaiScriptEngine);
 }
 
 void ScriptEngine::runCode(std::string code) {

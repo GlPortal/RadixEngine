@@ -14,6 +14,7 @@ class ScriptEngine {
 private:
   World &world;
   PlayerApi playerApi;
+  RadixApi radixApi;
   chaiscript::ChaiScript chaiScriptEngine;
 public:
   ScriptEngine(World &world);

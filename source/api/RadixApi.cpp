@@ -15,7 +15,7 @@ void RadixApi::exit() {
 }
 
 void RadixApi::logDebug(std::string category, std::string message) {
-    //    Util::Log(LogLevel::Debug, category) << message;
+  Util::Log(LogLevel::Debug, category) << message;
 }
 
 } /* namespace radix */
