@@ -28,3 +28,11 @@ documentation/doxygen_sqlite3.db
 tests/quaternionTest
 tests/xmlReadingTest
 RadixEngine
+CPackConfig.cmake
+CPackSourceConfig.cmake
+libGLAD.a
+libRadixEngine.a
+libimgui.a
+tests/MathTest
+tests/QuaternionTest
+tests/XmlHelperTest
