@@ -6,8 +6,6 @@
 #include <radix/env/Environment.hpp>
 #include <radix/entities/traits/HealthTrait.hpp>
 #include <radix/World.hpp>
-#include <chaiscript/chaiscript.hpp>
-#include <chaiscript/chaiscript_stdlib.hpp>
 #include <radix/api/ScriptEngine.hpp>
 
 using namespace std;

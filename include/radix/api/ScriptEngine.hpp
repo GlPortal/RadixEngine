@@ -6,14 +6,14 @@
 #include <chaiscript/chaiscript.hpp>
 #include <chaiscript/chaiscript_stdlib.hpp>
 #include <radix/api/PlayerApi.hpp>
-
+#include <radix/api/RadixApi.hpp>
 
 namespace radix {
 
 class ScriptEngine {
 private:
-  PlayerApi playerApi;
   World &world;
+  PlayerApi playerApi;
   chaiscript::ChaiScript chaiScriptEngine;
 public:
   ScriptEngine(World &world);

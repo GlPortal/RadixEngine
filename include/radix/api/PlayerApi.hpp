@@ -5,17 +5,18 @@
 #include <radix/World.hpp>
 
 namespace radix {
-  class PlayerApi {
-  private:
-    World &world;
-  public:
-    PlayerApi(World &world);
-    void registerFunctions(chaiscript::ChaiScript &scriptEngine);
-    void kill();
-    void moveY(float distance);
-    void moveX(float distance);
-    void jump();
-  };
+
+class PlayerApi {
+private:
+  World &world;
+public:
+  PlayerApi(World &world);
+  void registerFunctions(chaiscript::ChaiScript &scriptEngine);
+  void kill();
+  void moveY(float distance);
+  void moveX(float distance);
+  void jump();
+};
 
 } /* namespace radix */
 
