@@ -16,3 +16,6 @@
 [submodule "external/easy_profiler"]
 	path = external/easy_profiler
 	url = https://github.com/yse/easy_profiler.git
+[submodule "external/chaiScript"]
+	path = external/chaiScript
+	url = https://github.com/ChaiScript/ChaiScript.git

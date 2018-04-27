@@ -14,14 +14,16 @@
 #include <radix/env/GameConsole.hpp>
 #include <radix/util/Profiling.hpp>
 #include <radix/World.hpp>
+#include <chaiscript/chaiscript.hpp>
+#include <chaiscript/chaiscript_stdlib.hpp>
 
 namespace radix {
 
 Fps BaseGame::fps;
 
 BaseGame::BaseGame() :
-    gameWorld(window),
-    closed(false) {
+  gameWorld(window),
+  closed(false) {
   radix::Environment::init();
   config = Environment::getConfig();
   radix::ArgumentsParser::populateConfig(config);
@@ -72,7 +74,7 @@ void BaseGame::setup() {
 
   screenRenderer = std::make_unique<ScreenRenderer>(*world, *renderer.get(), gameWorld);
   renderer->addRenderer(*screenRenderer);
-
+  scriptEngine = std::make_unique<ScriptEngine>(*world);
   postSetup();
 }
 
@@ -107,6 +109,10 @@ ScreenRenderer* BaseGame::getScreenRenderer() {
 
 GameWorld* BaseGame::getGameWorld() {
   return &gameWorld;
+}
+
+ScriptEngine* BaseGame::getScriptEngine() {
+  return scriptEngine.get();
 }
 
 void BaseGame::preCycle() {

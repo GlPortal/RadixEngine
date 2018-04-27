@@ -20,6 +20,7 @@
 #include <radix/renderer/ScreenRenderer.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/input/InputManager.hpp>
+#include <radix/api/ScriptEngine.hpp>
 
 namespace radix {
 
@@ -38,7 +39,6 @@ public:
 
   BaseGame();
   virtual ~BaseGame();
-
   // No copy
   BaseGame(const BaseGame&) = delete;
   BaseGame operator=(const BaseGame&) = delete;
@@ -89,9 +89,9 @@ public:
   }
   void switchToOtherWorld(const std::string &name);
   void clearOtherWorldList();
-
   ScreenRenderer* getScreenRenderer();
   GameWorld* getGameWorld();
+  ScriptEngine* getScriptEngine();
   inline Window& getWindow() {
     return window;
   }
@@ -115,6 +115,7 @@ protected:
   std::unique_ptr<World> world;
   Config config;
   GameWorld gameWorld;
+  std::unique_ptr<ScriptEngine> scriptEngine;
   std::vector<std::function<void()>> postCycleDeferred;
 
   std::shared_ptr<ScreenRenderer> screenRenderer;

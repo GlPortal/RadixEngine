@@ -60,6 +60,7 @@ set(RADIX_SOURCES
   ${D}/data/map/AudioTrigger.cpp
   ${D}/data/map/MapTrigger.cpp
   ${D}/data/map/TeleportTrigger.cpp
+  ${D}/data/map/ScriptTrigger.cpp
   ${D}/data/map/XmlMapLoader.cpp
   ${D}/data/material/MaterialLoader.cpp
   ${D}/data/model/MeshLoader.cpp
@@ -69,6 +70,9 @@ set(RADIX_SOURCES
   ${D}/data/screen/Element.cpp
   ${D}/data/shader/Shader.cpp
   ${D}/data/shader/ShaderLoader.cpp
+  ${D}/api/PlayerApi.cpp
+  ${D}/api/RadixApi.cpp
+  ${D}/api/ScriptEngine.cpp
   ${D}/physics/CollisionDispatcher.cpp
   ${D}/physics/GhostPairCallback.cpp
   ${D}/physics/KinematicCharacterController.cpp

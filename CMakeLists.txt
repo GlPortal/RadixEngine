@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 set(RADIX_LIBRARY RadixEngine)
+# Disable ChaiScript unit tests
+set(BUILD_TESTING FALSE)
 
 if (COVERAGE)
   message("-- Coverage Enabled")
@@ -118,6 +120,7 @@ endif ()
 set(PORTAL_TEST_LIBRARIES ${RADIX_LIBRARIES})
 
 list(APPEND RADIX_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/external/serine/include")
+list(APPEND RADIX_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/external/chaiScript/include/chaiscript")
 
 #### ENGINE ####
 
@@ -128,6 +131,10 @@ endif ()
 find_package(RadixEntity REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${RADIXENTITY_INCLUDE_DIR})
 list(APPEND RADIX_LIBRARIES ${RADIXENTITY_LIBRARIES})
+
+find_package(ChaiScript REQUIRED)
+list(APPEND RADIX_INCLUDE_DIRS ${CHAISCRIPT_INCLUDE_DIR})
+list(APPEND RADIX_LIBRARIES ${CHAISCRIPT_LIBRARIES})
 
 set(RADIX_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 list(APPEND RADIX_INCLUDE_DIRS "${RADIX_INCLUDE_DIR}")
