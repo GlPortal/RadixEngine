@@ -25,4 +25,5 @@ Feel free to submit a pull request or suggest an issue on GitHub if you have any
 
 ## Donate
 Donate Bitcoin to 1JxrwJZgV9qBeEPH7BDF9qLJPSDcp6fqxz to help us pay for hosting and domain names.
+
 Support Henry through [patreon](https://www.patreon.com/developerHenry) or [liberapay](https://liberapay.com/Henry).
