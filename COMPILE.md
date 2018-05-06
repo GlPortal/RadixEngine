@@ -8,8 +8,11 @@ Make sure to check CMakeLists.txt if it is something missing.
 
 ## Upgrade your OS
 You will need very recent versions of all the dependencies. So please upgrade your OS before proceeding.
-- [Upgrade Ubuntu](http://www.ubuntu.com/download/desktop/upgrade)
-- [Upgrade Arch](https://wiki.archlinux.org/index.php/Pacman#Upgrading_packages)
+* [Upgrade Debian](https://wiki.debian.org/DebianUpgrade)
+* [Upgrade Ubuntu](http://www.ubuntu.com/download/desktop/upgrade)
+* [Upgrade Mint](https://community.linuxmint.com/tutorial/view/2)
+* [Upgrade Arch](https://wiki.archlinux.org/index.php/Pacman#Upgrading_packages)
+
 
 ## List of dependencies
 - assimp
@@ -31,26 +34,38 @@ You will need very recent versions of all the dependencies. So please upgrade yo
 Remember, you have to be root, so you might want to prefix `sudo`.
 
 ### Windows
-[Install msys2](http://msys2.github.io/), then launch the *Mingw-w64 Win64 shell* from the start menu. In it, type:
+[Install msys2](http://msys2.github.io/).
+
+#### on 32-bit
+Launch the *Mingw-w64 Win32 shell* from the start menu. In it, type:
 ```bash
-pacman -S mingw-w64-x86_64-{cmake,make,gcc,pkg-config,assimp,libepoxy,SDL2,SDL2_mixer,bullet,tinyxml2,freeimage}
+pacman -S git pkg-config mingw-w64-i686-{cmake,make,gcc,pkg-config,assimp,libepoxy,SDL2{,_mixer},bullet,tinyxml2,freeimage}
 ```
 
-If you do not already have `git` installed, please also install it with:
-
+#### on 64-bit
+Launch the *Mingw-w64 Win64 shell* from the start menu. In it, type:
 ```bash
-pacman -S git
+pacman -S git pkg-config mingw-w64-x86_64-{cmake,make,gcc,pkg-config,assimp,libepoxy,SDL2{,_mixer},bullet,tinyxml2,freeimage}
 ```
 
 ### Arch Linux
-**Note:** Package `tinyxml2` can be found in AUR.
 ```bash
-pacman -S cmake make gcc pkg-config assimp libepoxy sdl2 sdl2_mixer bullet mesa unittestpp freeimage
+pacman -S cmake make gcc pkg-config assimp libepoxy sdl2{,_mixer} bullet mesa tinyxml2 freeimage
 ```
 
-### Debian 9 / Ubuntu 16.04 / Linux Mint 18.x
+### Debian 8 / Ubuntu 14.04 / Linux Mint 17.x
 ```bash
-apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2,sdl2-mixer,bullet,tinyxml2,gl1-mesa,unittest++,freeimageplus}-dev
+apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2{,-mixer},bullet,tinyxml2,gl1-mesa,unittest++,freeimage}-dev
+```
+
+### Linux Mint 18.x
+```bash
+apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2{,-mixer},bullet,tinyxml2,gl1-mesa,unittest++,freeimageplus}-dev
+```
+
+### Ubuntu 17.04
+```bash
+apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2{,-mixer},bullet,tinyxml2,gl1-mesa,unittest++,freeimageplus}-dev
 ```
 
 ### Others
@@ -58,8 +73,8 @@ Now how will you satisfy these dependencies? No problem. You might notice that w
 are looking for them in your package manager that you get overwhelmed by a list of possible
 installation candidates, how do you know which one is the right one?
 
-An easy rule that applies to many libraries is that a library has the lib prefix and then, 
-since you want to install the files for development there is a dev in the name. 
+An easy rule that applies to many libraries is that a library has the lib prefix and then,
+since you want to install the files for development there is a dev in the name.
 Pretty much like libfoo-dev for most libraries.
 
 # Downloading source code
