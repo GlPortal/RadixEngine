@@ -58,6 +58,11 @@ pacman -S cmake make gcc pkg-config assimp libepoxy sdl2{,_mixer} bullet mesa ti
 apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2{,-mixer},bullet,tinyxml2,gl1-mesa,unittest++,freeimage}-dev
 ```
 
+### Debian 9
+```bash
+apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2{,-mixer},bullet,tinyxml2,gl1-mesa,unittest++,freeimageplus}-dev
+```
+
 ### Linux Mint 18.x
 ```bash
 apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2{,-mixer},bullet,tinyxml2,gl1-mesa,unittest++,freeimageplus}-dev
