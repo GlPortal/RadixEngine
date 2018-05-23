@@ -4,6 +4,7 @@
 #include <utility>
 
 #include <radix/entities/Player.hpp>
+#include <radix/entities/ContactPlayerCallback.hpp>
 #include <radix/entities/Trigger.hpp>
 #include <radix/entities/traits/RigidBodyTrait.hpp>
 #include <radix/physics/CollisionDispatcher.hpp>
