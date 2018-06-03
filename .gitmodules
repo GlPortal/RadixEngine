@@ -16,11 +16,9 @@
 [submodule "external/easy_profiler"]
 	path = external/easy_profiler
 	url = https://github.com/yse/easy_profiler.git
-[submodule "external/chaiScript"]
-	path = external/chaiScript
-	url = https://github.com/ChaiScript/ChaiScript.git
-
 [submodule "external/imgui"]
 	path = external/imgui
 	url = https://github.com/ocornut/imgui.git
-
+[submodule "external/AngelScript"]
+	path = external/AngelScript
+	url = https://github.com/urho3d/AngelScript.git
