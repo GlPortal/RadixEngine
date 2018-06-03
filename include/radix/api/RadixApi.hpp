@@ -1,10 +1,11 @@
 #ifndef RADIX_ENGINE_API_HPP
 #define RADIX_ENGINE_API_HPP
-#include <chaiscript/chaiscript.hpp>
-#include <chaiscript/chaiscript_stdlib.hpp>
-#include <radix/World.hpp>
+
 #include <string>
-#include <radix/core/diag/Logger.hpp>
+
+#include <angelscript.h>
+
+#include <radix/World.hpp>
 
 namespace radix {
 
@@ -13,7 +14,7 @@ private:
   World &world;
 public:
   RadixApi(World &world);
-  void registerFunctions(chaiscript::ChaiScript &scriptEngine);
+  void registerFunctions(asIScriptEngine *asEngine);
   void exit();
   void logDebug(std::string category, std::string message);
 };

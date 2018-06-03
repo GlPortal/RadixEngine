@@ -14,8 +14,6 @@
 #include <radix/env/GameConsole.hpp>
 #include <radix/util/Profiling.hpp>
 #include <radix/World.hpp>
-#include <chaiscript/chaiscript.hpp>
-#include <chaiscript/chaiscript_stdlib.hpp>
 
 namespace radix {
 
