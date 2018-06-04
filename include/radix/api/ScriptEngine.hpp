@@ -16,8 +16,7 @@ private:
   World &world;
   PlayerApi playerApi;
   RadixApi radixApi;
-  asIScriptEngine *asEngine;
-  void messageCallback(const asSMessageInfo *msg, void *param);
+  asIScriptEngine *angelScript;
 
 public:
   ScriptEngine(World &world);

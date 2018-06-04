@@ -10,71 +10,60 @@
 
 namespace radix {
 
-void MessageCallback(const asSMessageInfo *msg, void *param) {
-  LogLevel lvl;
-  switch (msg->type) {
-  case asMSGTYPE_INFORMATION: lvl = LogLevel::Info; break;
-  case asMSGTYPE_WARNING: lvl = LogLevel::Warning; break;
-  case asMSGTYPE_ERROR: lvl = LogLevel::Error; break;
+void MessageCallback(const asSMessageInfo *message, void *parameter) {
+  LogLevel level;
+  switch (message->type) {
+  case asMSGTYPE_INFORMATION: level = LogLevel::Info; break;
+  case asMSGTYPE_WARNING: level = LogLevel::Warning; break;
+  case asMSGTYPE_ERROR: level = LogLevel::Error; break;
   }
-  Util::Log(lvl, "AngelScript") << msg->section << " (" << msg->row << ", " << msg->col << "): "
-      << msg->message;
+  Util::Log(level, "AngelScript") << message->section << " (" << message->row << ", " << message->col << "): "
+      << message->message;
 }
 
 ScriptEngine::ScriptEngine(World &world): world(world), playerApi(world), radixApi(world) {
-  asEngine = asCreateScriptEngine();
-  if (asEngine == nullptr) {
+  angelScript = asCreateScriptEngine();
+  if (angelScript == nullptr) {
     throw std::runtime_error("Failed to create AngelScript engine");
   }
-  asEngine->SetMessageCallback(asFUNCTION(MessageCallback), nullptr, asCALL_CDECL);
-  RegisterStdString(asEngine);
-  RegisterScriptHandle(asEngine);
-  RegisterScriptWeakRef(asEngine);
+  angelScript->SetMessageCallback(asFUNCTION(MessageCallback), nullptr, asCALL_CDECL);
+  RegisterStdString(angelScript);
+  RegisterScriptHandle(angelScript);
+  RegisterScriptWeakRef(angelScript);
 
-  playerApi.registerFunctions(asEngine);
-  radixApi.registerFunctions(asEngine);
+  playerApi.registerFunctions(angelScript);
+  radixApi.registerFunctions(angelScript);
 }
 
 ScriptEngine::~ScriptEngine() {
-  asEngine->ShutDownAndRelease();
-}
-
-void ScriptEngine::messageCallback(const asSMessageInfo *msg, void *param) {
-  LogLevel lvl;
-  switch (msg->type) {
-  case asMSGTYPE_INFORMATION: lvl = LogLevel::Info; break;
-  case asMSGTYPE_WARNING: lvl = LogLevel::Warning; break;
-  case asMSGTYPE_ERROR: lvl = LogLevel::Error; break;
-  }
-  Util::Log(lvl, "AngelScript") << msg->section << " (" << msg->row << ", " << msg->col << "): "
-      << msg->message;
+  angelScript->ShutDownAndRelease();
 }
 
 void ScriptEngine::runCode(const std::string &code) {
   std::string actualcode = "void main() {\n" + code + "\n}";
-  asIScriptModule *mod = asEngine->GetModule(0, asGM_ALWAYS_CREATE);
-  int r = mod->AddScriptSection("script", &actualcode[0], actualcode.size());
-  if (r < 0) {
+  asIScriptModule *module = angelScript->GetModule(0, asGM_ALWAYS_CREATE);
+  int result = module->AddScriptSection("script", &actualcode[0], actualcode.size());
+  if (result < 0) {
     throw std::runtime_error("AddScriptSection() failed");
   }
-  r = mod->Build();
-  if (r < 0) {
+  result = module->Build();
+  if (result < 0) {
     throw std::runtime_error("Build() failed");
   }
-  asIScriptContext *ctx = asEngine->CreateContext();
-  if (ctx == nullptr) {
+  asIScriptContext *context = angelScript->CreateContext();
+  if (context == nullptr) {
     throw std::runtime_error("Failed to create AngelScript context");
   }
-  asIScriptFunction *func = asEngine->GetModule(0)->GetFunctionByDecl("void main()");
-  if (func == nullptr) {
+  asIScriptFunction *function = angelScript->GetModule(0)->GetFunctionByDecl("void main()");
+  if (function == nullptr) {
     throw std::runtime_error("No main() function");
   }
-  r = ctx->Prepare(func);
-  if (r < 0) {
+  result = context->Prepare(function);
+  if (result < 0) {
     throw std::runtime_error("Failed to prepare context");
   }
-  r = ctx->Execute();
-  ctx->Release();
+  result = context->Execute();
+  context->Release();
 }
 
 } /* namespace radix */
