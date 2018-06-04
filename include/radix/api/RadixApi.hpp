@@ -14,7 +14,7 @@ private:
   World &world;
 public:
   RadixApi(World &world);
-  void registerFunctions(asIScriptEngine *asEngine);
+  void registerFunctions(asIScriptEngine *angelScript);
   void exit();
   void logDebug(std::string category, std::string message);
 };

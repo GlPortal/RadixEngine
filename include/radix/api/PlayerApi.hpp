@@ -12,7 +12,7 @@ private:
   World &world;
 public:
   PlayerApi(World &world);
-  void registerFunctions(asIScriptEngine *asEngine);
+  void registerFunctions(asIScriptEngine *angelScript);
   void kill();
   void moveY(float distance);
   void moveX(float distance);
