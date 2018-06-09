@@ -1,4 +1,6 @@
 #include <radix/api/RadixApi.hpp>
+
+#include <radix/core/diag/Logger.hpp>
 #include <radix/env/Util.hpp>
 
 namespace radix {
@@ -6,9 +8,9 @@ namespace radix {
 RadixApi::RadixApi(World &world): world(world) {
 }
 
-void RadixApi::registerFunctions(chaiscript::ChaiScript &scriptEngine) {
-  scriptEngine.add(chaiscript::fun(&RadixApi::exit, this), "exit");
-  scriptEngine.add(chaiscript::fun(&RadixApi::logDebug, this), "logDebug");
+void RadixApi::registerFunctions(asIScriptEngine *angelScript) {
+  angelScript->RegisterGlobalFunction("void exit()", asMETHOD(RadixApi, exit), asCALL_THISCALL_ASGLOBAL, this);
+  angelScript->RegisterGlobalFunction("void logDebug(const string &in category, const string &in message)", asMETHOD(RadixApi, logDebug), asCALL_THISCALL_ASGLOBAL, this);
 }
 
 void RadixApi::exit() {

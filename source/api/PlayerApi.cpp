@@ -1,15 +1,17 @@
 #include <radix/api/PlayerApi.hpp>
+
 #include <radix/entities/Player.hpp>
+
 namespace radix {
 
 PlayerApi::PlayerApi(World &world): world(world) {
 }
 
-void PlayerApi::registerFunctions(chaiscript::ChaiScript &scriptEngine) {
-  scriptEngine.add(chaiscript::fun(&PlayerApi::kill, this), "killPlayer");
-  scriptEngine.add(chaiscript::fun(&PlayerApi::moveY, this), "playerMoveY");
-  scriptEngine.add(chaiscript::fun(&PlayerApi::moveX, this), "playerMoveX");
-  scriptEngine.add(chaiscript::fun(&PlayerApi::jump, this), "playerJump");
+void PlayerApi::registerFunctions(asIScriptEngine *angelScript) {
+  angelScript->RegisterGlobalFunction("void killPlayer()", asMETHOD(PlayerApi, kill), asCALL_THISCALL_ASGLOBAL, this);
+  angelScript->RegisterGlobalFunction("void playerMoveY(float distance)", asMETHOD(PlayerApi, moveY), asCALL_THISCALL_ASGLOBAL, this);
+  angelScript->RegisterGlobalFunction("void playerMoveX(float distance)", asMETHOD(PlayerApi, moveX), asCALL_THISCALL_ASGLOBAL, this);
+  angelScript->RegisterGlobalFunction("void playerJump()", asMETHOD(PlayerApi, jump), asCALL_THISCALL_ASGLOBAL, this);
 }
 
 void PlayerApi::kill() {

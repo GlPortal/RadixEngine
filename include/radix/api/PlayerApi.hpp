@@ -1,7 +1,8 @@
 #ifndef RADIX_PLAYER_API_HPP
 #define RADIX_PLAYER_API_HPP
-#include <chaiscript/chaiscript.hpp>
-#include <chaiscript/chaiscript_stdlib.hpp>
+
+#include <angelscript.h>
+
 #include <radix/World.hpp>
 
 namespace radix {
@@ -11,7 +12,7 @@ private:
   World &world;
 public:
   PlayerApi(World &world);
-  void registerFunctions(chaiscript::ChaiScript &scriptEngine);
+  void registerFunctions(asIScriptEngine *angelScript);
   void kill();
   void moveY(float distance);
   void moveX(float distance);

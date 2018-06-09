@@ -2,9 +2,10 @@
 #define RADIX_SCRIPT_ENGINE_HPP
 
 #include <string>
+
+#include <angelscript.h>
+
 #include <radix/World.hpp>
-#include <chaiscript/chaiscript.hpp>
-#include <chaiscript/chaiscript_stdlib.hpp>
 #include <radix/api/PlayerApi.hpp>
 #include <radix/api/RadixApi.hpp>
 
@@ -15,10 +16,12 @@ private:
   World &world;
   PlayerApi playerApi;
   RadixApi radixApi;
-  chaiscript::ChaiScript chaiScriptEngine;
+  asIScriptEngine *angelScript;
+
 public:
   ScriptEngine(World &world);
-  void runCode(std::string code);
+  ~ScriptEngine();
+  void runCode(const std::string &code);
 };
 
 } /* namespace radix */
