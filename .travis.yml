@@ -6,10 +6,12 @@ matrix:
   include:
     - os: linux
       services: docker
-      before_install: 
+      before_install:
         - docker pull glportal/whale-gcc:coverall
+        - pip install --user cpp-coveralls
       script:
-        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake -DCOVERAGE:BOOL=ON ./&& make && make tests&& ctest&& coveralls --dryrun -i include -i source -e tests --gcov-options \'-lp\' && cmake -DCOVERAGE:BOOL=ON ./&& make tests&& ctest&& coveralls -i include -i source -e tests --gcov-options \'-lp\' > /dev/null;"
+        - docker run -it --rm -w /data -v $(pwd):/data glportal/whale-gcc:coverall bash -c "cmake -DCOVERAGE:BOOL=ON ./ && make && make tests && ctest && cmake -DCOVERAGE:BOOL=ON ./ && make tests && ctest;"
+        - coveralls -i include -i source -e tests --gcov-options \'-lp\' > /dev/null
     - os: osx
       osx_image: xcode8.3
       compiler: gcc
