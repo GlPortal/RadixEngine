@@ -31,6 +31,10 @@ void Environment::init() {
         break;
       }
     }
+    if (dataDir == "") {
+      Util::Log(Info, "DataDir") << "No data dir set!";
+      exit(0);
+    }
   }
   initializeConfig();
 }
