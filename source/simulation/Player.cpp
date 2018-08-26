@@ -2,9 +2,6 @@
 
 #include <iostream>
 
-// #include <radix/component/Player.hpp>
-// #include <radix/system/PhysicsSystem.hpp>
-
 namespace radix {
 namespace simulation {
 
