@@ -21,8 +21,6 @@ Chat with us at irc.freenode.org in the channel [#glportal](http://webchat.freen
 for questions and discussions about the development of the game.
 Report Issues to [github](https://github.com/GlPortal/RadixEngine/issues).
 
-Feel free to submit a pull request or suggest an issue on GitHub if you have any changes/suggestions for us.
-
 ## Donate
 Donate Bitcoin to 1JxrwJZgV9qBeEPH7BDF9qLJPSDcp6fqxz to help us pay for hosting and domain names.
 
