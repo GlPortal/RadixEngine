@@ -22,7 +22,6 @@ Fps BaseGame::fps;
 BaseGame::BaseGame() :
   gameWorld(window),
   closed(false) {
-  radix::Environment::init();
   config = Environment::getConfig();
   radix::ArgumentsParser::populateConfig(config);
 

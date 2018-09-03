@@ -15,7 +15,7 @@ std::string Environment::dataDir = "";
 void Environment::init() {
   if (dataDir.empty()) {
     std::vector<std::string> dataDirPaths = {
-      "data"
+      "../data"
     };
 
     if(OperatingSystem::IsLinux()){
@@ -24,9 +24,10 @@ void Environment::init() {
     }
 
     for (auto & path : dataDirPaths) {
+      Util::Log(Info, "DataDir") << "Searching data in " << path;
       if (Path::DirectoryExist(path)) {
         dataDir = path;
-        Util::Log(Info, "DataDir") << path;
+        Util::Log(Info, "DataDir") << "Found data in " << path;
 
         break;
       }
