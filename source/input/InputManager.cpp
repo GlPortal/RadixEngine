@@ -18,7 +18,7 @@ InputManager::InputManager(BaseGame *game) :
 void InputManager::init() {
   if (!initialised) {
     if (!game->getConfig().isLoaded()) {
-      throw Exception::Error("InputManager", "Tried to initialise InputManager without config.");
+      throw Exception::Error("InputManager", "Tried to initialize InputManager without config.");
     }
 
     initialised = true;
