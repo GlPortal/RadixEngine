@@ -15,7 +15,7 @@ std::string Environment::dataDir = "";
 void Environment::init() {
   if (dataDir.empty()) {
     std::vector<std::string> dataDirPaths = {
-      "../data"
+      "data/"
     };
 
     if(OperatingSystem::IsLinux()){
