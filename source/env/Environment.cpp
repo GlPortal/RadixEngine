@@ -15,8 +15,10 @@ std::string Environment::dataDir = "";
 void Environment::init() {
   if (dataDir.empty()) {
     std::vector<std::string> dataDirPaths = {
-      "data/"
+      "data"
     };
+
+    dataDirPaths.push_back("../data");
 
     if(OperatingSystem::IsLinux()){
       dataDirPaths.push_back("/usr/local/share/glportal/data");
@@ -32,10 +34,6 @@ void Environment::init() {
         break;
       }
     }
-    if (dataDir == "") {
-      Util::Log(Info, "DataDir") << "No data dir set!";
-      exit(0);
-    }
   }
   initializeConfig();
 }
@@ -49,13 +47,19 @@ void Environment::initializeConfig() {
 }
 
 std::string Environment::getDataDir() {
+  if (dataDir == "") {
+    Util::Log(Info, "DataDir") << "No data dir set!";
+    exit(0);
+  }
+
   return dataDir;
 }
 
 void Environment::setDataDir(const std::string &string) {
+  Util::Log(Info, "DataDir") << "Setting data dir to " << string;
   dataDir = string;
   if (dataDir[dataDir.size() - 1] != '/') {
-    dataDir += '/';
+      dataDir += '/';
   }
 }
 
