@@ -58,8 +58,8 @@ std::string Environment::getDataDir() {
 void Environment::setDataDir(const std::string &string) {
   Util::Log(Info, "DataDir") << "Setting data dir to " << string;
   dataDir = string;
-  if (dataDir[dataDir.size() - 1] != '/') {
-      dataDir += '/';
+  if (dataDir[dataDir.size() - 1] == '/') {
+    dataDir = dataDir.substr(0, dataDir.length() - 1);
   }
 }
 
