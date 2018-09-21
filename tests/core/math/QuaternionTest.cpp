@@ -3,7 +3,7 @@
 #ifndef CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_MAIN
 #endif
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Quaternion.hpp>

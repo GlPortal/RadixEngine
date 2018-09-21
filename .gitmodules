@@ -19,3 +19,6 @@
 [submodule "external/AngelScript"]
 	path = external/AngelScript
 	url = https://github.com/urho3d/AngelScript.git
+[submodule "external/FakeIt"]
+	path = external/FakeIt
+	url = https://github.com/eranpeer/FakeIt.git
