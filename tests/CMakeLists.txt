@@ -18,4 +18,18 @@ endfunction(test)
 test(XmlHelperTest XmlHelperTest.cpp)
 test(QuaternionTest ./core/math/QuaternionTest.cpp)
 test(MathTest ./core/math/MathTest.cpp)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  test(TextureLoader ./data/texture/TextureLoader.cpp)
+  set_target_properties(TextureLoader
+    PROPERTIES
+    LINK_FLAGS  
+    "-Wl,--wrap=fopen"
+    #-Wl,--wrap=glGenTextures   \
+    #-Wl,--wrap=glBindTexture   \
+    #-Wl,--wrap=glPixelStorei   \
+    #-Wl,--wrap=glTexImage2D    \
+    #-Wl,--wrap=glTexParameteri \
+    #-Wl,--wrap=glGenerateMipmap"
+  )
+endif()
 

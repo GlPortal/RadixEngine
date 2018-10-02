@@ -14,12 +14,14 @@ Texture TextureLoader::getEmptyTexture(const std::string &name,
                                        const char *pixel) {
   // Check for cached texture
   auto it = textureCache.find(name);
-  if (it != textureCache.end())
+  if (it != textureCache.end()) {
     return it->second;
+  }
 
+  printf("Before\n");
   // upload texture to GPU
-  Texture texture =
-      uploadTexture(reinterpret_cast<const unsigned char *>(pixel), PixelFormat::RGB8, 1, 1);
+  auto texture = uploadTexture(reinterpret_cast<const unsigned char *>(pixel), PixelFormat::RGB8, 1, 1);
+  printf("After\n");
   textureCache.insert(std::make_pair(name, texture)); // Cache texture
   return texture;
 }
@@ -90,7 +92,9 @@ static constexpr GLint getGlInternalPixelFormat(TextureLoader::PixelFormat f) {
 Texture TextureLoader::uploadTexture(const unsigned char *data, PixelFormat pixFormat,
                                      unsigned int width, unsigned int height) {
   GLuint handle;
+  printf("glGenTextures\n");
   glGenTextures(1, &handle); // Create Texture OpenGL handler
+  printf("glGenTextures\n");
   glBindTexture(GL_TEXTURE_2D,
                 handle); // Bind and Set OpenGL Texture type 2D Texture
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // sets pixel storage modes
