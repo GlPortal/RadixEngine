@@ -5,18 +5,21 @@
 #include <catch2/catch.hpp>
 #include "radix/data/texture/TextureLoader.hpp"
 
+
 static bool g_bPassed  = false;
 static bool g_bFopen   = true;
 static int  g_iDefault = 0;
 enum class TextureType : int {
   Diffuse,
   Normal,
-  Specular
+  Specular,
+  Overflow
 };
 static const char* g_pBuffers[] = {
-  "\xFF\xFF\xFF", // diffuse
-  "\x7F\x7F\xFF", // normal
-  "\x7F\x7F\x7F"  // specular
+  "\xFF\xFF\xFF",     // diffuse
+  "\x7F\x7F\xFF",     // normal
+  "\x7F\x7F\x7F",     // specular
+  "\x7F\x7F\x7F\xFF", // overflow
 };
 
 #ifdef __cplusplus
@@ -49,8 +52,12 @@ void glad_glTexParameteri_(GLenum target, GLenum pname, GLint param) {
 }
 PFNGLTEXIMAGE2DPROC glad_glTexImage2D;
 void glad_glTexImage2D_(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *pixels) {
-  g_bPassed = strcmp(g_pBuffers[g_iDefault],
-                     reinterpret_cast<const char*>(pixels)) == 0;
+  if(!pixels) {
+    g_bPassed = false;
+  } else {
+    g_bPassed = strcmp(g_pBuffers[g_iDefault],
+                       reinterpret_cast<const char*>(pixels)) == 0;
+  }
 }
 PFNGLGENERATEMIPMAPPROC glad_glGenerateMipmap;
 void glad_glGenerateMipmap_(GLenum target) {
@@ -96,5 +103,30 @@ TEST_CASE_METHOD(TextureLoaderFixtires, "Load Texture", "[texture-loader]") {
     REQUIRE(g_bPassed);
     REQUIRE(texture.width  == 1);
     REQUIRE(texture.height == 1);
+  }
+  g_bPassed = false;
+  SECTION("Pass nullptr to getEmptyTexture") {
+    auto texture = radix::TextureLoader::getEmptyTexture("engine@empty/nullptr", nullptr);
+    REQUIRE(!g_bPassed);
+    REQUIRE(texture.width  == 0);
+    REQUIRE(texture.height == 0);
+  }
+  g_bPassed = false;
+  SECTION("Pass pointer greater than 3 pixels to getEmptyTexture") {
+    g_iDefault = static_cast<int>(TextureType::Overflow);
+    auto ptr   = g_pBuffers[g_iDefault];
+    auto texture = radix::TextureLoader::getEmptyTexture("engine@empty/overflow", ptr);
+    REQUIRE(!g_bPassed);
+    REQUIRE(texture.width  == 0);
+    REQUIRE(texture.height == 0);
+  }
+  g_bPassed = false;
+  SECTION("Pass empty tag to getEmptyTexture") {
+    g_iDefault = static_cast<int>(TextureType::Diffuse);
+    auto ptr   = g_pBuffers[g_iDefault];
+    auto texture = radix::TextureLoader::getEmptyTexture("", ptr);
+    REQUIRE(!g_bPassed);
+    REQUIRE(texture.width  == 0);
+    REQUIRE(texture.height == 0);
   }
 }
