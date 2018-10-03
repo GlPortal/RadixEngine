@@ -4,6 +4,7 @@
 #include <radix/core/gl/OpenGL.hpp>
 
 #include <FreeImagePlus.h>
+#include <radix/core/file/Path.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/util/Profiling.hpp>
 
@@ -43,6 +44,9 @@ Texture TextureLoader::getEmptySpecular() {
 
 Texture TextureLoader::getTexture(const std::string &path) {
   PROFILER_BLOCK("MaterialLoader::getTexture", profiler::colors::Red400);
+  if(path.empty()) {
+    return Texture{0, 0, 0};
+  }
   // Check if texture is chached
   auto it = textureCache.find(path);
   if (it != textureCache.end())
@@ -50,6 +54,9 @@ Texture TextureLoader::getTexture(const std::string &path) {
 
   // get image name
   const std::string imagePath = Environment::getDataDir() + "/textures/" + path;
+  if(!radix::Path::FileExist(imagePath)) {
+    return Texture{0, 0, 0};
+  }
   const char* pImagePath = imagePath.c_str();
   // Read image from hard
   FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pImagePath), pImagePath);
