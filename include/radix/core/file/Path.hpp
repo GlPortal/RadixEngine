@@ -9,6 +9,7 @@ class Path {
 public:
   static std::string GetDirectorySeparator();
   static bool DirectoryExist(std::string & directory);
+  static bool FileExist(const std::string& file);
 
   // convert path from unix paths used throughout the code
   static std::string FromUnixPath(const std::string & unixPath);

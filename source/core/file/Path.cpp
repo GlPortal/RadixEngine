@@ -1,6 +1,7 @@
 #include <radix/core/file/Path.hpp>
 
 #include <string>
+#include <fstream>
 
 #ifndef _WIN32
 #include <sys/stat.h>
@@ -30,6 +31,12 @@ bool Path::DirectoryExist(std::string &directory) {
   return true;
 #endif
 }
+
+bool Path::FileExist(const std::string& file) {
+  std::ifstream temp(file);
+  return temp.is_open();
+}
+
 
 string Path::FromUnixPath(const string &unixPath) {
   string path(unixPath);
