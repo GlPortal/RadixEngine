@@ -5,26 +5,38 @@
 #include <catch2/catch.hpp>
 #include "radix/data/texture/TextureLoader.hpp"
 
-static bool g_bFopen = true;
+static bool g_bPassed  = false;
+static bool g_bFopen   = true;
+static int  g_iDefault = 0;
+enum class TextureType : int {
+  Diffuse,
+  Normal,
+  Specular
+};
+static const char* g_pBuffers[] = {
+  "\xFF\xFF\xFF", // diffuse
+  "\x7F\x7F\xFF", // normal
+  "\x7F\x7F\x7F"  // specular
+};
 
 #ifdef __cplusplus
 extern "C" {
 #endif //! __cplusplus
 
+#include <string.h>
 FILE *__wrap_fopen(const char *path, const char *mode);
 extern FILE *__real_fopen(const char *path, const char *mode);
 
 FILE *__wrap_fopen(const char *path, const char *mode) {
   if(g_bFopen) {
-    printf("Inside\n");
     return __real_fopen(path, mode);
   }
-  printf("Outside\n");
   return 0;
 }
 
 PFNGLGENTEXTURESPROC glad_glGenTextures;
 void glad_glGenTextures_(GLsizei n, GLuint *textures) {
+  *textures = 1;
 }
 PFNGLBINDTEXTUREPROC glad_glBindTexture;
 void glad_glBindTexture_(GLenum target, GLuint texture) {
@@ -37,6 +49,8 @@ void glad_glTexParameteri_(GLenum target, GLenum pname, GLint param) {
 }
 PFNGLTEXIMAGE2DPROC glad_glTexImage2D;
 void glad_glTexImage2D_(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *pixels) {
+  g_bPassed = strcmp(g_pBuffers[g_iDefault],
+                     reinterpret_cast<const char*>(pixels)) == 0;
 }
 PFNGLGENERATEMIPMAPPROC glad_glGenerateMipmap;
 void glad_glGenerateMipmap_(GLenum target) {
@@ -59,8 +73,28 @@ struct TextureLoaderFixtires {
 };
 
 TEST_CASE_METHOD(TextureLoaderFixtires, "Load Texture", "[texture-loader]") {
-  SECTION("getEmptyTexture") {
-    g_bFopen = false;
-    auto texture = radix::TextureLoader::getEmptyTexture("engine@empty/diffuse");
+  g_bFopen = false;
+  SECTION("getEmptyTextureDiffuse") {
+    g_iDefault = static_cast<int>(TextureType::Diffuse);
+    auto texture = radix::TextureLoader::getEmptyDiffuse();
+    REQUIRE(g_bPassed);
+    REQUIRE(texture.width  == 1);
+    REQUIRE(texture.height == 1);
+  }
+  g_bPassed = false;
+  SECTION("getEmptyTextureNormal") {
+    g_iDefault = static_cast<int>(TextureType::Normal);
+    auto texture = radix::TextureLoader::getEmptyNormal();
+    REQUIRE(g_bPassed);
+    REQUIRE(texture.width  == 1);
+    REQUIRE(texture.height == 1);
+  }
+  g_bPassed = false;
+  SECTION("getEmptyTextureSpecular") {
+    g_iDefault = static_cast<int>(TextureType::Specular);
+    auto texture = radix::TextureLoader::getEmptySpecular();
+    REQUIRE(g_bPassed);
+    REQUIRE(texture.width  == 1);
+    REQUIRE(texture.height == 1);
   }
 }
