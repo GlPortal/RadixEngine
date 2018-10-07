@@ -4,6 +4,7 @@
 #include <radix/core/gl/OpenGL.hpp>
 
 #include <FreeImagePlus.h>
+#include <radix/env/Util.hpp>
 #include <radix/core/file/Path.hpp>
 #include <radix/env/Environment.hpp>
 #include <radix/util/Profiling.hpp>
@@ -45,21 +46,32 @@ Texture TextureLoader::getEmptySpecular() {
 Texture TextureLoader::getTexture(const std::string &path) {
   PROFILER_BLOCK("MaterialLoader::getTexture", profiler::colors::Red400);
   if(path.empty()) {
-    return Texture{0, 0, 0};
+    return {0, 0, 0};
   }
   // Check if texture is chached
   auto it = textureCache.find(path);
-  if (it != textureCache.end())
+  if (it != textureCache.end()) {
     return it->second;
+  }
 
   // get image name
   const std::string imagePath = Environment::getDataDir() + "/textures/" + path;
   if(!radix::Path::FileExist(imagePath)) {
-    return Texture{0, 0, 0};
+    Util::Log(Error, "TextureLoader") << "Can not found " << imagePath;
+    return {0, 0, 0};
   }
   const char* pImagePath = imagePath.c_str();
   // Read image from hard
-  FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pImagePath), pImagePath);
+  auto fileType = FreeImage_GetFileType(pImagePath);
+  if(fileType == FIF_UNKNOWN) {
+    Util::Log(Error, "TextureLoader") << "Unknown texture file Type " << imagePath;
+    return {0, 0, 0};
+  }
+  FIBITMAP *bitmap = FreeImage_Load(fileType, pImagePath);
+  if(bitmap == nullptr) {
+    Util::Log(Error, "TextureLoader") << "Can not read " << imagePath;
+    return Texture{0, 0, 0};
+  }
 
   // Convert image to 32Bits
   FIBITMAP *image = FreeImage_ConvertTo32Bits(bitmap);

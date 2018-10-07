@@ -18,18 +18,12 @@ endfunction(test)
 test(XmlHelperTest XmlHelperTest.cpp)
 test(QuaternionTest ./core/math/QuaternionTest.cpp)
 test(MathTest ./core/math/MathTest.cpp)
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  test(TextureLoader ./data/texture/TextureLoader.cpp)
-  set_target_properties(TextureLoader
-    PROPERTIES
-    LINK_FLAGS  
-    "-Wl,--wrap=fopen"
-    #-Wl,--wrap=glGenTextures   \
-    #-Wl,--wrap=glBindTexture   \
-    #-Wl,--wrap=glPixelStorei   \
-    #-Wl,--wrap=glTexImage2D    \
-    #-Wl,--wrap=glTexParameteri \
-    #-Wl,--wrap=glGenerateMipmap"
-  )
-endif()
+test(TextureLoaderTest ./data/texture/TextureLoader.cpp)
+set(TextureLoaderTest_DIR ${CMAKE_CURRENT_BINARY_DIR}/textures)
+add_custom_command(
+  TARGET TextureLoaderTest
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E make_directory ${TextureLoaderTest_DIR}
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/onePixel.png ${TextureLoaderTest_DIR}
+)
 
