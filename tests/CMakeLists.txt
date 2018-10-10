@@ -26,4 +26,5 @@ add_custom_command(
   COMMAND ${CMAKE_COMMAND} -E make_directory ${TextureLoaderTest_DIR}
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/onePixel.png ${TextureLoaderTest_DIR}
 )
+test(SpritSheetTest ./data/texture/SpriteSheetTest.cpp)
 

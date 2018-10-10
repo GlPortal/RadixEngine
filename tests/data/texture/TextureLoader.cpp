@@ -1,8 +1,6 @@
-#ifndef CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_MAIN
-#endif
-#include <glad.h>
 #include <catch2/catch.hpp>
+#include <glad/glad.h>
 #include "radix/data/texture/TextureLoader.hpp"
 #include <radix/env/Util.hpp>
 #include <radix/env/Environment.hpp>

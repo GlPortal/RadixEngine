@@ -66,6 +66,7 @@ set(RADIX_SOURCES
   ${D}/data/model/MeshLoader.cpp
   ${D}/data/text/FontLoader.cpp
   ${D}/data/texture/TextureLoader.cpp
+  ${D}/data/texture/SpritSheetLoader.cpp
   ${D}/data/screen/XmlScreenLoader.cpp
   ${D}/data/screen/Element.cpp
   ${D}/data/shader/Shader.cpp
