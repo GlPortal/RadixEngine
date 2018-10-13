@@ -19,7 +19,6 @@ bool PhysicsHelper::pointInVolume(const btVector3 &p, const btCollisionObject &o
   // So far the following technique only works on collision shapes inheriting
   // from btPolyhedralConvexShape. Check for those.
   if (pointInAABB(p, min, max) && s.isPolyhedral() && s.isConvex()) {
-    // Stupid margins.
     const btPolyhedralConvexShape &cs = (const btPolyhedralConvexShape&)s;
     return cs.isInside(t.inverse()(p), cs.getMargin());
   }
