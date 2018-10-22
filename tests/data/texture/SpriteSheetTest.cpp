@@ -46,9 +46,115 @@ struct TextureLoaderFixtires {
     glTexImage2D = glad_glTexImage2D_;
     glGenerateMipmap = glad_glGenerateMipmap_;
   }
-  ~TextureLoaderFixtires() {}
+
+  ~TextureLoaderFixtires() = default;
 };
 
+TEST_CASE_METHOD(TextureLoaderFixtires, "test_set_frame_count") {
+  radix::SpritSheetLoader loader;
+  const std::string textureID = "animation_1024.png";
+  loader.load(textureID);
+  loader.setSpritSize(radix::Vector2i{8, 4});
+  const auto spritSheet = loader.create();
+  const auto framesCount = spritSheet.getFramesCount();
+
+  printf("%d == %d\n", framesCount, 8*4);
+  REQUIRE(framesCount == 8*4);
+}
+
+TEST_CASE_METHOD(TextureLoaderFixtires, "test_set_frame_to_zero") {
+  radix::SpritSheetLoader loader;
+  const std::string textureID = "animation_1024.png";
+  loader.load(textureID);
+  loader.setSpritSize(radix::Vector2i{8, 4});
+  auto spritSheet = loader.create();
+  const auto frame = spritSheet[0];
+
+  REQUIRE(std::abs(frame.x - 0.f/1024.f) < 0.001f);
+  REQUIRE(std::abs(frame.y - 0.f/1024.f) < 0.001f);
+
+  REQUIRE(std::abs(frame.w - 128.f/1024.f) < 0.001f);
+  REQUIRE(std::abs(frame.h - 256.f/1024.f) < 0.001f);
+}
+
+TEST_CASE_METHOD(TextureLoaderFixtires, "test_set_frame_to_one") {
+  radix::SpritSheetLoader loader;
+  const std::string textureID = "animation_1024.png";
+  loader.load(textureID);
+  loader.setSpritSize(radix::Vector2i{8, 4});
+  auto spritSheet = loader.create();
+  const auto frame = spritSheet[1];
+
+  printf("frame (%f, %f)\n", frame.x, frame.y);
+
+  REQUIRE(std::abs(frame.x - 128.f/1024.f) < 0.001f);
+  REQUIRE(std::abs(frame.y - 0.f/1024.f)   < 0.001f);
+
+  REQUIRE(std::abs(frame.w - 128.f/1024.f) < 0.001f);
+  REQUIRE(std::abs(frame.h - 256.f/1024.f) < 0.001f);
+}
+
+TEST_CASE_METHOD(TextureLoaderFixtires, "test_set_frame_to_7") {
+  radix::SpritSheetLoader loader;
+  const std::string textureID = "animation_1024.png";
+  loader.load(textureID);
+  loader.setSpritSize(radix::Vector2i{8, 4});
+  auto spritSheet = loader.create();
+  const auto frame = spritSheet[7];
+
+  REQUIRE(std::abs(frame.x - ((1024.f - 128.f) / 1024.f)) < 0.001f);
+  REQUIRE(std::abs(frame.y - 0.f/1024.f) < 0.001f);
+
+  REQUIRE(std::abs(frame.w - 128.f/1024.f) < 0.001f);
+  REQUIRE(std::abs(frame.h - 256.f/1024.f) < 0.001f);
+}
+
+TEST_CASE_METHOD(TextureLoaderFixtires, "test_set_frame_to_8") {
+  radix::SpritSheetLoader loader;
+  const std::string textureID = "animation_1024.png";
+  loader.load(textureID);
+  loader.setSpritSize(radix::Vector2i{8, 4});
+  auto spritSheet = loader.create();
+  const auto frame = spritSheet[8];
+
+  printf("frame (%f, %f)\n", frame.x, frame.y);
+
+  REQUIRE(std::abs(frame.x - 0.f  /1024.f)   < 0.001f);
+  REQUIRE(std::abs(frame.y - 256.f/1024.f) < 0.001f);
+
+  REQUIRE(std::abs(frame.w - 128.f/1024.f) < 0.001f);
+  REQUIRE(std::abs(frame.h - 256.f/1024.f) < 0.001f);
+}
+
+TEST_CASE_METHOD(TextureLoaderFixtires, "test_set_frame_to_24") {
+  radix::SpritSheetLoader loader;
+  const std::string textureID = "animation_1024.png";
+  loader.load(textureID);
+  loader.setSpritSize(radix::Vector2i{8, 4});
+  auto spritSheet = loader.create();
+  const auto frame = spritSheet[24];
+
+  REQUIRE(std::abs(frame.x - (0 / 1024.f)) < 0.001f);
+  REQUIRE(std::abs(frame.y - ((1024.f - 256.f) / 1024.f)) < 0.001f);
+
+  REQUIRE(std::abs(frame.w - 128.f/1024.f) < 0.001f);
+  REQUIRE(std::abs(frame.h - 256.f/1024.f) < 0.001f);
+}
+
+TEST_CASE_METHOD(TextureLoaderFixtires, "test_set_frame_to_31") {
+  radix::SpritSheetLoader loader;
+  const std::string textureID = "animation_1024.png";
+  loader.load(textureID);
+  loader.setSpritSize(radix::Vector2i{8, 4});
+  auto spritSheet = loader.create();
+  const auto frame = spritSheet[31];
+
+  REQUIRE(std::abs(frame.x - ((1024.f - 128.f) / 1024.f)) < 0.001f);
+  REQUIRE(std::abs(frame.y - ((1024.f - 256.f) / 1024.f)) < 0.001f);
+
+  REQUIRE(std::abs(frame.w - 128.f/1024.f) < 0.001f);
+  REQUIRE(std::abs(frame.h - 256.f/1024.f) < 0.001f);
+}
 
 SCENARIO("Pass texture path to get full loaded spritSheet",
          "[sprit-sheet,texture-loader]") {
@@ -87,6 +193,8 @@ SCENARIO("Pass texture path to get full loaded spritSheet",
       }
     }
   }
+  /*
+  */
 
   GIVEN("A texture/animation_1024.png exist") {
     const std::string textureID = "animation_1024.png";
@@ -108,4 +216,3 @@ SCENARIO("Pass texture path to get full loaded spritSheet",
     }
   }
 }
-
