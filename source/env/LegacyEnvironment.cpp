@@ -1,4 +1,4 @@
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 
 #include <iostream>
 
@@ -8,11 +8,11 @@
 
 namespace radix {
 
-Config Environment::config;
+Config LegacyEnvironment::config;
 
-std::string Environment::dataDir = "";
+std::string LegacyEnvironment::dataDir = "";
 
-void Environment::init() {
+void LegacyEnvironment::init() {
   if (dataDir.empty()) {
     std::vector<std::string> dataDirPaths = {
       "data"
@@ -38,15 +38,15 @@ void Environment::init() {
   initializeConfig();
 }
 
-Config& Environment::getConfig() {
+Config& LegacyEnvironment::getConfig() {
   return config;
 }
 
-void Environment::initializeConfig() {
+void LegacyEnvironment::initializeConfig() {
   config.load();
 }
 
-std::string Environment::getDataDir() {
+std::string LegacyEnvironment::getDataDir() {
   if (dataDir == "") {
     Util::Log(Info, "DataDir") << "No data dir set!";
     exit(0);
@@ -55,7 +55,7 @@ std::string Environment::getDataDir() {
   return dataDir;
 }
 
-void Environment::setDataDir(const std::string &string) {
+void LegacyEnvironment::setDataDir(const std::string &string) {
   Util::Log(Info, "DataDir") << "Setting data dir to " << string;
   dataDir = string;
   if (dataDir[dataDir.size() - 1] == '/') {

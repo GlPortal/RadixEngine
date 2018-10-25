@@ -2,7 +2,7 @@
 #include <radix/core/math/Math.hpp>
 #include <radix/entities/Trigger.hpp>
 #include <radix/core/state/GameStateManager.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/SoundManager.hpp>
 
 using namespace std;
@@ -21,7 +21,7 @@ void AudioTrigger::setLoop(bool loop) {
 
 void AudioTrigger::addAction(Entity &ent) {
   entities::Trigger &trigger = dynamic_cast<entities::Trigger&>(ent);
-  std::string datadir  = Environment::getDataDir();
+  std::string datadir  = LegacyEnvironment::getDataDir();
   std::string fileName = datadir + "/audio/" + this->filePath;
   trigger.setActionOnEnter([fileName] (entities::Trigger &trigger) {
     if (!SoundManager::isPlaying(fileName)) {

@@ -3,7 +3,7 @@
 #include <radix/core/math/Math.hpp>
 #include <radix/core/state/GameStateManager.hpp>
 #include <radix/SoundManager.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 
 using namespace std;
 using namespace tinyxml2;

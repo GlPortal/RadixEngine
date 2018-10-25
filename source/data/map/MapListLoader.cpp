@@ -1,5 +1,5 @@
 #include <radix/data/map/MapListLoader.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <fstream>
 #include <iostream>
 
@@ -9,7 +9,7 @@ namespace radix {
 
 vector<string> MapListLoader::getMapList() {
   vector<string> mapList;
-  std::string path = Environment::getDataDir() + "/maps/maplist";
+  std::string path = LegacyEnvironment::getDataDir() + "/maps/maplist";
   ifstream file(path);
 
   if (not file.is_open()) {

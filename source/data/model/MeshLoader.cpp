@@ -1,6 +1,6 @@
 #include <radix/data/model/MeshLoader.hpp>
 #include <radix/Entity.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/core/gl/OpenGL.hpp>
 #include <radix/core/gl/TightDataPacker.hpp>
 
@@ -17,13 +17,13 @@ namespace radix {
 std::map<std::string, Mesh> MeshLoader::meshCache = {};
 
 Mesh &MeshLoader::getMesh(const std::string &path) {
-  // check if mesh is cahced
+  // check if mesh is cached
   auto it = meshCache.find(path);
   if (it != meshCache.end()) {
     return it->second;
   }
 
-  const std::string filePath = Environment::getDataDir() + "/meshes/" + path;
+  const std::string filePath = LegacyEnvironment::getDataDir() + "/meshes/" + path;
   Assimp::Importer importer;
   // flags to read mesh
   // - aiProcess_Triangulate      : Triangulates all faces of all meshes.

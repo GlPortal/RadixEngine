@@ -5,7 +5,7 @@
 
 #include <radix/data/model/MeshLoader.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 
 namespace radix {
 
@@ -16,7 +16,7 @@ Font& FontLoader::getFont(const std::string &name) {
   if (it != fontCache.end()) {
     return it->second;
   }
-  std::string path = Environment::getDataDir() + "/fonts/" + name + ".txt";
+  std::string path = LegacyEnvironment::getDataDir() + "/fonts/" + name + ".txt";
   Font font = loadFont(path, name);
   auto inserted = fontCache.insert(std::pair<std::string, Font>(name, font));
   // Return reference to newly inserted Font

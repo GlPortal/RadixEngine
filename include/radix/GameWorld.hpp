@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include <radix/data/screen/XmlScreenLoader.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 
 namespace radix {
 

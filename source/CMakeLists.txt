@@ -40,7 +40,7 @@ set(RADIX_SOURCES
   ${D}/env/ArgumentsParser.cpp
   ${D}/env/GameConsole.cpp
   ${D}/env/Config.cpp
-  ${D}/env/Environment.cpp
+  ${D}/env/LegacyEnvironment.cpp
   ${D}/env/OperatingSystem.cpp
   ${D}/env/Util.cpp
   ${D}/GameWorld.cpp

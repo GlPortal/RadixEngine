@@ -8,7 +8,7 @@
 #include <radix/data/map/XmlMapLoader.hpp>
 #include <radix/core/math/Math.hpp>
 #include <radix/entities/Trigger.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/data/map/TeleportTrigger.hpp>
 #include <radix/data/map/ScriptTrigger.hpp>
 

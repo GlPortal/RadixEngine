@@ -1,5 +1,5 @@
-#ifndef RADIX_ENVIRONMENT_HPP
-#define RADIX_ENVIRONMENT_HPP
+#ifndef RADIX_LEGACY_ENVIRONMENT_HPP
+#define RADIX_LEGACY_ENVIRONMENT_HPP
 
 #include <string>
 
@@ -12,7 +12,7 @@ namespace radix {
  *  Manages the configuration of the the game
  */
 
-class Environment {
+class LegacyEnvironment {
 private:
   static Config config;
   static std::string dataDir;
@@ -27,4 +27,4 @@ public:
 
 } /* namespace radix */
 
-#endif /* RADIX_ENVIRONMENT_HPP */
+#endif /* RADIX_LEGACY_ENVIRONMENT_HPP */

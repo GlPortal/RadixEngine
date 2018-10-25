@@ -2,7 +2,7 @@
 
 #include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
 
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
 #include <radix/env/Util.hpp>
@@ -98,7 +98,7 @@ void Player::tick(TDelta dtime) {
 
   if (attemptJump and controller->canJump()) {
     std::uniform_int_distribution<> dis(0, PLAYER_JUMP_SOUND.size()-1);
-    playSound(Environment::getDataDir() + PLAYER_JUMP_SOUND[dis(Util::Rand)]);
+    playSound(LegacyEnvironment::getDataDir() + PLAYER_JUMP_SOUND[dis(Util::Rand)]);
     controller->jump();
   }
 
@@ -141,7 +141,7 @@ void Player::tick(TDelta dtime) {
 
     if (stepCounter >= 2.5f) {
       std::uniform_int_distribution<> distribution(0, PLAYER_FOOT_SOUND.size()-1);
-      playSound(Environment::getDataDir() + PLAYER_FOOT_SOUND[distribution(Util::Rand)]);
+      playSound(LegacyEnvironment::getDataDir() + PLAYER_FOOT_SOUND[distribution(Util::Rand)]);
       stepCounter -= 2.5f;
     }
   }

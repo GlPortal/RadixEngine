@@ -7,7 +7,6 @@
 
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlTriggerHelper.hpp>
-#include <radix/env/Environment.hpp>
 
 #include <radix/entities/Trigger.hpp>
 #include <radix/entities/Player.hpp>

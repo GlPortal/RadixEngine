@@ -3,7 +3,7 @@
 #include <tinyxml2.h>
 
 #include <radix/data/texture/TextureLoader.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/env/Util.hpp>
 #include <radix/util/Profiling.hpp>
 
@@ -18,7 +18,7 @@ const Material MaterialLoader::loadFromXML(const std::string &path) {
   std::string dir = path.substr(0, path.find_last_of("/\\"));
   XMLDocument doc;
 
-  std::string fileName = Environment::getDataDir() + "/textures/" + path + ".rmdx";
+  std::string fileName = LegacyEnvironment::getDataDir() + "/textures/" + path + ".rmdx";
   XMLError error = doc.LoadFile(fileName.c_str());
 
   if (error != 0) {

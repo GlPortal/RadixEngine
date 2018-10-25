@@ -1,9 +1,10 @@
+
 #include <radix/data/texture/TextureLoader.hpp>
 
 #include <radix/core/gl/OpenGL.hpp>
 
 #include <FreeImagePlus.h>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/util/Profiling.hpp>
 
 namespace radix {
@@ -45,7 +46,7 @@ Texture TextureLoader::getTexture(const std::string &path) {
     return it->second;
 
   // get image name
-  const std::string imagePath = Environment::getDataDir() + "/textures/" + path;
+  const std::string imagePath = LegacyEnvironment::getDataDir() + "/textures/" + path;
   const char* pImagePath = imagePath.c_str();
   // Read image from hard
   FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pImagePath), pImagePath);
