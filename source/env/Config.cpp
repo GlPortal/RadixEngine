@@ -6,7 +6,7 @@
 #include <vector>
 #include <array>
 
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/env/Util.hpp>
 #include <radix/input/InputManager.hpp>
 #include <radix/input/InputSource.hpp>
@@ -67,7 +67,7 @@ Config::Config() :
 void Config::load() {
   std::string err;
   std::string templateTxt;
-  std::string templatePath = Environment::getDataDir() + "/config.json";
+  std::string templatePath = LegacyEnvironment::getDataDir() + "/config.json";
   std::ifstream in(templatePath, std::ios::in | std::ios::binary);
   if (in) {
     in.seekg(0, std::ios::end);

@@ -13,7 +13,6 @@
 #include <radix/core/gl/DebugOutput.hpp>
 #include <radix/data/texture/TextureLoader.hpp>
 #include <radix/env/Config.hpp>
-#include <radix/env/Environment.hpp>
 #include <radix/env/Util.hpp>
 
 #include <SDL2/SDL.h>

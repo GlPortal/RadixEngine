@@ -8,7 +8,7 @@
 
 #include <radix/core/file/Path.hpp>
 #include <radix/env/Config.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 
 namespace radix {
 const int ArgumentsParser::NO_ARGUMENT = -1;
@@ -68,7 +68,7 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
       showVersion();
       exit(0);
     case 'd':
-      Environment::setDataDir(optarg);
+      LegacyEnvironment::setDataDir(optarg);
       break;
     case 'h':
       showUsage(argv);

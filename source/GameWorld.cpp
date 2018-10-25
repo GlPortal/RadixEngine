@@ -3,9 +3,9 @@
 namespace radix {
 GameWorld::GameWorld(InputSource &input) :
   input(input),
-  splashScreen(radix::XmlScreenLoader::getScreen(radix::Environment::getDataDir() + "/screens/title.xml")),
-  pauseScreen(radix::XmlScreenLoader::getScreen(radix::Environment::getDataDir() + "/screens/pause.xml")),
-  gameOverScreen(radix::XmlScreenLoader::getScreen(radix::Environment::getDataDir() + "/screens/end.xml"))
+  splashScreen(radix::XmlScreenLoader::getScreen(radix::LegacyEnvironment::getDataDir() + "/screens/title.xml")),
+  pauseScreen(radix::XmlScreenLoader::getScreen(radix::LegacyEnvironment::getDataDir() + "/screens/pause.xml")),
+  gameOverScreen(radix::XmlScreenLoader::getScreen(radix::LegacyEnvironment::getDataDir() + "/screens/end.xml"))
 {
 }
 

@@ -6,7 +6,7 @@
 
 #include <radix/core/gl/OpenGL.hpp>
 
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/env/Util.hpp>
 
 namespace radix {
@@ -75,10 +75,10 @@ ShaderLoader::createProgram(const std::string &vertexShaderPath,
 
 Shader &ShaderLoader::getShader(const std::string &fragpath,
                                 const std::string &vertpath) {
-  auto fpath = Environment::getDataDir() + "/shaders/" + fragpath;
+  auto fpath = LegacyEnvironment::getDataDir() + "/shaders/" + fragpath;
   auto vpath = (vertpath.empty())
-                   ? Environment::getDataDir() + "/shaders/diffuse.vert"
-                   : Environment::getDataDir() + "/shaders/" + vertpath;
+                   ? LegacyEnvironment::getDataDir() + "/shaders/diffuse.vert"
+                   : LegacyEnvironment::getDataDir() + "/shaders/" + vertpath;
 
   auto key = std::make_pair(fragpath, vertpath);
   // Check if shader is cached before

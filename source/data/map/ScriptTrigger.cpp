@@ -3,7 +3,6 @@
 #include <radix/core/math/Math.hpp>
 #include <radix/entities/Trigger.hpp>
 #include <radix/core/state/GameStateManager.hpp>
-#include <radix/env/Environment.hpp>
 #include <radix/entities/traits/HealthTrait.hpp>
 #include <radix/World.hpp>
 #include <radix/api/ScriptEngine.hpp>

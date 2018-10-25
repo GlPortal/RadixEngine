@@ -4,7 +4,7 @@
 #include <radix/core/math/Math.hpp>
 #include <radix/entities/Trigger.hpp>
 #include <radix/core/state/GameStateManager.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/World.hpp>
 
 using namespace std;
@@ -25,7 +25,7 @@ void MapTrigger::addAction(Entity &ent) {
     World &newWorld = game.createOtherWorld<World>(fileName);
     game.deferPostCycle([fileName, &game, &newWorld] () {
       XmlMapLoader mapLoader(newWorld, game.getCustomTriggers());
-      mapLoader.load(Environment::getDataDir() + "/maps/" + fileName + ".xml");
+      mapLoader.load(LegacyEnvironment::getDataDir() + "/maps/" + fileName + ".xml");
       game.switchToOtherWorld(fileName);
     });
   });

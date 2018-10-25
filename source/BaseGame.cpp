@@ -3,7 +3,7 @@
 #include <SDL2/SDL_timer.h>
 
 #include <radix/data/map/XmlMapLoader.hpp>
-#include <radix/env/Environment.hpp>
+#include <radix/env/LegacyEnvironment.hpp>
 #include <radix/SoundManager.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/renderer/ScreenRenderer.hpp>
@@ -22,7 +22,7 @@ Fps BaseGame::fps;
 BaseGame::BaseGame() :
   gameWorld(window),
   closed(false) {
-  config = Environment::getConfig();
+  config = LegacyEnvironment::getConfig();
   radix::ArgumentsParser::populateConfig(config);
 
   if (config.isProfilerEnabled()) {
@@ -216,11 +216,11 @@ void BaseGame::loadMap(World &targetWorld) {
   XmlMapLoader mapLoader(targetWorld, customTriggers);
   std::string map = config.getMap(), mapPath = config.getMapPath();
   if (map.length() > 0) {
-    mapLoader.load(Environment::getDataDir() + map);
+    mapLoader.load(LegacyEnvironment::getDataDir() + map);
   } else if (mapPath.length() > 0) {
     mapLoader.load(mapPath);
   } else {
-    mapLoader.load(Environment::getDataDir() + defaultMap);
+    mapLoader.load(LegacyEnvironment::getDataDir() + defaultMap);
   }
 }
 
@@ -237,7 +237,7 @@ void BaseGame::createScreenshotCallbackHolder() {
   world->event.addObserverRaw(InputSource::KeyReleasedEvent::Type, [this](const radix::Event &event) {
       const int key =  ((InputSource::KeyReleasedEvent &) event).key;
       if (key == SDL_SCANCODE_G) {
-        this->window.printScreenToFile(radix::Environment::getDataDir() + "/screenshot.bmp");
+        this->window.printScreenToFile(radix::LegacyEnvironment::getDataDir() + "/screenshot.bmp");
       }
     });
 }

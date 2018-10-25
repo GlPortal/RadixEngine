@@ -3,7 +3,6 @@
 #include <radix/data/map/MapLoader.hpp>
 #include <radix/data/map/MapListLoader.hpp>
 #include <radix/entities/Player.hpp>
-#include <radix/env/Environment.hpp>
 #include <radix/renderer/Renderer.hpp>
 #include <radix/BaseGame.hpp>
 
