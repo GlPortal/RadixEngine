@@ -1,6 +1,7 @@
 #ifndef RADIX_ENVIRONMENT_HPP
 #define RADIX_ENVIRONMENT_HPP
 
+#include <string>
 #include <memory>
 #include <radix/env/Config.hpp>
 
@@ -14,10 +15,9 @@ namespace radix {
   private:
     const std::shared_ptr<Config> config;
   public:
-    Environment();
+    Environment(std::string dataPath);
     std::shared_ptr<Config> getConfig();
-    std::string getDataDir();
-    void setDataDir(const std::string &string);
+    std::string getDataPath();
   };
 
 } /* namespace radix */
