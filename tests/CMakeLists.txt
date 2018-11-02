@@ -16,5 +16,6 @@ function(test)
 endfunction(test)
 
 test(XmlHelperTest XmlHelperTest.cpp)
+test(EnvironmentTest EnvironmentTest.cpp)
 test(QuaternionTest ./core/math/QuaternionTest.cpp)
 test(MathTest ./core/math/MathTest.cpp)

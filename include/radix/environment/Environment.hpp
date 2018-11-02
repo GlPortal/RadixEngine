@@ -14,6 +14,7 @@ namespace radix {
   class Environment {
   private:
     const std::shared_ptr<Config> config;
+    const std::string dataPath;
   public:
     Environment(std::string dataPath);
     std::shared_ptr<Config> getConfig();
