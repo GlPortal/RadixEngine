@@ -228,7 +228,7 @@ void Window::processEvents() {
   }
 
   while (SDL_PollEvent(&event)) {
-    if(config.getCursorVisibility() && imguiProcessEvents) {
+    if(config->getCursorVisibility() && imguiProcessEvents) {
       imguiProcessEvents(&event);
     }
 
@@ -256,11 +256,11 @@ void Window::processEvents() {
         }
         
         if(sym == SDLK_F12) {
-          if(config.getCursorVisibility()) {
-            config.setCursorVisibility(false);
+          if(config->getCursorVisibility()) {
+            config->setCursorVisibility(false);
             lockMouse();
           }else{
-            config.setCursorVisibility(true);
+            config->setCursorVisibility(true);
             unlockMouse();
           }
           break;
@@ -323,7 +323,7 @@ void Window::processEvents() {
 }
 
 void Window::processMouseAxisEvents() {
-  if(config.getCursorVisibility()) {
+  if(config->getCursorVisibility()) {
     return;
   }
 

@@ -12,6 +12,9 @@ ImguiRenderer::ImguiRenderer(World& world, Renderer& renderer)
     : SubRenderer(world, renderer) {
   window = world.game.getWindow().window;
 
+  // Setup Dear ImGui binding
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
   ImGuiIO& io = ImGui::GetIO();
   // Keyboard mapping. ImGui will use those indices to peek into the
   // io.KeyDown[] array.

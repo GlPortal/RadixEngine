@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 #include <functional>
 
@@ -78,13 +79,14 @@ public:
   void unlockMouse();
   /**@} */
 
-  std::function<void()> imguiNewFrame;
-  std::function<bool(SDL_Event*)> imguiProcessEvents;
-  }
-    imguiNewFrame = newFrame;
-    imguiProcessEvents  = processEvents;
-                     std::function<void()> newFrame) {
   void registerImgui(std::function<bool(SDL_Event*)> processEvents,
+                     std::function<void()> newFrame) {
+    imguiProcessEvents  = std::move(processEvents);
+    imguiNewFrame = std::move(newFrame);
+  }
+  std::function<bool(SDL_Event*)> imguiProcessEvents;
+  std::function<void()> imguiNewFrame;
+
   Config                             *config;       /**< System Configuration */
 
   /**
