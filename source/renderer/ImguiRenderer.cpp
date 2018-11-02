@@ -94,7 +94,7 @@ void ImguiRenderer::shutdown() {
     ImGui::GetIO().Fonts->TexID = 0;
     fontTexture = 0;
   }
-  ImGui::Shutdown();
+  ImGui::DestroyContext();
 }
 
 bool ImguiRenderer::processEvent(SDL_Event* event) {
@@ -157,8 +157,9 @@ void ImguiRenderer::renderDrawLists(ImDrawData* draw_data) {
   glGetIntegerv(GL_CURRENT_PROGRAM, &last_program);
   GLint last_texture;
   glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-  GLint last_sampler;
-  glGetIntegerv(GL_SAMPLER_BINDING, &last_sampler);
+#ifdef GL_SAMPLER_BINDING
+  GLint last_sampler; glGetIntegerv(GL_SAMPLER_BINDING, &last_sampler);
+#endif
   GLint last_array_buffer;
   glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
   GLint last_element_array_buffer;
@@ -212,7 +213,9 @@ void ImguiRenderer::renderDrawLists(ImDrawData* draw_data) {
   glUniformMatrix4fv(attribLocationProjMtx, 1, GL_FALSE,
                      &ortho_projection[0][0]);
   glBindVertexArray(vaoHandle);
-  glBindSampler(0, 0);  // Rely on combined texture/sampler state.
+#ifdef GL_SAMPLER_BINDING
+  glBindSampler(0, 0); // We use combined texture/sampler state. Applications using GL 3.3 may set that otherwise.
+#endif
 
   for (int n = 0; n < draw_data->CmdListsCount; n++) {
     const ImDrawList* cmd_list = draw_data->CmdLists[n];
@@ -249,7 +252,9 @@ void ImguiRenderer::renderDrawLists(ImDrawData* draw_data) {
   // Restore modified GL state
   glUseProgram(last_program);
   glBindTexture(GL_TEXTURE_2D, last_texture);
+#ifdef GL_SAMPLER_BINDING
   glBindSampler(0, last_sampler);
+#endif
   glActiveTexture(last_active_texture);
   glBindVertexArray(last_vertex_array);
   glBindBuffer(GL_ARRAY_BUFFER, last_array_buffer);
