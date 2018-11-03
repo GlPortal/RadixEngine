@@ -24,10 +24,6 @@ struct EnvironmentFixtures
 TEST_CASE_METHOD(EnvironmentFixtures, "Environment construction", "[environment]") {
   SECTION("Reading and writing of data path working") {
     radix::Environment environment = Environment(dataPath);
-    bool passed = false;
-    if(environment.getDataPath() == dataPath) {
-      passed = true;
-    }
-    REQUIRE(passed);
+    REQUIRE(environment.getDataPath() == dataPath);
   }
 }
