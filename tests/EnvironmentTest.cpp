@@ -14,14 +14,14 @@ struct EnvironmentFixtures
   std::string dataPath;
 
   EnvironmentFixtures() {
-    dataPath = "/mock/path";
+    dataPath = "/tmp";
   }
 
   ~EnvironmentFixtures() {}
 
 };
 
-TEST_CASE_METHOD(EnvironmentFixtures, "Environment construction", "[environment]") {
+TEST_CASE_METHOD(EnvironmentFixtures, "Environment construction sets data path correctly", "[environment]") {
   SECTION("Reading and writing of data path working") {
     radix::Environment environment = Environment(dataPath);
     REQUIRE(environment.getDataPath() == dataPath);
