@@ -21,4 +21,4 @@
 	url = https://github.com/urho3d/AngelScript.git
 [submodule "external/cppfs"]
 	path = external/cppfs
-	url = git@github.com:cginternals/cppfs.git
+	url = https://github.com/cginternals/cppfs.git
