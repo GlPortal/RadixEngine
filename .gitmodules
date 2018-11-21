@@ -19,3 +19,6 @@
 [submodule "external/AngelScript"]
 	path = external/AngelScript
 	url = https://github.com/urho3d/AngelScript.git
+[submodule "external/cppfs"]
+	path = external/cppfs
+	url = git@github.com:cginternals/cppfs.git
