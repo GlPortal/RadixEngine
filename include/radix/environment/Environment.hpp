@@ -6,9 +6,9 @@
 #include <radix/env/Config.hpp>
 
 namespace radix {
-  /** @brief Manage game environment
+  /** @brief Manage environment
    *
-   *  Manages the environment of the the game
+   *  Manages the environment 
    */
 
   class Environment {
