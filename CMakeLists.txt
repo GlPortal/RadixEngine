@@ -1,3 +1,4 @@
+# Check COMPILE.md for detailed instructions on how to compile the project
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 set(RADIX_LIBRARY RadixEngine)
 
