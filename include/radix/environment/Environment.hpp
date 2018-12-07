@@ -6,11 +6,6 @@
 #include <radix/env/Config.hpp>
 
 namespace radix {
-  /** @brief Manage environment
-   *
-   *  Manages the environment 
-   */
-
   class Environment {
   private:
     const std::shared_ptr<Config> config;
