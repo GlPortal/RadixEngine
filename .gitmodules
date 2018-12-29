@@ -22,3 +22,6 @@
 [submodule "external/cppfs"]
 	path = external/cppfs
 	url = https://github.com/cginternals/cppfs.git
+[submodule "external/cxxopts"]
+	path = external/cxxopts
+	url = https://github.com/jarro2783/cxxopts.git

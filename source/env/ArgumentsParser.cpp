@@ -5,7 +5,6 @@
 #include <string>
 #include <getopt.h>
 #include <iostream>
-
 #include <radix/core/file/Path.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/env/LegacyEnvironment.hpp>

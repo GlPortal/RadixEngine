@@ -42,6 +42,7 @@ set(RADIX_SOURCES
   ${D}/env/Config.cpp
   ${D}/env/LegacyEnvironment.cpp
   ${D}/environment/Environment.cpp
+  ${D}/environment/Arguments.cpp
   ${D}/env/OperatingSystem.cpp
   ${D}/env/Util.cpp
   ${D}/GameWorld.cpp
