@@ -1,6 +1,6 @@
 #include <radix/Transform.hpp>
 
-#include <bullet/LinearMath/btTransform.h>
+#include <LinearMath/btTransform.h>
 
 namespace radix {
 

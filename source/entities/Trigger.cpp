@@ -1,6 +1,6 @@
 #include <radix/entities/Trigger.hpp>
 
-#include <bullet/BulletCollision/CollisionShapes/btBoxShape.h>
+#include <BulletCollision/CollisionShapes/btBoxShape.h>
 
 #include <radix/BaseGame.hpp>
 #include <radix/simulation/Physics.hpp>

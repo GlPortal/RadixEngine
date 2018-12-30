@@ -15,7 +15,7 @@
 #include <radix/env/Config.hpp>
 #include <radix/env/Util.hpp>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <ciso646>
 
 namespace radix {

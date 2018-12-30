@@ -24,10 +24,10 @@ what we need.
 #include <stdio.h>
 #include <ciso646>
 
-#include <bullet/LinearMath/btIDebugDraw.h>
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
-#include <bullet/BulletCollision/CollisionShapes/btMultiSphereShape.h>
-#include <bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
+#include <LinearMath/btIDebugDraw.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <BulletCollision/CollisionShapes/btMultiSphereShape.h>
+#include <BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
 
 #include <radix/physics/KinematicCharacterController.hpp>
 #include <radix/physics/Uncollider.hpp>

@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include <radix/core/event/Event.hpp>
 #include <radix/core/math/Vector2f.hpp>

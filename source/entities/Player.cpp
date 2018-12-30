@@ -1,6 +1,6 @@
 #include <radix/entities/Player.hpp>
 
-#include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
+#include <BulletCollision/CollisionShapes/btCapsuleShape.h>
 
 #include <radix/env/LegacyEnvironment.hpp>
 #include <radix/simulation/Physics.hpp>

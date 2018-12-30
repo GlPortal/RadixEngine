@@ -3,8 +3,8 @@
 
 #include <array>
 
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
-#include <bullet/BulletCollision/CollisionShapes/btConvexShape.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <BulletCollision/CollisionShapes/btConvexShape.h>
 
 #include <radix/entities/traits/HealthTrait.hpp>
 #include <radix/entities/traits/SoundSourceTrait.hpp>

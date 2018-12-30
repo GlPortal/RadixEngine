@@ -4,8 +4,8 @@
 #include <list>
 #include <unordered_set>
 
-#include <bullet/btBulletCollisionCommon.h>
-#include <bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h>
+#include <btBulletCollisionCommon.h>
+#include <BulletCollision/BroadphaseCollision/btOverlappingPairCache.h>
 
 namespace std {
 template<typename T1, typename T2>

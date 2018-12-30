@@ -3,8 +3,8 @@
 
 #include <functional>
 
-#include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <BulletCollision/CollisionDispatch/btCollisionObject.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 #include <radix/util/BulletUserPtrInfo.hpp>
 

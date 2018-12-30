@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <SDL2/SDL_video.h>
+#include <SDL_video.h>
 
 #include <radix/env/Config.hpp>
 #include <radix/input/InputSource.hpp>

@@ -1,7 +1,7 @@
 #ifndef RADIX_PHYSICS_GHOST_PAIR_CALLBACK_HPP
 #define RADIX_PHYSICS_GHOST_PAIR_CALLBACK_HPP
 
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 namespace radix {
 

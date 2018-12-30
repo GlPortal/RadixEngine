@@ -1,7 +1,7 @@
 #ifndef RADIX_UTIL_BULLET_USER_PTR_INFO_HPP
 #define RADIX_UTIL_BULLET_USER_PTR_INFO_HPP
 
-#include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
+#include <BulletCollision/CollisionDispatch/btCollisionObject.h>
 
 #include <radix/entities/traits/Trait.hpp>
 #include <radix/Entity.hpp>

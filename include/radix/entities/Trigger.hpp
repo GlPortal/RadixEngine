@@ -4,8 +4,8 @@
 #include <memory>
 #include <functional>
 
-#include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <BulletCollision/CollisionShapes/btCapsuleShape.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 #include <radix/core/event/EventDispatcher.hpp>
 #include <radix/core/math/Vector3f.hpp>

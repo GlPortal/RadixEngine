@@ -6,7 +6,7 @@
 
 #include <radix/core/gl/OpenGL.hpp>
 
-#include <bullet/LinearMath/btIDebugDraw.h>
+#include <LinearMath/btIDebugDraw.h>
 
 #include <radix/core/gl/VBO.hpp>
 #include <radix/renderer/RenderContext.hpp>

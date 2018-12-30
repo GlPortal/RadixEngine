@@ -1,8 +1,8 @@
 #include <radix/physics/GhostPairCallback.hpp>
 
-#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
-#include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
-#include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
+#include <BulletCollision/CollisionDispatch/btCollisionObject.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 #include <radix/env/Util.hpp>
 #include <radix/util/BulletUserPtrInfo.hpp>

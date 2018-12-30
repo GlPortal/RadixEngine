@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include <bullet/BulletCollision/CollisionShapes/btBoxShape.h>
+#include <BulletCollision/CollisionShapes/btBoxShape.h>
 
 #include <radix/data/map/XmlHelper.hpp>
 #include <radix/data/map/XmlTriggerHelper.hpp>
