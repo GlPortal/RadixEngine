@@ -32,7 +32,8 @@ TEST_CASE_METHOD(ArgumentsFixtures, "Parameter extraction working", "[arguments]
     }*/
 
   SECTION("Determine executable name") {
-    const char* argumentVector[] = { "param0", "param1", "param2" };
+    const char* argumentVector[] = { "executableName", "param1", "param2" };
+    // For backwards compatibility C++ and C expect the argv to be non-const.
     radix::Arguments arguments = Arguments(argumentCount, const_cast<char**>(argumentVector));
     REQUIRE(arguments.getExecutableName() == "executableName");
   }
