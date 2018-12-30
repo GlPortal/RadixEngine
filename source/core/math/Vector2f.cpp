@@ -10,9 +10,9 @@
 ** -------------------------------------------------------------------------*/
 
 #include <radix/core/math/Vector2f.hpp>
-
 #include <cmath>
 #include <sstream>
+#include <ciso646>
 
 namespace radix {
 

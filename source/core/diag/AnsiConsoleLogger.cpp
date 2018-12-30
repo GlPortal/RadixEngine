@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <ciso646>
 
 #ifndef _WIN32
 #include <unistd.h>

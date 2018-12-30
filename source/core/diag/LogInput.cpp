@@ -3,10 +3,12 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
+#include <ciso646>
 
 #include <radix/core/math/Vector2f.hpp>
 #include <radix/core/math/Vector3f.hpp>
 #include <radix/core/math/Vector4f.hpp>
+
 
 namespace radix {
 

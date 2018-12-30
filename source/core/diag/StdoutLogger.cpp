@@ -1,6 +1,7 @@
 #include <radix/core/diag/StdoutLogger.hpp>
 
 #include <iostream>
+#include <ciso646>
 
 namespace radix {
 

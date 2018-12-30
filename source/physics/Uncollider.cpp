@@ -5,6 +5,7 @@
 #include <radix/physics/PhysicsHelper.hpp>
 #include <radix/simulation/Physics.hpp>
 #include <radix/World.hpp>
+#include <ciso646>
 
 namespace radix {
 

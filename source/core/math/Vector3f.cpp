@@ -13,6 +13,7 @@
 
 #include <cmath>
 #include <sstream>
+#include <ciso646>
 
 #include <serine/Archiver.hpp>
 

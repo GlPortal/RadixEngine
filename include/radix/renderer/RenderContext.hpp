@@ -5,11 +5,11 @@
 
 #include <radix/core/math/Matrix4f.hpp>
 #include <radix/Camera.hpp>
+#include <radix/data/model/Mesh.hpp>
 
 namespace radix {
 
 class Renderer;
-class Mesh;
 class Transform;
 
 struct RenderContext {

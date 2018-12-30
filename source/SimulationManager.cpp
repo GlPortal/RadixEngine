@@ -5,6 +5,7 @@
 #include <radix/env/Util.hpp>
 #include <radix/World.hpp>
 #include <radix/util/Profiling.hpp>
+#include <ciso646>
 
 namespace radix {
 

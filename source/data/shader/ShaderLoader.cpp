@@ -8,6 +8,7 @@
 
 #include <radix/env/LegacyEnvironment.hpp>
 #include <radix/env/Util.hpp>
+#include <ciso646>
 
 namespace radix {
 

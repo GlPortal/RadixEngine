@@ -5,6 +5,7 @@
 #include <radix/input/ChannelListener.hpp>
 
 #include <cstdlib>
+#include <ciso646>
 
 namespace radix {
 

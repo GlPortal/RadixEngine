@@ -1,6 +1,6 @@
 #include <radix/core/event/EventDispatcher.hpp>
-
 #include <radix/env/Util.hpp>
+#include <ciso646>
 
 static const char *Tag = "EventDispatcher";
 

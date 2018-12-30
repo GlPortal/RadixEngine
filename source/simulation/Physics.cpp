@@ -2,6 +2,7 @@
 
 #include <typeinfo>
 #include <utility>
+#include <ciso646>
 
 #include <radix/entities/Player.hpp>
 #include <radix/entities/ContactPlayerCallback.hpp>

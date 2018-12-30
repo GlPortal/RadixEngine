@@ -1,13 +1,15 @@
 #include <radix/data/screen/Style.hpp>
+#include <ciso646>
 
 namespace radix {
+
   Style::Style():
     color(std::make_pair(Vector4i(0), false)),
     position(std::make_pair(Vector4i(0), false)),
     margin(std::make_pair(Vector4i(0), false)),
     padding(std::make_pair(Vector4i(0), false)),
-    alignMode(std::make_pair(AlignMode.left, false)),
-    positionMode(std::make_pair(PositionMode.relative, false)){
+    alignMode(std::make_pair(AlignMode::left, false)),
+    positionMode(std::make_pair(PositionMode::relative, false)){
   }
 
   Style Style::operator+(Style& rightStyle)
@@ -40,7 +42,7 @@ namespace radix {
   }
 
   void Style::setColor(Vector4i color) {
-    color.first = color;
+    //color.first = color;
   }
 
   Vector4i Style::getColor() {
@@ -52,7 +54,7 @@ namespace radix {
   }
 
   void Style::setPosition(Vector4i position) {
-    position.first = position;
+    //position.first = position;
   }
 
   Vector4i Style::getPosition() {
@@ -63,7 +65,7 @@ namespace radix {
     return margin.second;
   }
   void Style::setMargin(Vector4i margin) {
-    margin.first = margin;
+    //margin.first = margin;
   }
 
   Vector4i Style::getMargin() {
@@ -75,7 +77,7 @@ namespace radix {
   }
 
   void Style::setPadding(Vector4i padding) {
-    padding.first = padding;
+    //padding.first = padding;
   }
 
   Vector4i Style::getPadding() {

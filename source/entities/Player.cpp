@@ -12,6 +12,7 @@
 #include <array>
 #include <cstdlib>
 #include <string>
+#include <ciso646>
 
 namespace radix {
 namespace entities {

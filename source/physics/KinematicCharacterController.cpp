@@ -22,6 +22,7 @@ what we need.
 
 */
 #include <stdio.h>
+#include <ciso646>
 
 #include <bullet/LinearMath/btIDebugDraw.h>
 #include <bullet/BulletCollision/CollisionDispatch/btGhostObject.h>
