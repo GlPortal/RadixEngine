@@ -20,7 +20,7 @@ private:
 public:
   static void Init();
   static Config& getConfig();
-  static void initializeConfig();
+  static void InitializeConfig();
   static std::string getDataDir();
   static void setDataDir(const std::string &string);
 };

@@ -35,14 +35,14 @@ void LegacyEnvironment::Init() {
       }
     }
   }
-  initializeConfig();
+  InitializeConfig();
 }
 
 Config& LegacyEnvironment::getConfig() {
   return config;
 }
 
-void LegacyEnvironment::initializeConfig() {
+void LegacyEnvironment::InitializeConfig() {
   config.load();
 }
 
