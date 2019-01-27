@@ -12,7 +12,7 @@ Config LegacyEnvironment::config;
 
 std::string LegacyEnvironment::dataDir = "";
 
-void LegacyEnvironment::init() {
+void LegacyEnvironment::Init() {
   if (dataDir.empty()) {
     std::vector<std::string> dataDirPaths = {
       "data"

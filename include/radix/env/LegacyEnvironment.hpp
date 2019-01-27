@@ -18,7 +18,7 @@ private:
   static std::string dataDir;
 
 public:
-  static void init();
+  static void Init();
   static Config& getConfig();
   static void initializeConfig();
   static std::string getDataDir();
