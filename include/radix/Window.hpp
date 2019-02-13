@@ -242,7 +242,7 @@ private:
   static std::string getOpenGlVersionString(const int _glVersion);
 
   /**
-   * @brief initGl Initilize OpenGL 3.2 Core
+   * @brief initGl Initialize OpenGL 3.2 Core
    */
   void initGl();
 
