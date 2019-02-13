@@ -259,7 +259,7 @@ private:
   std::vector<bool> keyStates;                  /**< Keyboard key pressed status */
   std::vector<bool> controllerButtonStates;     /**< Controller button pressed status */
   std::vector<Vector2i> controllerStickStates;
-  std::vector<Vector2i> controllerStickMax;     
+  std::vector<Vector2i> controllerStickMax;
   std::vector<Vector2i> controllerStickMin;
   std::vector<int> controllerTriggerStates;
   std::string       charbuffer;                 /**< Text input buffer */
