@@ -232,11 +232,11 @@ private:
    */
   void processWindowEvents(const SDL_Event &event);
 
-  /** 
+  /**
   * @brief  getOpenGlVersionString Create OpenGL version string
-  * 
+  *
   * @param _glVersion compact OpenGL version
-  * 
+  *
   * @return generate OpenGL string as "3.1" format
   */
   static std::string getOpenGlVersionString(const int _glVersion);
