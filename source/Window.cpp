@@ -162,8 +162,8 @@ Vector2i Window::getWindowDimensions() {
    * - screen width
    * - screen height
    */
-  SDL_DisplayMode dispMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
-  SDL_GetDesktopDisplayMode(config->getScreen(), &dispMode);
+  SDL_DisplayMode displayMode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
+  SDL_GetDesktopDisplayMode(config->getScreen(), &displayMode);
 
   unsigned int widthConfig = 0, heightConfig = 0;
   if (config->isLoaded()) {
@@ -171,8 +171,8 @@ Vector2i Window::getWindowDimensions() {
     heightConfig = config->getHeight();
   }
 
-  width  = (widthConfig == 0) ? dispMode.w : widthConfig;
-  height = (heightConfig == 0) ? dispMode.h : heightConfig;
+  width  = (widthConfig == 0) ? displayMode.w : widthConfig;
+  height = (heightConfig == 0) ? displayMode.h : heightConfig;
 
   return Vector2i(width, height);
 }
