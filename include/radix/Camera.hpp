@@ -21,7 +21,7 @@ public:
   static constexpr const float DEFAULT_RIGHT = 0.5f;
 
   Camera() = default;
-  Camera(float fovy, float aspect, float zNear, float zFar);
+  Camera(const float fovy, const float aspect, const float zNear, const float zFar);
 
   void getProjMatrix(Matrix4f &m) const;
   void setProjMatrix(const Matrix4f &m);
@@ -29,17 +29,17 @@ public:
   void setViewMatrix(const Matrix4f &m);
   void getInvViewMatrix(Matrix4f &m) const;
 
-  void setFovy(float fovy);
+  void setFovy(const float fovy);
   float getFovy() const;
-  void setAspect(float aspect);
+  void setAspect(const float aspect);
   float getAspect() const;
-  void setZNear(float zNear);
+  void setZNear(const float zNear);
   float getZNear() const;
-  void setZFar(float zFar);
+  void setZFar(const float zFar);
   float getZFar() const;
   void setPerspective();
   void setOrthographic();
-  void setBounds(float left, float right, float bottom, float top);
+  void setBounds(const float left, const float right, const float bottom, const float top);
 
   Vector3f getPosition() const;
   void setPosition(const Vector3f&);
