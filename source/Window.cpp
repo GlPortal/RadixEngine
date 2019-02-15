@@ -190,7 +190,7 @@ void Window::getSize(int *width, int *height) const {
 }
 
 void Window::close() {
-  SDL_GameControllerClose( controller );
+  SDL_GameControllerClose(controller);
   controller = NULL;
 
   SDL_HideWindow(window);
