@@ -4,7 +4,7 @@
 
 namespace radix {
 
-Camera::Camera(float fovy, float aspect, float zNear, float zFar) {
+Camera::Camera(const float fovy, const float aspect, const float zNear, const float zFar) {
   this->fovy = fovy;
   this->aspect = aspect;
   this->zNear = zNear;
@@ -61,7 +61,7 @@ void Camera::getInvViewMatrix(Matrix4f &m) const {
   m = invViewMatrix;
 }
 
-void Camera::setFovy(float fovy) {
+void Camera::setFovy(const float fovy) {
   this->fovy = fovy;
   calcProj();
 }
@@ -70,7 +70,7 @@ float Camera::getFovy() const {
   return fovy;
 }
 
-void Camera::setAspect(float aspect) {
+void Camera::setAspect(const float aspect) {
   this->aspect = aspect;
   calcProj();
 }
@@ -79,7 +79,7 @@ float Camera::getAspect() const {
   return aspect;
 }
 
-void Camera::setZNear(float zNear) {
+void Camera::setZNear(const float zNear) {
   this->zNear = zNear;
   calcProj();
 }
@@ -88,7 +88,7 @@ float Camera::getZNear() const {
   return zNear;
 }
 
-void Camera::setZFar(float zFar) {
+void Camera::setZFar(const float zFar) {
   this->zFar = zFar;
   calcProj();
 }
@@ -107,7 +107,7 @@ void Camera::setOrthographic() {
   calcProj();
 }
 
-void Camera::setBounds(float left, float right, float bottom, float top) {
+void Camera::setBounds(const float left, const float right, const float bottom, const float top) {
   this->left = left;
   this->right = right;
   this->bottom = bottom;
