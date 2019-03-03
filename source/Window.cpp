@@ -70,7 +70,9 @@ void Window::initGl() {
 }
 
 void Window::create(const char *title) {
-  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER)  != 0) {
+    throw Exception::Error("Window", std::string("Error on SDL init ") + SDL_GetError());
+  }
 
   int numJoysticks = SDL_NumJoysticks();
   Util::Log(Verbose, "Window") << "Number of joysticks " << std::to_string(numJoysticks);
