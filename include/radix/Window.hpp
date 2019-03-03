@@ -38,6 +38,9 @@ public:
    */
   void setFullscreen();
 
+  void setGamePadEnabled(bool enabled);
+
+
   /**
    * @brief setConfig set system configuration
    * @param config current configuration
@@ -262,9 +265,9 @@ private:
   std::vector<Vector2i> controllerStickMax;
   std::vector<Vector2i> controllerStickMin;
   std::vector<int> controllerTriggerStates;
+  bool gamePadEnabled;
   std::string       charbuffer;                 /**< Text input buffer */
   bool lastNonZero;
-
   static const char*        DEFAULT_TITLE;      /**< Default Title Name */
   static const unsigned int DEFAULT_WIDTH;      /**< Default Window width */
   static const unsigned int DEFAULT_HEIGHT;     /**< Default Window Height */

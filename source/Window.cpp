@@ -35,12 +35,17 @@ Window::Window() :
   controllerStickStates(2),
   controllerStickMax(2, Vector2i(25000)),
   controllerStickMin(2, Vector2i(-25000)),
-  controllerTriggerStates(2) {}
+  controllerTriggerStates(2),
+  gamePadEnabled(true){}
 
 Window::~Window() = default;
 
 void Window::setConfig(radix::Config &config){
   this->config = &config;
+}
+
+void Window::setGamePadEnabled(bool enabled){
+    this->gamePadEnabled = enabled;
 }
 
 inline std::string Window::getOpenGlVersionString(const int _glVersion) {
@@ -70,27 +75,34 @@ void Window::initGl() {
 }
 
 void Window::create(const char *title) {
-  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER)  != 0) {
+  Uint32 controllerInitFlags = SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+  Uint32 initFlags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
+  if (gamePadEnabled) {
+    initFlags = initFlags | controllerInitFlags;
+  }
+
+  if (SDL_Init(initFlags)  != 0) {
     throw Exception::Error("Window", std::string("Error on SDL init ") + SDL_GetError());
   }
 
-  int numJoysticks = SDL_NumJoysticks();
-  Util::Log(Verbose, "Window") << "Number of joysticks " << std::to_string(numJoysticks);
+  if (gamePadEnabled) {
+    int numJoysticks = SDL_NumJoysticks();
+    Util::Log(Verbose, "Window") << "Number of game pads " << std::to_string(numJoysticks);
 
-  for (int i = 0; i < numJoysticks; ++i) {
-    if (SDL_IsGameController(i)) {
-      controller = SDL_GameControllerOpen(i);
-      if (controller) {
-        Util::Log(Warning, "Window") << "Controller of index " << i << " loaded";
+    for (int i = 0; i < numJoysticks; ++i) {
+      if (SDL_IsGameController(i)) {
+        controller = SDL_GameControllerOpen(i);
+        if (controller) {
+          Util::Log(Warning, "Window") << "Game pad of index " << i << " loaded";
+          joystick = SDL_JoystickOpen(i);
 
-        joystick = SDL_JoystickOpen(i);
-
-        break;
+          break;
+        } else {
+          Util::Log(Warning, "Window") << "Game pad of index " << i << " unable to load";
+        }
       } else {
-        Util::Log(Warning, "Window") << "Controller of index " << i << " unable to load";
+        Util::Log(Warning, "Window") << "Game pad of index " << i << " not a controller";
       }
-    } else {
-      Util::Log(Warning, "Window") << "Joystick of index " << i << " not a controller";
     }
   }
 
