@@ -78,7 +78,7 @@ void Window::create(const char *title) {
   Uint32 controllerInitFlags = SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
   Uint32 initFlags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
   if (gamePadEnabled) {
-    initFlags = initFlags | controllerInitFlags;
+    initFlags |= controllerInitFlags;
   }
 
   if (SDL_Init(initFlags)  != 0) {
