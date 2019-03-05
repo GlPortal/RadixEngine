@@ -14,6 +14,7 @@
 #include <radix/data/texture/TextureLoader.hpp>
 #include <radix/env/Config.hpp>
 #include <radix/env/Util.hpp>
+#include <radix/input/GamePad.hpp>
 
 #include <SDL2/SDL.h>
 
@@ -27,16 +28,15 @@ Window::Window() :
   width(0),
   height(0),
   window(nullptr),
-  joystick(NULL),
-  controller(NULL),
+  gamePad(),
+  gamePadEnabled(true),
   mouseButtonStates((int)MouseButton::Max),
   keyStates(SDL_NUM_SCANCODES),
   controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
   controllerStickStates(2),
   controllerStickMax(2, Vector2i(25000)),
   controllerStickMin(2, Vector2i(-25000)),
-  controllerTriggerStates(2),
-  gamePadEnabled(true){}
+  controllerTriggerStates(2){}
 
 Window::~Window() = default;
 
@@ -86,24 +86,7 @@ void Window::create(const char *title) {
   }
 
   if (gamePadEnabled) {
-    int numJoysticks = SDL_NumJoysticks();
-    Util::Log(Verbose, "Window") << "Number of game pads " << std::to_string(numJoysticks);
-
-    for (int i = 0; i < numJoysticks; ++i) {
-      if (SDL_IsGameController(i)) {
-        controller = SDL_GameControllerOpen(i);
-        if (controller) {
-          Util::Log(Warning, "Window") << "Game pad of index " << i << " loaded";
-          joystick = SDL_JoystickOpen(i);
-
-          break;
-        } else {
-          Util::Log(Warning, "Window") << "Game pad of index " << i << " unable to load";
-        }
-      } else {
-        Util::Log(Warning, "Window") << "Game pad of index " << i << " not a controller";
-      }
-    }
+    gamePad.create();
   }
 
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
@@ -204,8 +187,7 @@ void Window::getSize(int *width, int *height) const {
 }
 
 void Window::close() {
-  SDL_GameControllerClose(controller);
-  controller = NULL;
+  SDL_GameControllerClose(&gamePad.getController());
 
   SDL_HideWindow(window);
 
@@ -231,7 +213,7 @@ void Window::processEvents() {
 
   processMouseAxisEvents();
 
-  if (controller) {
+  if (gamePadEnabled) {
     processControllerStickEvents();
     processControllerTriggerEvents();
   }
@@ -332,8 +314,10 @@ void Window::processMouseAxisEvents() {
 void Window::processControllerStickEvents() {
   for (int i = 0; i < 2; ++i) {
     Vector2i currentStickState;
-    currentStickState.x = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2*i));
-    currentStickState.y = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(2*i + 1));
+    currentStickState.x = SDL_GameControllerGetAxis(&gamePad.getController(),
+                                                    (SDL_GameControllerAxis)(2*i));
+    currentStickState.y = SDL_GameControllerGetAxis(&gamePad.getController(),
+                                                    (SDL_GameControllerAxis)(2*i + 1));
 
     if (currentStickState.x > controllerStickMax[i].x) {
       controllerStickMax[i].x = currentStickState.x;
@@ -374,7 +358,8 @@ void Window::processControllerStickEvents() {
 
 void Window::processControllerTriggerEvents() {
   for (int i = 0; i < 2; ++i) {
-    int currentTriggerState = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)(i+4));
+    int currentTriggerState = SDL_GameControllerGetAxis(&gamePad.getController(),
+                                                        (SDL_GameControllerAxis)(i+4));
 
     int triggerDelta = currentTriggerState - controllerTriggerStates[i];
 
@@ -586,7 +571,7 @@ bool Window::isControllerButtonDown(const ControllerButton &button, const Contro
 }
 
 float Window::getControllerAxisValue(const ControllerAxis &axis, const ControllerIndex &index) {
-  return float(SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)axis)) / 32767.0f;
+  return float(SDL_GameControllerGetAxis(&gamePad.getController(), (SDL_GameControllerAxis)axis)) / 32767.0f;
 }
 
 bool Window::isMouseButtonDown(const int &button) {

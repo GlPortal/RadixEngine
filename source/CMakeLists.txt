@@ -48,6 +48,7 @@ set(RADIX_SOURCES
   ${D}/input/InputManager.cpp
   ${D}/input/ChannelBase.cpp
   ${D}/input/Channel.cpp
+  ${D}/input/GamePad.cpp
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapLoader.cpp

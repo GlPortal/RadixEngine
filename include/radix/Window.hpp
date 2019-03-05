@@ -8,6 +8,7 @@
 #include <SDL2/SDL_video.h>
 
 #include <radix/env/Config.hpp>
+#include <radix/input/GamePad.hpp>
 #include <radix/input/InputSource.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Vector2i.hpp>
@@ -255,8 +256,8 @@ private:
   SDL_Window   *window;                         /**< SDL identifier for current window */
   SDL_GLContext context;                        /**< SDL Handler for OpenGL Context */
 
-  SDL_Joystick *joystick;
-  SDL_GameController *controller;
+  GamePad gamePad;
+  bool gamePadEnabled;
 
   std::vector<bool> mouseButtonStates;          /**< Mouse button pressed status */
   std::vector<bool> keyStates;                  /**< Keyboard key pressed status */
@@ -265,7 +266,6 @@ private:
   std::vector<Vector2i> controllerStickMax;
   std::vector<Vector2i> controllerStickMin;
   std::vector<int> controllerTriggerStates;
-  bool gamePadEnabled;
   std::string       charbuffer;                 /**< Text input buffer */
   bool lastNonZero;
   static const char*        DEFAULT_TITLE;      /**< Default Title Name */
