@@ -94,6 +94,7 @@ set(RADIX_SOURCES
   ${D}/util/NullReference.cpp
   ${D}/util/XmlLoader.cpp
   ${D}/Window.cpp
+  ${D}/WindowConfigurator.cpp
   ${D}/World.cpp
   PARENT_SCOPE
 )

@@ -4,6 +4,7 @@
 #include <chrono>
 #include <thread>
 #include <string>
+#include <sstream>
 #include <cstdlib>
 
 #include <radix/core/gl/OpenGL.hpp>
@@ -30,6 +31,8 @@ Window::Window() :
   window(nullptr),
   gamePad(),
   gamePadEnabled(true),
+  ignoreGlVersion(false),
+  antialiasLevel(0),
   mouseButtonStates((int)MouseButton::Max),
   keyStates(SDL_NUM_SCANCODES),
   controllerButtonStates(SDL_CONTROLLER_BUTTON_MAX),
@@ -48,14 +51,21 @@ void Window::setGamePadEnabled(bool enabled){
     this->gamePadEnabled = enabled;
 }
 
-inline std::string Window::getOpenGlVersionString(const int _glVersion) {
-  const int glmajor = _glVersion / 10;
-  const int glminor = _glVersion % 10;
+void Window::setIgnoreGlVersion(bool enabled){
+  this->ignoreGlVersion = enabled;
+}
 
-  char versionString[8];
-  sprintf(versionString, "%d.%d", glmajor, glminor);
+void Window::setAntialiasLevel(unsigned int value){
+  this->antialiasLevel = value;
+}
 
-  return std::string(versionString);
+inline std::string Window::getOpenGlVersionString(const int glVersion) {
+  const int majorGlVersion = glVersion / 10;
+  const int minorGlVersion = glVersion % 10;
+
+  std::string result;
+  result =  majorGlVersion + "." + minorGlVersion;
+  return std::string(result);
 }
 
 void Window::initGl() {
@@ -64,7 +74,7 @@ void Window::initGl() {
   const std::string versionString = getOpenGlVersionString(glversion);
 
   Util::Log(Verbose, "Window") << "OpenGL " << versionString;
-  if (config->getIgnoreGlVersion()) {
+  if (ignoreGlVersion) {
     Util::Log(Warning, "Window") << "Ignore OpenGl version";
   } else {
     if (glversion < 32) {
@@ -91,9 +101,9 @@ void Window::create(const char *title) {
 
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-  if (config->isLoaded() && config->getAntialiasLevel() > 0) {
+  if (antialiasLevel > 0) {
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config->getAntialiasLevel());
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, antialiasLevel);
   }
 
   int glFlags = 0;
@@ -258,16 +268,16 @@ void Window::processEvents() {
       break;
     }
     case SDL_CONTROLLERDEVICEADDED: {
-      const ControllerAddedEvent cae(*this, event.cdevice.which);
-      for (auto &d : dispatchers) {
-        d.get().dispatch(cae);
+      const ControllerAddedEvent controllerAddedEvent(*this, event.cdevice.which);
+      for (auto &dispatcher : dispatchers) {
+        dispatcher.get().dispatch(controllerAddedEvent);
       }
       break;
     }
     case SDL_CONTROLLERDEVICEREMOVED: {
-      const ControllerRemovedEvent cre(*this, event.cdevice.which);
-      for (auto &d : dispatchers) {
-        d.get().dispatch(cre);
+      const ControllerRemovedEvent controllerRemovedEvent(*this, event.cdevice.which);
+      for (auto &dispatcher : dispatchers) {
+        dispatcher.get().dispatch(controllerRemovedEvent);
       }
       break;
     }
@@ -366,9 +376,9 @@ void Window::processControllerTriggerEvents() {
     if (triggerDelta) {
       float normalisedTriggerState = float(currentTriggerState) / 32767.0f;
 
-      const ControllerTriggerEvent cte(*this, i, normalisedTriggerState, 0);
-      for (auto &d : dispatchers) {
-        d.get().dispatch(cte);
+      const ControllerTriggerEvent controllerTriggerEvent(*this, i, normalisedTriggerState, 0);
+      for (auto &dispatcher : dispatchers) {
+        dispatcher.get().dispatch(controllerTriggerEvent);
       }
     }
 
