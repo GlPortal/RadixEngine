@@ -23,7 +23,7 @@ namespace radix {
 
 const unsigned int Window::DEFAULT_WIDTH = 800;
 const unsigned int Window::DEFAULT_HEIGHT = 600;
-const char* Window::DEFAULT_TITLE = "Radix Engine";
+const char *Window::DEFAULT_TITLE = "Radix Engine";
 
 Window::Window() :
   width(0),
@@ -138,7 +138,7 @@ void Window::create(const char *title) {
   rect.x=SDL_WINDOWPOS_CENTERED;
   rect.y=SDL_WINDOWPOS_CENTERED;
   if(config->getScreen()!=0) {
-      SDL_GetDisplayBounds(config->getScreen(),&rect);
+      SDL_GetDisplayBounds(config->getScreen(), &rect);
   }
   window = SDL_CreateWindow(title, rect.x, rect.y, width, height, flags);
 
@@ -599,7 +599,7 @@ std::string Window::getCharBuffer() {
   return charbuffer;
 }
 
-void Window::addToBuffer(const std::string& character) {
+void Window::addToBuffer(const std::string &character) {
   charbuffer.append(character);
 }
 
@@ -615,9 +615,9 @@ void Window::clear() {
   keyStates.clear();
 }
 
-void Window::printScreenToFile(const std::string& fileName) {
+void Window::printScreenToFile(const std::string &fileName) {
   Util::Log(Verbose, "Window") << "Taking screenshot";
-  SDL_Surface * image =
+  SDL_Surface *image =
     SDL_CreateRGBSurface(SDL_SWSURFACE,
                          width, height,
                          24, 0x000000FF,
@@ -626,15 +626,15 @@ void Window::printScreenToFile(const std::string& fileName) {
 
   // Read current OpenGL buffer to SDL_Surface
   glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-  SDL_Surface * flippedImage = flipVertical(image);
+  SDL_Surface *flippedImage = flipVertical(image);
   SDL_SaveBMP(flippedImage, fileName.c_str());
   // free image resources
   SDL_FreeSurface(flippedImage);
   SDL_FreeSurface(image);
 }
 
-SDL_Surface* Window::flipVertical(SDL_Surface* sfc) {
-  SDL_Surface* result =
+SDL_Surface* Window::flipVertical(SDL_Surface *sfc) {
+  SDL_Surface *result =
     SDL_CreateRGBSurface(sfc->flags, sfc->w, sfc->h,
                          sfc->format->BytesPerPixel * 8,
                          sfc->format->Rmask, sfc->format->Gmask,

@@ -32,7 +32,7 @@ public:
    * @brief create initialize SDL and OpenGL
    * @param title window title
    */
-  void create(const char* title);
+  void create(const char *title);
 
   /**
    * @brief setFullscreen set Window FullScreen
@@ -194,7 +194,7 @@ public:
    * screen and write it to hard as BMP
    * @param fileName image file name
    */
-  void printScreenToFile(const std::string& fileName);
+  void printScreenToFile(const std::string &fileName);
 
 private:
   /**
@@ -202,7 +202,7 @@ private:
    * @param sfc input SDL surface
    * @return flipped SDL surface
    */
-  static SDL_Surface* flipVertical(SDL_Surface* sfc);
+  static SDL_Surface* flipVertical(SDL_Surface *sfc);
 
   /**
    * @brief getWindowDimensions get main screen dimension
@@ -270,7 +270,7 @@ private:
   std::vector<int> controllerTriggerStates;
   std::string       charbuffer;                 /**< Text input buffer */
   bool lastNonZero;
-  static const char*        DEFAULT_TITLE;      /**< Default Title Name */
+  static const char        *DEFAULT_TITLE;      /**< Default Title Name */
   static const unsigned int DEFAULT_WIDTH;      /**< Default Window width */
   static const unsigned int DEFAULT_HEIGHT;     /**< Default Window Height */
 };

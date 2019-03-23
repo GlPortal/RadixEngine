@@ -1,7 +1,4 @@
 # Compile Guide for RadixEngine
-## Quick note if you are compiling for the first time
-Well done. You made the right decision. It's not even that hard.
-
 ## Dependencies
 **NOTE:** Dependencies will change all the time so watch the cmake output carefuly for missing libraries.
 Make sure to check CMakeLists.txt if it is something missing.
