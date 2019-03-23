@@ -8,6 +8,7 @@
 #include <SDL2/SDL_video.h>
 
 #include <radix/env/Config.hpp>
+#include <radix/input/GamePad.hpp>
 #include <radix/input/InputSource.hpp>
 #include <radix/Viewport.hpp>
 #include <radix/core/math/Vector2i.hpp>
@@ -37,6 +38,10 @@ public:
    * @brief setFullscreen set Window FullScreen
    */
   void setFullscreen();
+
+  void setGamePadEnabled(bool enabled);
+  void setIgnoreGlVersion(bool enabled);
+  void setAntialiasLevel(unsigned int value);
 
   /**
    * @brief setConfig set system configuration
@@ -235,11 +240,11 @@ private:
   /**
   * @brief  getOpenGlVersionString Create OpenGL version string
   *
-  * @param _glVersion compact OpenGL version
+  * @param glVersion compact OpenGL version
   *
   * @return generate OpenGL string as "3.1" format
   */
-  static std::string getOpenGlVersionString(const int _glVersion);
+  static std::string getOpenGlVersionString(const int glVersion);
 
   /**
    * @brief initGl Initialize OpenGL 3.2 Core
@@ -252,9 +257,10 @@ private:
   SDL_Window   *window;                         /**< SDL identifier for current window */
   SDL_GLContext context;                        /**< SDL Handler for OpenGL Context */
 
-  SDL_Joystick *joystick;
-  SDL_GameController *controller;
-
+  GamePad gamePad;
+  bool gamePadEnabled;
+  bool ignoreGlVersion;
+  unsigned int antialiasLevel;
   std::vector<bool> mouseButtonStates;          /**< Mouse button pressed status */
   std::vector<bool> keyStates;                  /**< Keyboard key pressed status */
   std::vector<bool> controllerButtonStates;     /**< Controller button pressed status */
@@ -264,7 +270,6 @@ private:
   std::vector<int> controllerTriggerStates;
   std::string       charbuffer;                 /**< Text input buffer */
   bool lastNonZero;
-
   static const char        *DEFAULT_TITLE;      /**< Default Title Name */
   static const unsigned int DEFAULT_WIDTH;      /**< Default Window width */
   static const unsigned int DEFAULT_HEIGHT;     /**< Default Window Height */
