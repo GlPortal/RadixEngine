@@ -48,6 +48,7 @@ set(RADIX_SOURCES
   ${D}/input/InputManager.cpp
   ${D}/input/ChannelBase.cpp
   ${D}/input/Channel.cpp
+  ${D}/input/GamePad.cpp
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapListLoader.cpp
   ${D}/data/map/MapLoader.cpp
@@ -93,6 +94,7 @@ set(RADIX_SOURCES
   ${D}/util/NullReference.cpp
   ${D}/util/XmlLoader.cpp
   ${D}/Window.cpp
+  ${D}/WindowConfigurator.cpp
   ${D}/World.cpp
   PARENT_SCOPE
 )

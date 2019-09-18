@@ -14,6 +14,7 @@
 #include <radix/env/GameConsole.hpp>
 #include <radix/util/Profiling.hpp>
 #include <radix/World.hpp>
+#include <radix/WindowConfigurator.hpp>
 
 namespace radix {
 
@@ -30,7 +31,7 @@ BaseGame::BaseGame() :
     PROFILER_PROFILER_ENABLE;
     profiler::startListen();
   }
-
+  WindowConfigurator::configure(config, window);
   window.setConfig(config);
 }
 
