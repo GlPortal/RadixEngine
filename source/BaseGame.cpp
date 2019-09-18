@@ -50,7 +50,7 @@ void BaseGame::setup() {
   }
   SoundManager::init();
   createWindow();
-  initHook();
+  onInit();
   customTriggerHook();
 
   if (!inputManager) {
@@ -141,7 +141,7 @@ void BaseGame::deferPostCycle(const std::function<void()> &deferred) {
 }
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
-void BaseGame::initHook() { }
+void BaseGame::onInit() { }
 void BaseGame::removeHook() { }
 void BaseGame::customTriggerHook() { }
 

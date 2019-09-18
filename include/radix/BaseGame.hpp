@@ -105,7 +105,7 @@ protected:
 
   void loadMap(World&);
   virtual void prepareCamera();
-  virtual void initHook();
+  virtual void onInit();
   virtual void removeHook();
   virtual void customTriggerHook();
 
