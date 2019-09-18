@@ -143,11 +143,11 @@ void BaseGame::deferPostCycle(const std::function<void()> &deferred) {
 
 void BaseGame::processInput() { } /* to avoid pure virtual function */
 void BaseGame::onInit() { }
-void BaseGame::removeHook() { }
+void BaseGame::onShutdown() { }
 void BaseGame::customTriggerHook() { }
 
 void BaseGame::cleanUp() {
-  removeHook();
+  onShutdown();
   setWorld({});
   window.close();
 }
