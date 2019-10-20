@@ -8,7 +8,7 @@
 ![RadixEngine](https://raw.githubusercontent.com/GlPortal/glportal_raw_data/master/graphics/logo/radix/RadixEngine.png "RadixEngine")
 
 Radix is a modern, free and open-source 3D game engine, featuring, among other things, physics simulation.
-It runs on all modern operating systems including GNU/Linux, Mac and Windows.
+It runs on all modern operating systems including GNU/Linux, Mac, and Windows.
 
 ## The Team
 Henry Hirsch, Julian Thijssen, Dorian Wouters, Geert Custers [all contributors](https://github.com/GlPortal/RadixEngine/graphs/contributors)
