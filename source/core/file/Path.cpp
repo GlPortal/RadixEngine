@@ -6,11 +6,10 @@
 #include <sys/stat.h>
 #endif
 
-using namespace std;
 
 namespace radix {
 
-string Path::GetDirectorySeparator() {
+std::string Path::GetDirectorySeparator() {
 #ifndef _WIN32
   return "/";
 #else
@@ -31,8 +30,8 @@ bool Path::DirectoryExist(std::string &directory) {
 #endif
 }
 
-string Path::FromUnixPath(const string &unixPath) {
-  string path(unixPath);
+std::string Path::FromUnixPath(const std::string &unixPath) {
+  std::string path(unixPath);
 #ifdef _WIN32
   for (unsigned int i = 0; i < path.size(); ++i) {
     if (path.at(i) == '/') {
