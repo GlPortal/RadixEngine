@@ -1,7 +1,7 @@
 #include <radix/core/diag/LogInput.hpp>
 
 #include <iomanip>
-#include <sstream>
+#include <iostream>
 #include <string>
 
 #include <radix/core/math/Vector2f.hpp>
