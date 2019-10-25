@@ -29,6 +29,9 @@ static void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id,
     case GL_DEBUG_SOURCE_OTHER:
       sourceStr = "OTH";
       break;
+    default:
+      sourceStr = "OTH";
+      break;
   }
   const char *typeStr = "???";
   switch (type) {
@@ -57,6 +60,9 @@ static void APIENTRY glDebugCallback(GLenum source, GLenum type, GLuint id,
       typeStr = "GP-";
       break;
     case GL_DEBUG_TYPE_OTHER:
+      typeStr = "OTH";
+      break;
+    default:
       typeStr = "OTH";
       break;
   }
