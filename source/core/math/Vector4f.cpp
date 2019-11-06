@@ -26,12 +26,19 @@ Vector4f::Vector4f(const btVector4 &v)
   : x(v.x()), y(v.y()), z(v.z()), w(v.w()) {}
 
 Vector4f& Vector4f::operator=(const btVector4 &v) {
-  if(this != &v) {
-    x = v.x(); 
-    y = v.y(); 
-    z = v.z(); 
+  
+  if(v.x() != x)
+    x = v.x();
+  
+  if(v.y() != y)
+    y = v.y();
+  
+  if(v.z() != z)
+    z = v.z();
+  
+  if(v.w() != w)
     w = v.w();
-  }
+  
   return *this;
 }
 
