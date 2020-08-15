@@ -67,7 +67,7 @@ void Util::SetCurrentThreadName(const char *name) {
 #elif __APPLE__
 void Util::SetCurrentThreadName(const char *name) {
   if (std::strlen(name) > 15) {
-    throw std::length_error("Name exceeds lentgh of 15 characters");
+    throw std::length_error("Name exceeds length of 15 characters");
   }
   int ret = pthread_setname_np(name);
   if (ret != 0) {
@@ -78,7 +78,7 @@ void Util::SetCurrentThreadName(const char *name) {
 #else
 void Util::SetCurrentThreadName(const char *name) {
   if (std::strlen(name) > 15) {
-    throw std::length_error("Name exceeds lentgh of 15 characters");
+    throw std::length_error("Name exceeds length of 15 characters");
   }
   int ret = pthread_setname_np(pthread_self(), name);
   if (ret != 0) {
