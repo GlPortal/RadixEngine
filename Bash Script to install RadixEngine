@@ -1,0 +1,32 @@
+I have wrote a bash scrpit that can be used to download the depndencies, source code, and make the program in three steps.
+#Step 1:  Install the dependencies that will be needed to compile RadixEngine.
+#Step 2:  Download the source code that you will need, and put you in the correct directory.
+#Step 3:  Create a build directory, go to that directory, and make the program.
+
+Here is what you can do to use the script on Ubuntu 20.04.  
+
+Step 1:  I created this script using the nano editor from a terminal.  To install nano use the command "sudo apt-get install nano".  
+Step 2:  Create a file called "Build_Radix.sh".  You can do this from the terminal with the command "sudo nano Build_Radix.sh".
+Step 3:  Save your edits to the file using the command "Ctrl + x", then hit y to save the file, and finally press "Enter" to save everything, and get back to the terminal.
+Step 4:  Make the script executable. You can do this however you want to on your system.  One way to do this from the terminal is with the command "sudo chmod + x Build_Radix.sh".
+Step 5:  Finally, you can run the script by typing "./Build_Radix.sh", and hit the "Enter" key.  This will run the bash script based upon the steps outlined at the beginning of this document.  
+
+Here is the code contained within the script file.  
+#!/bin/bash
+
+#Step 1:  Install the dependencies that will be needed to compile RadixEngine.
+sudo apt-get install cmake make gcc pkg-config lib{assimp,epoxy,sdl2{,-mixer},bullet,tinyxml2,gl1-mesa,unittest++,freeimageplus}-dev
+
+#Step 2:  Download the source code that you will need, and put you in the correct directory.
+sudo git clone https://github.com/GlPortal/RadixEngine.git
+cd RadixEngine
+sudo git submodule init
+sudo git submodule update
+
+#Step 3:  Create a build directory, go to that directory, and make the program.
+sudo mkdir build 
+cd build
+sudo cmake ..
+sudo make
+
+This script ran with no errors on a Dell Inspiron 530s and a Gateway SX2110G.  Both of which run Ubuntu 20.04.    
