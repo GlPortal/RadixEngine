@@ -29,7 +29,7 @@ void HealthTrait::kill() {
 }
 
 void HealthTrait::revive() {
-  if (not isAlive()) {
+  if (!isAlive()) {
     health = 1.f;
   }
 }

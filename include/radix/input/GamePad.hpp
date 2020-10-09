@@ -1,7 +1,7 @@
 #ifndef RADIX_GAME_PAD_HPP
 #define RADIX_GAME_PAD_HPP
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <radix/env/Util.hpp>
 
 namespace radix {

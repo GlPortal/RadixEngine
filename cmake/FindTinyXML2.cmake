@@ -11,10 +11,30 @@ IF( TINYXML2_INCLUDE_DIR )
     SET( TinyXML2_FIND_QUIETLY TRUE )
 ENDIF( TINYXML2_INCLUDE_DIR )
 
-FIND_PATH( TINYXML2_INCLUDE_DIR "tinyxml2.h"
-  PATHS /usr/include
-           PATH_SUFFIXES "tinyxml2" )
-set (TINYXML2_INCLUDE_DIRS ${TINYXML2_INCLUDE_DIR})
+IF(WIN32)
+
+	message(STATUS "Compiling Tiny Xml 2")
+	execute_process(COMMAND cmake -S "${CMAKE_CURRENT_SOURCE_DIR}/external/tinyxml2" -B "${CMAKE_CURRENT_SOURCE_DIR}/external/tinyxml2/build" -A x64 OUTPUT_QUIET)
+	execute_process(COMMAND cmake --build "${CMAKE_CURRENT_SOURCE_DIR}/external/tinyxml2/build" --target "tinyxml2" --config "Release" OUTPUT_QUIET)
+	
+	set(TINYXML2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/tinyxml2" CACHE STRING "Location of Tiny XML 2 includes")
+	FIND_LIBRARY(TINYXML2_LIBRARY
+				 NAMES tinyxml2.lib
+				 PATHS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinyxml2/build/Release
+			  )
+
+ELSE()
+	FIND_PATH(TINYXML2_INCLUDE_DIR "tinyxml2.h"
+			  PATHS /usr/include
+			  PATH_SUFFIXES "tinyxml2" 
+			 )
+		   
+		   
+	FIND_LIBRARY( TINYXML2_LIBRARY
+				  NAMES "tinyxml2"
+				  PATH_SUFFIXES "tinyxml2" 
+				)
+ENDIF(WIN32)
 
 file(STRINGS "${TINYXML2_INCLUDE_DIR}/tinyxml2.h" TINYXML2_MAJOR_VERSION
      LENGTH_MINIMUM 39 LIMIT_COUNT 1
@@ -45,11 +65,10 @@ else()
   endif()
 endif()
 
-FIND_LIBRARY( TINYXML2_LIBRARY
-              NAMES "tinyxml2"
-              PATH_SUFFIXES "tinyxml2" )
-set (TINYXML2_LIBRARIES ${TINYXML2_LIBRARY})
 
+			  			  
+set (TINYXML2_LIBRARIES ${TINYXML2_LIBRARY})
+set (TINYXML2_INCLUDE_DIRS ${TINYXML2_INCLUDE_DIR})
 # handle the QUIETLY and REQUIRED arguments and set TINYXML_FOUND to TRUE if
 # all listed variables are TRUE
 include("FindPackageHandleStandardArgs")

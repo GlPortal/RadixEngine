@@ -1,6 +1,35 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 set(RADIX_LIBRARY RadixEngine)
 
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/assimp")
+	execute_process(COMMAND git submodule add https://github.com/assimp/assimp.git external/assimp
+					WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
+
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet")
+execute_process(COMMAND git submodule add https://github.com/bulletphysics/bullet3.git external/bullet
+				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
+
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/tinyxml2")
+execute_process(COMMAND git submodule add https://github.com/leethomason/tinyxml2.git external/tinyxml2
+				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
+
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/v-hacd")
+execute_process(COMMAND git submodule add https://github.com/kmammou/v-hacd.git external/v-hacd
+				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
+
+#set(EXPORT_INIT_SCRIPT "git submodule add https://github.com/assimp/assimp.git external/assimp && \
+#git submodule add https://github.com/bulletphysics/bullet3.git external/bullet && \
+#git submodule add https://github.com/leethomason/tinyxml2.git external/tinyxml2 && \
+#git submodule add https://github.com/kmammou/v-hacd.git external/v-hacd")
+
+#file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/getMissingSubmodules.bat" ${EXPORT_INIT_SCRIPT})
+#execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/getMissingSubmodules.bat"
+#				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
 if (COVERAGE)
   message("-- Coverage Enabled")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  --coverage -fprofile-arcs -ftest-coverage")
@@ -14,6 +43,14 @@ project(${RADIX_LIBRARY} CXX C)
 set(CMAKE_CXX_STANDARD 14)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+if(DEFINED WIN32)
+    add_compile_options(
+        $<$<CONFIG:>:/MT> #---------|
+        $<$<CONFIG:Debug>:/MT> #----|-- Statically link the runtime libraries
+        $<$<CONFIG:Release>:/MT> #--|
+    )
+endif()
 
 #### UTILITY ####
 
@@ -50,6 +87,7 @@ set(RADIX_INCLUDE_DIRS "")
 find_package(OpenGL REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${OPENGL_INCLUDE_DIR})
 list(APPEND RADIX_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/external/stx/include)
+list(APPEND RADIX_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include/radix)
 
 set(RADIX_LIBRARIES ${OPENGL_gl_LIBRARY})
 
@@ -94,9 +132,41 @@ list(APPEND RADIX_INCLUDE_DIRS ${CATCH_INCLUDE_DIR})
 find_package(Linenoise REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${LINENOISE_INCLUDE_DIR})
 
-find_package(Bullet 2.82 REQUIRED)
-list(APPEND RADIX_INCLUDE_DIRS ${BULLET_INCLUDE_DIR})
-list(APPEND RADIX_LIBRARIES ${BULLET_LIBRARIES})
+
+IF(WIN32)
+	message(STATUS "Building the project: Bullet")
+	execute_process(COMMAND cmake -S "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet" -B "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/build" -A x64 OUTPUT_QUIET)
+	execute_process(COMMAND cmake --build "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/build" --target "BulletCollision" "BulletDynamics" "LinearMath" --config "Release" OUTPUT_QUIET)
+	
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/src")
+		file(RENAME "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/src" "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/bullet" )
+	endif()
+	
+	find_library(BULLET_DYNAMICS_LIBRARY
+				 NAMES BulletDynamics.lib
+				 PATHS ${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/build/lib/Release
+				)
+			  
+	find_library(BULLET_COLLISION_LIBRARY
+				 NAMES BulletCollision.lib
+				 PATHS ${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/build/lib/Release
+				)
+			  
+	find_library(BULLET_MATH_LIBRARY
+				 NAMES LinearMath.lib
+				 PATHS ${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/build/lib/Release
+				)
+	
+	set(BULLET_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet" "${CMAKE_CURRENT_SOURCE_DIR}/external/bullet/bullet" CACHE STRING "Location of Bullet includes")
+	list(APPEND RADIX_INCLUDE_DIRS ${BULLET_INCLUDE_DIR})
+	list(APPEND RADIX_LIBRARIES ${BULLET_DYNAMICS_LIBRARY} ${BULLET_COLLISION_LIBRARY} ${BULLET_MATH_LIBRARY} )
+	
+ELSE()
+	find_package(Bullet 2.82 REQUIRED)
+	list(APPEND RADIX_INCLUDE_DIRS ${BULLET_INCLUDE_DIR})
+	list(APPEND RADIX_LIBRARIES ${BULLET_LIBRARIES})
+ENDIF()
+
 
 find_package(VHACD REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${VHACD_INCLUDE_DIR})
@@ -112,7 +182,7 @@ list(APPEND RADIX_LIBRARIES ${ANGELSCRIPT_LIBRARY})
 
 find_package(easy_profiler REQUIRED)
 list(APPEND RADIX_INCLUDE_DIRS ${EASY_PROFILER_INCLUDE_DIR})
-set(RADIX_ENABLE_PROFILER ON CACHE BOOL "Enable Radix's profiler")
+set(RADIX_ENABLE_PROFILER OFF CACHE BOOL "Enable Radix's profiler")
 if (RADIX_ENABLE_PROFILER)
   list(APPEND RADIX_LIBRARIES ${EASY_PROFILER_LIBRARIES})
 else ()
@@ -141,7 +211,6 @@ include_directories(${RADIX_INCLUDE_DIRS})
 add_subdirectory(source)
 
 add_library(${RADIX_LIBRARY} STATIC ${RADIX_SOURCES})
-target_link_libraries(${RADIX_LIBRARY} ${RADIX_LIBRARIES} dl)
 
 # Export
 list(APPEND RADIX_LIBRARIES ${RADIX_LIBRARY})

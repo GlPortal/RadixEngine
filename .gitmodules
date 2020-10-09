@@ -19,3 +19,15 @@
 [submodule "external/AngelScript"]
 	path = external/AngelScript
 	url = https://github.com/urho3d/AngelScript.git
+[submodule "external/assimp"]
+	path = external/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "external/bullet"]
+	path = external/bullet
+	url = https://github.com/bulletphysics/bullet3.git
+[submodule "external/tinyxml2"]
+	path = external/tinyxml2
+	url = https://github.com/leethomason/tinyxml2.git
+[submodule "external/v-hacd"]
+	path = external/v-hacd
+	url = https://github.com/kmammou/v-hacd.git

@@ -96,7 +96,7 @@ void Player::tick(TDelta dtime) {
   float rot = headAngle.heading;
   privSetPosition(obj->getWorldTransform().getOrigin());
 
-  if (attemptJump and controller->canJump()) {
+  if (attemptJump && controller->canJump()) {
     std::uniform_int_distribution<> dis(0, PLAYER_JUMP_SOUND.size()-1);
     playSound(LegacyEnvironment::getDataDir() + PLAYER_JUMP_SOUND[dis(Util::Rand)]);
     controller->jump();

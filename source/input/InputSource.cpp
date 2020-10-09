@@ -1,7 +1,7 @@
 #include <radix/input/InputSource.hpp>
 
-#include <SDL2/SDL_keyboard.h>
-#include <SDL2/SDL_gamecontroller.h>
+#include <SDL_keyboard.h>
+#include <SDL_gamecontroller.h>
 
 #include <algorithm>
 

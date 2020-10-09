@@ -11,7 +11,7 @@ const char* StdoutLogger::getName() const {
 void StdoutLogger::log(const std::string &message, LogLevel lvl, const std::string &tag) {
   std::unique_lock<std::mutex> lk(mtx);
 
-  if (not tag.empty()) {
+  if (!tag.empty()) {
     std::cout << tag << ' ';
   }
   std::cout << message << std::endl;
