@@ -21,14 +21,6 @@ execute_process(COMMAND git submodule add https://github.com/kmammou/v-hacd.git 
 				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
-#set(EXPORT_INIT_SCRIPT "git submodule add https://github.com/assimp/assimp.git external/assimp && \
-#git submodule add https://github.com/bulletphysics/bullet3.git external/bullet && \
-#git submodule add https://github.com/leethomason/tinyxml2.git external/tinyxml2 && \
-#git submodule add https://github.com/kmammou/v-hacd.git external/v-hacd")
-
-#file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/getMissingSubmodules.bat" ${EXPORT_INIT_SCRIPT})
-#execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/getMissingSubmodules.bat"
-#				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 if (COVERAGE)
   message("-- Coverage Enabled")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  --coverage -fprofile-arcs -ftest-coverage")
