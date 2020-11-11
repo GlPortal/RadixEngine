@@ -29,7 +29,6 @@ endif()
 #file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/getMissingSubmodules.bat" ${EXPORT_INIT_SCRIPT})
 #execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/getMissingSubmodules.bat"
 #				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-
 if (COVERAGE)
   message("-- Coverage Enabled")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  --coverage -fprofile-arcs -ftest-coverage")
