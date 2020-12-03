@@ -4,7 +4,7 @@
 #include <memory>
 #include <map>
 #include <tinyxml2.h>
-#include<stdexcept>
+#include <stdexcept>
 
 #include <radix/data/screen/Screen.hpp>
 #include <radix/util/XmlLoader.hpp>
