@@ -153,7 +153,7 @@ unsigned int ShaderLoader::loadShader(const std::string &path,
                                       Shader::Type type) {
   // Read file and point to end of file
   std::ifstream file(path, std::ifstream::ate);
-  if (not file.is_open()) {
+  if (!file.is_open()) {
     Util::Log(Error, "ShaderLoader") << "Could not find shader file " << path;
   }
   // Get file size

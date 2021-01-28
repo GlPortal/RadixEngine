@@ -98,7 +98,7 @@ public:
       return btScalar(1.0);
     }
 
-    if (not convexResult.m_hitCollisionObject->hasContactResponse()){
+    if (!convexResult.m_hitCollisionObject->hasContactResponse()){
       return btScalar(1.0);
     }
 
@@ -231,7 +231,7 @@ bool KinematicCharacterController::recoverFromPenetration(btCollisionWorld *coll
     btCollisionObject* obj1 =
       static_cast<btCollisionObject*>(collisionPair->m_pProxy1->m_clientObject);
 
-    if ((obj0 && not obj0->hasContactResponse()) || (obj1 && not obj1->hasContactResponse())){
+    if ((obj0 && !obj0->hasContactResponse()) || (obj1 && !obj1->hasContactResponse())){
       continue;
     }
 
@@ -453,8 +453,8 @@ void KinematicCharacterController::stepDown(btCollisionWorld *collisionWorld, bt
 
   btScalar downVelocity = (m_verticalVelocity<0.f?-m_verticalVelocity:0.f) * dt;
 
-  if (downVelocity > 0.0 and downVelocity > m_fallSpeed
-      and (m_wasOnGround or not m_wasJumping)) {
+  if (downVelocity > 0.0 && downVelocity > m_fallSpeed
+      && (m_wasOnGround || !m_wasJumping)) {
     downVelocity = m_fallSpeed;
   }
   btVector3 step_drop = getUpAxisDirections()[m_upAxis] * (m_currentStepOffset + downVelocity);
@@ -493,7 +493,7 @@ void KinematicCharacterController::stepDown(btCollisionWorld *collisionWorld, bt
                                      start, end, callback,
                                      collisionWorld->getDispatchInfo().m_allowedCcdPenetration);
 
-      if (not callback.hasHit())
+      if ( !callback.hasHit())
       {
         // test a double fall height, to see if the character should interpolate it's fall (full)
         // or not (partial)
@@ -505,7 +505,7 @@ void KinematicCharacterController::stepDown(btCollisionWorld *collisionWorld, bt
       collisionWorld->convexSweepTest(m_convexShape, start, end, callback,
                                       collisionWorld->getDispatchInfo().m_allowedCcdPenetration);
 
-      if (not callback.hasHit())
+      if (!callback.hasHit())
           {
             // test a double fall height, to see if the character should interpolate it's
             // fall (large) or not (small)
@@ -523,7 +523,7 @@ void KinematicCharacterController::stepDown(btCollisionWorld *collisionWorld, bt
     }
 
     if (downVelocity2 > 0.0 && downVelocity2 < m_stepHeight && has_hit == true && runonce == false
-          && (m_wasOnGround || not m_wasJumping)) {
+          && (m_wasOnGround || !m_wasJumping)) {
       //redo the velocity calculation when falling a small amount, for fast stairs motion
       //for larger falls, use the smoother/slower interpolated movement by not touching
       //the target position
@@ -539,7 +539,7 @@ void KinematicCharacterController::stepDown(btCollisionWorld *collisionWorld, bt
     break;
   }
 
-  if (callback.hasHit() or runonce) {
+  if (callback.hasHit() || runonce) {
     // we dropped a fraction of the height -> hit floor
 
     btScalar fraction = (m_currentPosition.getY() - callback.m_hitPointWorld.getY()) / 2;
@@ -571,7 +571,7 @@ void KinematicCharacterController::stepDown(btCollisionWorld *collisionWorld, bt
 
     if (bounce_fix) {
       downVelocity = (m_verticalVelocity<0.f?-m_verticalVelocity:0.f) * dt;
-      if (downVelocity > m_fallSpeed and (m_wasOnGround or not m_wasJumping)) {
+      if (downVelocity > m_fallSpeed && (m_wasOnGround || !m_wasJumping)) {
         m_targetPosition += step_drop; //undo previous target change
         downVelocity = m_fallSpeed;
         step_drop = getUpAxisDirections()[m_upAxis] * (m_currentStepOffset + downVelocity);
@@ -638,7 +638,7 @@ void KinematicCharacterController::preStep(btCollisionWorld *collisionWorld) {
 
 void KinematicCharacterController::playerStep(btCollisionWorld *collisionWorld, btScalar dt) {
   // quick check...
-  if (not m_useWalkDirection and (m_velocityTimeInterval <= 0.0 or m_walkDirection.fuzzyZero())) {
+  if (!m_useWalkDirection && (m_velocityTimeInterval <= 0.0 || m_walkDirection.fuzzyZero())) {
     return;
   }
 
@@ -700,7 +700,7 @@ void KinematicCharacterController::jump(const btVector3& dir) {
 #else
 void KinematicCharacterController::jump() {
 #endif
-  if (not canJump()) {
+  if (!canJump()) {
     return;
   }
 

@@ -30,10 +30,10 @@ std::shared_ptr<Screen> XmlScreenLoader::loadScreen(const std::string &path) {
     XMLElement *element  = docHandle.FirstChildElement("screen").ToElement();
     XMLHandle rootHandle = XMLHandle(element);
 
-    if (not loadText(rootHandle, &screen->text)) {
+    if (!loadText(rootHandle, &screen->text)) {
       XmlScreenLoader::handleFailureForElement(module, std::string("text"), path);
     }
-    if (not extractColor(element, &screen->color)) {
+    if (!extractColor(element, &screen->color)) {
       XmlScreenLoader::handleFailureForElement(module, std::string("color"), path);
     }
 
@@ -55,7 +55,7 @@ bool XmlScreenLoader::loadText(XMLHandle &rootHandle, std::vector<Text>* textVec
       currentElement->QueryFloatAttribute("z", &text.z);
       currentElement->QueryFloatAttribute("top", &text.top);
       currentElement->QueryFloatAttribute("size", &text.size);
-      if (not extractColor(currentElement, &text.color)) {
+      if (!extractColor(currentElement, &text.color)) {
         return false;
       }
       align = currentElement->Attribute("align");

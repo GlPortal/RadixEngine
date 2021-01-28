@@ -76,7 +76,7 @@ void ChannelBase<T>::set(T newValue) {
     newValue *= sensitivity;
   }
 
-  if (value != newValue or alwaysNotifyListener) {
+  if (value != newValue || alwaysNotifyListener) {
     value = newValue;
 
     notifyListeners();
@@ -114,7 +114,7 @@ void ChannelBase<Vector2f>::set(Vector2f newValue) {
     newValue *= sensitivity;
   }
 
-  if (alwaysNotifyListener or !newValue.fuzzyEqual(value, 0.0001)) {
+  if (alwaysNotifyListener || !newValue.fuzzyEqual(value, 0.0001)) {
     value = newValue;
 
     notifyListeners();

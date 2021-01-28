@@ -3,7 +3,13 @@
 #include <cstdlib>
 #include <stdexcept>
 #include <string>
-#include <getopt.h>
+#ifndef WIN32
+    #include <getopt.h>
+#else
+    #include <getopt/getopt.h>
+#endif // !WIN32
+
+
 #include <iostream>
 
 #include <radix/core/file/Path.hpp>
@@ -108,11 +114,11 @@ void ArgumentsParser::setEnvironmentFromArgs(const int argc, char **argv) {
 }
 
 void ArgumentsParser::populateConfig(radix::Config &config) {
-  if (not mapName.empty()) {
+  if (!mapName.empty()) {
     config.map = mapName;
   }
 
-  if (not mapPath.empty()) {
+  if (!mapPath.empty()) {
     config.mapPath = mapPath;
   }
 

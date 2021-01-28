@@ -40,57 +40,104 @@ else()
   set(SDL2_PROCESSOR_ARCH "x86")
 endif(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
-SET(SDL2_SEARCH_PATHS
-	~/Library/Frameworks
-	/Library/Frameworks
-	/usr/local
-	/usr
-	/sw # Fink
-	/opt/local # DarwinPorts
-	/opt/csw # Blastwave
-	/opt
-)
+IF(WIN32)
 
-if(NOT SDL2_MIXER_INCLUDE_DIR AND SDL2MIXER_INCLUDE_DIR)
-  set(SDL2_MIXER_INCLUDE_DIR ${SDL2MIXER_INCLUDE_DIR} CACHE PATH "directory cache
-entry initialized from old variable name")
-endif()
-find_path(SDL2_MIXER_INCLUDE_DIR SDL_mixer.h
-  HINTS
-    ENV SDL2MIXERDIR
-    ENV SDL2DIR
-  PATH_SUFFIXES include include/SDL2 SDL2
-  PATHS ${SDL2_SEARCH_PATHS}
-)
+	set(url "https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.4.zip")
+	set(filename "${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2_mixer-2.0.4.zip")
+	
+	if(NOT EXISTS ${filename})
+		message(STATUS "Downloading SDL2-2.0.12.zip...")
+		file(	DOWNLOAD 		${url} ${filename}
+				TIMEOUT 		60  # seconds
+				#EXPECTED_HASH 	${hash_type}=${hash}
+				TLS_VERIFY 		ON
+				SHOW_PROGRESS
+		)
+	endif()
 
-if(NOT SDL2_MIXER_LIBRARY AND SDL2MIXER_LIBRARY)
-  set(SDL2_MIXER_LIBRARY ${SDL2MIXER_LIBRARY} CACHE FILEPATH "file cache entry
-initialized from old variable name")
-endif()
-find_library(SDL2_MIXER_LIBRARY
-  NAMES SDL2_mixer
-  HINTS
-    ENV SDL2MIXERDIR
-    ENV SDL2DIR
-  PATH_SUFFIXES lib64 lib lib/${SDL2_PROCESSOR_ARCH}
-  PATHS ${SDL2_SEARCH_PATHS}
-)
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2_mixer-2.0.4.zip")
+		message(STATUS "Extracting File: SDL2_mixer-2.0.4.zip")
 
-if(SDL2_MIXER_INCLUDE_DIR AND EXISTS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h")
-  file(STRINGS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h" SDL2_MIXER_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL_MIXER_MAJOR_VERSION[ \t]+[0-9]+$")
-  file(STRINGS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h" SDL2_MIXER_VERSION_MINOR_LINE REGEX "^#define[ \t]+SDL_MIXER_MINOR_VERSION[ \t]+[0-9]+$")
-  file(STRINGS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h" SDL2_MIXER_VERSION_PATCH_LINE REGEX "^#define[ \t]+SDL_MIXER_PATCHLEVEL[ \t]+[0-9]+$")
-  string(REGEX REPLACE "^#define[ \t]+SDL_MIXER_MAJOR_VERSION[ \t]+([0-9]+)$" "\\1" SDL2_MIXER_VERSION_MAJOR "${SDL2_MIXER_VERSION_MAJOR_LINE}")
-  string(REGEX REPLACE "^#define[ \t]+SDL_MIXER_MINOR_VERSION[ \t]+([0-9]+)$" "\\1" SDL2_MIXER_VERSION_MINOR "${SDL2_MIXER_VERSION_MINOR_LINE}")
-  string(REGEX REPLACE "^#define[ \t]+SDL_MIXER_PATCHLEVEL[ \t]+([0-9]+)$" "\\1" SDL2_MIXER_VERSION_PATCH "${SDL2_MIXER_VERSION_PATCH_LINE}")
-  set(SDL2_MIXER_VERSION_STRING ${SDL2_MIXER_VERSION_MAJOR}.${SDL2_MIXER_VERSION_MINOR}.${SDL2_MIXER_VERSION_PATCH})
-  unset(SDL2_MIXER_VERSION_MAJOR_LINE)
-  unset(SDL2_MIXER_VERSION_MINOR_LINE)
-  unset(SDL2_MIXER_VERSION_PATCH_LINE)
-  unset(SDL2_MIXER_VERSION_MAJOR)
-  unset(SDL2_MIXER_VERSION_MINOR)
-  unset(SDL2_MIXER_VERSION_PATCH)
-endif()
+		file( ARCHIVE_EXTRACT INPUT "${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2_mixer-2.0.4.zip"
+			  DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/external/"
+			)	
+	endif()
+	
+	set(EXPORT_INIT_SCRIPT "cmd /V:ON /k \" \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat\" && \
+devenv.com ${CMAKE_CURRENT_SOURCE_DIR}\\external\\SDL2_mixer-2.0.4\\VisualC\\SDL_mixer.sln /Upgrade && \
+set INCLUDE=!INCLUDE!${CMAKE_CURRENT_SOURCE_DIR}\\external\\SDL2-2.0.12\\build\\include\;\
+${CMAKE_CURRENT_SOURCE_DIR}\\external\\SDL2-2.0.12\\include\;\ && \
+set LIB=!LIB!${CMAKE_CURRENT_SOURCE_DIR}\\external\\SDL2-2.0.12\\build\\Release\; && \
+devenv.com /useenv ${CMAKE_CURRENT_SOURCE_DIR}\\external\\SDL2_mixer-2.0.4\\VisualC\\SDL_mixer.sln /build Release^|x64 /project SDL2_mixer && exit\" ")
+
+	file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2_mixer-2.0.4/init.bat" ${EXPORT_INIT_SCRIPT})
+	message(STATUS "Building the project: SDL2_mixer-2.0.4")
+	execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2_mixer-2.0.4/init.bat" OUTPUT_QUIET)
+	
+	set(SDL2_MIXER_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2_mixer-2.0.4" CACHE STRING "Location of SDL2 Mixer includes")
+	FIND_LIBRARY(SDL2_MIXER_LIBRARY
+				 NAMES SDL2_mixer.lib
+				 PATHS ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL2_mixer-2.0.4/VisualC/x64/Release
+			  )
+	
+	unset(filename)
+	unset(url)
+
+ELSE()
+	SET(SDL2_SEARCH_PATHS
+		~/Library/Frameworks
+		/Library/Frameworks
+		/usr/local
+		/usr
+		/sw # Fink
+		/opt/local # DarwinPorts
+		/opt/csw # Blastwave
+		/opt
+	)
+
+	if(NOT SDL2_MIXER_INCLUDE_DIR AND SDL2MIXER_INCLUDE_DIR)
+	  set(SDL2_MIXER_INCLUDE_DIR ${SDL2MIXER_INCLUDE_DIR} CACHE PATH "directory cache
+	entry initialized from old variable name")
+	endif()
+	find_path(SDL2_MIXER_INCLUDE_DIR SDL_mixer.h
+	  HINTS
+		ENV SDL2MIXERDIR
+		ENV SDL2DIR
+	  PATH_SUFFIXES include include/SDL2 SDL2
+	  PATHS ${SDL2_SEARCH_PATHS}
+	)
+
+	if(NOT SDL2_MIXER_LIBRARY AND SDL2MIXER_LIBRARY)
+	  set(SDL2_MIXER_LIBRARY ${SDL2MIXER_LIBRARY} CACHE FILEPATH "file cache entry
+	initialized from old variable name")
+	endif()
+	find_library(SDL2_MIXER_LIBRARY
+	  NAMES SDL2_mixer
+	  HINTS
+		ENV SDL2MIXERDIR
+		ENV SDL2DIR
+	  PATH_SUFFIXES lib64 lib lib/${SDL2_PROCESSOR_ARCH}
+	  PATHS ${SDL2_SEARCH_PATHS}
+	)
+
+	if(SDL2_MIXER_INCLUDE_DIR AND EXISTS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h")
+	  file(STRINGS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h" SDL2_MIXER_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL_MIXER_MAJOR_VERSION[ \t]+[0-9]+$")
+	  file(STRINGS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h" SDL2_MIXER_VERSION_MINOR_LINE REGEX "^#define[ \t]+SDL_MIXER_MINOR_VERSION[ \t]+[0-9]+$")
+	  file(STRINGS "${SDL2_MIXER_INCLUDE_DIR}/SDL_mixer.h" SDL2_MIXER_VERSION_PATCH_LINE REGEX "^#define[ \t]+SDL_MIXER_PATCHLEVEL[ \t]+[0-9]+$")
+	  string(REGEX REPLACE "^#define[ \t]+SDL_MIXER_MAJOR_VERSION[ \t]+([0-9]+)$" "\\1" SDL2_MIXER_VERSION_MAJOR "${SDL2_MIXER_VERSION_MAJOR_LINE}")
+	  string(REGEX REPLACE "^#define[ \t]+SDL_MIXER_MINOR_VERSION[ \t]+([0-9]+)$" "\\1" SDL2_MIXER_VERSION_MINOR "${SDL2_MIXER_VERSION_MINOR_LINE}")
+	  string(REGEX REPLACE "^#define[ \t]+SDL_MIXER_PATCHLEVEL[ \t]+([0-9]+)$" "\\1" SDL2_MIXER_VERSION_PATCH "${SDL2_MIXER_VERSION_PATCH_LINE}")
+	  set(SDL2_MIXER_VERSION_STRING ${SDL2_MIXER_VERSION_MAJOR}.${SDL2_MIXER_VERSION_MINOR}.${SDL2_MIXER_VERSION_PATCH})
+	  unset(SDL2_MIXER_VERSION_MAJOR_LINE)
+	  unset(SDL2_MIXER_VERSION_MINOR_LINE)
+	  unset(SDL2_MIXER_VERSION_PATCH_LINE)
+	  unset(SDL2_MIXER_VERSION_MAJOR)
+	  unset(SDL2_MIXER_VERSION_MINOR)
+	  unset(SDL2_MIXER_VERSION_PATCH)
+	endif()
+
+
+ENDIF(WIN32)
 
 set(SDL2_MIXER_LIBRARIES ${SDL2_MIXER_LIBRARY})
 set(SDL2_MIXER_INCLUDE_DIRS ${SDL2_MIXER_INCLUDE_DIR})

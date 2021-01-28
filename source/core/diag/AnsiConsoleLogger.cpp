@@ -62,7 +62,7 @@ bool needBlackText(int bgcol) {
   // http://www.pixelbeat.org/docs/terminal_colours/
   const int x = ((bgcol-16)%36)%6, y = ((bgcol-16)%36)/6, z = (bgcol-16)/36;
   // Bottom and right parts of the cube are the brightest. Higher you go, brightest also.
-  return x > 3 or y > 3 or (z >= 3 and (x > 2 or y > 2));
+  return x > 3 || y > 3 || (z >= 3 && (x > 2 || y > 2));
 }
 
 void AnsiConsoleLogger::log(const std::string &message, LogLevel lvl, const std::string &tag) {

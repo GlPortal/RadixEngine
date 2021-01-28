@@ -43,9 +43,9 @@ void Vector3f::serialize(serine::Archiver &ar) {
 
 /* Operator overloads */
 bool Vector3f::fuzzyEqual(const Vector3f &v, float threshold) const {
-  return (x > v.x - threshold and x < v.x + threshold) and
-         (y > v.y - threshold and y < v.y + threshold) and
-         (z > v.z - threshold and z < v.z + threshold);
+  return (x > v.x - threshold && x < v.x + threshold) &&
+         (y > v.y - threshold && y < v.y + threshold) &&
+         (z > v.z - threshold && z < v.z + threshold);
 }
 
 /* Bullet interop */

@@ -80,7 +80,7 @@ void SubChannel<T>::init(const int &id, EventDispatcher &event, const Bind& bind
   this->bind = bind;
   this->setSensitivity(bind.sensitivity);
 
-  if (InputManager::isActionDigital(bind.action) or Bind::isInputTypeDigital(bind.inputType)) {
+  if (InputManager::isActionDigital(bind.action) || Bind::isInputTypeDigital(bind.inputType)) {
     this->setDigital(bind.actPoint);
   } else {
     if (bind.inputType == Bind::CONTROLLER_AXIS) {

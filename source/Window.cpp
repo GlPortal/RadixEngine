@@ -17,7 +17,7 @@
 #include <radix/env/Util.hpp>
 #include <radix/input/GamePad.hpp>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 namespace radix {
 
@@ -311,7 +311,7 @@ void Window::processMouseAxisEvents() {
 
   bool nonZero = mouseRelative != Vector2i::ZERO;
 
-  if (nonZero or lastNonZero) {
+  if (nonZero || lastNonZero) {
     const MouseAxisEvent mae(*this, Vector2f(mouseRelative));
     for (auto &d : dispatchers) {
       d.get().dispatch(mae);

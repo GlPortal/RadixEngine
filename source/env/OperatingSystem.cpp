@@ -1,6 +1,6 @@
 #include <radix/env/OperatingSystem.hpp>
 #include <string>
-#include <SDL2/SDL_platform.h>
+#include <SDL_platform.h>
 
 namespace radix {
 
