@@ -16,12 +16,8 @@ Henry Hirsch, Julian Thijssen, Dorian Wouters, Geert Custers [all contributors](
 ## Compile the source
 For instructions on how to compile the game engine please [read COMPILE.md](COMPILE.md).
 
-## Join the team
-Chat with us at irc.freenode.org in the channel [#glportal](http://webchat.freenode.net/?channels=%23glportal&uio=d4)
-for questions and discussions about the development of the game.
+## Issues
 Report Issues to [github](https://github.com/GlPortal/RadixEngine/issues).
 
 ## Donate
 Donate Bitcoin to 1JxrwJZgV9qBeEPH7BDF9qLJPSDcp6fqxz to help us pay for hosting and domain names.
-
-Support Henry through [patreon](https://www.patreon.com/developerHenry) or [liberapay](https://liberapay.com/Henry).
