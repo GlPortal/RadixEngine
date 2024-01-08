@@ -12,7 +12,7 @@
 It runs on all modern operating systems including GNU/Linux, Mac and Windows.
 
 ## The Team
-Henry Hirsch, Julian Thijssen, Dorian Wouters, Geert Custers [all contributors](https://github.com/GlPortal/RadixEngine/graphs/contributors)
+Henry Hirsch, Julian Thijssen, Céleste Wouters, Geert Custers [all contributors](https://github.com/GlPortal/RadixEngine/graphs/contributors)
 
 ## Compile the source
 For instructions on how to compile the game engine please [read COMPILE.md](COMPILE.md).
