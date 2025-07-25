@@ -211,3 +211,46 @@ TEST_CASE_METHOD(MathTestFixtures, "ToEuler test") {
   }
 }
 
+
+TEST_CASE_METHOD(MathTestFixtures, "Quaternion multiplication test") {
+  SECTION("identity multiplication") {
+    // Test that multiplying by identity quaternion doesn't change the quaternion
+    Quaternion identity(0, 0, 0, 1);
+    quat.fromAxAngle(1, 0, 0, rad(45));
+    Quaternion original = quat;
+    Quaternion result = quat * identity;
+    REQUIRE(fuzzyEq(result, original));
+  }
+  
+  SECTION("inverse multiplication") {
+    // Test that multiplying a quaternion by its inverse gives identity
+    quat.fromAxAngle(0, 1, 0, rad(90));
+    Quaternion inverse = quat.inverse();
+    Quaternion result = quat * inverse;
+    Quaternion identity(0, 0, 0, 1);
+    REQUIRE(fuzzyEq(result, identity));
+  }
+  
+  SECTION("composite rotation") {
+    // Test that two 45-degree rotations around same axis equal one 90-degree rotation
+    Quaternion rot45, rot90, composite;
+    rot45.fromAxAngle(0, 0, 1, rad(45));
+    rot90.fromAxAngle(0, 0, 1, rad(90));
+    composite = rot45 * rot45;
+    REQUIRE(fuzzyEq(composite, rot90));
+  }
+  
+  SECTION("orthogonal rotations") {
+    // Test combining rotations around different axes
+    Quaternion rotX, rotY, combined;
+    rotX.fromAxAngle(1, 0, 0, rad(90));
+    rotY.fromAxAngle(0, 1, 0, rad(90));
+    combined = rotY * rotX;
+    
+    // Apply to forward vector (0, 0, -1)
+    Vector3f forward(0, 0, -1);
+    Vector3f result = Math::toDirection(combined);
+    Vector3f expected(0, -1, 0);  // Should point down after both rotations
+    REQUIRE(result.fuzzyEqual(expected));
+  }
+}
